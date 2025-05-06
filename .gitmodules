@@ -1,0 +1,6 @@
+[submodule "TopSBI/pocket_coffea"]
+	path = TopSBI/pocket_coffea
+	url = https://github.com/PocketCoffea/PocketCoffea.git
+[submodule "PCtop"]
+	path = PCtop
+	url = https://github.com/PocketCoffea/PocketCoffea.git
