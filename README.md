@@ -1,7 +1,7 @@
-# Resolved Configs
+# Configs
 
 Repository containing analysis configurations for [`PocketCoffea_top`](https://github.com/YeeeHeeee/PocketCoffea_top).  
-These configurations are intended for the semileptonic top-antitop (`tt̄`) analysis in the resolved regime using AK4 jets.
+These configurations are intended for the semileptonic top-antitop (`tt̄`) analysis in the resolved regime using AK4 jets and merged regime using AK8, also combined topology. 
 
 ---
 
