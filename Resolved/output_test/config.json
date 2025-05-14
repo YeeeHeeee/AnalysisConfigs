@@ -949,9 +949,9 @@
                 "name": "passthrough_f",
                 "module": "pocket_coffea.lib.cut_functions",
                 "src_file": "/vols/cms/yhe4823/PocketCoffea_top/pocket_coffea/lib/cut_functions.py",
-                "f_hash": 8743187722927
+                "f_hash": 8736338261688
               },
-              "id": "passthrough__7974965637650503819"
+              "id": "passthrough__6489116087474652683"
             }
           ]
         },
@@ -970,9 +970,9 @@
                 "name": "passthrough_f",
                 "module": "pocket_coffea.lib.cut_functions",
                 "src_file": "/vols/cms/yhe4823/PocketCoffea_top/pocket_coffea/lib/cut_functions.py",
-                "f_hash": 8743187722927
+                "f_hash": 8736338261688
               },
-              "id": "passthrough__7974965637650503819"
+              "id": "passthrough__6489116087474652683"
             }
           ]
         },
@@ -991,9 +991,9 @@
                 "name": "passthrough_f",
                 "module": "pocket_coffea.lib.cut_functions",
                 "src_file": "/vols/cms/yhe4823/PocketCoffea_top/pocket_coffea/lib/cut_functions.py",
-                "f_hash": 8743187722927
+                "f_hash": 8736338261688
               },
-              "id": "passthrough__7974965637650503819"
+              "id": "passthrough__6489116087474652683"
             }
           ]
         },
@@ -1013,9 +1013,9 @@
         "name": "<lambda>",
         "module": "pocket_coffea.lib.cut_functions",
         "src_file": "/vols/cms/yhe4823/PocketCoffea_top/pocket_coffea/lib/cut_functions.py",
-        "f_hash": 8743001219449
+        "f_hash": 8736151729776
       },
-      "id": "nPVgood_4__-1022356064159986028"
+      "id": "nPVgood_4__4407056411426973967"
     },
     {
       "name": "golden_json_lumi",
@@ -1025,9 +1025,9 @@
         "name": "apply_golden_json",
         "module": "pocket_coffea.lib.cut_functions",
         "src_file": "/vols/cms/yhe4823/PocketCoffea_top/pocket_coffea/lib/cut_functions.py",
-        "f_hash": 8743187595048
+        "f_hash": 8736338134321
       },
-      "id": "golden_json_lumi__-8848142580442561494"
+      "id": "golden_json_lumi__6977659285318583477"
     }
   ],
   "preselections": [
@@ -1054,9 +1054,9 @@
         "name": "semileptonic",
         "module": "Cut_func",
         "src_file": "/vols/cms/yhe4823/TopSBI/Resolved/Cut_func.py",
-        "f_hash": 8743001001153
+        "f_hash": 8736151758026
       },
-      "id": "semileptonic__-6661055167391592372"
+      "id": "semileptonic__1688820983546301543"
     }
   ],
   "categories": {
@@ -1071,9 +1071,9 @@
             "name": "passthrough_f",
             "module": "pocket_coffea.lib.cut_functions",
             "src_file": "/vols/cms/yhe4823/PocketCoffea_top/pocket_coffea/lib/cut_functions.py",
-            "f_hash": 8743187722927
+            "f_hash": 8736338261688
           },
-          "id": "passthrough__7974965637650503819"
+          "id": "passthrough__6489116087474652683"
         }
       ]
     },
@@ -1184,7 +1184,7 @@
           "pos_end": null
         },
         {
-          "collection": "Genjj",
+          "collection": "GenW",
           "columns": [
             "pt",
             "eta",
@@ -1199,7 +1199,7 @@
           "pos_end": null
         },
         {
-          "collection": "Genbjj_deltaR",
+          "collection": "GenTop_deltaR",
           "columns": [
             "pt",
             "eta",
@@ -1214,7 +1214,7 @@
           "pos_end": null
         },
         {
-          "collection": "Genbjj_deltaM",
+          "collection": "GenTop_deltaM",
           "columns": [
             "pt",
             "eta",
@@ -1229,7 +1229,7 @@
           "pos_end": null
         },
         {
-          "collection": "jj",
+          "collection": "W",
           "columns": [
             "pt",
             "eta",
@@ -1244,7 +1244,7 @@
           "pos_end": null
         },
         {
-          "collection": "bjj_deltaR",
+          "collection": "Top_deltaR",
           "columns": [
             "pt",
             "eta",
@@ -1259,7 +1259,7 @@
           "pos_end": null
         },
         {
-          "collection": "bjj_deltaM",
+          "collection": "Top_deltaM",
           "columns": [
             "pt",
             "eta",
@@ -1274,7 +1274,7 @@
           "pos_end": null
         },
         {
-          "collection": "Matchedbjj",
+          "collection": "MatchedW",
           "columns": [
             "pt",
             "eta",
@@ -1289,7 +1289,7 @@
           "pos_end": null
         },
         {
-          "collection": "Matchedjj",
+          "collection": "MatchedTop_deltaR",
           "columns": [
             "pt",
             "eta",
@@ -1304,22 +1304,7 @@
           "pos_end": null
         },
         {
-          "collection": "Matchedbjj_deltaR",
-          "columns": [
-            "pt",
-            "eta",
-            "phi",
-            "mass"
-          ],
-          "flatten": false,
-          "store_size": true,
-          "fill_none": true,
-          "fill_value": -999.0,
-          "pos_start": null,
-          "pos_end": null
-        },
-        {
-          "collection": "Matchedbjj_deltaM",
+          "collection": "MatchedTop_deltaM",
           "columns": [
             "pt",
             "eta",
@@ -1353,7 +1338,7 @@
           "pos_end": null
         },
         {
-          "collection": "Genjj",
+          "collection": "GenW",
           "columns": [
             "pt",
             "eta",
@@ -1368,7 +1353,7 @@
           "pos_end": null
         },
         {
-          "collection": "Genbjj_deltaR",
+          "collection": "GenTop_deltaR",
           "columns": [
             "pt",
             "eta",
@@ -1383,7 +1368,7 @@
           "pos_end": null
         },
         {
-          "collection": "Genbjj_deltaM",
+          "collection": "GenTop_deltaM",
           "columns": [
             "pt",
             "eta",
@@ -1398,7 +1383,7 @@
           "pos_end": null
         },
         {
-          "collection": "jj",
+          "collection": "W",
           "columns": [
             "pt",
             "eta",
@@ -1413,7 +1398,7 @@
           "pos_end": null
         },
         {
-          "collection": "bjj_deltaR",
+          "collection": "Top_deltaR",
           "columns": [
             "pt",
             "eta",
@@ -1428,7 +1413,7 @@
           "pos_end": null
         },
         {
-          "collection": "bjj_deltaM",
+          "collection": "Top_deltaM",
           "columns": [
             "pt",
             "eta",
@@ -1443,7 +1428,7 @@
           "pos_end": null
         },
         {
-          "collection": "Matchedbjj",
+          "collection": "MatchedW",
           "columns": [
             "pt",
             "eta",
@@ -1458,7 +1443,7 @@
           "pos_end": null
         },
         {
-          "collection": "Matchedjj",
+          "collection": "MatchedTop_deltaR",
           "columns": [
             "pt",
             "eta",
@@ -1473,22 +1458,7 @@
           "pos_end": null
         },
         {
-          "collection": "Matchedbjj_deltaR",
-          "columns": [
-            "pt",
-            "eta",
-            "phi",
-            "mass"
-          ],
-          "flatten": false,
-          "store_size": true,
-          "fill_none": true,
-          "fill_value": -999.0,
-          "pos_start": null,
-          "pos_end": null
-        },
-        {
-          "collection": "Matchedbjj_deltaM",
+          "collection": "MatchedTop_deltaM",
           "columns": [
             "pt",
             "eta",
@@ -1522,7 +1492,7 @@
           "pos_end": null
         },
         {
-          "collection": "Genjj",
+          "collection": "GenW",
           "columns": [
             "pt",
             "eta",
@@ -1537,7 +1507,7 @@
           "pos_end": null
         },
         {
-          "collection": "Genbjj_deltaR",
+          "collection": "GenTop_deltaR",
           "columns": [
             "pt",
             "eta",
@@ -1552,7 +1522,7 @@
           "pos_end": null
         },
         {
-          "collection": "Genbjj_deltaM",
+          "collection": "GenTop_deltaM",
           "columns": [
             "pt",
             "eta",
@@ -1567,7 +1537,7 @@
           "pos_end": null
         },
         {
-          "collection": "jj",
+          "collection": "W",
           "columns": [
             "pt",
             "eta",
@@ -1582,7 +1552,7 @@
           "pos_end": null
         },
         {
-          "collection": "bjj_deltaR",
+          "collection": "Top_deltaR",
           "columns": [
             "pt",
             "eta",
@@ -1597,7 +1567,7 @@
           "pos_end": null
         },
         {
-          "collection": "bjj_deltaM",
+          "collection": "Top_deltaM",
           "columns": [
             "pt",
             "eta",
@@ -1612,7 +1582,7 @@
           "pos_end": null
         },
         {
-          "collection": "Matchedbjj",
+          "collection": "MatchedW",
           "columns": [
             "pt",
             "eta",
@@ -1627,7 +1597,7 @@
           "pos_end": null
         },
         {
-          "collection": "Matchedjj",
+          "collection": "MatchedTop_deltaR",
           "columns": [
             "pt",
             "eta",
@@ -1642,22 +1612,7 @@
           "pos_end": null
         },
         {
-          "collection": "Matchedbjj_deltaR",
-          "columns": [
-            "pt",
-            "eta",
-            "phi",
-            "mass"
-          ],
-          "flatten": false,
-          "store_size": true,
-          "fill_none": true,
-          "fill_value": -999.0,
-          "pos_start": null,
-          "pos_end": null
-        },
-        {
-          "collection": "Matchedbjj_deltaM",
+          "collection": "MatchedTop_deltaM",
           "columns": [
             "pt",
             "eta",
