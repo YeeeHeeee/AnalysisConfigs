@@ -87,6 +87,10 @@ pocket-coffea merge-outputs -o output_condor/output_all.coffea -jc jobs-dir/job/
 ## Others
 1. Removee files:
 ```bash
+rm -rf ./jobs-dir/job
+```
+
+```bash
 rm jobs-dir/job/jobs_config.yaml
 ```
 2. Check the queues:
