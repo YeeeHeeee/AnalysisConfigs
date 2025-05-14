@@ -36,4 +36,26 @@ def extract_dataframes(data):
     
     return df, df_dict
 
+def extract_combined_dfs(data, df_dict):
+    """
+    Automatically extracts all available years and channels from `data`,
+    collects the corresponding DataFrames from `df_dict`, combines them per channel,
+    and returns a dictionary of combined DataFrames and the number of channels.
+    """
+    years = list(data.get("datasets_metadata", {}).get("by_datataking_period", {}).keys())
+    channels = list(data.get("columns", {}).keys())
+
+    df_per_channel = {}
+
+    for channel in channels:
+        dfs = [df_dict.get(f"{channel}_{channel}_{year}_baseline") for year in years]
+        dfs = [df for df in dfs if df is not None]
+
+        if dfs:
+            df_per_channel[f"df_{channel}"] = pd.concat(dfs, ignore_index=True)
+            print(f"Combined {len(dfs)} DataFrame(s) for {channel}")
+        else:
+            print(f"No data found for {channel}")
+
+    return df_per_channel
 
