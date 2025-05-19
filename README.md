@@ -59,9 +59,9 @@ Additional Options:
 * `--filter-years`: Comma-separated list to select specific data-taking years to process.
 To run with predefined executor using `--executor` with 100 workers:
 ```bash
-export PYTHONPATH=$PYTHONPATH:/vols/cms/yhe4823/TopSBI/Functions
 pocket-coffea run --cfg config.py  --executor condor@ic  -o output_condor --scaleout=100 --skip-bad-files
 ```
+
 The Executors available are:
 
 | Site                        | Supported Executors       | Executor String(s)         |
