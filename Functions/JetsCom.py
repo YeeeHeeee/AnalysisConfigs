@@ -9,31 +9,12 @@ import correctionlib
 from coffea.jetmet_tools import  CorrectedMETFactory
 
 def get_dijet(jets, taggerVars=True):
-    '''
-    Constructs a dijet candidate from the pair of non b-tagged jets in each event as W,
-    that are closest in ΔR (delta-R).
-
-    Parameters
-    ----------
-    jets : ak.Array
-        An array of jets (either reco or gen), expected to have pt, eta, phi, mass, etc.
-    
-    taggerVars : bool
-        If True and jets have b-tagging scores, include those in the output.
-        If a string is passed (deprecated), raise an error.
-
-    Returns
-    -------
-    ak.Array
-        A record array (PtEtaPhiMCandidate) of dijet variables constructed 
-        from the closest pair of non b-tagged jets in ΔR per event.
-    '''
-
-    # Reject deprecated usage where taggerVars is a string (likely a tagger name)
     if isinstance(taggerVars, str):
-        raise NotImplementedError(f"Using the tagger name while calling `get_dijet` is deprecated. Please use `jet_tagger={taggerVars}` as an argument to `jet_selection`.")
+        raise NotImplementedError(
+            f"Using the tagger name while calling `get_dijet` is deprecated. "
+            f"Please use `jet_tagger={taggerVars}` as an argument to `jet_selection`."
+        )
 
-    # Initialize default values for output fields
     fields = {
         "pt": 0.,
         "eta": 0.,
@@ -41,25 +22,14 @@ def get_dijet(jets, taggerVars=True):
         "mass": 0.,
     }
 
-    # Create all unique jet pairs in each event
-    pairs = ak.combinations(jets, 2, fields=["j1", "j2"])
+    # Pad to at least 2 jets per event
+    jets = ak.pad_none(jets, 2)
 
-    # Compute ΔR between jet pairs
-    deltaR = pairs.j1.delta_r(pairs.j2)
+    njet = ak.num(jets[~ak.is_none(jets, axis=1)])
 
-    # Find the index of the pair with minimum ΔR in each event
-    min_idx = ak.argmin(deltaR, axis=1)
+    # Form dijet 4-vector sum from leading two jets
+    dijet = jets[:, 0] + jets[:, 1]
 
-    # Select the closest pair using the minimum ΔR indices
-    closest_pairs = pairs[min_idx]
-
-    # Compute 4-vector sum of the closest pair
-    dijet = closest_pairs.j1 + closest_pairs.j2
-
-    # Number of jets per event, used to guard against events with <2 jets
-    njet = ak.num(jets)
-
-    # Fill kinematic fields if ≥2 jets, else default to zeros
     for var in fields.keys():
         fields[var] = ak.where(
             (njet >= 2),
@@ -67,59 +37,54 @@ def get_dijet(jets, taggerVars=True):
             fields[var]
         )
 
-    # Add ΔR, Δη, ΔΦ between jet1 and jet2 in the closest pair
-    fields["deltaR"] = ak.where((njet >= 2), closest_pairs.j1.delta_r(closest_pairs.j2), -1)
-    fields["deltaPhi"] = ak.where((njet >= 2), abs(closest_pairs.j1.delta_phi(closest_pairs.j2)), -1)
-    fields["deltaEta"] = ak.where((njet >= 2), abs(closest_pairs.j1.eta - closest_pairs.j2.eta), -1)
+    # # Angular differences and per-jet variables
+    # fields["deltaR"] = ak.where((njet >= 2), jets[:, 0].delta_r(jets[:, 1]), -1)
+    # fields["deltaPhi"] = ak.where((njet >= 2), abs(jets[:, 0].delta_phi(jets[:, 1])), -1)
+    # fields["deltaEta"] = ak.where((njet >= 2), abs(jets[:, 0].eta - jets[:, 1].eta), -1)
+    # fields["j1Phi"] = ak.where((njet >= 2), jets[:, 0].phi, -1)
+    # fields["j2Phi"] = ak.where((njet >= 2), jets[:, 1].phi, -1)
+    # fields["j1pt"] = ak.where((njet >= 2), jets[:, 0].pt, -1)
+    # fields["j2pt"] = ak.where((njet >= 2), jets[:, 1].pt, -1)
 
-    # Add jet-by-jet info
-    fields["j1Phi"] = ak.where((njet >= 2), closest_pairs.j1.phi, -1)
-    fields["j2Phi"] = ak.where((njet >= 2), closest_pairs.j2.phi, -1)
-    fields["j1pt"] = ak.where((njet >= 2), closest_pairs.j1.pt, -1)
-    fields["j2pt"] = ak.where((njet >= 2), closest_pairs.j2.pt, -1)
+    # if "jetId" in jets.fields and taggerVars:
+    #     fields["j1CvsL"] = ak.where((njet >= 2), jets[:, 0]["btagCvL"], -1)
+    #     fields["j2CvsL"] = ak.where((njet >= 2), jets[:, 1]["btagCvL"], -1)
+    #     fields["j1CvsB"] = ak.where((njet >= 2), jets[:, 0]["btagCvB"], -1)
+    #     fields["j2CvsB"] = ak.where((njet >= 2), jets[:, 1]["btagCvB"], -1)
 
-    # If b-tagging info exists (e.g. reco jets), add them
-    if "jetId" in jets.fields and taggerVars:
-        fields["j1CvsL"] = ak.where((njet >= 2), closest_pairs.j1["btagCvL"], -1)
-        fields["j2CvsL"] = ak.where((njet >= 2), closest_pairs.j2["btagCvL"], -1)
-        fields["j1CvsB"] = ak.where((njet >= 2), closest_pairs.j1["btagCvB"], -1)
-        fields["j2CvsB"] = ak.where((njet >= 2), closest_pairs.j2["btagCvB"], -1)
-
-    # Bundle the outputs into an awkward record array
+    # Main output
     dijet = ak.zip(fields, with_name="PtEtaPhiMCandidate")
-    
+    # # Return the pair of leading jets as second output
+    # leading_pair = ak.concatenate([jets[:, 0:1], jets[:, 1:2]], axis=1)
     return dijet
 
-# def combine_jets(*jets):
-#     fields = {
-#         "pt": 0.,
-#         "eta": 0.,
-#         "phi": 0.,
-#         "mass": 0.,
-#     }
+def combine_jets(jet1, jet2):
+    fields = {
+        "pt": 0.,
+        "eta": 0.,
+        "phi": 0.,
+        "mass": 0.,
+    }
 
-#     # Ensure jets are valid, non-empty, and have the same depth
-#     jets = [jet for jet in jets if ak.num(jet) > 0]
+    # Combine 1 bjet + 2 non-bjets:
+    combined = ak.pad_none(ak.concatenate([jet1[:,0:1], jet2[:,0:1]], axis=1), 2)
 
+    # Require all 2 jets to exist
+    num = ak.num(combined[~ak.is_none(combined, axis=1)])
 
-#     # Extract first jet per event while keeping structure
-#     jets = [ak.pad_none(jet[:, 0:1], 1) if ak.num(jet) > 0 else jet for jet in jets]
+    # Sum of jets:
+    comb = combined[:,0] + combined[:,1]
+    # + combined[:,2]
 
-#     # Debugging: print structure before concatenation
-#     print(ak.type(jets[0]) if jets else "No valid jets")
+    for var in fields.keys():
+        fields[var] = ak.where(
+            (num>=2),
+            getattr(comb, var),
+            fields[var]
+        )
+    comb = ak.zip(fields, with_name="PtEtaPhiMCandidate")
 
-#     # Concatenate along axis=1
-#     combined = ak.pad_none(ak.concatenate(jets, axis=1), len(jets), clip=True)
-
-#     # Ensure num has the right shape
-#     num = ak.num(combined, axis=1)
-
-#     # Update fields safely
-#     for var in fields.keys():
-#         if hasattr(combined, var):
-#             fields[var] = ak.where((num >= 2), getattr(combined, var), fields[var])
-
-#     return ak.zip(fields, with_name="PtEtaPhiMCandidate")
+    return comb
 
 def bjj_deltaR(bjets, dijet):
     '''
@@ -211,7 +176,17 @@ def bjj_deltaM(bjets, dijet):
     bjj = ak.where(use_1, bjj_1, bjj_2)
     return bjj
 
-
-
-
-
+def to_singleton_jet(jets):
+    """
+    Converts a flat Awkward Array of jet records into a nested structure of singleton Jet objects.
+    """
+    transformed_jets = ak.zip(
+        {
+            "pt": jets["pt"],
+            "eta": jets["eta"],
+            "phi": jets["phi"],
+            "mass": jets["mass"]
+        },
+        with_name="Jet"     
+    )
+    return transformed_jets[:, None]

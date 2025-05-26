@@ -15,12 +15,12 @@ from pocket_coffea.lib.objects import (
     jet_selection,
     btagging,
     get_dilepton,
-    # get_dijet,
+    get_dijet,
     met_xy_correction,
 )
 
-from Functions.JetsCom import get_dijet, bjj_deltaR, bjj_deltaM
-from Functions.Matching import object_matching1
+from Functions.JetsCom import bjj_deltaR, bjj_deltaM, to_singleton_jet
+# from Functions.Matching import object_matching
 
 class ttBaseProcessor_res(BaseProcessorABC):
     def __init__(self, cfg: Configurator):
@@ -31,9 +31,6 @@ class ttBaseProcessor_res(BaseProcessorABC):
         # Avoid code duplicate
         super().apply_object_preselection(variation=variation)
         
-        self.events["N_before_cuts"] = len(self.events)
-        # print("total number of events", len(self.events))
-
 ###########################################################################
         # MET:
         met_pt_corr, met_phi_corr = met_xy_correction(self.params, self.events, self._year, self._era)
@@ -81,11 +78,7 @@ class ttBaseProcessor_res(BaseProcessorABC):
         
         self.events["BJetBad"] = btagging(
             self.events["JetGood"], self.params.btagging.working_point[self._year], wp=self.params.object_preselection.Jet.btag.wp, veto=True)
-        # combine two AK4 jets
-        self.events["jj"] = get_dijet(
-            self.events["BJetBad"], taggerVars=False
-        )
-
+    
 ###########################################################################
         # Get GenJets by flavours:    
         if self._isMC:
@@ -112,32 +105,69 @@ class ttBaseProcessor_res(BaseProcessorABC):
             self.events["GenJetGoodSave"] = ak.firsts(self.events["GenJetGood"])
             self.events["GenBJetGoodSave"] = ak.firsts(self.events["GenBJetGood"])
             self.events["GenBJetBadSave"] = ak.firsts(self.events["GenBJetBad"])
-
+            
     def define_common_variables_after_presel(self, variation):
 
 ###########################################################################
-        # Reconstruct the top by combining the W with 1 b-jets based on deltaR and deltaM with recon data
-        self.events["bjj_deltaR"] = bjj_deltaR(self.events["BJetGood"], self.events["jj"])
-        self.events["bjj_deltaM"] = bjj_deltaM(self.events["BJetGood"], self.events["jj"])
-
-###########################################################################
-        # Reconstuct the top with Gen-level data:
-        self.events["Genbjj_deltaR"] = bjj_deltaR(self.events["GenBJetGood"], self.events["Genjj"])
-        self.events["Genbjj_deltaM"] = bjj_deltaR(self.events["GenBJetGood"], self.events["Genjj"])
-        self.events["Genjj"] = get_dijet(self.events["GenBJetBad"], taggerVars=False)
-
-###########################################################################
-        # Match the Reco w, top to he Gen Reco w, top:
-        self.events["Matchedjj"], self.events["MatchedGenjj"], deltaR_padnone = object_matching1(
-            self.events["jj"], self.events["Genjj"], dr_min = 0.4
+        # combine two AK4 jets to be W
+        dijet = get_dijet(
+            self.events["BJetBad"], taggerVars=False
         )
-        self.events["Matchedbjj_deltaR"], self.events["MatchedGenbjj_deltaR"], deltaR_padnone = object_matching1(
+        self.events["jj"] = to_singleton_jet(dijet)  # transform the format to singleton
+        
+        top_deltaR = bjj_deltaR(self.events["BJetGood"], self.events["jj"])
+        self.events["bjj_deltaR"] = to_singleton_jet(top_deltaR)
+        top_deltaM = bjj_deltaM(self.events["BJetGood"], self.events["jj"])
+        self.events["bjj_deltaM"] = to_singleton_jet(top_deltaM)
+
+###########################################################################
+        Genjj = get_dijet(
+                self.events["GenBJetBad"], taggerVars=False)
+        self.events["Genjj"] = to_singleton_jet(Genjj)
+
+        # Reconstuct the top with Gen-level data:
+        Gentop_deltaR = bjj_deltaR(self.events["GenBJetGood"], self.events["Genjj"])
+        self.events["Genbjj_deltaR"] = to_singleton_jet(Gentop_deltaR)
+        Gentop_deltaM = bjj_deltaM(self.events["GenBJetGood"], self.events["Genjj"])
+        self.events["Genbjj_deltaM"] = to_singleton_jet(Gentop_deltaM)
+
+###########################################################################
+        # # Match the Reco w, top to he Gen Reco w, top:
+        self.events["Matchedbjj_deltaR"], self.events["MatchedGenbjj_deltaR"], deltaR_padnone = object_matching(
             self.events["bjj_deltaR"], self.events["Genbjj_deltaR"], dr_min = 0.4
         )
-        self.events["Matchedbjj_deltaM"], self.events["MatchedGenbjj_deltaM"], deltaR_padnone = object_matching1(
+        self.events["Matchedbjj_deltaM"], self.events["MatchedGenbjj_delta"], deltaR_padnone = object_matching(
             self.events["bjj_deltaM"], self.events["Genbjj_deltaM"], dr_min = 0.4
         )
-        
+        self.events["Matchedjj"], self.events["MatchedGenjj"], deltaR_padnone = object_matching(
+            self.events["jj"], self.events["Genjj"], dr_min = 0.4
+        )
+
+        # self.events["MatchedGenjj"], self.events["Matchedjj"], deltaR_padnone = object_matching(
+        #     self.events["Genjj"], self.events["jj"], dr_min = 0.4
+        # )
+        # self.events["MatchedGenbjj_deltaR"], self.events["Matchedbjj_deltaR"], deltaR_padnone = object_matching(
+        #     self.events["Genbjj_deltaR"], self.events["bjj_deltaR"], dr_min = 0.4
+        # )
+        # self.events["MatchedGenbjj_deltaM"], self.events["Matchedbjj_deltaM"], deltaR_padnone = object_matching(
+        #     self.events["Genbjj_deltaM"], self.events["bjj_deltaM"], dr_min = 0.4
+        # )
+
+ ###########################################################################
+        # Flatten all the vars with more than one dim for saving:
+        # Gen:
+        self.events["GenW"] =  ak.firsts(self.events["Genjj"])
+        self.events["GenTop_deltaR"] = ak.firsts(self.events["Genbjj_deltaR"])
+        self.events["GenTop_deltaM"] = ak.firsts(self.events["Genbjj_deltaM"])
+        # Reco:
+        self.events["W"] = ak.firsts(self.events["jj"])
+        self.events["Top_deltaR"] = ak.firsts(self.events["bjj_deltaR"])
+        self.events["Top_deltaM"] = ak.firsts(self.events["bjj_deltaM"])
+        # Matched: 
+        self.events["MatchedW"] = ak.firsts(self.events["Matchedjj"])
+        self.events["MatchedTop_deltaR"] = ak.firsts(self.events["Matchedbjj_deltaR"])
+        self.events["MatchedTop_deltaM"] = ak.firsts(self.events["Matchedbjj_deltaM"])
+
     def count_objects(self, variation):
         self.events["nMuonGood"] = ak.num(self.events.MuonGood)
         self.events["nElectronGood"] = ak.num(self.events.ElectronGood)

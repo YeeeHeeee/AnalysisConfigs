@@ -42,8 +42,7 @@ cfg = Configurator(
                         "TTToHadronic"],
 
             "samples_exclude" : [],
-            "year": ['2018']
-            # , '2016_PreVFP',  '2017', '2016_PostVFP'
+            "year": ['2018', '2016_PreVFP', '2017', '2016_PostVFP']
         }
     },
 
@@ -96,54 +95,49 @@ cfg = Configurator(
                 ),
                 # Save the Gen-level data:
                 ColOut(
-                    "Genjj",
+                    "GenW",
                     ['pt', 'eta', 'phi', 'mass'],
                     flatten=False
                 ),
                 ColOut(
-                    "Genbjj_deltaR",
+                    "GenTop_deltaR",
                     ['pt', 'eta', 'phi', 'mass'],
                     flatten=False
                 ),
                 ColOut(
-                    "Genbjj_deltaM",
+                    "GenTop_deltaM",
                     ['pt', 'eta', 'phi', 'mass'],
                     flatten=False
                 ),
                 # Save the reco data:
                 ColOut(
-                    "jj",
+                    "W",
                     ['pt', 'eta', 'phi', 'mass'],
                     flatten=False
                 ),
                 ColOut(
-                    "bjj_deltaR",
+                    "Top_deltaR",
                     ['pt', 'eta', 'phi', 'mass'],
                     flatten=False
                 ),
                 ColOut(
-                    "bjj_deltaM",
-                    ['pt', 'eta', 'phi', 'mass'],
-                    flatten=False
-                ),
-                ColOut(
-                    "Matchedbjj",
+                    "Top_deltaM",
                     ['pt', 'eta', 'phi', 'mass'],
                     flatten=False
                 ),
                 # Save the matched data:
                 ColOut(
-                    "Matchedjj",
+                    "MatchedW",
                     ['pt', 'eta', 'phi', 'mass'],
                     flatten=False
                 ),
                 ColOut(
-                    "Matchedbjj_deltaR",
+                    "MatchedTop_deltaR",
                     ['pt', 'eta', 'phi', 'mass'],
                     flatten=False
                 ),
                 ColOut(
-                    "Matchedbjj_deltaM",
+                    "MatchedTop_deltaM",
                     ['pt', 'eta', 'phi', 'mass'],
                     flatten=False
                 )

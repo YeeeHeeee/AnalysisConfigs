@@ -24,7 +24,7 @@ def semileptonic(events, params, year, sample, **kwargs):
                 has_one_muon
                 &
                 (
-                    ak.firsts(events.leptonGood.pt) > params["pt_leading_muon"][year]
+                    ak.firsts(events.LeptonGood.pt) > params["pt_leading_muon"][year]
                 )
             )
         )
