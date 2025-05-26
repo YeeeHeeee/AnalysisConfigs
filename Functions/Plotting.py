@@ -95,19 +95,19 @@ def get_lumi_display(year):
 
     if year in run2_years and year in lumi and 'tot' in lumi[year]:
         lumi_value = lumi[year]['tot'] * 1e-3
-        return f"{lumi_value:.1f} fb⁻¹ (13TeV)"
-    
+        return rf"${lumi_value:.1f}\,\mathrm{{fb}}^{{-1}}$ (13 TeV)"
+
     elif year in run3_years and year in lumi and 'tot' in lumi[year]:
         lumi_value = lumi[year]['tot'] * 1e-3
-        return f"{lumi_value:.1f} fb⁻¹ (13.6TeV)"
-    
+        return rf"${lumi_value:.1f}\,\mathrm{{fb}}^{{-1}}$ (13.6 TeV)"
+
     elif year == "Run2":
         total_lumi = sum(lumi[y]['tot'] for y in run2_years if y in lumi and 'tot' in lumi[y]) * 1e-3
-        return f"{total_lumi:.1f} fb⁻¹ (13TeV)"
-    
+        return rf"${total_lumi:.1f}\,\mathrm{{fb}}^{{-1}}$ (13 TeV)"
+
     elif year == "Run3":
         total_lumi = sum(lumi[y]['tot'] for y in run3_years if y in lumi and 'tot' in lumi[y]) * 1e-3
-        return f"{total_lumi:.1f} fb⁻¹ (13.6TeV)"
+        return rf"${total_lumi:.1f}\,\mathrm{{fb}}^{{-1}}$ (13.6 TeV)"
     
     else:
         return f"Unknown Lumi for {year}"
