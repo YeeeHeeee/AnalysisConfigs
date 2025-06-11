@@ -40,7 +40,7 @@ git clone git@github.com:YeeeHeeee/AnalysisConfigs.git
 
 ### 2. Activate the Environment
 ```bash
-micromamba activate povket-coffea
+micromamba activate pocket-coffea
 ```
 ---
 
