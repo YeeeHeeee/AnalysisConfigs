@@ -20,11 +20,28 @@ git clone git@github.com:YeeeHeeee/PocketCoffea_top.git
    micromamba activate pocket-coffea
    ```
 
-### 1. Install `PocketCoffea_top` Locally
+### 3. Install `PocketCoffea_top` Locally
    ```bash
    cd PocketCoffea_top
    pip install -e .
    ```
+
+After set up the environment, you can leave the directory of the PocketCoffea_top. 
+
+---
+
+## Setup the Workflow
+
+### 1. Clone the `AnalysisConfigs` Repository
+
+```bash
+git clone git@github.com:YeeeHeeee/AnalysisConfigs.git
+```
+
+### 2. Activate the Environment
+```bash
+micromamba activate povket-coffea
+```
 ---
 
 ## Running the Analysis
