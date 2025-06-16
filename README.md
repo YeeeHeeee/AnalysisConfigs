@@ -113,7 +113,7 @@ rm -rf ./jobs-dir/job
 ```bash
 rm jobs-dir/job/jobs_config.yaml
 ```
-2. Check the queues:
+2. Check the queues (if you are using the condor_ic):
 ```bash
 /vols/cms/tr1123/condor_tools/condor_stat.py
 ```
