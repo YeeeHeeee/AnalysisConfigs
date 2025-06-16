@@ -24,6 +24,7 @@ def inital_distributions_plot(datasets, bins=50):
     # Extract column names from the first dataset
     first_key = next(iter(datasets))
     df_first = datasets[first_key]
+    print(df_first.columns)
     num_variables = len(df_first.columns)
 
     num_rows = math.ceil(math.sqrt(num_variables))

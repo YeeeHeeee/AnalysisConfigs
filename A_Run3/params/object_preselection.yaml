@@ -1,0 +1,34 @@
+object_preselection:
+  Muon:
+    pt: 15
+    eta: 2.4
+    iso: 0.25  #PFIsoLoose
+    id: tightId
+
+  Electron:
+    pt: 15
+    eta: 2.4
+    iso: 0.06
+    id: mvaIso_WP80
+    
+
+  Jet:
+    dr_lepton: 0.4
+    pt: 30
+    eta: 2.4
+    jetId: 2
+    puId:
+      wp: L
+      value: 4
+      maxpt: 50.0
+    btag:
+      wp: M
+
+  FatJet:
+    dr_lepton: 0.4
+    msd: 50 # soft drop mass
+    pt: 30
+    eta: 2.4
+    jetId: 2
+    btag:
+      wp: M  # Medium working point
