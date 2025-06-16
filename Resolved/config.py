@@ -35,8 +35,8 @@ parameters = defaults.merge_parameters_from_files(default_parameters,
 cfg = Configurator(
     parameters = parameters,
     datasets = {
-        "jsons": [f"{localdir}/../../Datasets/signals_MC_ttbar.json",
-                  f"{localdir}/../../Datasets/backgrounds_MC_ttbar.json"],
+        "jsons": [f"{localdir}/../Datasets/signals_MC_ttbar.json",
+                  f"{localdir}/../Datasets/backgrounds_MC_ttbar.json"],
         "filter" : {
             "samples": ["TTToSemiLeptonic",
                         "TTTo2L2Nu",
@@ -44,7 +44,8 @@ cfg = Configurator(
                         "WJetsToLNu"],
 
             "samples_exclude" : [],
-            "year": ['2018','2016_PreVFP', '2016_PostVFP', '2017'], 
+            "year": ['2018','2016_PreVFP', '2016_PostVFP', '2017',
+                '2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix'], 
         }
     },
 
@@ -89,12 +90,12 @@ cfg = Configurator(
     columns = {
         "common": {
             "inclusive": [
-                ColOut(
-                    "MET",
-                    ["pt", "phi", 
-                    'fiducialGenPhi', 'fiducialGenPt'],
-                    flatten=False
-                ),
+                # ColOut(
+                #     "MET",
+                #     ["pt", "phi", 
+                #     'fiducialGenPhi', 'fiducialGenPt'],
+                #     flatten=False
+                # ),
                 # Save the Gen-level data:
                 ColOut(
                     "GenW",
