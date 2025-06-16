@@ -81,7 +81,12 @@ To run with predefined executor using `--executor` with 100 workers:
 ```bash
 pocket-coffea run --cfg config.py  --executor condor@ic  -o output_condor --scaleout=100 --skip-bad-files
 ```
-
+```bash
+pocket-coffea run --cfg Merged/config.py  --executor condor@ic  -o Merged/output_condor --scaleout=100 --skip-bad-files
+```
+```bash
+pocket-coffea run --cfg Resolved/config.py  --executor condor@ic  -o Resolved/output_condor --scaleout=100 --skip-bad-files
+```
 The Executors available are:
 
 | Site                        | Supported Executors       | Executor String(s)         |
@@ -106,7 +111,6 @@ pocket-coffea merge-outputs -o output_condor/output_all.coffea -jc jobs-dir/job/
 ```bash
 pocket-coffea merge-outputs -o Merged/output_condor/output_all.coffea -jc jobs-dir/job/jobs_config.yaml Merged/output_condor/output_job_*.coffea
 ```
-
 ```bash
 pocket-coffea merge-outputs -o Resolved/output_condor/output_all.coffea -jc jobs-dir/job/jobs_config.yaml Resolved/output_condor/output_job_*.coffea
 ```
