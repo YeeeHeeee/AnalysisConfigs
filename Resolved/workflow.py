@@ -11,7 +11,6 @@ from pocket_coffea.lib.gen_objects import getGenJets, getGenLeptons
 
 from pocket_coffea.lib.objects import (
     jet_correction,
-    lepton_selection,
     jet_selection,
     btagging,
     get_dilepton,
@@ -20,7 +19,7 @@ from pocket_coffea.lib.objects import (
 )
 
 from Functions.JetsCom import bjj_deltaR, bjj_deltaM, to_singleton_jet
-# from Functions.Matching import object_matching
+from Functions.Leptons import lepton_selection
 
 class ttBaseProcessor_res(BaseProcessorABC):
     def __init__(self, cfg: Configurator):
@@ -50,10 +49,10 @@ class ttBaseProcessor_res(BaseProcessorABC):
         )
         # Build masks for selection of muons, electrons, jets, fatjets
         self.events["MuonGood"] = lepton_selection(
-            self.events, "Muon", self.params
+            self.events, "Muon", self.params, self._year
         )
         self.events["ElectronGood"] = lepton_selection(
-            self.events, "Electron", self.params
+            self.events, "Electron", self.params, self._year
         )
         leptons = ak.with_name(
             ak.concatenate((self.events.MuonGood, self.events.ElectronGood), axis=1),
@@ -79,6 +78,8 @@ class ttBaseProcessor_res(BaseProcessorABC):
         self.events["BJetBad"] = btagging(
             self.events["JetGood"], self.params.btagging.working_point[self._year], wp=self.params.object_preselection.Jet.btag.wp, veto=True)
     
+
+        
 ###########################################################################
         # Get GenJets by flavours:    
         if self._isMC:

@@ -9,7 +9,9 @@ object_preselection:
     pt: 15
     eta: 2.4
     iso: 0.06
-    id: mvaIso_WP80
+    id1: mvaFall17V2Iso_WP80
+    id2: mvaIso_WP80
+
     
 
   Jet:

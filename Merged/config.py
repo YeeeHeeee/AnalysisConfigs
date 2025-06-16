@@ -34,8 +34,8 @@ parameters = defaults.merge_parameters_from_files(default_parameters,
 cfg = Configurator(
     parameters = parameters,
     datasets = {
-        "jsons": [f"{localdir}/../../Datasets/signals_MC_ttbar.json",
-                  f"{localdir}/../../Datasets/backgrounds_MC_ttbar.json"],
+        "jsons": [f"{localdir}/../Datasets/signals_MC_ttbar.json",
+                  f"{localdir}/../Datasets/backgrounds_MC_ttbar.json"],
         "filter" : {
             "samples": ["TTToSemiLeptonic",
                         "TTTo2L2Nu",
@@ -43,7 +43,8 @@ cfg = Configurator(
                         "WJetsToLNu"],
 
             "samples_exclude" : [],
-            "year": ['2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix'], 
+            "year": ['2018','2016_PreVFP', '2016_PostVFP', '2017',
+                '2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix'], 
         }
     },
 
@@ -99,25 +100,20 @@ cfg = Configurator(
                     ["pt", "eta", "phi", "mass"],
                     flatten=False
                 ),
-                # ColOut(
-                #     "GenTop_Part",
-                #     ["pt", "eta", "phi", "mass"],
-                #     flatten=False
-                # ),
                 # Save the Reco data:
                 ColOut(
                     "FatJet",
-                    ["pt", "eta", "phi", "mass"],
+                    ["pt", "eta", "phi", "mass", 'jetId', 'nConstituents', 'subJetIdx1', 'subJetIdx2', 'btagDDBvLV2', 'btagDDCvBV2', 'btagDDCvLV2', 'btagDeepB', 'btagHbb', 'msoftdrop', 'tau1', 'tau2', 'tau3', 'tau4', 'lsf3', 'hadronFlavour', 'nBHadrons', 'nCHadrons', 'genJetAK8Idx', 'genJetAK8IdxG', 'subJetIdx1G', 'subJetIdx2G', 'subJetIdxG'],
                     flatten=False
                 ),
                 ColOut(
                     "SubJet1",
-                    ["pt", "eta", "phi", "mass"],
+                    ['btagDeepB', 'eta', 'mass', 'n2b1', 'n3b1', 'phi', 'pt', 'rawFactor', 'tau1', 'tau2', 'tau3', 'tau4', 'hadronFlavour', 'nBHadrons', 'nCHadrons'],
                     flatten=False
                 ),
                 ColOut(
                     "SubJet2",
-                    ["pt", "eta", "phi", "mass"],
+                    ['btagDeepB', 'eta', 'mass', 'n2b1', 'n3b1', 'phi', 'pt', 'rawFactor', 'tau1', 'tau2', 'tau3', 'tau4', 'hadronFlavour', 'nBHadrons', 'nCHadrons'],
                     flatten=False
                 ),
                 ColOut(
@@ -130,12 +126,7 @@ cfg = Configurator(
                     "MatchedTop_AK8",
                     ["pt", "eta", "phi", "mass"],
                     flatten=False
-                )
-                # ColOut(
-                #     "MatchedTop_Part",
-                #     ["pt", "eta", "phi", "mass"],
-                #     flatten=False
-                # )   
+                ) 
             ],
             "bycategory": {},
         },
@@ -144,15 +135,6 @@ cfg = Configurator(
     },
 
    variables = {
-        # **muon_hists(coll="MuonGood", pos=0),
-        # **ele_hists(coll="ElectronGood", pos=0),
-        # **count_hist(name="nElectronGood", coll="ElectronGood",bins=3, start=0, stop=3),
-        # **count_hist(name="nMuonGood", coll="MuonGood",bins=3, start=0, stop=3),
-        # **count_hist(name="nJets", coll="JetGood",bins=8, start=0, stop=8),
-        # **count_hist(name="nBJets", coll="BJetGood",bins=8, start=0, stop=8),
-        # **jet_hists(coll="JetGood", pos=0),
-        # **jet_hists(coll="JetGood", pos=1),
-        # **jet_hists(coll="bjj", pos=0),
     }
 )
 

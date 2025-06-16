@@ -11,7 +11,6 @@ from pocket_coffea.lib.gen_objects import getGenJets, getGenLeptons
 
 from pocket_coffea.lib.objects import (
     jet_correction,
-    lepton_selection,
     jet_selection,
     btagging,
     get_dilepton,
@@ -20,6 +19,7 @@ from pocket_coffea.lib.objects import (
 )
 
 from Functions.JetsCom import to_singleton_jet, combine_jets
+from Functions.Leptons import lepton_selection
 
 class ttBaseProcessor_merge(BaseProcessorABC):
     def __init__(self, cfg: Configurator):
@@ -31,14 +31,14 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         super().apply_object_preselection(variation=variation)
         
 ###########################################################################
-        # MET:
-        met_pt_corr, met_phi_corr = met_xy_correction(self.params, self.events, self._year, self._era)
-        self.events["MET"] = ak.with_field(
-            self.events.MET, met_pt_corr, "pt"
-        )
-        self.events["MET"] = ak.with_field(
-            self.events.MET, met_phi_corr, "phi"
-        )
+        # # MET:
+        # met_pt_corr, met_phi_corr = met_xy_correction(self.params, self.events, self._year, self._era)
+        # self.events["MET"] = ak.with_field(
+        #     self.events.MET, met_pt_corr, "pt"
+        # )
+        # self.events["MET"] = ak.with_field(
+        #     self.events.MET, met_phi_corr, "phi"
+        # )
 
 ###########################################################################        
         # Leptons:
@@ -49,10 +49,10 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         )
         # Build masks for selection of muons, electrons, jets, fatjets
         self.events["MuonGood"] = lepton_selection(
-            self.events, "Muon", self.params
+            self.events, "Muon", self.params, self._year
         )
         self.events["ElectronGood"] = lepton_selection(
-            self.events, "Electron", self.params
+            self.events, "Electron", self.params, self._year
         )
         leptons = ak.with_name(
             ak.concatenate((self.events.MuonGood, self.events.ElectronGood), axis=1),
@@ -85,13 +85,10 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             leptons_collection="LeptonGood" # used for cleaning jets by removing thoes that overlap with leptons in an events.
         )
         self.events["FatJet"] = ak.firsts(self.events["FatJetGood"])
-        print("+++++++++++++++++++++")
-        print(self.events["FatJet"].fields)
         
         self.events["SubJetGood1"] = self.events.SubJet[self.events["FatJetGood"].subJetIdx1]
         self.events["SubJetGood2"] = self.events.SubJet[self.events["FatJetGood"].subJetIdx2]
-        
-    
+
         # combine two subjet for validation
         self.events["CombinedSubJets"] = combine_jets(
             self.events["SubJetGood1"], self.events["SubJetGood2"]
@@ -99,17 +96,11 @@ class ttBaseProcessor_merge(BaseProcessorABC):
 
         self.events["SubJet1"] = ak.firsts(self.events["SubJetGood1"])
         self.events["SubJet2"] = ak.firsts(self.events["SubJetGood2"])
-        
-        print("+++++++++++++++++++++")
-        print(self.events["SubJet1"].fields)
-
+    
 ###########################################################################
         # Select GenJetAK8 jets matched to top or anti-top quarks:
         if self._isMC:
             self.events["GenTop_AK8"] = ak.firsts(self.events["GenJetAK8"])
-
-        print("+++++++++++++++++++++")
-        print(self.events["GenTop_AK8"].fields)
 
     def define_common_variables_after_presel(self, variation):
 
@@ -124,8 +115,6 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             fatjet, GenTop_AK8, dr_min = 0.8)  
        self.events["MatchedTop_AK8"] = ak.firsts(self.events["MatchedTop_AK81"])
     #    self.events["MatchedTop_Part"] = ak.firsts(self.events["MatchedTop_Part1"])
-       print("+++++++++++++++++++++")
-       print(self.events["MatchedTop_AK81"].fields)
 
     def count_objects(self, variation):
         self.events["nMuonGood"] = ak.num(self.events.MuonGood)
