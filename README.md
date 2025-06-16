@@ -67,7 +67,8 @@ PocketCoffea provides a flexible command-line interface to configure. The basic 
 ```bash
 pocket-coffea run --cfg config.py -o output_test --skip-bad-files
 ```
-**Note:** Ensure you're in the desired directory before executing this command.
+
+**Note:** Ensure you've pointed to the desired directory before executing this command.
 
 Additional Options:
 * `--test`: Run interactively with a file limit of 1 (useful for quick debugging).
@@ -102,7 +103,13 @@ After submitting, to merge the files:
 ```bash
 pocket-coffea merge-outputs -o output_condor/output_all.coffea -jc jobs-dir/job/jobs_config.yaml output_condor/output_job_*.coffea
 ```
+```bash
+pocket-coffea merge-outputs -o Merged/output_condor/output_all.coffea -jc jobs-dir/job/jobs_config.yaml Merged/output_condor/output_job_*.coffea
+```
 
+```bash
+pocket-coffea merge-outputs -o Resolved/output_condor/output_all.coffea -jc jobs-dir/job/jobs_config.yaml Resolved/output_condor/output_job_*.coffea
+```
 ---
 ## Others
 1. Removee files:
