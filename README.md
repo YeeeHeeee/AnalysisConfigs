@@ -67,6 +67,8 @@ PocketCoffea provides a flexible command-line interface to configure. The basic 
 ```bash
 pocket-coffea run --cfg config.py -o output_test --skip-bad-files
 ```
+**Note:** Ensure you're in the desired directory before executing this command.
+
 Additional Options:
 * `--test`: Run interactively with a file limit of 1 (useful for quick debugging).
 * `--limit-chunks`: Limit the number of chunks processed (splits of files).
