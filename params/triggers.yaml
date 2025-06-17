@@ -1,8 +1,28 @@
 HLT_triggers:
-  2016_PreVFP: ???
+  "2016_PreVFP":
+    SingleEle:
+      - Ele27_WPTight_Gsf
+      - Ele25_eta2p1_WPTight_Gsf
+    SingleMuon:
+      - IsoMu24
+      - IsoTkMu24
+      
+  "2016_PostVFP": 
+    SingleEle:
+      - Ele27_WPTight_Gsf
+      - Ele25_eta2p1_WPTight_Gsf 
+    SingleMuon:
+      - IsoMu24
+      - IsoTkMu24
 
-  2016_PostVFP: ???
-  "2017": ???
+  "2017": 
+    SingleEle:
+        - Ele32_WPTight_Gsf_L1DoubleEG
+        - Ele35_WPTight_Gsf
+        - Ele27_WPTight_Gsf
+        - Ele32_WPTight_Gsf
+    SingleMuon:
+      - IsoMu27
   
   "2018":
     SingleEle:
@@ -10,3 +30,27 @@ HLT_triggers:
       - Ele28_eta2p1_WPTight_Gsf_HT150
     SingleMuon: 
       - IsoMu24
+  
+  "2022_preEE":
+    SingleEle:
+      - Ele30_WPTight_Gsf
+    SingleMuon:  
+      - IsoMu24
+  
+  "2022_postEE":
+    SingleEle:
+      - Ele30_WPTight_Gsf
+    SingleMuon:  
+      - IsoMu24
+  
+  "2023_preBPix":
+    SingleEle:
+      - Ele30_WPTight_Gsf
+    SingleMuon:  
+      - IsoMu24
+
+  "2023_postBPix":
+    SingleEle:
+      - Ele30_WPTight_Gsf
+    SingleMuon:  
+      - IsoMu24_v
