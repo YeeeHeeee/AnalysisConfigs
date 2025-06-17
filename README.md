@@ -1,6 +1,6 @@
 # Configs
 
-Repository containing analysis configurations for [`PocketCoffea_top`](https://github.com/YeeeHeeee/PocketCoffea_top).  
+Repository containing analysis configurations for [`PocketCoffea_top`](https://github.com/YeeeHeeee/PocketCoffea.git).  
 These configurations are intended for the semileptonic top-antitop (`tt̄`) analysis in the resolved regime using AK4 jets and merged regime using AK8, also combined topology. 
 
 ---
@@ -10,7 +10,7 @@ These configurations are intended for the semileptonic top-antitop (`tt̄`) anal
 ### 1. Clone the `PocketCoffea_top` Repository
 
 ```bash
-git clone git@github.com:YeeeHeeee/PocketCoffea_top.git
+git clone git@github.com:YeeeHeeee/PocketCoffea.git
 ```
 
 ### 2. Install Micromamba and Create the Environment
@@ -79,14 +79,12 @@ Additional Options:
 * `--filter-years`: Comma-separated list to select specific data-taking years to process.
 To run with predefined executor using `--executor` with 100 workers:
 ```bash
-pocket-coffea run --cfg config.py  --executor condor@ic  -o output_condor --scaleout=100 --skip-bad-files
+pocket-coffea run --cfg config.py  --executor condor@ic  -o output_condor --scaleout=100 --skip-bad-files --jobs-dir="jobs/"
 ```
-```bash
-pocket-coffea run --cfg Merged/config.py  --executor condor@ic  -o Merged/output_condor --scaleout=100 --skip-bad-files
-```
-```bash
-pocket-coffea run --cfg Resolved/config.py  --executor condor@ic  -o Resolved/output_condor --scaleout=100 --skip-bad-files
-```
+
+**Note:** Rename the 
+
+
 The Executors available are:
 
 | Site                        | Supported Executors       | Executor String(s)         |
@@ -108,13 +106,7 @@ After submitting, to merge the files:
 ```bash
 pocket-coffea merge-outputs -o output_condor/output_all.coffea -jc jobs-dir/job/jobs_config.yaml output_condor/output_job_*.coffea
 ```
-```bash
-pocket-coffea merge-outputs -o Merged/output_condor/output_all.coffea -jc jobs-dir/job/jobs_config.yaml Merged/output_condor/output_job_*.coffea
-```
-```bash
-pocket-coffea merge-outputs -o Resolved/output_condor/output_all.coffea -jc jobs-dir/job/jobs_config.yaml Resolved/output_condor/output_job_*.coffea
-```
----
+
 ## Others
 1. Removee files:
 ```bash
