@@ -1,6 +1,6 @@
 # Configs
 
-Repository containing analysis configurations for [`PocketCoffea_top`](https://github.com/YeeeHeeee/PocketCoffea.git).  
+Repository containing analysis configurations for [`PocketCoffea`](https://github.com/YeeeHeeee/PocketCoffea.git).  
 These configurations are intended for the semileptonic top-antitop (`tt̄`) analysis in the resolved regime using AK4 jets and merged regime using AK8, also combined topology. 
 
 ---
@@ -28,7 +28,7 @@ git clone git@github.com:YeeeHeeee/PocketCoffea.git
 
 After set up the environment, you can leave the directory of the PocketCoffea
 
-**Note:** detail set up tutorial can be found here (https://pocketcoffea.readthedocs.io/en/stable/installation.html)
+**Note:** detail set up tutorial can be found here [`Installation`](https://pocketcoffea.readthedocs.io/en/stable/installation.html)
 
 ---
 
