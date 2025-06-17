@@ -84,7 +84,7 @@ To run with predefined executor using `--executor` with 100 workers:
 pocket-coffea run --cfg config.py  --executor condor@ic  -o output_condor --scaleout=100 --skip-bad-files --jobs-dir="jobs/"
 ```
 
-**Note:** Rename the 
+**Note:** Rename the `--jobs-dir` if you wanna submit multiple jobs at the same time.
 
 
 The Executors available are:
