@@ -22,11 +22,13 @@ git clone git@github.com:YeeeHeeee/PocketCoffea.git
 
 ### 3. Install `PocketCoffea_top` Locally
    ```bash
-   cd PocketCoffea_top
+   cd PocketCoffea
    pip install -e .
    ```
 
-After set up the environment, you can leave the directory of the PocketCoffea_top. 
+After set up the environment, you can leave the directory of the PocketCoffea
+
+**Note:** detail set up tutorial can be found here (https://pocketcoffea.readthedocs.io/en/stable/installation.html)
 
 ---
 
