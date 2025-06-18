@@ -7,10 +7,10 @@ These configurations are intended for the semileptonic top-antitop (`tt̄`) anal
 
 ## Setup Instructions
 
-### 1. Clone the `PocketCoffea_top` Repository
+### 1. Clone the `PocketCoffea` Repository
 
 ```bash
-git clone git@github.com:YeeeHeeee/PocketCoffea.git
+git clone git@github.com:gputtley/PocketCoffea.git
 ```
 
 ### 2. Install Micromamba and Create the Environment
@@ -18,9 +18,10 @@ git clone git@github.com:YeeeHeeee/PocketCoffea.git
    "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
    micromamba create -n pocket-coffea python=3.11 -c conda-forge
    micromamba activate pocket-coffea
+   micromamba install XRootD
    ```
 
-### 3. Install `PocketCoffea_top` Locally
+### 3. Install `PocketCoffea` Locally
    ```bash
    cd PocketCoffea
    pip install -e .
@@ -44,6 +45,13 @@ git clone git@github.com:YeeeHeeee/AnalysisConfigs.git
 ```bash
 micromamba activate pocket-coffea
 ```
+
+### 3. Install `AnalysisConfigs` Locally
+   ```bash
+   cd AnalysisConfigs
+   pip install -e .
+   ```
+
 ---
 
 ## Running the Analysis
