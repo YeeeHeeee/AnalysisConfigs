@@ -8,3 +8,10 @@ Resolved/jets_calibrator_JES_JER_Syst.pkl.gz
 Resolved/output*
 Resolved/jobs*
 Functions/__pycache__
+output*
+Datasets/background*
+Datasets/signals*
+GenInfo/__pycache__
+GenInfo/jets_calibrator_JES_JER_Syst.pkl.gz
+GenInfo/output*
+GenInfo/jobs*
