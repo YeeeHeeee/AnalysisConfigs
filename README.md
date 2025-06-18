@@ -1,6 +1,6 @@
 # Configs
 
-Repository containing analysis configurations for [`PocketCoffea`](https://github.com/YeeeHeeee/PocketCoffea.git).  
+Repository containing analysis configurations for [`PocketCoffea`](https://github.com/gputtley/PocketCoffea.git).  
 These configurations are intended for the semileptonic top-antitop (`tt̄`) analysis in the resolved regime using AK4 jets and merged regime using AK8, also combined topology. 
 
 ---
