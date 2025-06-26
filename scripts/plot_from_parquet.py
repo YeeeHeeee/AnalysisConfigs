@@ -57,9 +57,9 @@ else:
   raise ValueError(f"Unknown year: {args.year}. Please specify a valid year.")
 
 groups = {
-  #"TTToSemiLeptonic": ["TTToSemiLeptonic_*.parquet"],
-  #"TTTo2L2Nu": ["TTTo2L2Nu_*.parquet"],
-  #"TTToHadronic": ["TTToHadronic_*.parquet"],
+  "TTToSemiLeptonic": ["TTToSemiLeptonic_*.parquet"],
+  "TTTo2L2Nu": ["TTTo2L2Nu_*.parquet"],
+  "TTToHadronic": ["TTToHadronic_*.parquet"],
   "WJetsToLNu": ["WJetsToLNu_*.parquet","WJetsToLNuHT*.parquet"],
 }
 

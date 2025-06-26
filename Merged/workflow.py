@@ -30,30 +30,35 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         # Avoid code duplicate
         super().apply_object_preselection(variation=variation)
         
-###########################################################################
-        # # MET:
-        # met_pt_corr, met_phi_corr = met_xy_correction(self.params, self.events, self._year, self._era)
-        # self.events["MET"] = ak.with_field(
-        #     self.events.MET, met_pt_corr, "pt"
-        # )
-        # self.events["MET"] = ak.with_field(
-        #     self.events.MET, met_phi_corr, "phi"
-        # )
+        # MET
+        if self._year in ["2016_PreVFP", "2016_PostVFP", "2017", "2018"]:
+            met_pt_corr, met_phi_corr = met_xy_correction(self.params, self.events, "MET", self._year, self._era)
+            self.events["MET"] = ak.with_field(
+                self.events.MET, met_pt_corr, "pt"
+            )
+            self.events["MET"] = ak.with_field(
+                self.events.MET, met_phi_corr, "phi"
+            )
 
-###########################################################################        
-        # Leptons:
-        # Include the supercluster pseudorapidity variable
+        # Leptons
         electron_etaSC = self.events.Electron.eta + self.events.Electron.deltaEtaSC
         self.events["Electron"] = ak.with_field(
             self.events.Electron, electron_etaSC, "etaSC"
         )
-        # Build masks for selection of muons, electrons, jets, fatjets
         self.events["MuonGood"] = lepton_selection(
             self.events, "Muon", self.params, self._year
         )
         self.events["ElectronGood"] = lepton_selection(
             self.events, "Electron", self.params, self._year
         )
+        # Add variable to MuonGood, ElectronGood for whether it is electon (0) or muon (1)
+        self.events["ElectronGood"]= ak.with_field(
+            self.events["ElectronGood"], 0, "leptonType"
+        )
+        self.events["MuonGood"] = ak.with_field(
+            self.events["MuonGood"], 1, "leptonType"
+        )   
+
         leptons = ak.with_name(
             ak.concatenate((self.events.MuonGood, self.events.ElectronGood), axis=1),
             name='PtEtaPhiMCandidate',
@@ -61,35 +66,39 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         self.events["LeptonGood"] = leptons[ak.argsort(leptons.pt, ascending=False)]
         self.events["LeptonSave"] = ak.firsts(self.events["LeptonGood"])
 
-        self.events["ll"] = get_dilepton(
-            self.events.ElectronGood, self.events.MuonGood
+        # AK8 Jets
+        self.events["FatJetGood"], self.fatjetGoodMask = jet_selection(
+            self.events, "FatJet", self.params,
+            year=self._year,
+            leptons_collection="LeptonGood" # used for cleaning jets by removing those that overlap with leptons in an events.
         )
+        self.events["FatJet"] = ak.firsts(self.events["FatJetGood"])
 
-###########################################################################
-        # AK4 Jets:
+        # AK4 Jets
         self.events["JetGood"], self.jetGoodMask = jet_selection(
             self.events, "Jet", self.params, 
             year=self._year, 
             leptons_collection="LeptonGood"
         )
+
+        # Get b tagged and non-b tagged jets
         self.events["BJetGood"] = btagging(
             self.events["JetGood"], self.params.btagging.working_point[self._year], wp=self.params.object_preselection.Jet.btag.wp)
-        
         self.events["BJetBad"] = btagging(
             self.events["JetGood"], self.params.btagging.working_point[self._year], wp=self.params.object_preselection.Jet.btag.wp, veto=True)
-###########################################################################
-        # AK8 Jets:
-        self.events["FatJetGood"], self.fatjetGoodMask = jet_selection(
-            self.events, "FatJet", self.params,
-            year=self._year,
-            leptons_collection="LeptonGood" # used for cleaning jets by removing thoes that overlap with leptons in an events.
+
+        # Remove b jets that overlap with fat jets in deltaR
+        self.events["BJetGood"] = ak.where(
+            ak.is_none(self.events["FatJet"]),
+            ak.Array([[]] * len(self.events)),
+            self.events["BJetGood"][(self.events["BJetGood"].delta_r(self.events["FatJet"]) > 0.8)],
         )
-        self.events["FatJet"] = ak.firsts(self.events["FatJetGood"])
-        
+
+        # Get subjets from the fat jets
         self.events["SubJetGood1"] = self.events.SubJet[self.events["FatJetGood"].subJetIdx1]
         self.events["SubJetGood2"] = self.events.SubJet[self.events["FatJetGood"].subJetIdx2]
 
-        # combine two subjet for validation
+        # Combine two subjet for validation
         self.events["CombinedSubJets"] = combine_jets(
             self.events["SubJetGood1"], self.events["SubJetGood2"]
         )
@@ -97,24 +106,59 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         self.events["SubJet1"] = ak.firsts(self.events["SubJetGood1"])
         self.events["SubJet2"] = ak.firsts(self.events["SubJetGood2"])
     
-###########################################################################
-        # Select GenJetAK8 jets matched to top or anti-top quarks:
-        if self._isMC:
-            self.events["GenTop_AK8"] = ak.firsts(self.events["GenJetAK8"])
 
     def define_common_variables_after_presel(self, variation):
 
- ###########################################################################
-        # Change data type:
-       fatjet = to_singleton_jet(self.events["FatJet"])
-       GenTop_AK8 = to_singleton_jet(self.events["GenTop_AK8"])
+        # Change data type
+        fatjet = to_singleton_jet(self.events["FatJet"])
 
- ########################################################################### 
-        # Match the AK8 to the GenJetAK8 jets and GenPart objects:
-       self.events["MatchedTop_AK81"], self.events["MatchedGenTop_AK8"], deltaR_padnon = object_matching(
-            fatjet, GenTop_AK8, dr_min = 0.8)  
-       self.events["MatchedTop_AK8"] = ak.firsts(self.events["MatchedTop_AK81"])
-    #    self.events["MatchedTop_Part"] = ak.firsts(self.events["MatchedTop_Part1"])
+        if self._isMC:
+            # Add GenTop information
+            self.events["GenTop_AK8"] = ak.firsts(self.events["GenJetAK8"])
+            GenTop_AK8 = to_singleton_jet(self.events["GenTop_AK8"])
+            self.events["GenTop"] = self.events["GenPart"][((np.abs(self.events["GenPart"].pdgId) == 6) & ((self.events["GenPart"].statusFlags & (1 << 13)) > 0))]
+            self.events["GenTop1"] = ak.pad_none(self.events["GenTop"], 2, axis=1)[:, 0]
+            self.events["GenTop2"] = ak.pad_none(self.events["GenTop"], 2, axis=1)[:, 1]
+            self.events["GenTop_AK8"] = ak.firsts(self.events["GenJetAK8"])
+            self.events["MatchedTop_AK81"], self.events["MatchedGenTop_AK8"], deltaR_padnon = object_matching(fatjet, GenTop_AK8, dr_min = 0.8)  
+            self.events["MatchedTop_AK8"] = ak.firsts(self.events["MatchedTop_AK81"])
+
+            # Get the LNu for W + jets samples
+            if self.events.metadata["sample"].startswith("WJetsToLNu"):
+                l_mask = (self.events["LHEPart"].pdgId == 11) | (self.events["LHEPart"].pdgId == -11) | \
+                        (self.events["LHEPart"].pdgId == 13) | (self.events["LHEPart"].pdgId == -13) | \
+                        (self.events["LHEPart"].pdgId == 15) | (self.events["LHEPart"].pdgId == -15)
+                nu_mask = (self.events["LHEPart"].pdgId == 12) | (self.events["LHEPart"].pdgId == -12) | \
+                        (self.events["LHEPart"].pdgId == 14) | (self.events["LHEPart"].pdgId == -14) | \
+                        (self.events["LHEPart"].pdgId == 16) | (self.events["LHEPart"].pdgId == -16)
+                l = self.events["LHEPart"][l_mask]
+                nu = self.events["LHEPart"][nu_mask]
+                lnu_pairs = ak.cartesian([l, nu], axis=1, nested=False)
+                left, right = ak.unzip(lnu_pairs)        
+                di_arr = left + right
+                fields = {
+                    "mass": di_arr.mass,
+                }
+                self.events["LNu"] = ak.firsts(ak.zip(fields, with_name="PtEtaPhiMCandidate"))   
+            else:
+                self.events["LNu"] = ak.zip({"mass": -999.0*np.ones(len(self.events))}, with_name="PtEtaPhiMCandidate")
+        else:
+            # Fill with None for data (not MC)
+            self.events["GenTop_AK8"] = ak.Array([None] * len(self.events))
+            self.events["GenTop1"] = ak.Array([None] * len(self.events))
+            self.events["GenTop2"] = ak.Array([None] * len(self.events))
+            self.events["MatchedTop_AK81"] = ak.Array([None] * len(self.events))
+            self.events["MatchedTop_AK8"] = ak.Array([None] * len(self.events))
+            self.events["LNu"] = ak.Array([None] * len(self.events))
+            self.events["LHE"] = ak.Array([None] * len(self.events))
+            
+
+        # Highest pT b jet
+        self.events["BJet_HighestPt"] = ak.firsts(self.events["BJetGood"])
+
+        # Closest b jet to the leading lepton
+        self.events["BJet_ClosestToLepton"] = ak.firsts(self.events["BJetGood"][ak.argsort(self.events["BJetGood"].delta_r(self.events["LeptonSave"]), ascending=False)])
+
 
     def count_objects(self, variation):
         self.events["nMuonGood"] = ak.num(self.events.MuonGood)
@@ -127,6 +171,7 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         self.events["nBJetBad"] = ak.num(self.events.BJetBad)  
         self.events["nFatJet"] = ak.num(self.events["FatJetGood"])
    
+
     # Function that defines common variables employed in analyses and save them as attributes of `events`
     def define_common_variables_before_presel(self, variation):
         self.events["JetGood_Ht"] = ak.sum(abs(self.events.JetGood.pt), axis=1)

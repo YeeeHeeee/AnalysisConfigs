@@ -18,6 +18,10 @@ from cut import *
 import os
 localdir = os.path.dirname(os.path.abspath(__file__))
 
+from Functions.WJetsRun2StitchingWeights import WJetsRun2Stitching
+from Functions.WJetsRun3StitchingWeights import WJetsRun3Stitching
+
+
 # Loading default parameters
 from pocket_coffea.parameters import defaults
 default_parameters = defaults.get_default_parameters()
@@ -30,6 +34,7 @@ parameters = defaults.merge_parameters_from_files(default_parameters,
                                                   update=True)
 
 
+common_weights = common_weights + WJetsRun2Stitching + WJetsRun3Stitching
 
 cfg = Configurator(
     parameters = parameters,
@@ -37,11 +42,33 @@ cfg = Configurator(
         "jsons": [f"{localdir}/../Datasets/signals_MC_ttbar.json",
                   f"{localdir}/../Datasets/backgrounds_MC_ttbar.json"],
         "filter" : {
-            "samples": ["TTToSemiLeptonic",
-                        "TTTo2L2Nu",
-                        "TTToHadronic",
-                        "WJetsToLNu"],
-
+            "samples": [
+                "TTToSemiLeptonic",
+                "TTTo2L2Nu",
+                "TTToHadronic",
+                "WJetsToLNu"
+                "WJetsToLNuHT7OTo100",
+                "WJetsToLNuHT100To200",
+                "WJetsToLNuHT200To400",
+                "WJetsToLNuHT400To600",
+                "WJetsToLNuHT600To800",
+                "WJetsToLNuHT800To1200",
+                "WJetsToLNuHT1200To2500",
+                "WJetsToLNuHT40To100MLNu0To120",
+                "WJetsToLNuHT100To400MLNu0To120",
+                "WJetsToLNuHT400To800MLNu0To120",
+                "WJetsToLNuHT800To1500MLNu0To120",
+                "WJetsToLNuHT1500To2500MLNu0To120",
+                "WJetsToLNuHT2500MLNu0To120",
+                "WJetsToLNuHT40To100MLNu120",
+                "WJetsToLNuHT100To400MLNu120",
+                "WJetsToLNuHT400To800MLNu120",
+                "WJetsToLNuHT800To1500MLNu120",
+                "WJetsToLNuHT1500To2500MLNu120",
+                "WJetsToLNuHT2500MLNu120",
+                "ST_t_channel_top",
+                "ST_t_channel_antitop",
+            ],
             "samples_exclude" : [],
             "year": ['2018','2016_PreVFP', '2016_PostVFP', '2017',
                 '2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix'], 
@@ -64,6 +91,7 @@ cfg = Configurator(
             "inclusive": ["genWeight","lumi","XS",
                           "pileup",
                           "sf_mu_id","sf_mu_iso",
+                          "WJetsRun2Stitching", "WJetsRun3Stitching"
                           ],
             "bycategory" : {
             }
@@ -88,19 +116,16 @@ cfg = Configurator(
     columns = {
         "common": {
             "inclusive": [
-                # ColOut(
-                #     "MET",
-                #     ["pt", "phi", 
-                #     'fiducialGenPhi', 'fiducialGenPt'],
-                #     flatten=False
-                # ),
-                # Save the Gen-level data:
+                ColOut(
+                    "MET",
+                    ["pt", "phi", 'fiducialGenPhi', 'fiducialGenPt'],
+                    flatten=False
+                ),
                 ColOut(
                     "GenTop_AK8",
                     ["pt", "eta", "phi", "mass"],
                     flatten=False
                 ),
-                # Save the Reco data:
                 ColOut(
                     "FatJet",
                     ["pt", "eta", "phi", "mass", 'jetId', 'nConstituents', 'subJetIdx1', 'subJetIdx2', 'btagDDBvLV2', 'btagDDCvBV2', 'btagDDCvLV2', 'btagDeepB', 'btagHbb', 'msoftdrop', 'tau1', 'tau2', 'tau3', 'tau4', 'lsf3', 'hadronFlavour', 'nBHadrons', 'nCHadrons', 'genJetAK8Idx', 'genJetAK8IdxG', 'subJetIdx1G', 'subJetIdx2G', 'subJetIdxG'],
@@ -121,12 +146,45 @@ cfg = Configurator(
                     ["pt", "eta", "phi", "mass"],
                     flatten=False
                 ),
-                # Save the matched data
+                ColOut(
+                    "GenTop1",
+                    ["pt", "eta", "phi", "mass"],
+                    flatten=False
+                ),
+                ColOut(
+                    "GenTop2",
+                    ["pt", "eta", "phi", "mass"],
+                    flatten=False
+                ),
                 ColOut(
                     "MatchedTop_AK8",
                     ["pt", "eta", "phi", "mass"],
                     flatten=False
-                ) 
+                ),
+                ColOut(
+                    "BJet_HighestPt",
+                    ["pt", "eta", "phi", "mass"],
+                    flatten=False
+                ),
+                ColOut(
+                    "BJet_ClosestToLepton",
+                    ["pt", "eta", "phi", "mass"],
+                    flatten=False
+                ),
+                ColOut(
+                  "LeptonSave",
+                  ["pt", "eta", "phi", "mass", "leptonType"]
+                ),
+                ColOut(
+                    "LNu",
+                    ["mass"],
+                    flatten=False
+                ),
+                ColOut(
+                    "LHE",
+                    ["HT"],
+                    flatten=False
+                ),
             ],
             "bycategory": {},
         },
