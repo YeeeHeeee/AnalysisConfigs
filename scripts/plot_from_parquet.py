@@ -14,7 +14,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--input', "-i", help='The input folder of the parquet files', type=str, default="output_merged_v3")
 parser.add_argument('--output', "-o", help='The output plot directory', type=str, default="./")
 parser.add_argument('--var', help='The name of the variable', type=str, default=None)
-parser.add_argument('--bins', help='The name of the variable', type=str, default="(0, 200, 100)")
+parser.add_argument('--bins', help='The name of the variable', type=str, default="auto")
 parser.add_argument('--year', help='The name of the year', type=str, default="all")
 parser.add_argument('--cms-label', help='The cms label for the plot', type=str, default="Work in progress")
 parser.add_argument('--num-bins', help='The number of bins if bins=auto', type=int, default=50)
@@ -24,16 +24,16 @@ if args.year == "all":
   wildcard = "*"
   lumi_label = "$202\ fb^{-1}\ (13,13.6\ TeV)$"
 elif args.year == "run2":
-  wildcard = ["*2016_preVFP", "*2016_postVFP", "*2017", "*2018"]
+  wildcard = ["*2016_PreVFP", "*2016_PostVFP", "*2017", "*2018"]
   lumi_label = "$138\ fb^{-1}\ (13\ TeV)$"
 elif args.year == "run3":
   wildcard = ["*2022_preEE", "*2022_postEE", "*2023_preBPix", "*2023_postBPix"]
   lumi_label = "$63.8\ fb^{-1}\ (13.6\ TeV)$"
-elif args.year == "2016_preVFP":
-  wildcard = "*2016_preVFP"
+elif args.year == "2016_PreVFP":
+  wildcard = "*2016_PreVFP"
   lumi_label = "$19.6\ fb^{-1}\ (13\ TeV)$"
-elif args.year == "2016_postVFP":
-  wildcard = "*2016_postVFP"
+elif args.year == "2016_PostVFP":
+  wildcard = "*2016_PostVFP"
   lumi_label = "$17.0\ fb^{-1}\ (13\ TeV)$"
 elif args.year == "2017":
   wildcard = "*2017"
@@ -57,10 +57,10 @@ else:
   raise ValueError(f"Unknown year: {args.year}. Please specify a valid year.")
 
 groups = {
-  "TTToSemiLeptonic": ["TTToSemiLeptonic_*.parquet"],
-  "TTTo2L2Nu": ["TTTo2L2Nu_*.parquet"],
-  "TTToHadronic": ["TTToHadronic_*.parquet"],
-  "WJetsToLNu": ["WJetsToLNu_*.parquet"],
+  #"TTToSemiLeptonic": ["TTToSemiLeptonic_*.parquet"],
+  #"TTTo2L2Nu": ["TTTo2L2Nu_*.parquet"],
+  #"TTToHadronic": ["TTToHadronic_*.parquet"],
+  "WJetsToLNu": ["WJetsToLNu_*.parquet","WJetsToLNuHT*.parquet"],
 }
 
 colours = {
@@ -84,7 +84,8 @@ if args.var is None:
 
 if "(" in args.bins:
   bin_vals = args.bins.split("(")[1].split(")")[0].split(",")
-  bins = np.linspace(float(bin_vals[0]), float(bin_vals[1]), num=int(bin_vals[2]))
+  bins = np.arange(float(bin_vals[0]), float(bin_vals[1]), int(bin_vals[2]))
+  #bins = np.linspace(float(bin_vals[0]), float(bin_vals[1]), num=int(bin_vals[2]))
 elif "[" in args.bins:
   bins = np.array([float(i) for i in args.bins.split("[")[1].split("]")[0].split(',')])
 elif args.bins == "auto":
@@ -286,7 +287,6 @@ def plot_stacked_histogram_with_ratio(
   plt.savefig(name+".pdf")
   plt.close()
 
-
 hists = {}
 hists_squared = {}
 first = True
@@ -297,7 +297,7 @@ for f in files:
 
   for k, v in groups.items():
     for fn in v:
-      if fnmatch.fnmatch(f.split("/")[1], fn):
+      if fnmatch.fnmatch(f.split("/")[-1], fn):
         if k not in hists:
           hists[k] = hist
           hists_squared[k] = hist_squared

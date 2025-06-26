@@ -31,6 +31,8 @@ files = list(set(files))
 sum_wts_dict = {}
 for file in files:
 
+  print(f"Processing file: {file}")
+
   # Check if the file exists
   if not os.path.exists(file):
     print(f"File {file} does not exist.")
@@ -44,8 +46,6 @@ for file in files:
     if year_name not in sum_wts_dict:
       sum_wts_dict[year_name] = 0.0
     sum_wts_dict[year_name] += hist_dict["sum_genweights"][year_name]
-
-
 
 # Get datasets
 for file in files:
@@ -107,4 +107,5 @@ for file in files:
             combined_table = pa.concat_tables([pq.read_table(file_name), table])
             pq.write_table(combined_table, file_name, compression='snappy')
           else:
+            print("Creating file:", file_name)
             pq.write_table(table, file_name, compression='snappy')
