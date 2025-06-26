@@ -53,4 +53,4 @@ HLT_triggers:
     SingleEle:
       - Ele30_WPTight_Gsf
     SingleMuon:  
-      - IsoMu24_v
+      - IsoMu24
