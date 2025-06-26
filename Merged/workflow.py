@@ -107,14 +107,13 @@ class ttBaseProcessor_merge(BaseProcessorABC):
  ###########################################################################
         # Change data type:
        fatjet = to_singleton_jet(self.events["FatJet"])
-       GenTop_AK8 = to_singleton_jet(self.events["GenTop_AK8"])
-
  ########################################################################### 
         # Match the AK8 to the GenJetAK8 jets and GenPart objects:
-       self.events["MatchedTop_AK81"], self.events["MatchedGenTop_AK8"], deltaR_padnon = object_matching(
-            fatjet, GenTop_AK8, dr_min = 0.8)  
-       self.events["MatchedTop_AK8"] = ak.firsts(self.events["MatchedTop_AK81"])
-    #    self.events["MatchedTop_Part"] = ak.firsts(self.events["MatchedTop_Part1"])
+       if self._isMC:
+            GenTop_AK8 = to_singleton_jet(self.events["GenTop_AK8"])
+            self.events["MatchedTop_AK81"], self.events["MatchedGenTop_AK8"], deltaR_padnon = object_matching(
+                    fatjet, GenTop_AK8, dr_min = 0.8)  
+            self.events["MatchedTop_AK8"] = ak.firsts(self.events["MatchedTop_AK81"])
 
     def count_objects(self, variation):
         self.events["nMuonGood"] = ak.num(self.events.MuonGood)
