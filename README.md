@@ -65,7 +65,10 @@ voms-proxy-init -voms cms -rfc --valid 168:0
 ```
 Then run:
 ```bash
-pocket-coffea build-datasets --cfg Datasets/datasets_definitions.json -o
+pocket-coffea build-datasets --cfg Datasets/data_definitions.json -o
+```
+```bash
+pocket-coffea build-datasets --cfg Datasets/mc_definitions.json -o
 ```
 Check:
 ```bash

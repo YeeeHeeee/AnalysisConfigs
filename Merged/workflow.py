@@ -112,6 +112,7 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         # Change data type
         fatjet = to_singleton_jet(self.events["FatJet"])
 
+        dummy_candidate = ak.zip({"pt":-999.0*np.ones(len(self.events)), "eta":-999.0*np.ones(len(self.events)), "phi":-999.0*np.ones(len(self.events)), "mass":-999.0*np.ones(len(self.events))}, with_name="PtEtaPhiMCandidate")
         if self._isMC:
             # Add GenTop information
             self.events["GenTop_AK8"] = ak.firsts(self.events["GenJetAK8"])
@@ -141,16 +142,15 @@ class ttBaseProcessor_merge(BaseProcessorABC):
                 }
                 self.events["LNu"] = ak.firsts(ak.zip(fields, with_name="PtEtaPhiMCandidate"))   
             else:
-                self.events["LNu"] = ak.zip({"mass": -999.0*np.ones(len(self.events))}, with_name="PtEtaPhiMCandidate")
+                self.events["LNu"] = dummy_candidate
         else:
-            # Fill with None for data (not MC)
-            self.events["GenTop_AK8"] = ak.Array([None] * len(self.events))
-            self.events["GenTop1"] = ak.Array([None] * len(self.events))
-            self.events["GenTop2"] = ak.Array([None] * len(self.events))
-            self.events["MatchedTop_AK81"] = ak.Array([None] * len(self.events))
-            self.events["MatchedTop_AK8"] = ak.Array([None] * len(self.events))
-            self.events["LNu"] = ak.Array([None] * len(self.events))
-            self.events["LHE"] = ak.Array([None] * len(self.events))
+            self.events["GenTop_AK8"] = dummy_candidate
+            self.events["GenTop1"] = dummy_candidate
+            self.events["GenTop2"] = dummy_candidate
+            self.events["MatchedTop_AK81"] = dummy_candidate
+            self.events["MatchedTop_AK8"] = dummy_candidate
+            self.events["LNu"] = dummy_candidate
+            self.events["LHE"] = ak.zip({"HT":-999.0*np.ones(len(self.events))})
             
 
         # Highest pT b jet

@@ -42,10 +42,11 @@ for file in files:
   hist_dict = cu.load(file)
 
   # Get the sum of gen weights
-  for year_name in hist_dict["sum_genweights"].keys():
-    if year_name not in sum_wts_dict:
-      sum_wts_dict[year_name] = 0.0
-    sum_wts_dict[year_name] += hist_dict["sum_genweights"][year_name]
+  if "sum_genweights" in hist_dict:
+    for year_name in hist_dict["sum_genweights"].keys():
+      if year_name not in sum_wts_dict:
+        sum_wts_dict[year_name] = 0.0
+      sum_wts_dict[year_name] += hist_dict["sum_genweights"][year_name]
 
 # Get datasets
 for file in files:
@@ -93,8 +94,11 @@ for file in files:
                 data_dict[f"{column_name}_{i+1}"] = arr.value[:,i]
           df = pd.DataFrame(data_dict)
 
-          # Normalise the weights if cfg is provided
-          df.loc[:,"weight"] /= sum_wts_dict[year_name]
+          if "DATA" not in year_name:
+            # Add the sum of weights
+            df.loc[:,"weight"] /= sum_wts_dict[year_name]
+          else:
+            df.loc[:,"weight"] = 1.0
 
           # Print the dataframe if verbose
           if args.verbose:

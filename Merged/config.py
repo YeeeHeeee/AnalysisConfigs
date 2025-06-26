@@ -39,14 +39,20 @@ common_weights = common_weights + WJetsRun2Stitching + WJetsRun3Stitching
 cfg = Configurator(
     parameters = parameters,
     datasets = {
-        "jsons": [f"{localdir}/../Datasets/signals_MC_ttbar.json",
-                  f"{localdir}/../Datasets/backgrounds_MC_ttbar.json"],
+        "jsons": [
+            f"{localdir}/../Datasets/signals_MC_ttbar.json",
+            f"{localdir}/../Datasets/backgrounds_MC_ttbar.json",
+            f"{localdir}/../Datasets/DATA_SingleMuon.json",
+            f"{localdir}/../Datasets/DATA_SingleEle.json",
+        ],
         "filter" : {
             "samples": [
+                "DATA_SingleMuon",
+                "DATA_SingleEle",
                 "TTToSemiLeptonic",
                 "TTTo2L2Nu",
                 "TTToHadronic",
-                "WJetsToLNu"
+                "WJetsToLNu",
                 "WJetsToLNuHT7OTo100",
                 "WJetsToLNuHT100To200",
                 "WJetsToLNuHT200To400",
@@ -70,7 +76,15 @@ cfg = Configurator(
                 "ST_t_channel_antitop",
             ],
             "samples_exclude" : [],
-            "year": ['2018','2016_PreVFP', '2016_PostVFP', '2017', '2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix']
+            "year": ['2016_PreVFP', '2016_PostVFP', '2017', '2018', '2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix']
+        },
+        "subsamples": {
+            'DATA_SingleEle'  : {
+                'DATA_SingleEle' : [get_HLTsel(primaryDatasets=["SingleEle"])]
+            },
+            'DATA_SingleMuon' : {
+                'DATA_SingleMuon' : [get_HLTsel(primaryDatasets=["SingleMuon"]), get_HLTsel(primaryDatasets=["SingleEle"], invert=True)]
+            },
         }
     },
 
@@ -120,7 +134,7 @@ cfg = Configurator(
             "inclusive": [
                 ColOut(
                     "MET",
-                    ["pt", "phi", 'fiducialGenPhi', 'fiducialGenPt'],
+                    ["pt", "phi"],
                     flatten=False
                 ),
                 ColOut(
@@ -130,17 +144,17 @@ cfg = Configurator(
                 ),
                 ColOut(
                     "FatJet",
-                    ["pt", "eta", "phi", "mass", 'jetId', 'nConstituents', 'subJetIdx1', 'subJetIdx2', 'btagDDBvLV2', 'btagDDCvBV2', 'btagDDCvLV2', 'btagDeepB', 'btagHbb', 'msoftdrop', 'tau1', 'tau2', 'tau3', 'tau4', 'lsf3', 'hadronFlavour', 'nBHadrons', 'nCHadrons', 'genJetAK8Idx', 'genJetAK8IdxG', 'subJetIdx1G', 'subJetIdx2G', 'subJetIdxG'],
+                    ["pt", "eta", "phi", "mass", 'jetId', 'nConstituents', 'btagDDBvLV2', 'btagDDCvBV2', 'btagDDCvLV2', 'btagDeepB', 'msoftdrop', 'tau1', 'tau2', 'tau3', 'tau4', 'lsf3'],
                     flatten=False
                 ),
                 ColOut(
                     "SubJet1",
-                    ['btagDeepB', 'eta', 'mass', 'n2b1', 'n3b1', 'phi', 'pt', 'rawFactor', 'tau1', 'tau2', 'tau3', 'tau4', 'hadronFlavour', 'nBHadrons', 'nCHadrons'],
+                    ['btagDeepB', 'eta', 'mass', 'n2b1', 'n3b1', 'phi', 'pt', 'rawFactor', 'tau1', 'tau2', 'tau3', 'tau4'],
                     flatten=False
                 ),
                 ColOut(
                     "SubJet2",
-                    ['btagDeepB', 'eta', 'mass', 'n2b1', 'n3b1', 'phi', 'pt', 'rawFactor', 'tau1', 'tau2', 'tau3', 'tau4', 'hadronFlavour', 'nBHadrons', 'nCHadrons'],
+                    ['btagDeepB', 'eta', 'mass', 'n2b1', 'n3b1', 'phi', 'pt', 'rawFactor', 'tau1', 'tau2', 'tau3', 'tau4'],
                     flatten=False
                 ),
                 ColOut(
@@ -174,8 +188,9 @@ cfg = Configurator(
                     flatten=False
                 ),
                 ColOut(
-                  "LeptonSave",
-                  ["pt", "eta", "phi", "mass", "leptonType"]
+                    "LeptonSave",
+                    ["pt", "eta", "phi", "mass", "leptonType"],
+                    flatten=False
                 ),
                 ColOut(
                     "LNu",
