@@ -12,8 +12,6 @@ object_preselection:
     id1: mvaFall17V2Iso_WP80
     id2: mvaIso_WP80
 
-    
-
   Jet:
     dr_lepton: 0.4
     pt: 30
