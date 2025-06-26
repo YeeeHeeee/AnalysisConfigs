@@ -70,19 +70,21 @@ cfg = Configurator(
                 "ST_t_channel_antitop",
             ],
             "samples_exclude" : [],
-            "year": ['2018','2016_PreVFP', '2016_PostVFP', '2017',
-                '2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix'], 
+            "year": ['2018','2016_PreVFP', '2016_PostVFP', '2017', '2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix']
         }
     },
 
     workflow = ttBaseProcessor_merge,
 
-    skim = [get_nPVgood(4), goldenJson], 
-    
+    skim = [get_nPVgood(1), eventFlags, goldenJson,
+            get_HLTsel(primaryDatasets=["SingleMuon", "SingleEle"]),
+            ],
+        
     preselections = [semileptonic_presel_merge],
     categories = {
         "baseline": [passthrough],
     },
+
 
     weights_classes = common_weights,
     
@@ -104,8 +106,8 @@ cfg = Configurator(
         "weights": {
             "common": {
                 "inclusive": ["pileup",
-                                "sf_mu_id", "sf_mu_iso"
-                              ],
+                                "sf_mu_id", "sf_mu_iso",
+                              ], 
                 "bycategory" : {
                 }
             },
