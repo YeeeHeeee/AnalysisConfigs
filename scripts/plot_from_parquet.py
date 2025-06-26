@@ -61,6 +61,7 @@ groups = {
   "TTTo2L2Nu": ["TTTo2L2Nu_*.parquet"],
   "TTToHadronic": ["TTToHadronic_*.parquet"],
   "WJetsToLNu": ["WJetsToLNu_*.parquet","WJetsToLNuHT*.parquet"],
+  "ST": ["ST_t_channel_top_*.parquet", "ST_t_channel_antitop_*.parquet"], 
 }
 
 colours = {
@@ -68,6 +69,7 @@ colours = {
   "TTTo2L2Nu": "orange",
   "TTToHadronic": "green",
   "WJetsToLNu": "red",
+  "ST": "purple",
 }
 
 if isinstance(wildcard, str):
@@ -308,6 +310,8 @@ for f in files:
 uncerts = np.sqrt(np.sum(np.array(list(hists_squared.values())), axis=0))
 
 hists = {k: hists[k] for k in list(groups.keys())[::-1] if k in hists}
+
+print("Predicted events:", np.sum(np.array(list(hists.values()))))
 
 plot_stacked_histogram_with_ratio(
   None,
