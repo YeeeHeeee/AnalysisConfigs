@@ -120,6 +120,12 @@ After submitting, to merge the files:
 pocket-coffea merge-outputs -o output_condor/output_all.coffea -jc jobs-dir/job/jobs_config.yaml output_condor/output_job_*.coffea
 ```
 
+If there are problems with the running of your jobs on the batch system, you can check and resubmit the jobs by:
+```bash
+python3 scripts/check_jobs --jobs-folder="jobs-dir/job/" --resubmit
+```
+
+
 ## Others
 1. Removee files:
 ```bash

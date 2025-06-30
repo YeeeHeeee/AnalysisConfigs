@@ -27,11 +27,15 @@ for f in input_files:
     files += [f]
 files = list(set(files))
 
+# If number at end of file (minus .coffea), sort by that
+files.sort(key=lambda x: int(x.split("_")[-1].split(".")[0]) if x.split("_")[-1].split(".")[0].isdigit() else 0)
+
+
 # Get sum of weights
 sum_wts_dict = {}
 for file in files:
 
-  print(f"Processing file: {file}")
+  print(f"Processing file for sum of gen weights: {file}")
 
   # Check if the file exists
   if not os.path.exists(file):
@@ -50,6 +54,8 @@ for file in files:
 
 # Get datasets
 for file in files:
+
+  print(f"Processing file for dataset: {file}")
 
   # Check if the file exists
   if not os.path.exists(file):

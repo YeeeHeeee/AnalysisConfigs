@@ -117,13 +117,17 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             # Add GenTop information
             self.events["GenTop_AK8"] = ak.firsts(self.events["GenJetAK8"])
             GenTop_AK8 = to_singleton_jet(self.events["GenTop_AK8"])
+            self.events["GenTop_AK8"] = ak.where(
+                ak.is_none(GenTop_AK8),
+                dummy_candidate,
+                GenTop_AK8,
+            )
             self.events["GenTop"] = self.events["GenPart"][((np.abs(self.events["GenPart"].pdgId) == 6) & ((self.events["GenPart"].statusFlags & (1 << 13)) > 0))]
             self.events["GenTop1"] = ak.pad_none(self.events["GenTop"], 2, axis=1)[:, 0]
             self.events["GenTop2"] = ak.pad_none(self.events["GenTop"], 2, axis=1)[:, 1]
             self.events["GenTop_AK8"] = ak.firsts(self.events["GenJetAK8"])
             self.events["MatchedTop_AK81"], self.events["MatchedGenTop_AK8"], deltaR_padnon = object_matching(fatjet, GenTop_AK8, dr_min = 0.8)  
             self.events["MatchedTop_AK8"] = ak.firsts(self.events["MatchedTop_AK81"])
-
             # Get the LNu for W + jets samples
             if self.events.metadata["sample"].startswith("WJetsToLNu"):
                 l_mask = (self.events["LHEPart"].pdgId == 11) | (self.events["LHEPart"].pdgId == -11) | \
