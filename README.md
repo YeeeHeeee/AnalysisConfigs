@@ -122,7 +122,7 @@ pocket-coffea merge-outputs -o output_condor/output_all.coffea -jc jobs-dir/job/
 
 If there are problems with the running of your jobs on the batch system, you can check and resubmit the jobs by:
 ```bash
-python3 scripts/check_jobs --jobs-folder="jobs-dir/job/" --resubmit
+python3 scripts/check_jobs.py --jobs-folder="jobs-dir/job/" --resubmit
 ```
 
 
