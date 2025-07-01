@@ -1,3 +1,5 @@
 from Functions.JetsCom import bjj_deltaR, bjj_deltaM, to_singleton_jet, combine_jets
 from Functions.OpenFiles import extract_dataframes,  extract_combined_dfs
 from Functions.Leptons import lepton_selection
+from Functions.WJetsRun2StitchingWeights import WJetsRun2Stitching
+from Functions.WJetsRun3StitchingWeights import WJetsRun3Stitching

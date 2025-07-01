@@ -27,9 +27,15 @@ for f in input_files:
     files += [f]
 files = list(set(files))
 
+# If number at end of file (minus .coffea), sort by that
+files.sort(key=lambda x: int(x.split("_")[-1].split(".")[0]) if x.split("_")[-1].split(".")[0].isdigit() else 0)
+
+
 # Get sum of weights
 sum_wts_dict = {}
 for file in files:
+
+  print(f"Processing file for sum of gen weights: {file}")
 
   # Check if the file exists
   if not os.path.exists(file):
@@ -40,15 +46,16 @@ for file in files:
   hist_dict = cu.load(file)
 
   # Get the sum of gen weights
-  for year_name in hist_dict["sum_genweights"].keys():
-    if year_name not in sum_wts_dict:
-      sum_wts_dict[year_name] = 0.0
-    sum_wts_dict[year_name] += hist_dict["sum_genweights"][year_name]
-
-
+  if "sum_genweights" in hist_dict:
+    for year_name in hist_dict["sum_genweights"].keys():
+      if year_name not in sum_wts_dict:
+        sum_wts_dict[year_name] = 0.0
+      sum_wts_dict[year_name] += hist_dict["sum_genweights"][year_name]
 
 # Get datasets
 for file in files:
+
+  print(f"Processing file for dataset: {file}")
 
   # Check if the file exists
   if not os.path.exists(file):
@@ -93,8 +100,11 @@ for file in files:
                 data_dict[f"{column_name}_{i+1}"] = arr.value[:,i]
           df = pd.DataFrame(data_dict)
 
-          # Normalise the weights if cfg is provided
-          df.loc[:,"weight"] /= sum_wts_dict[year_name]
+          if "DATA" not in year_name:
+            # Add the sum of weights
+            df.loc[:,"weight"] /= sum_wts_dict[year_name]
+          else:
+            df.loc[:,"weight"] = 1.0
 
           # Print the dataframe if verbose
           if args.verbose:
@@ -107,4 +117,5 @@ for file in files:
             combined_table = pa.concat_tables([pq.read_table(file_name), table])
             pq.write_table(combined_table, file_name, compression='snappy')
           else:
+            print("Creating file:", file_name)
             pq.write_table(table, file_name, compression='snappy')

@@ -65,7 +65,10 @@ voms-proxy-init -voms cms -rfc --valid 168:0
 ```
 Then run:
 ```bash
-pocket-coffea build-datasets --cfg Datasets/datasets_definitions.json -o
+pocket-coffea build-datasets --cfg Datasets/data_definitions.json -o
+```
+```bash
+pocket-coffea build-datasets --cfg Datasets/mc_definitions.json -o
 ```
 Check:
 ```bash
@@ -116,6 +119,12 @@ After submitting, to merge the files:
 ```bash
 pocket-coffea merge-outputs -o output_condor/output_all.coffea -jc jobs-dir/job/jobs_config.yaml output_condor/output_job_*.coffea
 ```
+
+If there are problems with the running of your jobs on the batch system, you can check and resubmit the jobs by:
+```bash
+python3 scripts/check_jobs.py --jobs-folder="jobs-dir/job/" --resubmit
+```
+
 
 ## Others
 1. Removee files:

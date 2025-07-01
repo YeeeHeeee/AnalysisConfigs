@@ -14,7 +14,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--input', "-i", help='The input folder of the parquet files', type=str, default="output_merged_v3")
 parser.add_argument('--output', "-o", help='The output plot directory', type=str, default="./")
 parser.add_argument('--var', help='The name of the variable', type=str, default=None)
-parser.add_argument('--bins', help='The name of the variable', type=str, default="(0, 200, 100)")
+parser.add_argument('--sel', help='A selection to apply', type=str, default=None)
+parser.add_argument('--bins', help='The name of the variable', type=str, default="auto")
 parser.add_argument('--year', help='The name of the year', type=str, default="all")
 parser.add_argument('--cms-label', help='The cms label for the plot', type=str, default="Work in progress")
 parser.add_argument('--num-bins', help='The number of bins if bins=auto', type=int, default=50)
@@ -24,43 +25,46 @@ if args.year == "all":
   wildcard = "*"
   lumi_label = "$202\ fb^{-1}\ (13,13.6\ TeV)$"
 elif args.year == "run2":
-  wildcard = ["*2016_preVFP", "*2016_postVFP", "*2017", "*2018"]
+  wildcard = ["*2016_PreVFP*", "*2016_PostVFP*", "*2017*", "*2018*"]
   lumi_label = "$138\ fb^{-1}\ (13\ TeV)$"
 elif args.year == "run3":
-  wildcard = ["*2022_preEE", "*2022_postEE", "*2023_preBPix", "*2023_postBPix"]
+  wildcard = ["*2022_preEE*", "*2022_postEE*", "*2023_preBPix*", "*2023_postBPix*"]
   lumi_label = "$63.8\ fb^{-1}\ (13.6\ TeV)$"
-elif args.year == "2016_preVFP":
-  wildcard = "*2016_preVFP"
+elif args.year == "2016_PreVFP":
+  wildcard = "*2016_PreVFP*"
   lumi_label = "$19.6\ fb^{-1}\ (13\ TeV)$"
-elif args.year == "2016_postVFP":
-  wildcard = "*2016_postVFP"
+elif args.year == "2016_PostVFP":
+  wildcard = "*2016_PostVFP*"
   lumi_label = "$17.0\ fb^{-1}\ (13\ TeV)$"
 elif args.year == "2017":
-  wildcard = "*2017"
+  wildcard = "*2017*"
   lumi_label = "$41.5\ fb^{-1}\ (13\ TeV)$"
 elif args.year == "2018":
-  wildcard = "*2018"
+  wildcard = "*2018*"
   lumi_label = "$59.8\ fb^{-1}\ (13\ TeV)$"
 elif args.year == "2022_preEE":
-  wildcard = "*2022_preEE"
+  wildcard = "*2022_preEE*"
   lumi_label = "$7.98\ fb^{-1}\ (13.6\ TeV)$"
 elif args.year == "2022_postEE":
-  wildcard = "*2022_postEE"
+  wildcard = "*2022_postEE*"
   lumi_label = "$26.7\ fb^{-1}\ (13.6\ TeV)$"
 elif args.year == "2023_preBPix":
-  wildcard = "*2023_preBPix"
+  wildcard = "*2023_preBPix*"
   lumi_label = "$17.7\ fb^{-1}\ (13.6\ TeV)$"
 elif args.year == "2023_postBPix":
-  wildcard = "*2023_postBPix"
+  wildcard = "*2023_postBPix*"
   lumi_label = "$9.45\ fb^{-1}\ (13.6\ TeV)$"
 else:
   raise ValueError(f"Unknown year: {args.year}. Please specify a valid year.")
 
+
 groups = {
+  "Data": ["DATA_*.parquet"],
   "TTToSemiLeptonic": ["TTToSemiLeptonic_*.parquet"],
   "TTTo2L2Nu": ["TTTo2L2Nu_*.parquet"],
   "TTToHadronic": ["TTToHadronic_*.parquet"],
-  "WJetsToLNu": ["WJetsToLNu_*.parquet"],
+  "WJetsToLNu": ["WJetsToLNu_*.parquet","WJetsToLNuHT*.parquet"],
+  "ST": ["ST_t_channel_top_*.parquet", "ST_t_channel_antitop_*.parquet"], 
 }
 
 colours = {
@@ -68,6 +72,7 @@ colours = {
   "TTTo2L2Nu": "orange",
   "TTToHadronic": "green",
   "WJetsToLNu": "red",
+  "ST": "purple",
 }
 
 if isinstance(wildcard, str):
@@ -84,7 +89,7 @@ if args.var is None:
 
 if "(" in args.bins:
   bin_vals = args.bins.split("(")[1].split(")")[0].split(",")
-  bins = np.linspace(float(bin_vals[0]), float(bin_vals[1]), num=int(bin_vals[2]))
+  bins = np.arange(float(bin_vals[0]), float(bin_vals[1]), float(bin_vals[2]))
 elif "[" in args.bins:
   bins = np.array([float(i) for i in args.bins.split("[")[1].split("]")[0].split(',')])
 elif args.bins == "auto":
@@ -283,6 +288,7 @@ def plot_stacked_histogram_with_ratio(
   # Show the plot
   print("Created "+name+".pdf")
   os.makedirs(os.path.dirname(name+".pdf"), exist_ok=True)
+  plt.savefig(name+".png")
   plt.savefig(name+".pdf")
   plt.close()
 
@@ -292,12 +298,14 @@ hists_squared = {}
 first = True
 for f in files:
   df = pd.read_parquet(f)
+  if args.sel is not None:
+    df = df.query(args.sel)
   hist, bins = np.histogram(df.loc[:,args.var], bins=bins, weights=df.loc[:,"weight"], density=False)
   hist_squared, bins = np.histogram(df.loc[:,args.var], bins=bins, weights=df.loc[:,"weight"]**2, density=False)
 
   for k, v in groups.items():
     for fn in v:
-      if fnmatch.fnmatch(f.split("/")[1], fn):
+      if fnmatch.fnmatch(f.split("/")[-1], fn):
         if k not in hists:
           hists[k] = hist
           hists_squared[k] = hist_squared
@@ -305,19 +313,32 @@ for f in files:
           hists[k] += hist
           hists_squared[k] += hist_squared
 
+if "Data" in hists:
+  data_hist = hists["Data"]
+  data_uncert = np.sqrt(hists_squared["Data"])
+  data_name = "Data"
+else:
+  data_hist = None
+  data_uncert = None
+  data_name = None
+
+hists = {k: hists[k] for k in list(groups.keys())[::-1] if k in hists and k != "Data"}
+hists_squared = {k: v for k, v in hists_squared.items() if k in hists and k != "Data"}
+
 uncerts = np.sqrt(np.sum(np.array(list(hists_squared.values())), axis=0))
 
-hists = {k: hists[k] for k in list(groups.keys())[::-1] if k in hists}
+print("Predicted events:", np.sum(np.array(list(hists.values()))))
+print("Data events:", np.sum(data_hist))
 
 plot_stacked_histogram_with_ratio(
-  None,
+  data_hist,
   hists,
   bins,
-  data_name=None,
+  data_name=data_name,
   xlabel=args.var,
   ylabel="Events",
   name=os.path.join(args.output, f"distribution_{args.var}_{args.year}"),
-  data_errors=None,
+  data_errors=data_uncert,
   stack_hist_errors=uncerts,
   stack_hist_errors_asym=None,
   use_stat_err=False,
