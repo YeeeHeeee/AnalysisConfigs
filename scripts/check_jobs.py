@@ -88,9 +88,10 @@ def check_jobs_logs(jobs_folder):
 @click.option("-r","--resubmit", is_flag=True, help="Resubmit the failed jobs")
 @click.option("--max-resubmit", type=int, help="Maximum number of resubmission", default=3)
 @click.option("--set-to-fail", is_flag=True, help="Set all jobs to failed. Use with caution!")
+@click.option("--extra-time", is_flag=True, help="Run all failed jobs with extra time")
 
 
-def check_jobs(jobs_folder, details, resubmit, max_resubmit, set_to_fail):
+def check_jobs(jobs_folder, details, resubmit, max_resubmit, set_to_fail, extra_time):
     
     jobs_folder = Path(jobs_folder)
     # Get the list of files in the folder
@@ -157,6 +158,32 @@ def check_jobs(jobs_folder, details, resubmit, max_resubmit, set_to_fail):
                                 log_text.append( f"Error in job {failed_job}: No log file found")
 
                             if resubmit and failed_jobs_stats[failed_job] <= max_resubmit:
+                                                                  
+                                sub_file = f"{jobs_folder}/{failed_job}.sub"
+                                if extra_time:
+                                    with open(sub_file) as f:
+                                        lines = f.readlines()
+                                    with open(sub_file, "w") as f:
+                                        for line in lines:
+                                            if "+MaxRuntime" in line:
+                                                f.write(f'+MaxRuntime = 35999\n')
+                                            else:
+                                                f.write(line)
+
+                                # Check the proxy
+                                job_file = f"{jobs_folder}/job.sh"
+                                with open(job_file) as f:
+                                    lines = f.readlines()
+                                    for line in lines:
+                                        if "X509_USER_PROXY" in line:
+                                            print("Here")
+                                            proxy_path = line.split("=")[-1].strip()
+                                            if not os.path.exists(proxy_path):
+                                                print(f"Proxy file {proxy_path} does not exist. Reset by runnning")
+                                                print(f"voms-proxy-init -voms cms --valid 192:00 -out {proxy_path}")
+                                                exit(1)
+                                            continue
+
                                 os.system(f"rm {jobs_folder}/{failed_job}.failed")
                                 os.system(f"touch {jobs_folder}/{failed_job}.idle")
                                 os.system(f"cd {jobs_folder} && condor_submit {failed_job}.sub")
@@ -164,44 +191,6 @@ def check_jobs(jobs_folder, details, resubmit, max_resubmit, set_to_fail):
                                 # Add it to the list of jobs that are definitely failed
                                 definitive_failed.append(failed_job)
 
-
-                # checked in the logs for SYSTEM_PERIODIC_REMOVE
-                # They are not failed but remain running
-                log_file = glob.glob(f"{jobs_folder}/logs/job_*.log")[0]
-                with open(log_file) as f:
-                    c = f.readlines()
-                    for il, line in enumerate(c):
-                        if line.startswith("009"):
-                            # Match with a regex the job id from this
-                            # line format "005 (5189350.010.000) 11/15 21:29:13 Job aborted
-                            pattern = re.compile(r"\((\d+)\.(\d+)\.\d+\)")
-                            match = pattern.search(line)
-                            if match:
-                                job_id = match.group(2)
-                                if job_id in running_jobs:
-                                    running_jobs.remove(f"job_{job_id}")
-                                    failed_jobs.append(f"job_{job_id}")
-                                    os.system(f"rm {jobs_folder}/job_{job_id}.running")
-                                    os.system(f"touch {jobs_folder}/job_{job_id}.failed")
-                                    # Modify the sub file
-                                    # Check if next line has SYSTEM_PERIODIC_REMOVE
-                                    if not "Job held by SYSTEM_PERIODIC_HOLD due to wall time exceeded" in c[il+1]:
-                                        log_text.append(f"Job {job_id} was aborted by condor. Check the log file for more details")
-                                    else:
-                                        log_text.append(f"Job {job_id} was removed by the system by max-time reached. Resubmitting the job with longer queue.")
-                                        continue
-                                    sub_file = f"{jobs_folder}/job_{i}.sub"
-                                    with open(sub_file) as f:
-                                        lines = f.readlines()
-                                    with open(sub_file, "w") as f:
-                                        for line in lines:
-                                            if "+MaxRuntime" in line:
-                                                f.write(f'+MaxRuntime = "35999"\n')
-                                            else:
-                                                f.write(line)
-
-                                    os.system(f"cd {jobs_folder} && condor_submit job_{i}.sub")
-                                    os.system(f"touch {jobs_folder}/job_{i}.idle")
 
                 if len(log_text):
                     if len(log_text) > 20:
