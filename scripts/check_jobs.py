@@ -176,7 +176,6 @@ def check_jobs(jobs_folder, details, resubmit, max_resubmit, set_to_fail, extra_
                                     lines = f.readlines()
                                     for line in lines:
                                         if "X509_USER_PROXY" in line:
-                                            print("Here")
                                             proxy_path = line.split("=")[-1].strip()
                                             if not os.path.exists(proxy_path):
                                                 print(f"Proxy file {proxy_path} does not exist. Reset by runnning")
