@@ -124,10 +124,27 @@ If there are problems with the running of your jobs on the batch system, you can
 ```bash
 python3 scripts/check_jobs.py --jobs-folder="jobs-dir/job/" --resubmit
 ```
+If you have jobs that have failed but are not picked up by the script you can use the `--set-to-fail` option. To request extra time when resubmitting you can use the `--extra-time` option.
 
+
+# Converting coffea to parquet files
+If you require a set of parquet files from the outputs (merged or unmerged), you can use the following command:
+```bash
+python3 scripts/convert_coffea_to_parquet.py --input="output_condor/*.coffea" --output="output_condor_parquet"
+```
+
+You can also then plot directly from the parquet with this command:
+```bash
+python3 scripts/plot_from_parquet.py --input="output_condor_parquet" --output="plots" --var="FatJet_mass" --bins='(50,300,5)' --year="all"
+```
+
+There is also a script to produce all necessary plots for the Merged topology:
+```bash
+python3 scripts/plot_merged.py --input="output_condor_parquet" --output="plots"
+```
 
 ## Others
-1. Removee files:
+1. Remove files:
 ```bash
 rm -rf ./jobs-dir/job
 ```
