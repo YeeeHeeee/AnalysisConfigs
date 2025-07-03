@@ -21,6 +21,9 @@ variables = {
   "FatJet_tau3" : "(0,0.2,0.005)",
   "FatJet_tau4" : "(0,0.2,0.005)",
   "FatJet_btagDeepB" : "(0,1,0.02)",
+  "FatJet_tau32" : "(0,1,0.02)",
+  "FatJet_tau21" : "(0,1,0.02)",
+  "FatJet_tau31" : "(0,1,0.02)",
   "LeptonSave_leptonType" : "[-0.5,0.5,1.5]",
   "LeptonSave_pt" : "(50,400,10)",
   "MET_pt" : "(0,400,10)",
@@ -34,6 +37,9 @@ variables = {
   "SubJet1_tau2" : "(0,0.4,0.01)",
   "SubJet1_tau3" : "(0,0.2,0.005)",
   "SubJet1_tau4" : "(0,0.2,0.005)",
+  "SubJet1_tau32" : "(0,1,0.02)",
+  "SubJet1_tau21" : "(0,1,0.02)",
+  "SubJet1_tau31" : "(0,1,0.02)",
   "SubJet2_mass" : "(0,150,5)",
   "SubJet2_pt" : "(0,400,10)",
   "SubJet2_eta" : "(-2.5,2.5,0.1)",
@@ -43,11 +49,28 @@ variables = {
   "SubJet2_tau2" : "(0,0.4,0.01)",
   "SubJet2_tau3" : "(0,0.2,0.005)",
   "SubJet2_tau4" : "(0,0.2,0.005)",
+  "SubJet2_tau32" : "(0,1,0.02)",
+  "SubJet2_tau21" : "(0,1,0.02)",
+  "SubJet2_tau31" : "(0,1,0.02)",
+}
+
+calculate = {
+  "FatJet_tau32" : "FatJet_tau3 / FatJet_tau2",
+  "FatJet_tau21" : "FatJet_tau2 / FatJet_tau1",
+  "FatJet_tau31" : "FatJet_tau3 / FatJet_tau1",
+  "SubJet1_tau32" : "SubJet1_tau3 / SubJet1_tau2",
+  "SubJet1_tau21" : "SubJet1_tau2 / SubJet1_tau1",
+  "SubJet1_tau31" : "SubJet1_tau3 / SubJet1_tau1",
+  "SubJet2_tau32" : "SubJet2_tau3 / SubJet2_tau2",
+  "SubJet2_tau21" : "SubJet2_tau2 / SubJet2_tau1",
+  "SubJet2_tau31" : "SubJet2_tau3 / SubJet2_tau1",
 }
 
 for year in years:
   for var, bins in variables.items():
     cmd = f"python3 scripts/plot_from_parquet.py --input={args.input} --output={args.output} --var={var} --bins='{bins}' --year={year}"
+    if var in calculate:
+      cmd += f" --calculate='{calculate[var]}'"
     if args.sel is not None:
       cmd += f" --sel='{args.sel}'"
     os.system(cmd)

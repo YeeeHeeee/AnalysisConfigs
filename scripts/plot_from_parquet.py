@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 import mplhep as hep
 import textwrap
+from tabulate import tabulate
 hep.style.use("CMS")
 
 parser = argparse.ArgumentParser()
@@ -19,6 +20,7 @@ parser.add_argument('--bins', help='The name of the variable', type=str, default
 parser.add_argument('--year', help='The name of the year', type=str, default="all")
 parser.add_argument('--cms-label', help='The cms label for the plot', type=str, default="Work in progress")
 parser.add_argument('--num-bins', help='The number of bins if bins=auto', type=int, default=50)
+parser.add_argument('--calculate', help='Calculate the variable', type=str, default=None)
 args = parser.parse_args()
 
 if args.year == "all":
@@ -295,13 +297,23 @@ def plot_stacked_histogram_with_ratio(
 
 hists = {}
 hists_squared = {}
+n_events = {}
+n_positive = {}
+n_negative = {}
 first = True
 for f in files:
   df = pd.read_parquet(f)
   if args.sel is not None:
     df = df.query(args.sel)
+
+  if args.calculate is not None:
+    df.loc[:,args.var] = df.eval(args.calculate)
+
   hist, bins = np.histogram(df.loc[:,args.var], bins=bins, weights=df.loc[:,"weight"], density=False)
   hist_squared, bins = np.histogram(df.loc[:,args.var], bins=bins, weights=df.loc[:,"weight"]**2, density=False)
+  n = len(df)
+  n_pos = len(df[df.loc[:,"weight"] >= 0])
+  n_neg = len(df[df.loc[:,"weight"] < 0])
 
   for k, v in groups.items():
     for fn in v:
@@ -309,9 +321,15 @@ for f in files:
         if k not in hists:
           hists[k] = hist
           hists_squared[k] = hist_squared
+          n_events[k] = n
+          n_positive[k] = n_pos
+          n_negative[k] = n_neg
         else:
           hists[k] += hist
           hists_squared[k] += hist_squared
+          n_events[k] += n
+          n_positive[k] += n_pos
+          n_negative[k] += n_neg
 
 if "Data" in hists:
   data_hist = hists["Data"]
@@ -327,8 +345,31 @@ hists_squared = {k: v for k, v in hists_squared.items() if k in hists and k != "
 
 uncerts = np.sqrt(np.sum(np.array(list(hists_squared.values())), axis=0))
 
-print("Predicted events:", np.sum(np.array(list(hists.values()))))
-print("Data events:", np.sum(data_hist))
+RED = "\033[91m"
+GREEN = "\033[92m"
+BLUE = "\033[94m" 
+RESET = "\033[0m"
+tabulated_data = [["Group", "Sum of Weights", "Number of Events", "Positive Weight Fraction"]]
+for k, v in hists.items():
+  tabulated_data.append([
+    f"{GREEN}{k}{RESET}", 
+    f"{round(np.sum(v),2)} +/- {round(np.sqrt(np.sum(hists_squared[k])),2)}", 
+    int(n_events[k]), 
+    f"{round(100*n_positive[k]/n_events[k],2)}%" if n_events[k] > 0 else "N/A"
+  ])
+tabulated_data.append([
+  f"{RED}Total Pred{RESET}", 
+  f"{round(np.sum(np.array(list(hists.values()))),2)} +/- {round(np.sqrt(np.sum([np.sum(hists_squared[k]) for k in hists])),2)}", 
+  int(np.sum([n_events[k] for k in hists if k!="data"])), 
+  f"{round(100*np.sum([n_positive[k] for k in hists if k!='data'])/np.sum([n_events[k] for k in hists if k!='data']),2)}%" if np.sum([n_events[k] for k in hists if k!='data']) > 0 else "N/A"
+])
+tabulated_data.append([
+  f"{BLUE}Data{RESET}", 
+  f"{round(np.sum(data_hist),2)} +/- {round(np.sqrt(np.sum(data_uncert**2)),2)}", 
+  int(n_events["Data"]),
+  f"{round(100*n_positive['Data']/n_events['Data'],2)}%" if n_events["Data"] > 0 else "N/A"  
+])
+print(tabulate(tabulated_data[1:], headers=tabulated_data[0], tablefmt="fancy_grid"))
 
 plot_stacked_histogram_with_ratio(
   data_hist,
