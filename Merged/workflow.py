@@ -20,6 +20,8 @@ from pocket_coffea.lib.objects import (
 
 from Functions.JetsCom import to_singleton_jet, combine_jets
 from Functions.Leptons import lepton_selection
+from Functions.jec_config import JECversions, JERversions, JECjsonFiles
+from Functions.corrections import jet_correction_correctionlib
 
 class ttBaseProcessor_merge(BaseProcessorABC):
     def __init__(self, cfg: Configurator):
@@ -65,6 +67,29 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         )
         self.events["LeptonGood"] = leptons[ak.argsort(leptons.pt, ascending=False)]
         self.events["LeptonSave"] = ak.firsts(self.events["LeptonGood"])
+
+        # JEC and JER corrections
+        self.events["JetUncorrected"] = self.events.Jet
+        self.events["FatJetUncorrected"] = self.events.FatJet
+        AK4_name = "AK4PFchs" if self._year in ["2016_PreVFP", "2016_PostVFP", "2017", "2018"] else "AK4PFPuppi"
+        if self._isMC:
+            self.events["Jet"], _ = jet_correction_correctionlib(self.events, "Jet", AK4_name, JECversions[self._year]["MC"], JERversions[self._year]["MC"], JECjsonFiles[self._year], self._year, True)
+            self.events["FatJet"], _ = jet_correction_correctionlib(self.events, "FatJet", "AK8PFPuppi", JECversions[self._year]["MC"], JERversions[self._year]["MC"], JECjsonFiles[self._year], self._year, True)
+        else:
+            self.events["Jet"] = jet_correction_correctionlib(self.events, "Jet", AK4_name, JECversions[self._year]["Data"][self._era], None, JECjsonFiles[self._year], self._year, False)
+            self.events["FatJet"] = jet_correction_correctionlib(self.events, "FatJet", "AK8PFPuppi", JECversions[self._year]["Data"][self._era], None, JECjsonFiles[self._year], self._year, False)
+
+        # Recalculate MET after JEC/JER
+        px = (self.events["MET"].pt * np.cos(self.events["MET"].phi)) - ak.sum((self.events["Jet"].pt * np.cos(self.events["Jet"].phi)) - (self.events["JetUncorrected"].pt * np.cos(self.events["JetUncorrected"].phi)), axis=1)
+        py = (self.events["MET"].pt * np.sin(self.events["MET"].phi)) - ak.sum((self.events["Jet"].pt * np.sin(self.events["Jet"].phi)) - (self.events["JetUncorrected"].pt * np.sin(self.events["JetUncorrected"].phi)), axis=1)
+        self.events["METUncorrected"] = ak.zip({
+            "pt": self.events["MET"].pt,
+            "phi": self.events["MET"].phi
+        })
+        self.events["MET"] = ak.zip({
+            "pt": np.hypot(px, py),
+            "phi": np.arctan2(py, px)
+        })
 
         # AK8 Jets
         self.events["FatJetGood"], self.fatjetGoodMask = jet_selection(
@@ -154,8 +179,10 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             self.events["MatchedTop_AK81"] = dummy_candidate
             self.events["MatchedTop_AK8"] = dummy_candidate
             self.events["LNu"] = dummy_candidate
-            self.events["LHE"] = ak.zip({"HT":-999.0*np.ones(len(self.events))})
             
+        if "LHE" not in self.events:
+            self.events["LHE"] = ak.zip({"HT":-999.0*np.ones(len(self.events))})
+
 
         # Highest pT b jet
         self.events["BJet_HighestPt"] = ak.firsts(self.events["BJetGood"])

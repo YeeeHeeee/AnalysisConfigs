@@ -54,16 +54,16 @@ JECversions = {
     '2023_preBPix' : {
         'MC': 'Summer23Prompt23_V2_MC',
         'Data': {
-            'Cv1': 'Summer23Prompt23_RunCv123_V2_DATA',
-            'Cv2': 'Summer23Prompt23_RunCv123_V2_DATA',
-            'Cv3': 'Summer23Prompt23_RunCv123_V2_DATA',
-            'Cv4': 'Summer23Prompt23_RunCv4_V2_DATA',
+            'Cv1': 'Summer23Prompt23_V2_DATA',
+            'Cv2': 'Summer23Prompt23_V2_DATA',
+            'Cv3': 'Summer23Prompt23_V2_DATA',
+            'Cv4': 'Summer23Prompt23_V2_DATA',
         },
     },
     '2023_postBPix' : {
         'MC': 'Summer23BPixPrompt23_V3_MC',
         'Data': {
-            'D': 'Summer23BPixPrompt23_RunD_V3_DATA',
+            'D': 'Summer23BPixPrompt23_V3_DATA',
         },
     },
 }

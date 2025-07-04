@@ -66,7 +66,7 @@ groups = {
   "TTTo2L2Nu": ["TTTo2L2Nu_*.parquet"],
   "TTToHadronic": ["TTToHadronic_*.parquet"],
   "WJetsToLNu": ["WJetsToLNu_*.parquet","WJetsToLNuHT*.parquet"],
-  "ST": ["ST_t_channel_top_*.parquet", "ST_t_channel_antitop_*.parquet"], 
+  "Other": ["ST_t_channel_top_*.parquet", "ST_t_channel_antitop_*.parquet", "DY*.parquet", "WW*.parquet", "WZ*.parquet", "ZZ*.parquet"], 
 }
 
 colours = {
@@ -74,7 +74,7 @@ colours = {
   "TTTo2L2Nu": "orange",
   "TTToHadronic": "green",
   "WJetsToLNu": "red",
-  "ST": "purple",
+  "Other": "purple",
 }
 
 if isinstance(wildcard, str):
