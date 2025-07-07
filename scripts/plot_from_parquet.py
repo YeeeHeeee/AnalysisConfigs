@@ -21,6 +21,8 @@ parser.add_argument('--year', help='The name of the year', type=str, default="al
 parser.add_argument('--cms-label', help='The cms label for the plot', type=str, default="Work in progress")
 parser.add_argument('--num-bins', help='The number of bins if bins=auto', type=int, default=50)
 parser.add_argument('--calculate', help='Calculate the variable', type=str, default=None)
+parser.add_argument('--include-fraction', help='Include the fractions of process in plot', action='store_true', default=False)
+parser.add_argument('--scale', help='Comma separate list of key and the scalings', type=str, default=None)
 args = parser.parse_args()
 
 if args.year == "all":
@@ -113,6 +115,7 @@ def plot_stacked_histogram_with_ratio(
     top_space=1.2,
     draw_ratio=True,
     colours = {},
+    include_fraction=False
   ):
   """
   Plot a stacked histogram with a ratio plot.
@@ -144,7 +147,10 @@ def plot_stacked_histogram_with_ratio(
   """
 
   if draw_ratio:
-    fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, gridspec_kw={'height_ratios': [3, 1]})
+    if include_fraction:
+      fig, (ax1, ax1p5, ax2) = plt.subplots(3, 1, sharex=True, gridspec_kw={'height_ratios': [2.5, 1, 1]})
+    else:
+      fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, gridspec_kw={'height_ratios': [3, 1]})
   else:
     fig, ax1 = plt.subplots()
 
@@ -243,6 +249,45 @@ def plot_stacked_histogram_with_ratio(
   if not draw_ratio:
     ax1.set_xlabel(xlabel)
 
+
+  if draw_ratio and include_fraction:
+    # Create a new axis for the fraction plot
+    ax1p5.set_ylabel('Fraction')
+    ax1p5.set_ylim([0, 1.0])
+
+    # Calculate the fraction of each component in the stack
+    total_stack_hist_for_fraction = np.sum(list(stack_hist_dict.values()), axis=0)
+    fractions = {}
+    for k, v in stack_hist_dict.items():
+      fractions[k] = v / total_stack_hist_for_fraction
+
+    # Plot the histograms on the top pad
+    for ind, (k, v) in enumerate(fractions.items()):
+      if ind == 0:
+        bottom = None
+      elif bottom is None:
+        bottom = copy.deepcopy(fractions[list(fractions.keys())[ind-1]])
+      else:
+        bottom += copy.deepcopy(fractions[list(fractions.keys())[ind-1]])
+      ax1p5.bar(
+        bin_edges[:-1], 
+        v, 
+        bottom=bottom,
+        width=np.diff(bin_edges), 
+        align='edge', 
+        alpha=1.0, 
+        label=k, 
+        color=colours[k], 
+        edgecolor=None
+        )
+
+    summed_fraction_hist = np.zeros(len(total_stack_hist))
+    for k, v in fractions.items():
+      summed_fraction_hist += v
+      step_fraction_histvals = np.append(np.insert(summed_fraction_hist,0,0.0),0.0)
+      ax1p5.step(step_edges, step_fraction_histvals, color='black')
+
+
   if draw_ratio:
 
     # Compute the ratio of the histograms
@@ -295,6 +340,13 @@ def plot_stacked_histogram_with_ratio(
   plt.close()
 
 
+scale_factors = {}
+if args.scale is not None:
+  scale_factors = {}
+  for s in args.scale.split(","):
+    key, value = s.split(":")
+    scale_factors[key] = float(value)
+
 hists = {}
 hists_squared = {}
 n_events = {}
@@ -343,6 +395,25 @@ else:
 hists = {k: hists[k] for k in list(groups.keys())[::-1] if k in hists and k != "Data"}
 hists_squared = {k: v for k, v in hists_squared.items() if k in hists and k != "Data"}
 
+order = list(hists.keys())
+for k,v in scale_factors.items():
+  if k in hists:
+    hists[f"{v} x {k}"] = hists[k] * v
+    hists_squared[f"{v} x {k}"] = hists_squared[k] * v**2
+    n_events[f"{v} x {k}"] = n_events[k]
+    n_positive[f"{v} x {k}"] = n_positive[k]
+    n_negative[f"{v} x {k}"] = n_negative[k]
+    colours[f"{v} x {k}"] = colours[k]
+    order[order.index(k)] = f"{v} x {k}"
+    del hists[k]
+    del hists_squared[k]
+    del n_events[k]
+    del n_positive[k]
+    del n_negative[k]
+    del colours[k]
+hists = {k: hists[k] for k in order if k in hists}
+hists_squared = {k: hists_squared[k] for k in order if k in hists_squared}
+
 uncerts = np.sqrt(np.sum(np.array(list(hists_squared.values())), axis=0))
 
 RED = "\033[91m"
@@ -363,12 +434,13 @@ tabulated_data.append([
   int(np.sum([n_events[k] for k in hists if k!="data"])), 
   f"{round(100*np.sum([n_positive[k] for k in hists if k!='data'])/np.sum([n_events[k] for k in hists if k!='data']),2)}%" if np.sum([n_events[k] for k in hists if k!='data']) > 0 else "N/A"
 ])
-tabulated_data.append([
-  f"{BLUE}Data{RESET}", 
-  f"{round(np.sum(data_hist),2)} +/- {round(np.sqrt(np.sum(data_uncert**2)),2)}", 
-  int(n_events["Data"]),
-  f"{round(100*n_positive['Data']/n_events['Data'],2)}%" if n_events["Data"] > 0 else "N/A"  
-])
+if data_hist is not None:
+  tabulated_data.append([
+    f"{BLUE}Data{RESET}", 
+    f"{round(np.sum(data_hist),2)} +/- {round(np.sqrt(np.sum(data_uncert**2)),2)}", 
+    int(n_events["Data"]),
+    f"{round(100*n_positive['Data']/n_events['Data'],2)}%" if n_events["Data"] > 0 else "N/A"  
+  ])
 print(tabulate(tabulated_data[1:], headers=tabulated_data[0], tablefmt="fancy_grid"))
 
 plot_stacked_histogram_with_ratio(
@@ -386,5 +458,6 @@ plot_stacked_histogram_with_ratio(
   axis_text="",
   top_space=1.2,
   draw_ratio=True,
-  colours=colours
+  colours=colours,
+  include_fraction=args.include_fraction
 )

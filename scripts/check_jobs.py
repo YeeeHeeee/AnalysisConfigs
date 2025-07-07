@@ -88,10 +88,11 @@ def check_jobs_logs(jobs_folder):
 @click.option("-r","--resubmit", is_flag=True, help="Resubmit the failed jobs")
 @click.option("--max-resubmit", type=int, help="Maximum number of resubmission", default=3)
 @click.option("--set-to-fail", is_flag=True, help="Set all jobs to failed. Use with caution!")
-@click.option("--extra-time", is_flag=True, help="Run all failed jobs with extra time")
+@click.option("--sub-replace", type=str, help="Replace this key's value with the new value", default=None)
 
 
-def check_jobs(jobs_folder, details, resubmit, max_resubmit, set_to_fail, extra_time):
+
+def check_jobs(jobs_folder, details, resubmit, max_resubmit, set_to_fail, sub_replace):
     
     jobs_folder = Path(jobs_folder)
     # Get the list of files in the folder
@@ -160,14 +161,21 @@ def check_jobs(jobs_folder, details, resubmit, max_resubmit, set_to_fail, extra_
                             if resubmit and failed_jobs_stats[failed_job] <= max_resubmit:
                                                                   
                                 sub_file = f"{jobs_folder}/{failed_job}.sub"
-                                if extra_time:
+                                if sub_replace is not None:
+
+                                    sub_replace_dict = {i.split(":")[0]:i.split(":")[1] for i in sub_replace.split(",")}
+
                                     with open(sub_file) as f:
                                         lines = f.readlines()
                                     with open(sub_file, "w") as f:
                                         for line in lines:
-                                            if "+MaxRuntime" in line:
-                                                f.write(f'+MaxRuntime = 35999\n')
-                                            else:
+                                            replace_line = False
+                                            for key, value in sub_replace_dict.items():
+                                                if line.startswith(key):
+                                                    replace_line = True
+                                                    print(f"Replacing {key} in {sub_file} with {value}")
+                                                    f.write(line.replace(line.rstrip().split("=")[-1], value))
+                                            if not replace_line:
                                                 f.write(line)
 
                                 # Check the proxy

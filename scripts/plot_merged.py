@@ -5,10 +5,13 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--input', "-i", help='The input folder of the parquet files', type=str, default="output_merged_v3")
 parser.add_argument('--output', "-o", help='The output plot directory', type=str, default="./")
 parser.add_argument('--sel', help='A selection to apply', type=str, default=None)
+parser.add_argument('--extra-args', help='Extra args to provide', type=str, default=None)
 args = parser.parse_args()
 
 
-years = ["run2", "run3", "all", "2016_PreVFP", "2016_PostVFP", "2017", "2018", "2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix"]
+#years = ["run2", "run3", "all", "2016_PreVFP", "2016_PostVFP", "2017", "2018", "2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix"]
+
+years = ["all", "run2", "run3"]
 
 variables = {
   "FatJet_mass" : "(50,300,5)",
@@ -73,4 +76,6 @@ for year in years:
       cmd += f" --calculate='{calculate[var]}'"
     if args.sel is not None:
       cmd += f" --sel='{args.sel}'"
+    if args.extra_args is not None:
+      cmd += f" {args.extra_args}"
     os.system(cmd)
