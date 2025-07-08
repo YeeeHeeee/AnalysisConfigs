@@ -68,6 +68,7 @@ groups = {
   "TTTo2L2Nu": ["TTTo2L2Nu_*.parquet"],
   "TTToHadronic": ["TTToHadronic_*.parquet"],
   "WJetsToLNu": ["WJetsToLNu_*.parquet","WJetsToLNuHT*.parquet"],
+  "QCD Multijet": ["QCD*.parquet"],
   "Other": ["ST_t_channel_top_*.parquet", "ST_t_channel_antitop_*.parquet", "DY*.parquet", "WW*.parquet", "WZ*.parquet", "ZZ*.parquet"], 
 }
 
@@ -76,6 +77,7 @@ colours = {
   "TTTo2L2Nu": "orange",
   "TTToHadronic": "green",
   "WJetsToLNu": "red",
+  "QCD Multijet": "cyan",
   "Other": "purple",
 }
 

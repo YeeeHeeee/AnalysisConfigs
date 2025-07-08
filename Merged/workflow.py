@@ -27,6 +27,48 @@ class ttBaseProcessor_merge(BaseProcessorABC):
     def __init__(self, cfg: Configurator):
         super().__init__(cfg)
 
+    def _get_ptrel(self, p1, p2):
+        p1_px = p1.pt * np.cos(p1.phi)
+        p1_py = p1.pt * np.sin(p1.phi)
+        p1_pz = p1.pt * np.sinh(p1.eta)
+        p2_px = p2.pt * np.cos(p2.phi)
+        p2_py = p2.pt * np.sin(p2.phi)
+        p2_pz = p2.pt * np.sinh(p2.eta)
+        cross_x = p1_py * p2_pz - p1_pz * p2_py
+        cross_y = p1_pz * p2_px - p1_px * p2_pz
+        cross_z = p1_px * p2_py - p1_py * p2_px
+        cross_mag = np.sqrt(cross_x**2 + cross_y**2 + cross_z**2)
+        p2_mag = np.sqrt(p2_px**2 + p2_py**2 + p2_pz**2)
+        pt_rel = cross_mag / p2_mag
+        return pt_rel
+
+    def _get_pairs(self, arr1, arr2):
+
+        # Cartesian product: all pairwise combinations per event
+        pairs = ak.cartesian([arr1, arr2], axis=1, nested=False)
+        
+        # Unpack the pairs
+        left, right = ak.unzip(pairs)        
+        di_arr = left + right
+
+        # Keep only the specified fields
+        fields = {
+            "pt": di_arr.pt,
+            "eta": di_arr.eta,
+            "phi": di_arr.phi,
+            "mass": di_arr.mass,
+            "deltaR": left.delta_r(right),
+            "deltaPhi": abs(left.delta_phi(right)),
+            "deltaEta": abs(left.eta - right.eta),
+            "arr1" : left,
+            "arr2" : right,
+        }
+
+        # Zip together the fields
+        out = ak.zip(fields, with_name="PtEtaPhiMCandidate")
+        
+        return out
+
 
     def apply_object_preselection(self, variation):
         # Avoid code duplicate
@@ -106,6 +148,17 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             leptons_collection="LeptonGood"
         )
 
+        # Get variables between the lepton and the closest jet
+        self.events["ClosestJetToLepton"] = ak.firsts(
+            self.events["JetGood"][ak.argsort(self.events["JetGood"].delta_r(self.events["LeptonSave"]), ascending=True)]
+        )
+        self.events["JetLepton"] = ak.firsts(self._get_pairs(self.events["LeptonSave"][:,None], self.events["ClosestJetToLepton"][:,None]))
+        self.events["JetLepton"] = ak.with_field(
+            self.events["JetLepton"],
+            self._get_ptrel(self.events["LeptonSave"], self.events["ClosestJetToLepton"]),
+            "ptrel"
+        )
+
         # Get b tagged and non-b tagged jets
         self.events["BJetGood"] = btagging(
             self.events["JetGood"], self.params.btagging.working_point[self._year], wp=self.params.object_preselection.Jet.btag.wp)
@@ -139,7 +192,12 @@ class ttBaseProcessor_merge(BaseProcessorABC):
 
         dummy_candidate = ak.zip({"pt":-999.0*np.ones(len(self.events)), "eta":-999.0*np.ones(len(self.events)), "phi":-999.0*np.ones(len(self.events)), "mass":-999.0*np.ones(len(self.events))}, with_name="PtEtaPhiMCandidate")
         if self._isMC:
-            # Add GenTop information
+            # Get the gen top
+            self.events["GenTop"] = self.events["GenPart"][((np.abs(self.events["GenPart"].pdgId) == 6) & ((self.events["GenPart"].statusFlags & (1 << 13)) > 0))]
+            self.events["GenTop1"] = ak.pad_none(self.events["GenTop"], 2, axis=1)[:, 0]
+            self.events["GenTop2"] = ak.pad_none(self.events["GenTop"], 2, axis=1)[:, 1]
+
+            # Get the gen top AK8
             self.events["GenTop_AK8"] = ak.firsts(self.events["GenJetAK8"])
             GenTop_AK8 = to_singleton_jet(self.events["GenTop_AK8"])
             self.events["GenTop_AK8"] = ak.where(
@@ -147,12 +205,24 @@ class ttBaseProcessor_merge(BaseProcessorABC):
                 dummy_candidate,
                 GenTop_AK8,
             )
-            self.events["GenTop"] = self.events["GenPart"][((np.abs(self.events["GenPart"].pdgId) == 6) & ((self.events["GenPart"].statusFlags & (1 << 13)) > 0))]
-            self.events["GenTop1"] = ak.pad_none(self.events["GenTop"], 2, axis=1)[:, 0]
-            self.events["GenTop2"] = ak.pad_none(self.events["GenTop"], 2, axis=1)[:, 1]
             self.events["GenTop_AK8"] = ak.firsts(self.events["GenJetAK8"])
             self.events["MatchedTop_AK81"], self.events["MatchedGenTop_AK8"], deltaR_padnon = object_matching(fatjet, GenTop_AK8, dr_min = 0.8)  
             self.events["MatchedTop_AK8"] = ak.firsts(self.events["MatchedTop_AK81"])
+
+            # Get the GenTop pairs - first copy
+            if self.events.metadata["sample"].startswith("TT"):
+                GenTopFirstCopy = self.events["GenPart"][((np.abs(self.events["GenPart"].pdgId) == 6) & ((self.events["GenPart"].statusFlags & (1 << 12)) > 0))]
+                top_pairs = ak.combinations(GenTopFirstCopy, 2, fields=["left", "right"])
+                self.events["GenTT"] = ak.firsts(ak.zip({"mass": (top_pairs.left + top_pairs.right).mass}, with_name="PtEtaPhiMCandidate"))
+                l_mask = (self.events["LHEPart"].pdgId == 11) | (self.events["LHEPart"].pdgId == -11) | \
+                        (self.events["LHEPart"].pdgId == 13) | (self.events["LHEPart"].pdgId == -13) | \
+                        (self.events["LHEPart"].pdgId == 15) | (self.events["LHEPart"].pdgId == -15)
+                nu_mask = (self.events["LHEPart"].pdgId == 12) | (self.events["LHEPart"].pdgId == -12) | \
+                        (self.events["LHEPart"].pdgId == 14) | (self.events["LHEPart"].pdgId == -14) | \
+                        (self.events["LHEPart"].pdgId == 16) | (self.events["LHEPart"].pdgId == -16)
+                self.events["count_l"] = ak.num(self.events["LHEPart"][l_mask])
+                self.events["count_nu"] = ak.num(self.events["LHEPart"][nu_mask])
+
             # Get the LNu for W + jets samples
             if self.events.metadata["sample"].startswith("WJetsToLNu"):
                 l_mask = (self.events["LHEPart"].pdgId == 11) | (self.events["LHEPart"].pdgId == -11) | \
@@ -170,18 +240,13 @@ class ttBaseProcessor_merge(BaseProcessorABC):
                     "mass": di_arr.mass,
                 }
                 self.events["LNu"] = ak.firsts(ak.zip(fields, with_name="PtEtaPhiMCandidate"))   
-            else:
-                self.events["LNu"] = dummy_candidate
-        else:
-            self.events["GenTop_AK8"] = dummy_candidate
-            self.events["GenTop1"] = dummy_candidate
-            self.events["GenTop2"] = dummy_candidate
-            self.events["MatchedTop_AK81"] = dummy_candidate
-            self.events["MatchedTop_AK8"] = dummy_candidate
-            self.events["LNu"] = dummy_candidate
-            
-        if "LHE" not in self.events:
-            self.events["LHE"] = ak.zip({"HT":-999.0*np.ones(len(self.events))})
+
+        if "GenTop1" not in self.events: self.events["GenTop1"] = dummy_candidate
+        if "GenTop2" not in self.events: self.events["GenTop2"] = dummy_candidate
+        if "LNu" not in self.events: self.events["LNu"] = dummy_candidate
+        if "GenTop_AK8" not in self.events: self.events["GenTop_AK8"] = dummy_candidate
+        if "MatchedTop_AK8" not in self.events: self.events["MatchedTop_AK8"] = dummy_candidate
+        if "LHE" not in self.events: self.events["LHE"] = ak.zip({"HT":-999.0*np.ones(len(self.events))})
 
 
         # Highest pT b jet

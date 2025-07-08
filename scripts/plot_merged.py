@@ -6,12 +6,10 @@ parser.add_argument('--input', "-i", help='The input folder of the parquet files
 parser.add_argument('--output', "-o", help='The output plot directory', type=str, default="./")
 parser.add_argument('--sel', help='A selection to apply', type=str, default=None)
 parser.add_argument('--extra-args', help='Extra args to provide', type=str, default=None)
+parser.add_argument('--year', help='Comma separated list of years', type=str, default="all,run2,run3,2016_PreVFP,2016_PostVFP,2017,2018,2022_preEE,2022_postEE,2023_preBPix,2023_postBPix")
 args = parser.parse_args()
 
-
-#years = ["run2", "run3", "all", "2016_PreVFP", "2016_PostVFP", "2017", "2018", "2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix"]
-
-years = ["all"]
+years = args.year.split(",")
 
 variables = {
   "FatJet_mass" : "(50,300,5)",
@@ -55,6 +53,8 @@ variables = {
   "SubJet2_tau32" : "(0,1,0.02)",
   "SubJet2_tau21" : "(0,1,0.02)",
   "SubJet2_tau31" : "(0,1,0.02)",
+  "JetLepton_ptrel" : "(0,400,10)",
+  "JetLepton_deltaR" : "(0,5,0.1)",
 }
 
 calculate = {
