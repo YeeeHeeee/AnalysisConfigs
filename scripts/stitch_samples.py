@@ -46,6 +46,7 @@ files_w2 = list(set(files_w2))
 
 # Initiate storage
 hists = {}
+normalisations = {}
 first = True
 
 # Loop through the input files
@@ -93,6 +94,12 @@ for file in files_w:
         # Convert to numpy array
         hists[variation_name] = np.array(hists[variation_name])
 
+        # Normalise the histogram
+        normalisations[variation_name] = np.sum(hists[variation_name])
+        if normalisations[variation_name] > 1.01 or normalisations[variation_name] < 0.99:
+          print(f"Warning: Histogram {variation_name} normalisation is not 1.0, sum is {normalisations[variation_name]}. Check this behaviour is expected.")
+        hists[variation_name] = hists[variation_name] / normalisations[variation_name]
+
         # Flip the first bool
         if first:
           first = False
@@ -113,12 +120,14 @@ else:
     for overall_name in hist_dict["variables"].keys():
       for year_name in hist_dict["variables"][overall_name].keys():
         for variation_name in hist_dict["variables"][overall_name][year_name].keys():
+          if variation_name not in hists.keys(): continue
           if variation_name in hists_w2:
             raise ValueError(f"Variation {variation_name} already exists in the hists_w2 dictionary. Please check the input files.")
           hists_w2[variation_name] = []
           for cat_ind, hist in enumerate(hist_dict["variables"][overall_name][year_name][variation_name].values()):
             hists_w2[variation_name] += list(hist[0]/hist_dict["sum_genweights"][variation_name]) # The division is need because of how the normalisation is dealt with
           hists_w2[variation_name] = np.array(hists_w2[variation_name])
+          hists_w2[variation_name] = hists_w2[variation_name] / normalisations[variation_name]**2
 
   # Check all keys in hists are in hists_w2
   for k in hists.keys():
@@ -140,6 +149,46 @@ hists_w2_in_years = {
   if any(k.endswith(year) for k in hists_w2)
 }
 
+# Print the initial histograms for the year
+for year in hists_in_years.keys():
+  print()
+  print(f"Histograms for year {year}:")
+  for k, v in hists_in_years[year].items():
+    if isinstance(v, dict):
+      for ind, (k1, v1) in enumerate(v.items()):
+        print(f"{k} - {bin_sel[ind]}: {list(v1)}")
+    else:
+      print(f"{k}: {list(v)}")
+
+# Print the squared histograms for the year
+for year in hists_w2_in_years.keys():
+  print()
+  print(f"Squared histograms for year {year}:")
+  for k, v in hists_w2_in_years[year].items():
+    if isinstance(v, dict):
+      for ind, (k1, v1) in enumerate(v.items()):
+        print(f"{k} - {bin_sel[ind]}: {list(v1)}")
+    else:
+      print(f"{k}: {list(v)}")
+
+
+# Print the number of effective events for the year
+for year in hists_in_years.keys():
+  print()
+  print(f"Effective events for year {year}:")
+  for k, v in hists_in_years[year].items():
+    if isinstance(v, dict):
+      for ind, (k1, v1) in enumerate(v.items()):
+        numerator = np.array([v1[i]**2 if hists_w2_in_years[year][k][i] != 0 else 0.0 for i in range(len(v1))])
+        denominator = np.array([hists_w2_in_years[year][k][i] if hists_w2_in_years[year][k][i] != 0 else 1.0 for i in range(len(hists_w2_in_years[year][k]))])
+        eff_events = numerator / denominator
+        print(f"{k} - {bin_sel[ind]}: {list(eff_events)}")
+    else:
+      numerator = np.array([v[i]**2 if hists_w2_in_years[year][k][i] != 0 else 0.0 for i in range(len(v))])
+      denominator = np.array([hists_w2_in_years[year][k][i] if hists_w2_in_years[year][k][i] != 0 else 1.0 for i in range(len(hists_w2_in_years[year][k]))])
+      eff_events = numerator / denominator
+      print(f"{k}: {list(eff_events)}")
+
 # Initiate storage
 nominal_names = {}
 file_bins = {}
@@ -160,7 +209,7 @@ for year, year_hists in hists_in_years.items():
     norm_hist = hist / np.sum(hist)
 
     # Check if more than one bin is filled
-    if np.max(norm_hist) < 0.99:
+    if np.max(norm_hist) < 0.995:
 
       # Check if the nominal histogram is already set
       if nominal_names[year] is None:
@@ -175,6 +224,13 @@ for year, year_hists in hists_in_years.items():
       if bin_ind in file_bins[year]:
         raise ValueError(f"More than one histogram with bin {bin_ind} filled found for year {year}: {file_bins[year][bin_ind]} and {variation_name}")
       file_bins[year][bin_ind] = variation_name
+
+      ## zero histogram in other bins
+      #for b in range(len(norm_hist)):
+      #  if b != bin_ind:
+      #    hists_in_years[year][variation_name][b] = 0.0
+      #    hists_w2_in_years[year][variation_name][b] = 0.0
+
 
   if nominal_names[year] is None:
     raise ValueError(f"No nominal histogram found for year {year}")
@@ -195,7 +251,7 @@ for year, year_hists in hists_in_years.items():
     else:
 
       # Scale by sum weights over sum of weights squared for optimal stats
-      scalers[year][nominal_names[year]][b] = hists[nominal_names[year]][b] / hists_w2[file_bins[year][b]][b]
+      scalers[year][nominal_names[year]][b] = hists[nominal_names[year]][b] / hists_w2[nominal_names[year]][b]
       scalers[year][file_bins[year][b]] = hists[file_bins[year][b]][b] / hists_w2[file_bins[year][b]][b]
       
       # Get total scale
@@ -204,6 +260,7 @@ for year, year_hists in hists_in_years.items():
       # Normalise back to the nominal histogram
       scalers[year][nominal_names[year]][b] = scalers[year][nominal_names[year]][b] * hists[nominal_names[year]][b] / total_scale
       scalers[year][file_bins[year][b]] = scalers[year][file_bins[year][b]] * hists[nominal_names[year]][b] / total_scale
+      del total_scale
 
   # Print the scalers for the year
   print()
@@ -231,11 +288,15 @@ for year, year_hists in hists_in_years.items():
   print(f"Nominal effective events for year {year}:")
   numerator = np.array([hists_in_years[year][nominal_names[year]][i]**2 if hists_w2_in_years[year][nominal_names[year]][i] != 0 else 0.0 for i in range(len(hists_in_years[year][nominal_names[year]]))])
   denominator = np.array([hists_w2_in_years[year][nominal_names[year]][i] if hists_w2_in_years[year][nominal_names[year]][i] != 0 else 1.0 for i in range(len(hists_w2_in_years[year][nominal_names[year]]))])
-  print(list(numerator / denominator))
+  nom_eff_events = numerator / denominator
+  print(list(nom_eff_events))
   print(f"New effective events for year {year}:")
   numerator = np.array([total_hist[i]**2 if total_hist_squared[i] != 0 else 0.0 for i in range(len(total_hist))])
   denominator = np.array([total_hist_squared[i] if total_hist_squared[i] != 0 else 1.0 for i in range(len(total_hist_squared))])
-  print(list(numerator / denominator))
+  new_eff_events = numerator / denominator
+  print(list(new_eff_events))
+  print(f"Effective events ratio for year {year}:") 
+  print(new_eff_events / nom_eff_events)
 
 
 # Begin writing the python file

@@ -1931,7 +1931,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -1941,7 +1941,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -1951,7 +1951,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -1961,7 +1961,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -1971,7 +1971,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1
                 }
             },
             {
@@ -1982,7 +1982,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1
                 }
             },
             {
@@ -1992,7 +1992,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1
                 }
             },
             {
@@ -2002,7 +2002,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1
                 }
             }
         ]
@@ -2018,7 +2018,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2028,7 +2028,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2038,7 +2038,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2048,7 +2048,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             }
         ]
@@ -2064,7 +2064,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2074,7 +2074,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2084,7 +2084,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2094,7 +2094,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             }
         ]
@@ -2110,7 +2110,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2120,7 +2120,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2130,7 +2130,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2140,7 +2140,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             }
         ]
@@ -2156,7 +2156,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2166,7 +2166,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2176,7 +2176,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2186,7 +2186,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             }
         ]
@@ -2202,7 +2202,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2212,7 +2212,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2222,7 +2222,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2232,7 +2232,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             }
         ]
@@ -2248,7 +2248,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2258,7 +2258,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2268,7 +2268,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2278,7 +2278,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             }
         ]
@@ -2294,7 +2294,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2304,7 +2304,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2314,7 +2314,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2324,7 +2324,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             }
         ]
@@ -2340,7 +2340,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1
                 }
             },
             {
@@ -2350,7 +2350,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2360,7 +2360,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2370,7 +2370,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2386,7 +2386,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2396,7 +2396,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2406,7 +2406,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2416,7 +2416,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2432,7 +2432,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2442,7 +2442,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2452,7 +2452,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2462,7 +2462,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2478,7 +2478,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2488,7 +2488,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2498,7 +2498,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2508,7 +2508,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2524,7 +2524,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2534,7 +2534,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2544,7 +2544,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2554,7 +2554,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2570,7 +2570,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2580,7 +2580,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2590,7 +2590,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2600,7 +2600,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2616,7 +2616,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2626,7 +2626,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2636,7 +2636,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2646,7 +2646,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2662,7 +2662,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2672,7 +2672,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2682,7 +2682,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2692,7 +2692,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2708,7 +2708,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2718,7 +2718,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2728,7 +2728,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2738,7 +2738,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2754,7 +2754,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2764,7 +2764,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2774,7 +2774,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2784,7 +2784,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2800,7 +2800,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2810,7 +2810,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2820,7 +2820,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2830,7 +2830,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2846,7 +2846,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2856,7 +2856,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2866,7 +2866,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2876,7 +2876,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -3395,6 +3395,423 @@
                     "xsec": 5467.0
                 }
             } 
+        ]
+    },
+    "QCD_MuEnriched_Pt15To20":{
+        "sample": "QCD_MuEnriched_Pt15To20",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-15To20_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 2797000.0
+                }
+            }
+        ]
+    },
+    "QCD_MuEnriched_Pt20To30":{
+        "sample": "QCD_MuEnriched_Pt20To30",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-20To30_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 2518000.0
+                }
+            }
+        ]
+    },
+    "QCD_MuEnriched_Pt30To50":{
+        "sample": "QCD_MuEnriched_Pt30To50",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-30To50_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 1361000.0
+                }
+            }
+        ]
+    },
+    "QCD_MuEnriched_Pt50To80":{
+        "sample": "QCD_MuEnriched_Pt50To80",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-50To80_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 377800.0
+                }
+            }
+        ]
+    },
+    "QCD_MuEnriched_Pt80To120":{
+        "sample": "QCD_MuEnriched_Pt80To120",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-80To120_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 88620.0
+                }
+            }
+        ]
+    },
+    "QCD_MuEnriched_Pt120To170":{
+        "sample": "QCD_MuEnriched_Pt120To170",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-120To170_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 21070.0
+                }
+            }
+        ]
+    },
+    "QCD_MuEnriched_Pt170To300":{
+        "sample": "QCD_MuEnriched_Pt170To300",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-170To300_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 7019.0
+                }
+            }
+        ]
+    },
+    "QCD_MuEnriched_Pt300To470":{
+        "sample": "QCD_MuEnriched_Pt300To470",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-300To470_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 622.4
+                }
+            }
+        ]
+    },
+    "QCD_MuEnriched_Pt470To600":{
+        "sample": "QCD_MuEnriched_Pt470To600",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-470To600_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 58.86
+                }
+            }
+        ]
+    },
+    "QCD_MuEnriched_Pt600To800":{
+        "sample": "QCD_MuEnriched_Pt600To800",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-600To800_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 18.22
+                }
+            }
+        ]
+    },
+    "QCD_MuEnriched_Pt800To1000":{
+        "sample": "QCD_MuEnriched_Pt800To1000",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-800To1000_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 3.25
+                }
+            }
+        ]
+    },
+    "QCD_MuEnriched_Pt1000":{
+        "sample": "QCD_MuEnriched_Pt1000",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-1000_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 1.085
+                }
+            }
+        ]
+    },
+
+    "QCD_bcToE_Pt15To20":{
+        "sample": "QCD_bcToE_Pt15To20",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt_15to20_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 186200.0
+                }
+            }
+        ]
+    },
+    "QCD_bcToE_Pt20To30":{
+        "sample": "QCD_bcToE_Pt20To30",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt_20to30_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 303800.0
+                }
+            }
+        ]
+    },
+    "QCD_bcToE_Pt30To80":{
+        "sample": "QCD_bcToE_Pt30To80",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt_30to80_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 362300.0
+                }
+            }
+        ]
+    },
+    "QCD_bcToE_Pt80To170":{
+        "sample": "QCD_bcToE_Pt80To170",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt_80to170_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 33700.0
+                }
+            }
+        ]
+    },
+    "QCD_bcToE_Pt170To250":{
+        "sample": "QCD_bcToE_Pt170To250",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt_170to250_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 2125.0
+                }
+            }
+        ]
+    },
+    "QCD_bcToE_Pt250":{
+        "sample": "QCD_bcToE_Pt250",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt_250toInf_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 562.5
+                }
+            }
+        ]
+    },
+    "QCD_EMEnriched_Pt15To20":{
+        "sample": "QCD_EMEnriched_Pt15To20",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-15to20_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 1324000.0
+                }
+            }
+        ]
+    },
+    "QCD_EMEnriched_Pt20To30":{
+        "sample": "QCD_EMEnriched_Pt20To30",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-20to30_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 4896000.0
+                }
+            }
+        ]
+    },
+    "QCD_EMEnriched_Pt30To50":{
+        "sample": "QCD_EMEnriched_Pt30To50",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-30to50_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 6447000.0
+                }
+            }
+        ]
+    },
+    "QCD_EMEnriched_Pt50To80":{
+        "sample": "QCD_EMEnriched_Pt50To80",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-50to80_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 1988000.0
+                }
+            }
+        ]
+    },
+    "QCD_EMEnriched_Pt80To120":{
+        "sample": "QCD_EMEnriched_Pt80To120",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-80to120_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 367500.0
+                }
+            }
+        ]
+    },
+    "QCD_EMEnriched_Pt120To170":{
+        "sample": "QCD_EMEnriched_Pt120To170",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-120to170_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 66590.0
+                }
+            }
+        ]
+    },
+    "QCD_EMEnriched_Pt170To300":{
+        "sample": "QCD_EMEnriched_Pt170To300",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-170to300_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 16620.0
+                }
+            }
+        ]
+    },
+    "QCD_EMEnriched_Pt300":{
+        "sample": "QCD_EMEnriched_Pt300",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-300toInf_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 1104.0
+                }
+            }
         ]
     }
 }

@@ -20,7 +20,9 @@ localdir = os.path.dirname(os.path.abspath(__file__))
 
 from Functions.WJetsRun2StitchingWeights import WJetsRun2Stitching
 from Functions.WJetsRun3StitchingWeights import WJetsRun3Stitching
-
+from Functions.TopPTReweighting import TopPTReweighting
+from Functions.LeptonScaleFactors import SF_ele_custom
+from Functions.Prefiring import Prefiring
 
 # Loading default parameters
 from pocket_coffea.parameters import defaults
@@ -34,7 +36,7 @@ parameters = defaults.merge_parameters_from_files(default_parameters,
                                                   update=True)
 
 
-common_weights = common_weights + WJetsRun2Stitching + WJetsRun3Stitching
+common_weights = common_weights + WJetsRun2Stitching + WJetsRun3Stitching + TopPTReweighting + SF_ele_custom + Prefiring
 
 cfg = Configurator(
     parameters = parameters,
@@ -74,6 +76,10 @@ cfg = Configurator(
                 "WJetsToLNuHT2500MLNu120",
                 "ST_t_channel_top",
                 "ST_t_channel_antitop",
+                "WW",
+                "WZ",
+                "ZZ",
+                "DY"
             ],
             "samples_exclude" : [],
             "year": ['2016_PreVFP', '2016_PostVFP', '2017', '2018', '2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix']
@@ -90,7 +96,8 @@ cfg = Configurator(
 
     workflow = ttBaseProcessor_merge,
 
-    skim = [get_nPVgood(1), eventFlags, goldenJson,
+    skim = [get_nObj_min(1, 480.0, "FatJet"), # Initial skim, have not set this to 500 as we have corrections to apply afterwards
+            get_nPVgood(1), eventFlags, goldenJson,
             get_HLTsel(primaryDatasets=["SingleMuon", "SingleEle"]),
             ],
         
@@ -105,9 +112,13 @@ cfg = Configurator(
     weights = {
         "common": {
             "inclusive": ["genWeight","lumi","XS",
-                          "pileup",
-                          "sf_mu_id","sf_mu_iso",
-                          "WJetsRun2Stitching", "WJetsRun3Stitching"
+                          "pileup", "prefiring",
+                          "sf_mu_id", "sf_mu_iso", 
+                          #"sf_mu_trigger",
+                          "sf_ele_id_custom", "sf_ele_reco", 
+                          #"sf_ele_trigger_custom",
+                          "WJetsRun2Stitching", "WJetsRun3Stitching",
+                          "TopPTReweighting"
                           ],
             "bycategory" : {
             }
@@ -119,9 +130,7 @@ cfg = Configurator(
     variations = {
         "weights": {
             "common": {
-                "inclusive": ["pileup",
-                                "sf_mu_id", "sf_mu_iso",
-                              ], 
+                "inclusive": [], 
                 "bycategory" : {
                 }
             },

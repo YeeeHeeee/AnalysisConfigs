@@ -5,7 +5,7 @@ import numpy as np
 import correctionlib
 
 def jet_correction_correctionlib(
-    events, Jet, typeJet, JECversion, JERversion, JECjsonFile, verbose=False
+    events, Jet, typeJet, JECversion, JERversion, JECjsonFile, year, MC,verbose=False
 ):
     '''
     This function implements the Jet Energy corrections and Jet energy smearning
@@ -29,22 +29,52 @@ def jet_correction_correctionlib(
         jets['rho'] = ak.broadcast_arrays(events.fixedGridRhoFastjetAll, jets.pt)[0]
     else:
         jets['rho'] = ak.broadcast_arrays(events.Rho.fixedGridRhoFastjetAll, jets.pt)[0]
+    jets['run'] = ak.broadcast_arrays(events.run, jets.pt)[0]
+
     j, nj = ak.flatten(jets), ak.num(jets)
-    if len(corr.inputs) == 4:
-        flatCorrFactor = corr.evaluate(
-            np.array(j['area']),
-            np.array(j['eta']),
-            np.array(j['pt_raw']),
-            np.array(j['rho']),
-        )
-    elif len(corr.inputs) == 5:
-        flatCorrFactor = corr.evaluate(
-            np.array(j['area']),
-            np.array(j['eta']),
-            np.array(j['pt_raw']),
-            np.array(j['rho']),
-            np.array(j['phi']),
-        )
+
+    if MC:
+        if year in ['2016_PreVFP', '2016_PostVFP', '2017', '2018','2022_preEE','2022_postEE', '2023_preBPix']:
+            flatCorrFactor = corr.evaluate(
+                np.array(j['area']),
+                np.array(j['eta']),
+                np.array(j['pt_raw']),
+                np.array(j['rho']),
+            )
+        elif year in ['2023_postBPix']:
+            flatCorrFactor = corr.evaluate(
+                np.array(j['area']),
+                np.array(j['eta']),
+                np.array(j['pt_raw']),
+                np.array(j['rho']),
+                np.array(j['phi']),
+            )
+    else:
+        if year in ['2016_PreVFP', '2016_PostVFP', '2017', '2018', '2022_preEE', '2022_postEE']:
+            flatCorrFactor = corr.evaluate(
+                np.array(j['area']),
+                np.array(j['eta']),
+                np.array(j['pt_raw']),
+                np.array(j['rho']),
+            )
+        elif year in ['2023_preBPix']:
+            flatCorrFactor = corr.evaluate(
+                np.array(j['area']),
+                np.array(j['eta']),
+                np.array(j['pt_raw']),
+                np.array(j['rho']),
+                np.array(j['run']),
+            )
+        elif year in ['2023_postBPix']:
+            flatCorrFactor = corr.evaluate(
+                np.array(j['area']),
+                np.array(j['eta']),
+                np.array(j['pt_raw']),
+                np.array(j['rho']),
+                np.array(j['phi']),
+                np.array(j['run'])
+            )
+      
     corrFactor = ak.unflatten(flatCorrFactor, nj)
 
     jets_corrected = copy.copy(jets)
