@@ -14,6 +14,7 @@ parser.add_argument('--input-w2', help='The input folder of the coffea files wit
 parser.add_argument('--output-file', help='The output of python file created with the weights function', type=str, default="./stitching_weights.py")
 parser.add_argument('--output-name', help='The name of the stored function', type=str, default="StitchingWeights")
 parser.add_argument('--category-conversion', help='A dictionary formatting string to convert the category into a string', type=str, default=None)
+parser.add_argument('--extra-sel', help='The string of extra selection in the function', type=str, default=None)
 args = parser.parse_args()
 
 # Check if input is provided
@@ -306,6 +307,11 @@ write_file = [
   "",
 ]
 write_file += ["def stitching_func(params, metadata, events, size, shape_variations):"]
+
+# apply extra selection if provided
+if args.extra_sel is not None:
+  write_file += [f'  if not ({args.extra_sel}):']
+  write_file += ['    return np.ones(len(events))']
 
 # Nominal sample
 for year, scale_files in scalers.items():

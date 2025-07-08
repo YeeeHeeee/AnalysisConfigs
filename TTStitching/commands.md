@@ -15,11 +15,11 @@ for c in hadronic semileptonic fullyleptonic; do python3 ../scripts/stitch_sampl
 ```
 
 ```bash
-python3 ../scripts/stitch_samples.py --input="output_hadronic_run2_w/output_all.coffea" --input-w2="output_hadronic_run2_w2/output_all.coffea" --output-name=TTRun2Stitching --output-file="../Functions/TTToHadronicRun2StitchingWeights.py"
+python3 ../scripts/stitch_samples.py --input="output_hadronic_run2_w/output_all.coffea" --input-w2="output_hadronic_run2_w2/output_all.coffea" --output-name=TTRun2Stitching --output-file="../Functions/TTToHadronicRun2StitchingWeights.py" --extra-sel="((events.count_l==0) & (events.count_nu==0))"
 ```
 ```bash
-python3 ../scripts/stitch_samples.py --input="output_semileptonic_run2_w/output_all.coffea" --input-w2="output_semileptonic_run2_w2/output_all.coffea" --output-name=TTRun2Stitching --output-file="../Functions/TTToSemiLeptonicRun2StitchingWeights.py"
+python3 ../scripts/stitch_samples.py --input="output_semileptonic_run2_w/output_all.coffea" --input-w2="output_semileptonic_run2_w2/output_all.coffea" --output-name=TTRun2Stitching --output-file="../Functions/TTToSemiLeptonicRun2StitchingWeights.py" --extra-sel="((events.count_l==1) & (events.count_nu==1))"
 ```
 ```bash
-python3 ../scripts/stitch_samples.py --input="output_fullyleptonic_run2_w/output_all.coffea" --input-w2="output_fullyleptonic_run2_w2/output_all.coffea" --output-name=TTRun2Stitching --output-file="../Functions/TTTo2L2NuRun2StitchingWeights.py"
+python3 ../scripts/stitch_samples.py --input="output_fullyleptonic_run2_w/output_all.coffea" --input-w2="output_fullyleptonic_run2_w2/output_all.coffea" --output-name=TTRun2Stitching --output-file="../Functions/TTTo2L2NuRun2StitchingWeights.py" --extra-sel="((events.count_l==2) & (events.count_nu==2))"
 ```

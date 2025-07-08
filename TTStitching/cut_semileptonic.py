@@ -15,7 +15,6 @@ def semileptonic(events, params, year, sample, **kwargs):
     count_nu = ak.num(events["LHEPart"][nu_mask])
 
     mask = (
-        ## cut on AK4 ##
         (count_l == 1)
         & (count_nu == 1)
     )

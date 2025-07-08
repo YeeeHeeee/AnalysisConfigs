@@ -2,6 +2,8 @@ from pocket_coffea.lib.weights import WeightLambda
 import numpy as np
 
 def stitching_func(params, metadata, events, size, shape_variations):
+  if not (((events.count_l==2) & (events.count_nu==2))):
+    return np.ones(len(events))
   if metadata["year"] == "2016_PreVFP" and metadata["sample"] == "TTTo2L2Nu":
     return np.select(
       condlist=[
