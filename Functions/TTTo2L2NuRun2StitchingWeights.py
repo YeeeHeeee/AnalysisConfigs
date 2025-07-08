@@ -79,9 +79,9 @@ def stitching_func(params, metadata, events, size, shape_variations):
   return np.ones(len(events))
 
 wl_func = WeightLambda.wrap_func(
-    name="TTRun2Stitching",
+    name="TTTo2L2NuRun2Stitching",
     function=stitching_func,
     has_variations=False
 )
 
-TTRun2Stitching = [wl_func]
+TTTo2L2NuRun2Stitching = [wl_func]
