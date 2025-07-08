@@ -17,13 +17,13 @@ def stitching_func(params, metadata, events, size, shape_variations):
       ],
       choicelist=[
         np.ones(len(events)) * 1.0,
-        np.ones(len(events)) * 0.0005740361984679119,
-        np.ones(len(events)) * 0.0005417179401811718,
-        np.ones(len(events)) * 3.231998251286542e-05,
-        np.ones(len(events)) * 1.0447377666692847e-06,
-        np.ones(len(events)) * 2.8513473180218254e-08,
-        np.ones(len(events)) * 5.132515414485858e-09,
-        np.ones(len(events)) * 2.2155943509658546e-10,
+        np.ones(len(events)) * 6.053537454182782e-05,
+        np.ones(len(events)) * 5.0857307877842474e-05,
+        np.ones(len(events)) * 3.8694943207027956e-05,
+        np.ones(len(events)) * 9.06949122549848e-06,
+        np.ones(len(events)) * 0.00614717955771354,
+        np.ones(len(events)) * 0.00244411940646801,
+        np.ones(len(events)) * 0.0006024704898207631,
         np.ones(len(events)) * 1.0,
       ],
       default=0.0
@@ -43,13 +43,13 @@ def stitching_func(params, metadata, events, size, shape_variations):
       ],
       choicelist=[
         np.ones(len(events)) * 1.0,
-        np.ones(len(events)) * 0.0005258901520662323,
-        np.ones(len(events)) * 0.0005177846541382414,
-        np.ones(len(events)) * 3.790019090442677e-05,
-        np.ones(len(events)) * 6.823742754422377e-07,
-        np.ones(len(events)) * 3.834061047754377e-08,
-        np.ones(len(events)) * 7.420626261123658e-09,
-        np.ones(len(events)) * 3.0046677991623227e-10,
+        np.ones(len(events)) * 0.08667155673812035,
+        np.ones(len(events)) * 0.08480219236686763,
+        np.ones(len(events)) * 0.03181076512422451,
+        np.ones(len(events)) * 0.03044316546737202,
+        np.ones(len(events)) * 0.00694382702290774,
+        np.ones(len(events)) * 0.003238095072910146,
+        np.ones(len(events)) * 0.0006663419239524197,
         np.ones(len(events)) * 1.0,
       ],
       default=0.0
@@ -69,13 +69,13 @@ def stitching_func(params, metadata, events, size, shape_variations):
       ],
       choicelist=[
         np.ones(len(events)) * 1.0,
-        np.ones(len(events)) * 0.0005320648788878696,
-        np.ones(len(events)) * 0.00046001489841421554,
-        np.ones(len(events)) * 4.218526776322013e-05,
-        np.ones(len(events)) * 9.291154844380106e-07,
-        np.ones(len(events)) * 6.973297337622792e-08,
-        np.ones(len(events)) * 3.9514424154533895e-09,
-        np.ones(len(events)) * 1.545134462227199e-10,
+        np.ones(len(events)) * 1.8137469853300753e-05,
+        np.ones(len(events)) * 1.964988433566148e-05,
+        np.ones(len(events)) * 4.546324132433333e-06,
+        np.ones(len(events)) * 4.129190060073219e-06,
+        np.ones(len(events)) * 9.1688302712788e-07,
+        np.ones(len(events)) * 0.0013061387452087628,
+        np.ones(len(events)) * 0.00027685062437891075,
         np.ones(len(events)) * 1.0,
       ],
       default=0.0
@@ -95,73 +95,73 @@ def stitching_func(params, metadata, events, size, shape_variations):
       ],
       choicelist=[
         np.ones(len(events)) * 1.0,
-        np.ones(len(events)) * 0.0005620821246735322,
-        np.ones(len(events)) * 0.0005294085798746587,
-        np.ones(len(events)) * 3.3450627832751235e-05,
-        np.ones(len(events)) * 9.151573446835511e-07,
-        np.ones(len(events)) * 5.3203398382531896e-08,
-        np.ones(len(events)) * 2.5131410318924687e-08,
-        np.ones(len(events)) * 1.5010491632986337e-10,
+        np.ones(len(events)) * 1.0374764194843457e-05,
+        np.ones(len(events)) * 1.3436852651333747e-05,
+        np.ones(len(events)) * 3.465124513006681e-06,
+        np.ones(len(events)) * 2.9662277899420162e-06,
+        np.ones(len(events)) * 6.652299925337401e-07,
+        np.ones(len(events)) * 3.3199485070633147e-07,
+        np.ones(len(events)) * 0.00023075538558485755,
         np.ones(len(events)) * 1.0,
       ],
       default=0.0
     )
   elif metadata["year"] == "2016_PreVFP" and metadata["sample"] == "WJetsToLNuHT7OTo100":
-    return np.ones(len(events)) * 0.023952174868073262
+    return np.ones(len(events)) * 0.023964488457510476
   elif metadata["year"] == "2016_PreVFP" and metadata["sample"] == "WJetsToLNuHT100To200":
-    return np.ones(len(events)) * 0.023268529860187938
+    return np.ones(len(events)) * 0.023279963142934873
   elif metadata["year"] == "2016_PreVFP" and metadata["sample"] == "WJetsToLNuHT200To400":
-    return np.ones(len(events)) * 0.005684974752063177
+    return np.ones(len(events)) * 0.005684939531164952
   elif metadata["year"] == "2016_PreVFP" and metadata["sample"] == "WJetsToLNuHT400To600":
-    return np.ones(len(events)) * 0.001022123610524815
+    return np.ones(len(events)) * 0.0010221156491274051
   elif metadata["year"] == "2016_PreVFP" and metadata["sample"] == "WJetsToLNuHT600To800":
-    return np.ones(len(events)) * 0.0001688593271548839
+    return np.ones(len(events)) * 0.00016782136288964064
   elif metadata["year"] == "2016_PreVFP" and metadata["sample"] == "WJetsToLNuHT800To1200":
-    return np.ones(len(events)) * 7.164157583514717e-05
+    return np.ones(len(events)) * 7.146649247998813e-05
   elif metadata["year"] == "2016_PreVFP" and metadata["sample"] == "WJetsToLNuHT1200To2500":
-    return np.ones(len(events)) * 1.4884872691679189e-05
+    return np.ones(len(events)) * 1.4875908504517582e-05
   elif metadata["year"] == "2016_PostVFP" and metadata["sample"] == "WJetsToLNuHT7OTo100":
-    return np.ones(len(events)) * 0.022926264231535674
+    return np.ones(len(events)) * 0.020950225732266358
   elif metadata["year"] == "2016_PostVFP" and metadata["sample"] == "WJetsToLNuHT100To200":
-    return np.ones(len(events)) * 0.022748990157591183
+    return np.ones(len(events)) * 0.020830613869394186
   elif metadata["year"] == "2016_PostVFP" and metadata["sample"] == "WJetsToLNuHT200To400":
-    return np.ones(len(events)) * 0.006156196429611078
+    return np.ones(len(events)) * 0.00596058903877212
   elif metadata["year"] == "2016_PostVFP" and metadata["sample"] == "WJetsToLNuHT400To600":
-    return np.ones(len(events)) * 0.0008260592047835228
+    return np.ones(len(events)) * 0.0008009118969865824
   elif metadata["year"] == "2016_PostVFP" and metadata["sample"] == "WJetsToLNuHT600To800":
-    return np.ones(len(events)) * 0.0001958075815885109
+    return np.ones(len(events)) * 0.00019444793573229017
   elif metadata["year"] == "2016_PostVFP" and metadata["sample"] == "WJetsToLNuHT800To1200":
-    return np.ones(len(events)) * 8.614305663289388e-05
+    return np.ones(len(events)) * 8.586411815639534e-05
   elif metadata["year"] == "2016_PostVFP" and metadata["sample"] == "WJetsToLNuHT1200To2500":
-    return np.ones(len(events)) * 1.7333977611210644e-05
+    return np.ones(len(events)) * 1.7322427319652646e-05
   elif metadata["year"] == "2017" and metadata["sample"] == "WJetsToLNuHT7OTo100":
-    return np.ones(len(events)) * 0.023060394312598462
+    return np.ones(len(events)) * 0.023072249154104395
   elif metadata["year"] == "2017" and metadata["sample"] == "WJetsToLNuHT100To200":
-    return np.ones(len(events)) * 0.02144302415023246
+    return np.ones(len(events)) * 0.021452469579043287
   elif metadata["year"] == "2017" and metadata["sample"] == "WJetsToLNuHT200To400":
-    return np.ones(len(events)) * 0.006494881689946622
+    return np.ones(len(events)) * 0.006495125500106488
   elif metadata["year"] == "2017" and metadata["sample"] == "WJetsToLNuHT400To600":
-    return np.ones(len(events)) * 0.0009639059192589427
+    return np.ones(len(events)) * 0.0009639027594407762
   elif metadata["year"] == "2017" and metadata["sample"] == "WJetsToLNuHT600To800":
-    return np.ones(len(events)) * 0.0002640700068420122
+    return np.ones(len(events)) * 0.0002640697625211807
   elif metadata["year"] == "2017" and metadata["sample"] == "WJetsToLNuHT800To1200":
-    return np.ones(len(events)) * 6.286049951948753e-05
+    return np.ones(len(events)) * 6.277839033296108e-05
   elif metadata["year"] == "2017" and metadata["sample"] == "WJetsToLNuHT1200To2500":
-    return np.ones(len(events)) * 1.2430343768329396e-05
+    return np.ones(len(events)) * 1.2426901451743393e-05
   elif metadata["year"] == "2018" and metadata["sample"] == "WJetsToLNuHT7OTo100":
-    return np.ones(len(events)) * 0.023701607294836665
+    return np.ones(len(events)) * 0.023714689559324327
   elif metadata["year"] == "2018" and metadata["sample"] == "WJetsToLNuHT100To200":
-    return np.ones(len(events)) * 0.023002789101111497
+    return np.ones(len(events)) * 0.023014662330726313
   elif metadata["year"] == "2018" and metadata["sample"] == "WJetsToLNuHT200To400":
-    return np.ones(len(events)) * 0.005783555038922758
+    return np.ones(len(events)) * 0.005783728116131987
   elif metadata["year"] == "2018" and metadata["sample"] == "WJetsToLNuHT400To600":
-    return np.ones(len(events)) * 0.000956638127596107
+    return np.ones(len(events)) * 0.00095663610733996
   elif metadata["year"] == "2018" and metadata["sample"] == "WJetsToLNuHT600To800":
-    return np.ones(len(events)) * 0.00023065861256829387
+    return np.ones(len(events)) * 0.0002306584573850086
   elif metadata["year"] == "2018" and metadata["sample"] == "WJetsToLNuHT800To1200":
-    return np.ones(len(events)) * 0.0001585288922794104
+    return np.ones(len(events)) * 0.0001585288340009812
   elif metadata["year"] == "2018" and metadata["sample"] == "WJetsToLNuHT1200To2500":
-    return np.ones(len(events)) * 1.2251731155527854e-05
+    return np.ones(len(events)) * 1.2248903260215276e-05
   return np.ones(len(events))
 
 wl_func = WeightLambda.wrap_func(

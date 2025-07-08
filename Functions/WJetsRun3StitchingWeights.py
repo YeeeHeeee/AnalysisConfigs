@@ -22,19 +22,19 @@ def stitching_func(params, metadata, events, size, shape_variations):
       ],
       choicelist=[
         np.ones(len(events)) * 1.0,
-        np.ones(len(events)) * 0.005755922103451193,
-        np.ones(len(events)) * 0.0008583431479992099,
-        np.ones(len(events)) * 1.1472612592703246e-06,
-        np.ones(len(events)) * 1.0790475662086518e-08,
-        np.ones(len(events)) * 4.0274747845928086e-11,
-        np.ones(len(events)) * 8.19585749712385e-14,
+        np.ones(len(events)) * 0.042211298608064295,
+        np.ones(len(events)) * 0.024125704034901805,
+        np.ones(len(events)) * 0.00666287211389584,
+        np.ones(len(events)) * 0.006103685168835849,
+        np.ones(len(events)) * 0.001123950705423108,
+        np.ones(len(events)) * 4.676623913434717e-05,
         np.ones(len(events)) * 1.0,
-        np.ones(len(events)) * 1.4599911686530576e-07,
-        np.ones(len(events)) * 3.51631615409894e-08,
-        np.ones(len(events)) * 9.100264149131543e-11,
-        np.ones(len(events)) * 8.770174374345613e-13,
-        np.ones(len(events)) * 9.009292524893863e-15,
-        np.ones(len(events)) * 0.0,
+        np.ones(len(events)) * 0.00710745973484424,
+        np.ones(len(events)) * 0.007404075336522949,
+        np.ones(len(events)) * 0.001594344719712577,
+        np.ones(len(events)) * 0.00016313967751262104,
+        np.ones(len(events)) * 1.6435893106193558e-05,
+        np.ones(len(events)) * nan,
       ],
       default=0.0
     )
@@ -58,19 +58,19 @@ def stitching_func(params, metadata, events, size, shape_variations):
       ],
       choicelist=[
         np.ones(len(events)) * 1.0,
-        np.ones(len(events)) * 0.005848017156001407,
-        np.ones(len(events)) * 0.0008687784725008341,
-        np.ones(len(events)) * 1.1477058629506203e-06,
-        np.ones(len(events)) * 1.0902523735651541e-08,
-        np.ones(len(events)) * 3.916485038280941e-11,
-        np.ones(len(events)) * 1.1105294492496935e-13,
+        np.ones(len(events)) * 0.1018570379309504,
+        np.ones(len(events)) * 0.051251411651421525,
+        np.ones(len(events)) * 0.014858284464528249,
+        np.ones(len(events)) * 0.01294488055684442,
+        np.ones(len(events)) * 0.002486788430434093,
+        np.ones(len(events)) * 0.00013926324504083467,
         np.ones(len(events)) * 1.0,
-        np.ones(len(events)) * 1.4312671574157142e-07,
-        np.ones(len(events)) * 3.498431408297812e-08,
-        np.ones(len(events)) * 8.34327409928116e-11,
-        np.ones(len(events)) * 1.0127082186657795e-12,
-        np.ones(len(events)) * 4.963321650779388e-15,
-        np.ones(len(events)) * 8.645084226452983e-18,
+        np.ones(len(events)) * 0.01690950299353732,
+        np.ones(len(events)) * 0.017247891927396966,
+        np.ones(len(events)) * 0.003703747825627973,
+        np.ones(len(events)) * 0.0004027631603583225,
+        np.ones(len(events)) * 2.7954573263400488e-05,
+        np.ones(len(events)) * 1.1348746158936156e-06,
       ],
       default=0.0
     )
@@ -94,19 +94,19 @@ def stitching_func(params, metadata, events, size, shape_variations):
       ],
       choicelist=[
         np.ones(len(events)) * 1.0,
-        np.ones(len(events)) * 0.006083108528589771,
-        np.ones(len(events)) * 0.0008983629440460499,
-        np.ones(len(events)) * 1.1436702729339062e-06,
-        np.ones(len(events)) * 1.0714994613921108e-08,
-        np.ones(len(events)) * 3.637758777185127e-11,
-        np.ones(len(events)) * 1.4870557581027056e-13,
+        np.ones(len(events)) * 0.051369997535209655,
+        np.ones(len(events)) * 0.029784077460869987,
+        np.ones(len(events)) * 0.007559463544539573,
+        np.ones(len(events)) * 0.006794620204157047,
+        np.ones(len(events)) * 0.0011092751536458795,
+        np.ones(len(events)) * 7.964926853494944e-05,
         np.ones(len(events)) * 1.0,
-        np.ones(len(events)) * 1.4167728628179853e-07,
-        np.ones(len(events)) * 3.4560383773730696e-08,
-        np.ones(len(events)) * 8.798357794773811e-11,
-        np.ones(len(events)) * 9.169612870500124e-13,
-        np.ones(len(events)) * 9.950170878162927e-16,
-        np.ones(len(events)) * 0.0,
+        np.ones(len(events)) * 0.007789797168599686,
+        np.ones(len(events)) * 0.00838803580621803,
+        np.ones(len(events)) * 0.0017065938713679847,
+        np.ones(len(events)) * 0.0001988642542682738,
+        np.ones(len(events)) * 6.654329972499241e-06,
+        np.ones(len(events)) * nan,
       ],
       default=0.0
     )
@@ -130,118 +130,118 @@ def stitching_func(params, metadata, events, size, shape_variations):
       ],
       choicelist=[
         np.ones(len(events)) * 1.0,
-        np.ones(len(events)) * 0.006367015011974064,
-        np.ones(len(events)) * 0.0009273538013485699,
-        np.ones(len(events)) * 1.169457061780796e-06,
-        np.ones(len(events)) * 1.0347837564110143e-08,
-        np.ones(len(events)) * 3.5114490903700883e-11,
-        np.ones(len(events)) * 1.1601656794663466e-13,
+        np.ones(len(events)) * 0.05291568085410299,
+        np.ones(len(events)) * 0.029448147271713167,
+        np.ones(len(events)) * 0.007707324676469757,
+        np.ones(len(events)) * 0.006657397627195943,
+        np.ones(len(events)) * 0.001069576471664212,
+        np.ones(len(events)) * 6.402585464199861e-05,
         np.ones(len(events)) * 1.0,
-        np.ones(len(events)) * 1.4782068784753769e-07,
-        np.ones(len(events)) * 3.5481757318780544e-08,
-        np.ones(len(events)) * 8.331033448485315e-11,
-        np.ones(len(events)) * 6.319183462438486e-13,
-        np.ones(len(events)) * 5.5001164510652775e-15,
-        np.ones(len(events)) * 1.1402498174009709e-16,
+        np.ones(len(events)) * 0.008295568811644989,
+        np.ones(len(events)) * 0.008438893445915715,
+        np.ones(len(events)) * 0.0016826106030981287,
+        np.ones(len(events)) * 0.00015158870124510997,
+        np.ones(len(events)) * 1.403307486588504e-05,
+        np.ones(len(events)) * 2.0776897152655225e-06,
       ],
       default=0.0
     )
   elif metadata["year"] == "2022_preEE" and metadata["sample"] == "WJetsToLNuHT40To100MLNu0To120":
-    return np.ones(len(events)) * 0.07564913392888378
+    return np.ones(len(events)) * 0.07287534563153654
   elif metadata["year"] == "2022_preEE" and metadata["sample"] == "WJetsToLNuHT100To400MLNu0To120":
-    return np.ones(len(events)) * 0.029284917535132186
+    return np.ones(len(events)) * 0.02860294720865638
   elif metadata["year"] == "2022_preEE" and metadata["sample"] == "WJetsToLNuHT400To800MLNu0To120":
-    return np.ones(len(events)) * 0.0010711022094375157
+    return np.ones(len(events)) * 0.0010639666974138564
   elif metadata["year"] == "2022_preEE" and metadata["sample"] == "WJetsToLNuHT800To1500MLNu0To120":
-    return np.ones(len(events)) * 0.00010387721379422993
+    return np.ones(len(events)) * 0.00010324315702672822
   elif metadata["year"] == "2022_preEE" and metadata["sample"] == "WJetsToLNuHT1500To2500MLNu0To120":
-    return np.ones(len(events)) * 6.346238873876876e-06
+    return np.ones(len(events)) * 6.339106538325922e-06
   elif metadata["year"] == "2022_preEE" and metadata["sample"] == "WJetsToLNuHT2500MLNu0To120":
-    return np.ones(len(events)) * 2.862840808903488e-07
+    return np.ones(len(events)) * 2.850972211689156e-07
   elif metadata["year"] == "2022_preEE" and metadata["sample"] == "WJetsToLNuHT40To100MLNu120":
-    return np.ones(len(events)) * 0.00038209827996153506
+    return np.ones(len(events)) * 0.0003793826101965761
   elif metadata["year"] == "2022_preEE" and metadata["sample"] == "WJetsToLNuHT100To400MLNu120":
-    return np.ones(len(events)) * 0.00018751842657334096
+    return np.ones(len(events)) * 0.0001861300597543236
   elif metadata["year"] == "2022_preEE" and metadata["sample"] == "WJetsToLNuHT400To800MLNu120":
-    return np.ones(len(events)) * 9.5395304644953e-06
+    return np.ones(len(events)) * 9.524320162858577e-06
   elif metadata["year"] == "2022_preEE" and metadata["sample"] == "WJetsToLNuHT800To1500MLNu120":
-    return np.ones(len(events)) * 9.364920914955941e-07
+    return np.ones(len(events)) * 9.363392939680019e-07
   elif metadata["year"] == "2022_preEE" and metadata["sample"] == "WJetsToLNuHT1500To2500MLNu120":
-    return np.ones(len(events)) * 9.491729307609747e-08
+    return np.ones(len(events)) * 9.49157309163664e-08
   elif metadata["year"] == "2022_preEE" and metadata["sample"] == "WJetsToLNuHT2500MLNu120":
-    return np.ones(len(events)) * 0.0
+    return np.ones(len(events)) * nan
   elif metadata["year"] == "2022_postEE" and metadata["sample"] == "WJetsToLNuHT40To100MLNu0To120":
-    return np.ones(len(events)) * 0.07624839572964483
+    return np.ones(len(events)) * 0.06888479255390825
   elif metadata["year"] == "2022_postEE" and metadata["sample"] == "WJetsToLNuHT100To400MLNu0To120":
-    return np.ones(len(events)) * 0.029462241877809523
+    return np.ones(len(events)) * 0.027976561805195168
   elif metadata["year"] == "2022_postEE" and metadata["sample"] == "WJetsToLNuHT400To800MLNu0To120":
-    return np.ones(len(events)) * 0.0010713097337940471
+    return np.ones(len(events)) * 0.0010553930540337759
   elif metadata["year"] == "2022_postEE" and metadata["sample"] == "WJetsToLNuHT800To1500MLNu0To120":
-    return np.ones(len(events)) * 0.00010441515032209893
+    return np.ones(len(events)) * 0.00010306349869691278
   elif metadata["year"] == "2022_postEE" and metadata["sample"] == "WJetsToLNuHT1500To2500MLNu0To120":
-    return np.ones(len(events)) * 6.2581826740097274e-06
+    return np.ones(len(events)) * 6.242619768533506e-06
   elif metadata["year"] == "2022_postEE" and metadata["sample"] == "WJetsToLNuHT2500MLNu0To120":
-    return np.ones(len(events)) * 3.3324607263245736e-07
+    return np.ones(len(events)) * 3.3183492870964305e-07
   elif metadata["year"] == "2022_postEE" and metadata["sample"] == "WJetsToLNuHT40To100MLNu120":
-    return np.ones(len(events)) * 0.00037832088926771494
+    return np.ones(len(events)) * 0.000371923734882804
   elif metadata["year"] == "2022_postEE" and metadata["sample"] == "WJetsToLNuHT100To400MLNu120":
-    return np.ones(len(events)) * 0.00018704093899217863
+    return np.ones(len(events)) * 0.0001838148495599703
   elif metadata["year"] == "2022_postEE" and metadata["sample"] == "WJetsToLNuHT400To800MLNu120":
-    return np.ones(len(events)) * 9.134152450328961e-06
+    return np.ones(len(events)) * 9.100321106738956e-06
   elif metadata["year"] == "2022_postEE" and metadata["sample"] == "WJetsToLNuHT800To1500MLNu120":
-    return np.ones(len(events)) * 1.006334049242474e-06
+    return np.ones(len(events)) * 1.0059284671465263e-06
   elif metadata["year"] == "2022_postEE" and metadata["sample"] == "WJetsToLNuHT1500To2500MLNu120":
-    return np.ones(len(events)) * 7.045084563565837e-08
+    return np.ones(len(events)) * 7.04488856339666e-08
   elif metadata["year"] == "2022_postEE" and metadata["sample"] == "WJetsToLNuHT2500MLNu120":
-    return np.ones(len(events)) * 2.9402524086297396e-09
+    return np.ones(len(events)) * 2.9268020353761206e-09
   elif metadata["year"] == "2023_preBPix" and metadata["sample"] == "WJetsToLNuHT40To100MLNu0To120":
-    return np.ones(len(events)) * 0.0777566995134128
+    return np.ones(len(events)) * 0.07421378147081381
   elif metadata["year"] == "2023_preBPix" and metadata["sample"] == "WJetsToLNuHT100To400MLNu0To120":
-    return np.ones(len(events)) * 0.029959237107556907
+    return np.ones(len(events)) * 0.029093067647390652
   elif metadata["year"] == "2023_preBPix" and metadata["sample"] == "WJetsToLNuHT400To800MLNu0To120":
-    return np.ones(len(events)) * 0.0010694245952624303
+    return np.ones(len(events)) * 0.0010613415712030683
   elif metadata["year"] == "2023_preBPix" and metadata["sample"] == "WJetsToLNuHT800To1500MLNu0To120":
-    return np.ones(len(events)) * 0.00010351325760070543
+    return np.ones(len(events)) * 0.000102809913857952
   elif metadata["year"] == "2023_preBPix" and metadata["sample"] == "WJetsToLNuHT1500To2500MLNu0To120":
-    return np.ones(len(events)) * 6.031383570170938e-06
+    return np.ones(len(events)) * 6.02469340630475e-06
   elif metadata["year"] == "2023_preBPix" and metadata["sample"] == "WJetsToLNuHT2500MLNu0To120":
-    return np.ones(len(events)) * 3.8562361936251844e-07
+    return np.ones(len(events)) * 3.8403900056866347e-07
   elif metadata["year"] == "2023_preBPix" and metadata["sample"] == "WJetsToLNuHT40To100MLNu120":
-    return np.ones(len(events)) * 0.0003764004067603343
+    return np.ones(len(events)) * 0.00037346834947733185
   elif metadata["year"] == "2023_preBPix" and metadata["sample"] == "WJetsToLNuHT100To400MLNu120":
-    return np.ones(len(events)) * 0.00018590422958962116
+    return np.ones(len(events)) * 0.0001843448513214469
   elif metadata["year"] == "2023_preBPix" and metadata["sample"] == "WJetsToLNuHT400To800MLNu120":
-    return np.ones(len(events)) * 9.37995618006806e-06
+    return np.ones(len(events)) * 9.363948724547041e-06
   elif metadata["year"] == "2023_preBPix" and metadata["sample"] == "WJetsToLNuHT800To1500MLNu120":
-    return np.ones(len(events)) * 9.57580955872229e-07
+    return np.ones(len(events)) * 9.573905501386952e-07
   elif metadata["year"] == "2023_preBPix" and metadata["sample"] == "WJetsToLNuHT1500To2500MLNu120":
-    return np.ones(len(events)) * 3.1543891450109506e-08
+    return np.ones(len(events)) * 3.154368332216403e-08
   elif metadata["year"] == "2023_preBPix" and metadata["sample"] == "WJetsToLNuHT2500MLNu120":
-    return np.ones(len(events)) * 0.0
+    return np.ones(len(events)) * nan
   elif metadata["year"] == "2023_postBPix" and metadata["sample"] == "WJetsToLNuHT40To100MLNu0To120":
-    return np.ones(len(events)) * 0.07953914842271925
+    return np.ones(len(events)) * 0.07581297922343738
   elif metadata["year"] == "2023_postBPix" and metadata["sample"] == "WJetsToLNuHT100To400MLNu0To120":
-    return np.ones(len(events)) * 0.030438360932804748
+    return np.ones(len(events)) * 0.029569431619275995
   elif metadata["year"] == "2023_postBPix" and metadata["sample"] == "WJetsToLNuHT400To800MLNu0To120":
-    return np.ones(len(events)) * 0.001081413747901781
+    return np.ones(len(events)) * 0.0010730802406485045
   elif metadata["year"] == "2023_postBPix" and metadata["sample"] == "WJetsToLNuHT800To1500MLNu0To120":
-    return np.ones(len(events)) * 0.00010172432087280015
+    return np.ones(len(events)) * 0.00010104710771078462
   elif metadata["year"] == "2023_postBPix" and metadata["sample"] == "WJetsToLNuHT1500To2500MLNu0To120":
-    return np.ones(len(events)) * 5.925748130191484e-06
+    return np.ones(len(events)) * 5.919410734493913e-06
   elif metadata["year"] == "2023_postBPix" and metadata["sample"] == "WJetsToLNuHT2500MLNu0To120":
-    return np.ones(len(events)) * 3.406120490332384e-07
+    return np.ones(len(events)) * 3.39146144207902e-07
   elif metadata["year"] == "2023_postBPix" and metadata["sample"] == "WJetsToLNuHT40To100MLNu120":
-    return np.ones(len(events)) * 0.000384474532312066
+    return np.ones(len(events)) * 0.0003812851685466557
   elif metadata["year"] == "2023_postBPix" and metadata["sample"] == "WJetsToLNuHT100To400MLNu120":
-    return np.ones(len(events)) * 0.00018836601620203535
+    return np.ones(len(events)) * 0.0001867764099941625
   elif metadata["year"] == "2023_postBPix" and metadata["sample"] == "WJetsToLNuHT400To800MLNu120":
-    return np.ones(len(events)) * 9.127449505634777e-06
+    return np.ones(len(events)) * 9.112092272042358e-06
   elif metadata["year"] == "2023_postBPix" and metadata["sample"] == "WJetsToLNuHT800To1500MLNu120":
-    return np.ones(len(events)) * 7.949329193356187e-07
+    return np.ones(len(events)) * 7.948125639805503e-07
   elif metadata["year"] == "2023_postBPix" and metadata["sample"] == "WJetsToLNuHT1500To2500MLNu120":
-    return np.ones(len(events)) * 7.416276997972263e-08
+    return np.ones(len(events)) * 7.416173522535769e-08
   elif metadata["year"] == "2023_postBPix" and metadata["sample"] == "WJetsToLNuHT2500MLNu120":
-    return np.ones(len(events)) * 1.0678248065113353e-08
+    return np.ones(len(events)) * 1.0629814021943305e-08
   return np.ones(len(events))
 
 wl_func = WeightLambda.wrap_func(
