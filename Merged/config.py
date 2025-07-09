@@ -56,7 +56,7 @@ cfg = Configurator(
         ],
         "filter" : {
             "samples": [
-                DATA_SingleMuon",
+                "DATA_SingleMuon",
                 "DATA_SingleEle",
                 "TTToSemiLeptonic",
                 "TTTo2L2Nu",
