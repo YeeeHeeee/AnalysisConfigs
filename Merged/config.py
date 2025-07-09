@@ -20,9 +20,13 @@ localdir = os.path.dirname(os.path.abspath(__file__))
 
 from Functions.WJetsRun2StitchingWeights import WJetsRun2Stitching
 from Functions.WJetsRun3StitchingWeights import WJetsRun3Stitching
+from Functions.TTTo2L2NuRun2StitchingWeights import TTTo2L2NuRun2Stitching
+from Functions.TTToSemiLeptonicRun2StitchingWeights import TTToSemiLeptonicRun2Stitching
+from Functions.TTToHadronicRun2StitchingWeights import TTToHadronicRun2Stitching
 from Functions.TopPTReweighting import TopPTReweighting
 from Functions.LeptonScaleFactors import SF_ele_custom
 from Functions.Prefiring import Prefiring
+from Functions.BtaggingWeightScaleFactors import BTagWeightCorrection
 
 # Loading default parameters
 from pocket_coffea.parameters import defaults
@@ -33,10 +37,13 @@ parameters = defaults.merge_parameters_from_files(default_parameters,
                                                   f"{localdir}/../params/object_preselection.yaml",
                                                   f"{localdir}/../params/triggers.yaml",
                                                   f"{localdir}/../params/plotting.yaml",
+                                                  f"{localdir}/../params/btag_corrections.yaml",
                                                   update=True)
 
 
 common_weights = common_weights + WJetsRun2Stitching + WJetsRun3Stitching + TopPTReweighting + SF_ele_custom + Prefiring
+common_weights = common_weights + TTTo2L2NuRun2Stitching + TTToSemiLeptonicRun2Stitching + TTToHadronicRun2Stitching
+common_weights = common_weights + BTagWeightCorrection
 
 cfg = Configurator(
     parameters = parameters,
@@ -49,7 +56,7 @@ cfg = Configurator(
         ],
         "filter" : {
             "samples": [
-                "DATA_SingleMuon",
+                DATA_SingleMuon",
                 "DATA_SingleEle",
                 "TTToSemiLeptonic",
                 "TTTo2L2Nu",
@@ -175,7 +182,9 @@ cfg = Configurator(
                           "sf_ele_id_custom", "sf_ele_reco", 
                           #"sf_ele_trigger_custom",
                           "WJetsRun2Stitching", "WJetsRun3Stitching",
-                          "TopPTReweighting"
+                          "TTTo2L2NuRun2Stitching", "TTToSemiLeptonicRun2Stitching", "TTToHadronicRun2Stitching",
+                          "TopPTReweighting",
+                          "BTagWeightCorrection"
                           ],
             "bycategory" : {
             }

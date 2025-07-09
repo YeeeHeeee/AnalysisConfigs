@@ -310,8 +310,12 @@ write_file += ["def stitching_func(params, metadata, events, size, shape_variati
 
 # apply extra selection if provided
 if args.extra_sel is not None:
-  write_file += [f'  if not ({args.extra_sel}):']
-  write_file += ['    return np.ones(len(events))']
+  extra_sel_str = f" & ({args.extra_sel})"
+  not_extra_sel = f"~({args.extra_sel})"
+else:
+  extra_sel_str = ""
+  not_extra_sel = None
+
 
 # Nominal sample
 for year, scale_files in scalers.items():
@@ -320,11 +324,15 @@ for year, scale_files in scalers.items():
   write_file += [f'    return np.select(']
   write_file += [f'      condlist=[' ]
   for cut_str in bin_sel:
-    write_file += [f'        {cut_str},']
+    write_file += [f'        {cut_str}{extra_sel_str},']
+  if not_extra_sel is not None:
+    write_file += [f'        {not_extra_sel},']
   write_file += [f'      ],']
   write_file += [f'      choicelist=[' ]
   for val in scale_files[nominal_names[year]].values():
     write_file += [f'        np.ones(len(events)) * {val},']
+  if not_extra_sel is not None:
+    write_file += [f'        np.ones(len(events)),']
   write_file += [f'      ],']
   write_file += [f'      default=0.0']
   write_file += [f'    )']
@@ -336,7 +344,20 @@ for year, scale_files in scalers.items():
     name = file_bins[year][bin_ind]
     name_minus_year = name.replace(f"_{year}", "")
     write_file += [f'  elif metadata["year"] == "{year}" and metadata["sample"] == "{name_minus_year}":']
-    write_file += [f'    return np.ones(len(events)) * {scale_files[name]}']
+    if args.extra_sel is not None:
+      write_file += [f'    return np.select(']
+      write_file += [f'      condlist=[' ]
+      write_file += [f'        {args.extra_sel},']
+      write_file += [f'        {not_extra_sel},']
+      write_file += [f'      ],']
+      write_file += [f'      choicelist=[' ]
+      write_file += [f'        np.ones(len(events)) * {scale_files[name]},']
+      write_file += [f'        np.ones(len(events)),']
+      write_file += [f'      ],']
+      write_file += [f'      default=0.0']
+      write_file += [f'    )']
+    else:
+      write_file += [f'    return np.ones(len(events)) * {scale_files[name]}']
 
 # Default case
 write_file += ['  return np.ones(len(events))']

@@ -198,16 +198,17 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             self.events["GenTop2"] = ak.pad_none(self.events["GenTop"], 2, axis=1)[:, 1]
 
             # Get the gen top AK8
-            self.events["GenTop_AK8"] = ak.firsts(self.events["GenJetAK8"])
-            GenTop_AK8 = to_singleton_jet(self.events["GenTop_AK8"])
-            self.events["GenTop_AK8"] = ak.where(
-                ak.is_none(GenTop_AK8),
-                dummy_candidate,
-                GenTop_AK8,
-            )
-            self.events["GenTop_AK8"] = ak.firsts(self.events["GenJetAK8"])
-            self.events["MatchedTop_AK81"], self.events["MatchedGenTop_AK8"], deltaR_padnon = object_matching(fatjet, GenTop_AK8, dr_min = 0.8)  
-            self.events["MatchedTop_AK8"] = ak.firsts(self.events["MatchedTop_AK81"])
+            if self.events.metadata["sample"].startswith("TT"):
+                self.events["GenTop_AK8"] = ak.firsts(self.events["GenJetAK8"])
+                GenTop_AK8 = to_singleton_jet(self.events["GenTop_AK8"])
+                self.events["GenTop_AK8"] = ak.where(
+                    ak.is_none(GenTop_AK8),
+                    dummy_candidate,
+                    GenTop_AK8,
+                )
+                self.events["GenTop_AK8"] = ak.firsts(self.events["GenJetAK8"])
+                self.events["MatchedTop_AK81"], self.events["MatchedGenTop_AK8"], deltaR_padnon = object_matching(fatjet, GenTop_AK8, dr_min = 0.8)  
+                self.events["MatchedTop_AK8"] = ak.firsts(self.events["MatchedTop_AK81"])
 
             # Get the GenTop pairs - first copy
             if self.events.metadata["sample"].startswith("TT"):

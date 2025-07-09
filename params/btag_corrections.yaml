@@ -1,0 +1,34 @@
+btagjsonFiles:
+    '2016_PreVFP':
+        'AK4': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/BTV/2016preVFP_UL/btagging.json.gz'
+    '2016_PostVFP':
+        'AK4': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/BTV/2016postVFP_UL/btagging.json.gz'
+    '2017':
+        'AK4': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/BTV/2017_UL/btagging.json.gz'
+    '2018':
+        'AK4': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/BTV/2018_UL/btagging.json.gz'
+    '2022_preEE':
+        'AK4': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/BTV/2022_Summer22/btagging.json.gz'
+    '2022_postEE':
+        'AK4': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/BTV/2022_Summer22EE/btagging.json.gz'
+    '2023_preBPix':
+        'AK4': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/BTV/2023_Summer23/btagging.json.gz'
+    '2023_postBPix':
+        'AK4': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/BTV/2023_Summer23BPix/btagging.json.gz'
+btagFunc:
+    '2016_PreVFP':
+        'AK4': 'deepJet_comb'
+    '2016_PostVFP':
+        'AK4': 'deepJet_comb'
+    '2017':
+        'AK4': 'deepJet_comb'
+    '2018':
+        'AK4': 'deepJet_comb'
+    '2022_preEE':
+        'AK4': 'deepJet_comb'
+    '2022_postEE':
+        'AK4': 'deepJet_comb'
+    '2023_preBPix':
+        'AK4': 'deepJet_comb'
+    '2023_postBPix':
+        'AK4': 'deepJet_comb'
