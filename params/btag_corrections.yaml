@@ -32,3 +32,20 @@ btagFunc:
         'AK4': 'deepJet_comb'
     '2023_postBPix':
         'AK4': 'deepJet_comb'
+btagShapeFunc:
+    '2016_PreVFP':
+        'AK4': 'deepJet_shape'
+    '2016_PostVFP':
+        'AK4': 'deepJet_shape'
+    '2017':
+        'AK4': 'deepJet_shape'
+    '2018':
+        'AK4': 'deepJet_shape'
+    '2022_preEE':
+        'AK4': 'deepJet_shape'
+    '2022_postEE':
+        'AK4': 'deepJet_shape'
+    '2023_preBPix':
+        'AK4': 'deepJet_shape'
+    '2023_postBPix':
+        'AK4': 'deepJet_shape'

@@ -33,6 +33,35 @@ After set up the environment, you can leave the directory of the PocketCoffea
 
 ---
 
+## Run from lxplus apptainer
+
+If using lxplus you can run straight from the aptainer, meaning you do not need to setup a pocket coffea environment.
+   ```bash
+   apptainer shell -B /afs -B /cvmfs/cms.cern.ch -B /tmp -B /eos/cms/ -B /etc/sysconfig/ngbauth-submit  -B ${XDG_RUNTIME_DIR}  --env KRB5CCNAME="FILE:${XDG_RUNTIME_DIR}/krb5cc"  /cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cms-analysis/general/pocketcoffea:lxplus-el9-stable
+   ```
+
+```bash
+apptainer shell \
+  -B /afs \
+  -B /cvmfs/cms.cern.ch \
+  -B /tmp \
+  -B /eos/cms/ \
+  -B /eos/user/$(whoami | cut -c1)/$(whoami) \
+  -B /etc/sysconfig/ngbauth-submit \
+  -B ${XDG_RUNTIME_DIR} \
+  --env KRB5CCNAME="FILE:${XDG_RUNTIME_DIR}/krb5cc" \
+  /cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cms-analysis/general/pocketcoffea:lxplus-el9-stable
+```
+
+With this you will also need to export AnalysisConfigs as the PYTHONPATH. 
+   ```bash
+   export PYTHONPATH="$(realpath $(pwd | grep -o '.*/AnalysisConfigs')):$PYTHONPATH"
+   ```
+
+With this setup, you can also use dask to submit your jobs.
+
+---
+
 ## Setup the Workflow
 
 ### 1. Clone the `AnalysisConfigs` Repository

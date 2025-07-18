@@ -5,6 +5,7 @@ import workflow_run2
 from workflow_run2 import WJetsStitchingWorkflow
 from pocket_coffea.lib.weights.common import common_weights
 import numpy as np
+from pocket_coffea.lib.columns_manager import ColOut, ColumnsManager, column_accumulator
 
 # Register custom modules in cloudpickle to propagate them to dask workers
 import cloudpickle
@@ -24,7 +25,7 @@ cfg = Configurator(
     datasets = {
         "jsons": [f"{localdir}/../Datasets/backgrounds_MC_ttbar.json"],
         "filter" : {
-            "samples": ["WJetsToLNuHT70To100",
+            "samples": ["WJetsToLNuHT7OTo100",
                         "WJetsToLNuHT100To200",
                         "WJetsToLNuHT200To400",
                         "WJetsToLNuHT400To600",
@@ -66,14 +67,18 @@ cfg = Configurator(
     },   
     columns = {
         "common": {
-            "inclusive": [],
+            "inclusive": [
+                ColOut(
+                    "LHE",
+                    ["HT"],
+                    flatten=False
+                ),
+            ],
             "bycategory": {},
         },
         "bysample": {
         },
     },
-    variables = {
-      "HT" : HistConf([Axis(coll="LHE", field="HT", bins=[0,70,100,200,400,600,800,1200,2500,5000], label="HT")]),
-    }
+    variables = {}
 )
 

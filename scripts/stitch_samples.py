@@ -3,6 +3,7 @@ import copy
 import fnmatch
 import glob
 import os
+import re
 import pandas as pd
 import numpy as np
 import coffea.util as cu
@@ -15,6 +16,9 @@ parser.add_argument('--output-file', help='The output of python file created wit
 parser.add_argument('--output-name', help='The name of the stored function', type=str, default="StitchingWeights")
 parser.add_argument('--category-conversion', help='A dictionary formatting string to convert the category into a string', type=str, default=None)
 parser.add_argument('--extra-sel', help='The string of extra selection in the function', type=str, default=None)
+parser.add_argument('--dataset', help='Boolean saying whether the inputs area a dataset instead of a histogram.', action='store_true', default=False)
+parser.add_argument('--dataset-bins', help='Comma separated list of the string of selection in each bin', type=str, default=None)
+parser.add_argument('--remove-large-outlier-weights', help='Remove large outlier weights.', action='store_true', default=False)
 args = parser.parse_args()
 
 # Check if input is provided
@@ -26,9 +30,14 @@ category_conversion = None
 if args.category_conversion is not None:
   category_conversion = {item.split(":")[0]: item.split(":")[1] for item in args.category_conversion.split(",")}
 
+# Setup dataset bins
+dataset_bins = None
+if args.dataset_bins is not None:
+  dataset_bins = args.dataset_bins.split(",")
+
 # Get files
 input_files_w = args.input.split(",")
-input_files_w2 = args.input_w2.split(",")
+input_files_w2 = args.input_w2.split(",") if args.input_w2 is not None else []
 files_w = []
 for f in input_files_w:
   if "*" in f:
@@ -44,9 +53,14 @@ for f in input_files_w2:
     files_w2 += [f]
 files_w2 = list(set(files_w2))
   
+# Get storage type
+storage_type = "variables"
+if args.dataset:
+  storage_type = "columns"
 
 # Initiate storage
 hists = {}
+hists_w2 = {}
 normalisations = {}
 first = True
 
@@ -57,49 +71,87 @@ for file in files_w:
   hist_dict = cu.load(file)
 
   # Loop through coffea keys
-  for overall_name in hist_dict["variables"].keys():
-    for year_name in hist_dict["variables"][overall_name].keys():
-      for variation_name in hist_dict["variables"][overall_name][year_name].keys():
+  for overall_name in hist_dict[storage_type].keys():
+    for year_name in hist_dict[storage_type][overall_name].keys():
+      for variation_name in hist_dict[storage_type][overall_name][year_name].keys():
+
+        store_name = copy.deepcopy(variation_name)
+        if args.dataset:
+          store_name = copy.deepcopy(year_name)
 
         # Check if the variation is already in the hists dictionary
-        if variation_name in hists:
-          raise ValueError(f"Variation {variation_name} already exists in the hists dictionary. Please check the input files.")
+        if store_name in hists:
+          raise ValueError(f"{store_name} already exists in the hists dictionary. Please check the input files.")
 
         # Setup histogram storage
-        hists[variation_name] = []
+        hists[store_name] = []
 
-        # Setup bins
-        if first:
-          bins = hist_dict["variables"][overall_name][year_name][variation_name].axes[2].edges
-          bin_sel = []
+        if args.dataset:
 
-        # Loop through categories
-        for cat_ind, hist in enumerate(hist_dict["variables"][overall_name][year_name][variation_name].values()):
-
-          # Append histogram values
-          hists[variation_name] += list(hist[0])
-
-          # Make selection string
-          if first:
-            var_name = hist_dict["variables"][overall_name][year_name][variation_name].axes[2].name
-            cat_name = hist_dict["variables"][overall_name][year_name][variation_name].axes[0][cat_ind]
-            if cat_name == "baseline":
-              bin_sel += [f"(events.{var_name}>={bins[ind]}) & (events.{var_name}<{bins[ind+1]})" for ind in range(len(bins)-1)]
+          data_dict = {}
+          for column_name, arr in hist_dict["columns"][overall_name][year_name][variation_name].items():
+            if len(arr.value.shape) == 1:
+              data_dict[column_name] = arr.value
             else:
-              if category_conversion is None:
-                raise ValueError("Category conversion is not set, please provide a category conversion string.")
-              if cat_name not in category_conversion:
-                raise ValueError(f"Category {cat_name} not found in category conversion dictionary.")
-              bin_sel += [f"(events.{var_name}>={bins[ind]}) & (events.{var_name}<{bins[ind+1]}) & ({category_conversion[cat_name]})" for ind in range(len(bins)-1)]
+              for i in range(arr.value.shape[1]):
+                data_dict[f"{column_name}_{i+1}"] = arr.value[:,i]
+          df = pd.DataFrame(data_dict)
+
+          if args.remove_large_outlier_weights:
+            mean_wt = np.mean(df.loc[:,"weight"])
+            std_wt = np.std(df.loc[:,"weight"])
+            n_events_before = len(df)
+            df = df[(df.loc[:,"weight"] <= (mean_wt + (10*std_wt)))]
+            print(f"Removed {n_events_before-len(df)}/{n_events_before} events in {store_name}")
+
+          hists[store_name] = []
+          hists_w2[store_name] = []
+          if first:
+            bin_sel = []
+          for b in dataset_bins:
+            df_sel = b.replace("events.","")
+            df_sel = re.sub(r'(?<!\d)\.(?!\d)', '_', df_sel)
+            sliced_df = df.query(df_sel)
+            hists[store_name].append(float(np.sum(sliced_df.loc[:,"weight"])))
+            hists_w2[store_name].append(float(np.sum(sliced_df.loc[:,"weight"]**2)))
+          bin_sel = copy.deepcopy(dataset_bins)
+
+        else:
+
+          # Setup bins
+          if first:
+            bins = hist_dict["variables"][overall_name][year_name][variation_name].axes[2].edges
+            bin_sel = []
+
+          # Loop through categories
+          for cat_ind, hist in enumerate(hist_dict["variables"][overall_name][year_name][variation_name].values()):
+
+            # Append histogram values
+            hists[store_name] += list(hist[0])
+
+            # Make selection string
+            if first:
+              var_name = hist_dict["variables"][overall_name][year_name][variation_name].axes[2].name
+              cat_name = hist_dict["variables"][overall_name][year_name][variation_name].axes[0][cat_ind]
+              if cat_name == "baseline":
+                bin_sel += [f"(events.{var_name}>={bins[ind]}) & (events.{var_name}<{bins[ind+1]})" for ind in range(len(bins)-1)]
+              else:
+                if category_conversion is None:
+                  raise ValueError("Category conversion is not set, please provide a category conversion string.")
+                if cat_name not in category_conversion:
+                  raise ValueError(f"Category {cat_name} not found in category conversion dictionary.")
+                bin_sel += [f"(events.{var_name}>={bins[ind]}) & (events.{var_name}<{bins[ind+1]}) & ({category_conversion[cat_name]})" for ind in range(len(bins)-1)]
 
         # Convert to numpy array
-        hists[variation_name] = np.array(hists[variation_name])
+        hists[store_name] = np.array(hists[store_name])
 
         # Normalise the histogram
-        normalisations[variation_name] = np.sum(hists[variation_name])
-        if normalisations[variation_name] > 1.01 or normalisations[variation_name] < 0.99:
-          print(f"Warning: Histogram {variation_name} normalisation is not 1.0, sum is {normalisations[variation_name]}. Check this behaviour is expected.")
-        hists[variation_name] = hists[variation_name] / normalisations[variation_name]
+        normalisations[store_name] = np.sum(hists[store_name])
+        if (normalisations[store_name] > 1.01 or normalisations[store_name] < 0.99) and not args.dataset:
+          print(f"Warning: Histogram {store_name} normalisation is not 1.0, sum is {normalisations[store_name]}. Check this behaviour is expected.")
+        hists[store_name] = hists[store_name] / normalisations[store_name]
+        if args.dataset:
+          hists_w2[store_name] = hists_w2[store_name] / (normalisations[store_name]**2)
 
         # Flip the first bool
         if first:
@@ -107,28 +159,29 @@ for file in files_w:
           
 
 # Make weights squared histograms
-if args.input_w2 is None:
+if not args.dataset:
 
-  # Assume no weights
-  hists_w2 = hists
+  if args.input_w2 is None:
 
-else:
+    # Assume no weights
+    hists_w2 = hists
 
-  # Load histograms in for w2
-  hists_w2 = {}
-  for file in files_w2:
-    hist_dict = cu.load(file)
-    for overall_name in hist_dict["variables"].keys():
-      for year_name in hist_dict["variables"][overall_name].keys():
-        for variation_name in hist_dict["variables"][overall_name][year_name].keys():
-          if variation_name not in hists.keys(): continue
-          if variation_name in hists_w2:
-            raise ValueError(f"Variation {variation_name} already exists in the hists_w2 dictionary. Please check the input files.")
-          hists_w2[variation_name] = []
-          for cat_ind, hist in enumerate(hist_dict["variables"][overall_name][year_name][variation_name].values()):
-            hists_w2[variation_name] += list(hist[0]/hist_dict["sum_genweights"][variation_name]) # The division is need because of how the normalisation is dealt with
-          hists_w2[variation_name] = np.array(hists_w2[variation_name])
-          hists_w2[variation_name] = hists_w2[variation_name] / normalisations[variation_name]**2
+  else:
+
+    # Load histograms in for w2
+    for file in files_w2:
+      hist_dict = cu.load(file)
+      for overall_name in hist_dict["variables"].keys():
+        for year_name in hist_dict["variables"][overall_name].keys():
+          for variation_name in hist_dict["variables"][overall_name][year_name].keys():
+            if variation_name not in hists.keys(): continue
+            if variation_name in hists_w2:
+              raise ValueError(f"Variation {variation_name} already exists in the hists_w2 dictionary. Please check the input files.")
+            hists_w2[variation_name] = []
+            for cat_ind, hist in enumerate(hist_dict["variables"][overall_name][year_name][variation_name].values()):
+              hists_w2[variation_name] += list(hist[0]/hist_dict["sum_genweights"][variation_name]) # The division is need because of how the normalisation is dealt with
+            hists_w2[variation_name] = np.array(hists_w2[variation_name])
+            hists_w2[variation_name] = hists_w2[variation_name] / normalisations[variation_name]**2
 
   # Check all keys in hists are in hists_w2
   for k in hists.keys():
@@ -226,13 +279,6 @@ for year, year_hists in hists_in_years.items():
         raise ValueError(f"More than one histogram with bin {bin_ind} filled found for year {year}: {file_bins[year][bin_ind]} and {variation_name}")
       file_bins[year][bin_ind] = variation_name
 
-      ## zero histogram in other bins
-      #for b in range(len(norm_hist)):
-      #  if b != bin_ind:
-      #    hists_in_years[year][variation_name][b] = 0.0
-      #    hists_w2_in_years[year][variation_name][b] = 0.0
-
-
   if nominal_names[year] is None:
     raise ValueError(f"No nominal histogram found for year {year}")
   
@@ -252,8 +298,14 @@ for year, year_hists in hists_in_years.items():
     else:
 
       # Scale by sum weights over sum of weights squared for optimal stats
-      scalers[year][nominal_names[year]][b] = hists[nominal_names[year]][b] / hists_w2[nominal_names[year]][b]
-      scalers[year][file_bins[year][b]] = hists[file_bins[year][b]][b] / hists_w2[file_bins[year][b]][b]
+      if hists_w2[nominal_names[year]][b] > 0.0:
+        scalers[year][nominal_names[year]][b] = hists[nominal_names[year]][b] / hists_w2[nominal_names[year]][b]
+      else:
+        scalers[year][nominal_names[year]][b] = 0.0
+      if hists_w2[file_bins[year][b]][b] > 0.0:
+        scalers[year][file_bins[year][b]] = hists[file_bins[year][b]][b] / hists_w2[file_bins[year][b]][b]
+      else:
+        scalers[year][file_bins[year][b]] = 0.0
       
       # Get total scale
       total_scale = (scalers[year][nominal_names[year]][b] * hists[nominal_names[year]][b]) + (scalers[year][file_bins[year][b]] * hists[file_bins[year][b]][b])

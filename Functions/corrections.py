@@ -4,8 +4,10 @@ import awkward as ak
 import numpy as np
 import correctionlib
 
+from pocket_coffea.lib.deltaR_matching import object_matching
+
 def jet_correction_correctionlib(
-    events, Jet, typeJet, JECversion, JERversion, JECjsonFile, year, MC,verbose=False
+    events, Jet, typeJet, JECversion, JERversion, JECjsonFile, year, MC,verbose=False, area=None
 ):
     '''
     This function implements the Jet Energy corrections and Jet energy smearning
@@ -30,6 +32,12 @@ def jet_correction_correctionlib(
     else:
         jets['rho'] = ak.broadcast_arrays(events.Rho.fixedGridRhoFastjetAll, jets.pt)[0]
     jets['run'] = ak.broadcast_arrays(events.run, jets.pt)[0]
+
+    # set are to 0.5 if not present
+    if "area" not in jets.fields:
+        jets['area'] = ak.broadcast_arrays(
+            np.full_like(jets.pt, 0.5, dtype=np.float32), jets.pt
+        )[0]
 
     j, nj = ak.flatten(jets), ak.num(jets)
 
@@ -80,6 +88,8 @@ def jet_correction_correctionlib(
     jets_corrected = copy.copy(jets)
     jets_corrected['pt'] = jets['pt_raw'] * corrFactor
     jets_corrected['mass'] = jets['mass_raw'] * corrFactor
+    if hasattr(jets, 'msoftdrop'):
+        jets_corrected['msoftdrop'] = jets['msoftdrop'] * (jets_corrected['pt'] / jets['pt_raw'])
     jets_corrected['rho'] = jets['rho']
 
     seed = events.event[0]
@@ -135,21 +145,24 @@ def jet_correction_correctionlib(
         genJet = {'AK4PFchs': 'GenJet', 'AK4PFPuppi': 'GenJet', 'AK8PFPuppi': 'GenJetAK8'}[typeJet]
         genJetIdx = {'AK4PFchs': 'genJetIdx', 'AK4PFPuppi': 'genJetIdx', 'AK8PFPuppi': 'genJetAK8Idx'}[typeJet]
 
-        # They can be matched manually
-        # matched_genjets, matched_jets, deltaR_matched = object_matching(genjets, jets_corrected, dr_min, pt_min)
-        # Or the association in NanoAOD it can be used, removing the indices that are not found. That happens because
-        # not all the genJet are saved in the NanoAODs.
+
         genjets = events[genJet]
         Ngenjet = ak.num(genjets)
-        matched_genjets_idx = ak.mask(
-            jets_corrected[genJetIdx],
-            (jets_corrected[genJetIdx] < Ngenjet) & (jets_corrected[genJetIdx] != -1),
-        )
-        # this array of indices has already the dimension of the Jet collection
-        # in NanoAOD nomatch == -1 --> convert to None with a mask
-        matched_objs_mask = ~ak.is_none(matched_genjets_idx, axis=1)
-        matched_genjets = genjets[matched_genjets_idx]
-        matched_jets = ak.mask(jets_corrected, matched_objs_mask)
+        # They can be matched manually
+        if not hasattr(jets_corrected, genJetIdx):
+            matched_genjets, matched_jets, deltaR_matched = object_matching(genjets, jets_corrected, dr_min, pt_min)
+        # Or the association in NanoAOD it can be used, removing the indices that are not found. That happens because
+        # not all the genJet are saved in the NanoAODs.
+        else:
+            matched_genjets_idx = ak.mask(
+                jets_corrected[genJetIdx],
+                (jets_corrected[genJetIdx] < Ngenjet) & (jets_corrected[genJetIdx] != -1),
+            )
+            # this array of indices has already the dimension of the Jet collection
+            # in NanoAOD nomatch == -1 --> convert to None with a mask
+            matched_objs_mask = ~ak.is_none(matched_genjets_idx, axis=1)
+            matched_genjets = genjets[matched_genjets_idx]
+            matched_jets = ak.mask(jets_corrected, matched_objs_mask)
 
         deltaPt = ak.unflatten(
             np.abs(ak.flatten(matched_jets.pt) - ak.flatten(matched_genjets.pt)),
@@ -188,6 +201,8 @@ def jet_correction_correctionlib(
         jets_smeared = copy.copy(jets_corrected)
         jets_smeared['pt'] = jets_corrected['pt'] * smearFactor
         jets_smeared['mass'] = jets_corrected['mass'] * smearFactor
+        if hasattr(jets_smeared, 'msoftdrop'):
+            jets_smeared['msoftdrop'] = jets_corrected['msoftdrop'] * smearFactor
 
         if verbose:
             print()

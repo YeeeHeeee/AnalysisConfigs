@@ -89,10 +89,11 @@ def check_jobs_logs(jobs_folder):
 @click.option("--max-resubmit", type=int, help="Maximum number of resubmission", default=3)
 @click.option("--set-to-fail", is_flag=True, help="Set all jobs to failed. Use with caution!")
 @click.option("--sub-replace", type=str, help="Replace this key's value with the new value", default=None)
+@click.option("--skip-bad-files", is_flag=True, help="Add skip bad files option to condor_submit")
 
 
 
-def check_jobs(jobs_folder, details, resubmit, max_resubmit, set_to_fail, sub_replace):
+def check_jobs(jobs_folder, details, resubmit, max_resubmit, set_to_fail, sub_replace, skip_bad_files):
     
     jobs_folder = Path(jobs_folder)
     # Get the list of files in the folder
@@ -190,6 +191,17 @@ def check_jobs(jobs_folder, details, resubmit, max_resubmit, set_to_fail, sub_re
                                                 print(f"voms-proxy-init -voms cms --valid 192:00 -out {proxy_path}")
                                                 exit(1)
                                             continue
+
+                                if skip_bad_files:
+                                    with open(job_file) as f:
+                                        lines = f.readlines()
+                                    with open(job_file, "w") as f:
+                                        for line in lines:
+                                            if "pocket-coffea run" in line and "--skip-bad-files" not in line:
+                                                f.write(f"{line.rstrip()} --skip-bad-files\n")
+                                            else:
+                                                f.write(line)
+                                   
 
                                 os.system(f"rm {jobs_folder}/{failed_job}.failed")
                                 os.system(f"touch {jobs_folder}/{failed_job}.idle")

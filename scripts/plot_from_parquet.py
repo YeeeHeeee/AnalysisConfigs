@@ -23,17 +23,18 @@ parser.add_argument('--num-bins', help='The number of bins if bins=auto', type=i
 parser.add_argument('--calculate', help='Calculate the variable', type=str, default=None)
 parser.add_argument('--include-fraction', help='Include the fractions of process in plot', action='store_true', default=False)
 parser.add_argument('--scale', help='Comma separate list of key and the scalings', type=str, default=None)
+parser.add_argument('--xlabel', help='X label for plot. If none will use var', type=str, default=None)
 args = parser.parse_args()
 
 if args.year == "all":
   wildcard = "*"
-  lumi_label = "$202\ fb^{-1}\ (13,13.6\ TeV)$"
+  lumi_label = "$200\ fb^{-1}\ (13,13.6\ TeV)$"
 elif args.year == "run2":
   wildcard = ["*2016_PreVFP*", "*2016_PostVFP*", "*2017*", "*2018*"]
   lumi_label = "$138\ fb^{-1}\ (13\ TeV)$"
 elif args.year == "run3":
   wildcard = ["*2022_preEE*", "*2022_postEE*", "*2023_preBPix*", "*2023_postBPix*"]
-  lumi_label = "$63.8\ fb^{-1}\ (13.6\ TeV)$"
+  lumi_label = "$61.9\ fb^{-1}\ (13.6\ TeV)$"
 elif args.year == "2016_PreVFP":
   wildcard = "*2016_PreVFP*"
   lumi_label = "$19.6\ fb^{-1}\ (13\ TeV)$"
@@ -54,31 +55,47 @@ elif args.year == "2022_postEE":
   lumi_label = "$26.7\ fb^{-1}\ (13.6\ TeV)$"
 elif args.year == "2023_preBPix":
   wildcard = "*2023_preBPix*"
-  lumi_label = "$17.7\ fb^{-1}\ (13.6\ TeV)$"
+  lumi_label = "$17.8\ fb^{-1}\ (13.6\ TeV)$"
 elif args.year == "2023_postBPix":
   wildcard = "*2023_postBPix*"
   lumi_label = "$9.45\ fb^{-1}\ (13.6\ TeV)$"
 else:
   raise ValueError(f"Unknown year: {args.year}. Please specify a valid year.")
 
-
 groups = {
   "Data": ["DATA_*.parquet"],
-  "TTToSemiLeptonic": ["TTToSemiLeptonic_*.parquet"],
-  "TTTo2L2Nu": ["TTTo2L2Nu_*.parquet"],
-  "TTToHadronic": ["TTToHadronic_*.parquet"],
-  "WJetsToLNu": ["WJetsToLNu_*.parquet","WJetsToLNuHT*.parquet"],
-  "QCD Multijet": ["QCD*.parquet"],
-  "Other": ["ST_t_channel_top_*.parquet", "ST_t_channel_antitop_*.parquet", "DY*.parquet", "WW*.parquet", "WZ*.parquet", "ZZ*.parquet"], 
+  "TT": ["TTToSemiLeptonic_*.parquet", "TTToHadronic_*.parquet", "TTTo2L2Nu_*.parquet", "TTMtt*.parquet"],
+  #"TTToSemiLeptonc 171.5": ["TTToSemiLeptonic171p5_*.parquet"],
+  #"TTToHadronic 171.5": ["TTToHadronic171p5_*.parquet"],
+  #"TTTo2L2Nu 171.5": ["TTTo2L2Nu171p5_*.parquet"],
+  "WJ": ["WJetsToLNu_*.parquet","WJetsToLNuHT*.parquet"],
+  #"WJetsToLNuHT400To600": ["WJetsToLNuHT400To600_*.parquet"], 
+  #"WJetsToLNuHT600To800": ["WJetsToLNuHT600To800_*.parquet"],
+  #"WJetsToLNuHT800To1200": ["WJetsToLNuHT800To1200_*.parquet"],
+  #"WJetsToLNuHT1200To2500": ["WJetsToLNuHT1200To2500_*.parquet"],
+  #"QCD Multijet": ["QCD*.parquet"],
+  "ST" : ["ST_*.parquet"],
+  "QCD": ["QCD_Mu*.parquet","QCD_bcToE*.parquet"],
+  "DY" : ["DY*.parquet"],
+  "VV" : ["WW*.parquet", "WZ*.parquet", "ZZ*.parquet"],
+  #"Other": ["ST_t_channel_top_*.parquet", "ST_t_channel_antitop_*.parquet", "DY*.parquet", "WW*.parquet", "WZ*.parquet", "ZZ*.parquet"], 
 }
 
 colours = {
-  "TTToSemiLeptonic": "blue",
-  "TTTo2L2Nu": "orange",
-  "TTToHadronic": "green",
-  "WJetsToLNu": "red",
-  "QCD Multijet": "cyan",
-  "Other": "purple",
+  "TT": "blue",
+  #"TTToSemiLeptonc 171.5": "blue",
+  #"TTToHadronic 171.5": "orange",
+  #"TTTo2L2Nu 171.5": "green",
+  "WJ": "red",
+  #"WJetsToLNuHT400To600": "red",
+  #"WJetsToLNuHT600To800": "orange",
+  #"WJetsToLNuHT800To1200": "green",
+  #"WJetsToLNuHT1200To2500": "purple",
+  "QCD": "cyan",
+  "DY": "magenta",
+  "ST": "brown",
+  "VV": "gray",
+  #"Other": "purple",
 }
 
 if isinstance(wildcard, str):
@@ -357,6 +374,7 @@ n_negative = {}
 first = True
 for f in files:
   df = pd.read_parquet(f)
+
   if args.sel is not None:
     df = df.query(args.sel)
 
@@ -450,7 +468,7 @@ plot_stacked_histogram_with_ratio(
   hists,
   bins,
   data_name=data_name,
-  xlabel=args.var,
+  xlabel=args.var if args.xlabel is None else rf"{args.xlabel}",
   ylabel="Events",
   name=os.path.join(args.output, f"distribution_{args.var}_{args.year}"),
   data_errors=data_uncert,

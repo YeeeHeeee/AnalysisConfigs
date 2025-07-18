@@ -2,8 +2,13 @@ from pocket_coffea.lib.weights import WeightLambda
 import numpy as np
 import awkward as ak
 
+# Data / powheg + pythia 
+#def top_pt_reweight(pt):
+#  return np.where(pt > 0, np.exp(0.0615 - 0.0005 * pt), 1.0)
+
+# NNLO + NLO / powheg + pythia
 def top_pt_reweight(pt):
-  return np.where(pt > 0, np.exp(0.0615 - 0.0005 * pt), 1.0)
+  return np.where(pt > 0, (0.103 * np.exp(-0.0118 * pt)) - (0.000134 * pt) + 0.973, 1.0)
 
 def reweighting_func(params, metadata, events, size, shape_variations):
   if metadata["sample"].startswith("TT") or metadata["sample"].startswith("ST"):
