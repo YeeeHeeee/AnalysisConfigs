@@ -21,6 +21,13 @@ from Functions.JetsCom import to_singleton_jet, combine_jets
 from Functions.Leptons import lepton_selection
 from Functions.jec_config import JECversions, JERversions, JECjsonFiles
 from Functions.corrections import jet_correction_correctionlib
+from Functions.BtaggingShapeScaleFactors import BTagShapeCorrection
+from Functions.WJetsRun2StitchingWeights import WJetsRun2Stitching
+from Functions.WJetsRun3StitchingWeights import WJetsRun3Stitching
+from Functions.TTTo2L2NuRun2StitchingWeights import TTTo2L2NuRun2Stitching
+from Functions.TTToSemiLeptonicRun2StitchingWeights import TTToSemiLeptonicRun2Stitching
+from Functions.TTToHadronicRun2StitchingWeights import TTToHadronicRun2Stitching
+from Functions.TopPTReweighting import TopPTReweighting
 
 class ttBaseProcessor_merge(BaseProcessorABC):
     def __init__(self, cfg: Configurator):
@@ -67,6 +74,44 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         out = ak.zip(fields, with_name="PtEtaPhiMCandidate")
         
         return out
+
+
+    def _get_extra_weights(self):
+
+        weights_inputs = BTagShapeCorrection + WJetsRun2Stitching + WJetsRun3Stitching + TTTo2L2NuRun2Stitching + TTToSemiLeptonicRun2Stitching + TTToHadronicRun2Stitching + TopPTReweighting
+        weight_names = [
+            "BTagShapeCorrectionSubjets",
+            "WJetsRun2Stitching", "WJetsRun3Stitching",
+            "TTTo2L2NuRun2Stitching", "TTToSemiLeptonicRun2Stitching", "TTToHadronicRun2Stitching",
+            "TopPTReweighting",
+        ]
+
+        self.events["ExtraWeights"] = ak.zip({k:np.ones(len(self.events)) for k in weight_names})
+        if self._isMC:
+            weight_input_names = [i.name for i in weights_inputs]
+            for weight_name in weight_names:
+                if weight_name in weight_input_names:
+                    weight_index = weight_input_names.index(weight_name)
+                    weight_func = weights_inputs[weight_index]
+                    per_event_weight = weight_func._function(self.params, self.events.metadata, self.events, len(self.events), "nominal")
+                    self.events["ExtraWeights"] = ak.with_field(
+                        self.events["ExtraWeights"], per_event_weight, weight_name
+                    ) 
+
+
+    def _remove_object_4_vector(self, collection, obj, dr=0.4):
+
+        deltaR = collection.delta_r(obj)
+        close_mask = deltaR < dr
+        zero_obj = 0 * obj
+        obj_to_subtract = ak.where(close_mask, obj, zero_obj)
+        cleaned_vectors = collection - obj_to_subtract
+        collection["pt"] = cleaned_vectors.pt
+        collection["eta"] = cleaned_vectors.eta
+        collection["phi"] = cleaned_vectors.phi
+        collection["mass"] = cleaned_vectors.mass
+
+        return collection
 
 
     def apply_object_preselection(self, variation):
@@ -144,15 +189,24 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         self.events["FatJetGood"], self.fatjetGoodMask = jet_selection(
             self.events, "FatJet", self.params,
             year=self._year,
-            leptons_collection="LeptonGood" # used for cleaning jets by removing those that overlap with leptons in an events.
+            #leptons_collection="LeptonGood" # used for cleaning jets by removing those that overlap with leptons in an events.
         )
-        self.events["FatJet"] = ak.firsts(self.events["FatJetGood"])
+
+        # Select fat jet as furthest away from the lepton
+        self.events["FatJet"] = ak.firsts(
+            self.events["FatJetGood"][ak.argsort(self.events["FatJetGood"].delta_r(self.events["LeptonSave"]), ascending=False)]
+        ) 
+
+        # Remove lepton 4 vectors from overlapping AK4 jets
+        self.events["Jet"] = self._remove_object_4_vector(
+            self.events["Jet"], self.events["LeptonSave"], dr=0.4
+        )
 
         # AK4 Jets
         self.events["JetGood"], self.jetGoodMask = jet_selection(
             self.events, "Jet", self.params, 
             year=self._year, 
-            leptons_collection="LeptonGood"
+            #leptons_collection="LeptonGood"
         )
 
         # Get subjets from the fat jets
@@ -196,6 +250,14 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             ak.is_none(self.events["FatJet"]),
             ak.Array([[]] * len(self.events)),
             self.events["JetGood"][(self.events["JetGood"].delta_r(self.events["FatJet"]) > 0.8)],
+        )
+
+        # Remove all FatJetGood that overlap with any BJetGoodFirst in deltaR 
+        self.events["BJetGoodFirst"] = ak.firsts(self.events["BJetGood"])
+        self.events["FatJetGood"] = ak.where(
+            ak.is_none(self.events["BJetGoodFirst"]),
+            ak.Array([[]] * len(self.events)),
+            self.events["FatJetGood"][(self.events["FatJetGood"].delta_r(self.events["BJetGoodFirst"]) > 0.8)],
         )
 
         # Combine two subjet for validation
@@ -250,6 +312,10 @@ class ttBaseProcessor_merge(BaseProcessorABC):
                         (self.events["LHEPart"].pdgId == 16) | (self.events["LHEPart"].pdgId == -16)
                 self.events["count_l"] = ak.num(self.events["LHEPart"][l_mask])
                 self.events["count_nu"] = ak.num(self.events["LHEPart"][nu_mask])
+                # add count_l field to GenTT
+                self.events["GenTT"] = ak.with_field(
+                    self.events["GenTT"], self.events["count_l"], "count_l"
+                )
 
             # Get the LNu for W + jets samples
             if self.events.metadata["sample"].startswith("WJetsToLNu"):
@@ -275,12 +341,16 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         if not hasattr(self.events, "GenTop_AK8"): self.events["GenTop_AK8"] = dummy_candidate
         if not hasattr(self.events, "MatchedTop_AK8"): self.events["MatchedTop_AK8"] = dummy_candidate
         if not hasattr(self.events, "LHE"): self.events["LHE"] = ak.zip({"HT":-999.0*np.ones(len(self.events))})
+        if not hasattr(self.events, "GenTT"): self.events["GenTT"] = ak.zip({"count_l":-999.0*np.ones(len(self.events))})
 
         # Highest pT b jet
         self.events["BJet_HighestPt"] = ak.firsts(self.events["BJetGood"])
 
         # Closest b jet to the leading lepton
         self.events["BJet_ClosestToLepton"] = ak.firsts(self.events["BJetGood"][ak.argsort(self.events["BJetGood"].delta_r(self.events["LeptonSave"]), ascending=False)])
+
+        # Get extra weights
+        self._get_extra_weights()
 
 
     def count_objects(self, variation):

@@ -24,6 +24,8 @@ parser.add_argument('--calculate', help='Calculate the variable', type=str, defa
 parser.add_argument('--include-fraction', help='Include the fractions of process in plot', action='store_true', default=False)
 parser.add_argument('--scale', help='Comma separate list of key and the scalings', type=str, default=None)
 parser.add_argument('--xlabel', help='X label for plot. If none will use var', type=str, default=None)
+parser.add_argument('--normalise', help='Normalise the MC to data', action='store_true', default=False)
+
 args = parser.parse_args()
 
 if args.year == "all":
@@ -64,38 +66,36 @@ else:
 
 groups = {
   "Data": ["DATA_*.parquet"],
-  "TT": ["TTToSemiLeptonic_*.parquet", "TTToHadronic_*.parquet", "TTTo2L2Nu_*.parquet", "TTMtt*.parquet"],
-  #"TTToSemiLeptonc 171.5": ["TTToSemiLeptonic171p5_*.parquet"],
-  #"TTToHadronic 171.5": ["TTToHadronic171p5_*.parquet"],
-  #"TTTo2L2Nu 171.5": ["TTTo2L2Nu171p5_*.parquet"],
+  #"TT": ["TTToSemiLeptonic_*.parquet", "TTToHadronic_*.parquet", "TTTo2L2Nu_*.parquet", "TTMtt*.parquet"],
+  "TT$\\rightarrow$LNu2Q": ["TTToSemiLeptonic_*.parquet","TTMtt*.parquet"],
+  "TT$\\rightarrow$Other": ["TTToHadronic_*.parquet","TTTo2L2Nu_*.parquet","TTMtt*.parquet"],
+  #"TTToSemiLeptonic": ["TTToSemiLeptonic171p5_*.parquet"],
+  #"TTToHadronic": ["TTToHadronic171p5_*.parquet"],
+  #"TTTo2L2Nu": ["TTTo2L2Nu171p5_*.parquet"],
+  "ST": ["ST_*.parquet"],
   "WJ": ["WJetsToLNu_*.parquet","WJetsToLNuHT*.parquet"],
-  #"WJetsToLNuHT400To600": ["WJetsToLNuHT400To600_*.parquet"], 
-  #"WJetsToLNuHT600To800": ["WJetsToLNuHT600To800_*.parquet"],
-  #"WJetsToLNuHT800To1200": ["WJetsToLNuHT800To1200_*.parquet"],
-  #"WJetsToLNuHT1200To2500": ["WJetsToLNuHT1200To2500_*.parquet"],
-  #"QCD Multijet": ["QCD*.parquet"],
-  "ST" : ["ST_*.parquet"],
-  "QCD": ["QCD_Mu*.parquet","QCD_bcToE*.parquet"],
-  "DY" : ["DY*.parquet"],
-  "VV" : ["WW*.parquet", "WZ*.parquet", "ZZ*.parquet"],
-  #"Other": ["ST_t_channel_top_*.parquet", "ST_t_channel_antitop_*.parquet", "DY*.parquet", "WW*.parquet", "WZ*.parquet", "ZZ*.parquet"], 
+  "Other": ["QCD_Mu*.parquet","QCD_bcToE*.parquet", "DY*.parquet", "WW*.parquet", "WZ*.parquet", "ZZ*.parquet"],
+
+  #"QCD": ["QCD_Mu*.parquet","QCD_bcToE*.parquet"],
+  #"DY" : ["DY*.parquet"],
+  #"VV" : ["WW*.parquet", "WZ*.parquet", "ZZ*.parquet"],
 }
 
 colours = {
-  "TT": "blue",
-  #"TTToSemiLeptonc 171.5": "blue",
-  #"TTToHadronic 171.5": "orange",
-  #"TTTo2L2Nu 171.5": "green",
+  #"TT": "blue",
+  "TT$\\rightarrow$LNu2Q": "blue",
+  "TT$\\rightarrow$Other": "orange",
   "WJ": "red",
-  #"WJetsToLNuHT400To600": "red",
-  #"WJetsToLNuHT600To800": "orange",
-  #"WJetsToLNuHT800To1200": "green",
-  #"WJetsToLNuHT1200To2500": "purple",
-  "QCD": "cyan",
-  "DY": "magenta",
+  #"QCD": "cyan",
+  #"DY": "magenta",
   "ST": "brown",
-  "VV": "gray",
-  #"Other": "purple",
+  #"VV": "gray",
+  "Other": "cyan",
+}
+
+group_selection = {
+  "TT$\\rightarrow$Other" : "(GenTT_count_l == 0) | (GenTT_count_l == 2)",
+  "TT$\\rightarrow$LNu2Q" : "GenTT_count_l == 1",
 }
 
 if isinstance(wildcard, str):
@@ -252,7 +252,7 @@ def plot_stacked_histogram_with_ratio(
   legend.get_frame().set_facecolor('none')  # Make legend background transparent
   legend.get_frame().set_edgecolor('none')  # Make legend edge transparent
 
-  max_label_length = 16  # Adjust the maximum length of each legend label
+  max_label_length = 22  # Adjust the maximum length of each legend label
   for text in legend.get_texts():
     text.set_text(textwrap.fill(text.get_text(), max_label_length))
 
@@ -381,15 +381,19 @@ for f in files:
   if args.calculate is not None:
     df.loc[:,args.var] = df.eval(args.calculate)
 
-  hist, bins = np.histogram(df.loc[:,args.var], bins=bins, weights=df.loc[:,"weight"], density=False)
-  hist_squared, bins = np.histogram(df.loc[:,args.var], bins=bins, weights=df.loc[:,"weight"]**2, density=False)
-  n = len(df)
-  n_pos = len(df[df.loc[:,"weight"] >= 0])
-  n_neg = len(df[df.loc[:,"weight"] < 0])
-
   for k, v in groups.items():
     for fn in v:
       if fnmatch.fnmatch(f.split("/")[-1], fn):
+
+        if k in group_selection.keys():
+          df = df.query(group_selection[k])
+
+        hist, bins = np.histogram(df.loc[:,args.var], bins=bins, weights=df.loc[:,"weight"], density=False)
+        hist_squared, bins = np.histogram(df.loc[:,args.var], bins=bins, weights=df.loc[:,"weight"]**2, density=False)
+        n = len(df)
+        n_pos = len(df[df.loc[:,"weight"] >= 0])
+        n_neg = len(df[df.loc[:,"weight"] < 0])
+
         if k not in hists:
           hists[k] = hist
           hists_squared[k] = hist_squared
@@ -415,6 +419,14 @@ else:
 hists = {k: hists[k] for k in list(groups.keys())[::-1] if k in hists and k != "Data"}
 hists_squared = {k: v for k, v in hists_squared.items() if k in hists and k != "Data"}
 
+if args.normalise and data_hist is not None:
+  total_data = np.sum(data_hist)
+  total_sim = np.sum(np.array(list(hists.values())))
+  for k in hists:
+    if k != "Data":
+      hists[k] = hists[k] * (total_data / total_sim)
+      hists_squared[k] = hists_squared[k] * (total_data / total_sim)**2
+
 order = list(hists.keys())
 for k,v in scale_factors.items():
   if k in hists:
@@ -433,7 +445,6 @@ for k,v in scale_factors.items():
     del colours[k]
 hists = {k: hists[k] for k in order if k in hists}
 hists_squared = {k: hists_squared[k] for k in order if k in hists_squared}
-
 uncerts = np.sqrt(np.sum(np.array(list(hists_squared.values())), axis=0))
 
 RED = "\033[91m"

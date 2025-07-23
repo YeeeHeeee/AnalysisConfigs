@@ -70,6 +70,7 @@ parameters = defaults.merge_parameters_from_files(default_parameters,
                                                   f"{localdir}/../params/btag_corrections.yaml",
                                                   f"{localdir}/../params/lumi.yaml",
                                                   f"{localdir}/../params/pc_jet_calibration.yaml",
+                                                  f"{localdir}/../params/btagging.yaml",
                                                   update=True)
 
 
@@ -192,7 +193,6 @@ cfg = Configurator(
         "filter" : {
             "samples": ttbar_samples + ttbar_mass_samples + wjet_samples + st_samples + qcd_samples + other_samples + data_samples,
             #"samples": ttbar_samples,
-            #"samples": wjet_samples + st_samples + qcd_samples + other_samples + data_samples,
             "samples_exclude" : [],
             "year": ['2016_PreVFP', '2016_PostVFP', '2017', '2018', '2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix']
         },
@@ -235,7 +235,6 @@ cfg = Configurator(
                           "TTTo2L2NuRun2Stitching", "TTToSemiLeptonicRun2Stitching", "TTToHadronicRun2Stitching",
                           "TopPTReweighting",
                           "BTagWeightCorrection",
-                          "BTagShapeCorrectionSubjets"
                           ],
             "bycategory" : {
             }
@@ -342,7 +341,17 @@ cfg = Configurator(
                     "LeptonMET",
                     ["mt"],
                     flatten=False
-                )
+                ),
+                ColOut(
+                    "GenTT",
+                    ["count_l"],
+                    flatten=False
+                ),
+                ColOut(
+                    "ExtraWeights",
+                    ["BTagShapeCorrectionSubjets","WJetsRun2Stitching","WJetsRun3Stitching","TTTo2L2NuRun2Stitching","TTToSemiLeptonicRun2Stitching","TTToHadronicRun2Stitching","TopPTReweighting"],
+                    flatten=False
+                ),
             ],
             "bycategory": {},
         },

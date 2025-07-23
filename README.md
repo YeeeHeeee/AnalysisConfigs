@@ -36,9 +36,6 @@ After set up the environment, you can leave the directory of the PocketCoffea
 ## Run from lxplus apptainer
 
 If using lxplus you can run straight from the aptainer, meaning you do not need to setup a pocket coffea environment.
-   ```bash
-   apptainer shell -B /afs -B /cvmfs/cms.cern.ch -B /tmp -B /eos/cms/ -B /etc/sysconfig/ngbauth-submit  -B ${XDG_RUNTIME_DIR}  --env KRB5CCNAME="FILE:${XDG_RUNTIME_DIR}/krb5cc"  /cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cms-analysis/general/pocketcoffea:lxplus-el9-stable
-   ```
 
 ```bash
 apptainer shell \
