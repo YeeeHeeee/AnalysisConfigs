@@ -34,13 +34,13 @@ btagFunc:
         'AK4': 'deepJet_comb'
 btagShapeFunc:
     '2016_PreVFP':
-        'AK4': 'deepJet_shape'
+        'AK4': 'deepCSV_shape'
     '2016_PostVFP':
-        'AK4': 'deepJet_shape'
+        'AK4': 'deepCSV_shape'
     '2017':
-        'AK4': 'deepJet_shape'
+        'AK4': 'deepCSV_shape'
     '2018':
-        'AK4': 'deepJet_shape'
+        'AK4': 'deepCSV_shape'
     '2022_preEE':
         'AK4': 'deepJet_shape'
     '2022_postEE':

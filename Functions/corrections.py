@@ -6,8 +6,31 @@ import correctionlib
 
 from pocket_coffea.lib.deltaR_matching import object_matching
 
+def get_function_inputs(corr, j):
+
+    inputs = []
+    for var in corr.inputs:
+        if var.name == 'JetA':
+            inputs.append(np.array(j['area']))
+        elif var.name == 'JetEta':
+            inputs.append(np.array(j['eta']))
+        elif var.name == 'JetPt':
+            inputs.append(np.array(j['pt_raw']))
+        elif var.name == 'Rho':
+            inputs.append(np.array(j['rho']))
+        elif var.name == 'JetPhi':
+            inputs.append(np.array(j['phi']))
+        elif var.name == 'run':
+            inputs.append(np.array(j['run']))
+        else:
+            raise ValueError(f"Unknown input variable: {var.name}")
+
+    return inputs
+
+
+
 def jet_correction_correctionlib(
-    events, Jet, typeJet, JECversion, JERversion, JECjsonFile, year, MC,verbose=False, area=None
+    events, Jet, typeJet, JECversion, JERversion, JECjsonFile, year, MC,verbose=False, area=None, add_uncertainty=[]
 ):
     '''
     This function implements the Jet Energy corrections and Jet energy smearning
@@ -19,14 +42,14 @@ def jet_correction_correctionlib(
         [t for t in ['AK4', 'AK8'] if typeJet.startswith(t)][0]
     ]
     JECfile = correctionlib.CorrectionSet.from_file(jsonfile)
-    #print(list(JECfile.keys()))
-    #print(f'{JECversion}_L1L2L3Res_{typeJet}')
     corr = JECfile.compound[f'{JECversion}_L1L2L3Res_{typeJet}']
 
     # until correctionlib handles jagged data natively we have to flatten and unflatten
     jets = events[Jet]
     jets['pt_raw'] = (1 - jets['rawFactor']) * jets['pt']
     jets['mass_raw'] = (1 - jets['rawFactor']) * jets['mass']
+    if "msoftdrop" in jets.fields:
+        jets['msoftdrop_raw'] = (1 - jets['rawFactor']) * jets['msoftdrop']
     if "fixedGridRhoFastjetAll" in events.fields:
         jets['rho'] = ak.broadcast_arrays(events.fixedGridRhoFastjetAll, jets.pt)[0]
     else:
@@ -40,57 +63,23 @@ def jet_correction_correctionlib(
         )[0]
 
     j, nj = ak.flatten(jets), ak.num(jets)
-
-    if MC:
-        if year in ['2016_PreVFP', '2016_PostVFP', '2017', '2018','2022_preEE','2022_postEE', '2023_preBPix']:
-            flatCorrFactor = corr.evaluate(
-                np.array(j['area']),
-                np.array(j['eta']),
-                np.array(j['pt_raw']),
-                np.array(j['rho']),
-            )
-        elif year in ['2023_postBPix']:
-            flatCorrFactor = corr.evaluate(
-                np.array(j['area']),
-                np.array(j['eta']),
-                np.array(j['pt_raw']),
-                np.array(j['rho']),
-                np.array(j['phi']),
-            )
-    else:
-        if year in ['2016_PreVFP', '2016_PostVFP', '2017', '2018', '2022_preEE', '2022_postEE']:
-            flatCorrFactor = corr.evaluate(
-                np.array(j['area']),
-                np.array(j['eta']),
-                np.array(j['pt_raw']),
-                np.array(j['rho']),
-            )
-        elif year in ['2023_preBPix']:
-            flatCorrFactor = corr.evaluate(
-                np.array(j['area']),
-                np.array(j['eta']),
-                np.array(j['pt_raw']),
-                np.array(j['rho']),
-                np.array(j['run']),
-            )
-        elif year in ['2023_postBPix']:
-            flatCorrFactor = corr.evaluate(
-                np.array(j['area']),
-                np.array(j['eta']),
-                np.array(j['pt_raw']),
-                np.array(j['rho']),
-                np.array(j['phi']),
-                np.array(j['run'])
-            )
-      
+    flatCorrFactor = corr.evaluate(*get_function_inputs(corr, j))      
     corrFactor = ak.unflatten(flatCorrFactor, nj)
 
     jets_corrected = copy.copy(jets)
+    jets_corrected['corrFactor'] = corrFactor
     jets_corrected['pt'] = jets['pt_raw'] * corrFactor
     jets_corrected['mass'] = jets['mass_raw'] * corrFactor
     if hasattr(jets, 'msoftdrop'):
-        jets_corrected['msoftdrop'] = jets['msoftdrop'] * (jets_corrected['pt'] / jets['pt_raw'])
+        jets_corrected['msoftdrop'] = jets['msoftdrop_raw'] * corrFactor
     jets_corrected['rho'] = jets['rho']
+
+    for uncert in add_uncertainty:
+        uncert_corr = JECfile[f'{JECversion}_{uncert}_{typeJet}']
+        flat_uncert_corrFactor = uncert_corr.evaluate(*get_function_inputs(uncert_corr, j))
+        uncert_corrFactor = ak.unflatten(flat_uncert_corrFactor, nj)
+        jets_corrected[f'corrFactor_{uncert}'] = uncert_corrFactor
+
 
     seed = events.event[0]
 
@@ -199,6 +188,7 @@ def jet_correction_correctionlib(
         smearFactor = ak.where(isMatched, detSmear, stochSmear)
 
         jets_smeared = copy.copy(jets_corrected)
+        jets_smeared['smearFactor'] = smearFactor
         jets_smeared['pt'] = jets_corrected['pt'] * smearFactor
         jets_smeared['mass'] = jets_corrected['mass'] * smearFactor
         if hasattr(jets_smeared, 'msoftdrop'):

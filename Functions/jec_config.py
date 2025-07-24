@@ -137,3 +137,53 @@ JECjsonFiles = {
         'AK8': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/JME/2023_Summer23BPix/fatJet_jerc.json.gz',
     }
 }
+
+nom_jec_variations = [
+    "AbsoluteStat",
+    "AbsoluteScale",
+    "AbsoluteMPFBias",
+    "Fragmentation",
+    "SinglePionECAL",
+    "SinglePionHCAL",
+    "FlavorQCD",
+    "FlavorZJet",
+    "FlavorPhotonJet",
+    "FlavorPureGluon",
+    "FlavorPureQuark",
+    "FlavorPureCharm",
+    "FlavorPureBottom",
+    "TimePtEta",
+    #"RelativeJEREC1",
+    #"RelativeJEREC2",
+    #"RelativeJERHF",
+    "RelativePtBB",
+    "RelativePtEC1",
+    "RelativePtEC2",
+    "RelativePtHF",
+    "RelativeBal",
+    "RelativeSample",
+    "RelativeFSR",
+    "RelativeStatFSR",
+    "RelativeStatEC",
+    "RelativeStatHF",
+    "PileUpDataMC",
+    "PileUpPtRef",
+    "PileUpPtBB",
+    "PileUpPtEC1",
+    "PileUpPtEC2",
+    "PileUpPtHF",
+    "PileUpMuZero",
+    "PileUpEnvelope",
+]
+
+
+JECvariations = {
+    "2016_PreVFP": nom_jec_variations,
+    "2016_PostVFP": nom_jec_variations,
+    "2017": nom_jec_variations,
+    "2018": nom_jec_variations,
+    "2022_preEE": nom_jec_variations,
+    "2022_postEE": nom_jec_variations,
+    "2023_preBPix": nom_jec_variations,
+    "2023_postBPix": nom_jec_variations,
+}

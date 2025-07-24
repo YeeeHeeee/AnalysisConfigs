@@ -13,8 +13,8 @@ args = parser.parse_args()
 years = args.year.split(",")
 
 variables = {
-  "FatJet_mass" : "(50,300,5)",
-  "FatJet_msoftdrop" : "(50,300,5)",
+  "FatJet_mass" : "(50,320,5)",
+  "FatJet_msoftdrop" : "(50,320,5)",
   "FatJet_pt" : "(500,800,10)",
   "FatJet_eta" : "(-2.5,2.5,0.1)",
   "FatJet_phi" : "(-3.2,3.2,0.2)",
@@ -54,7 +54,7 @@ variables = {
   "SubJet2_tau32" : "(0,1,0.02)",
   "SubJet2_tau21" : "(0,1,0.02)",
   "SubJet2_tau31" : "(0,1,0.02)",
-  "CombinedSubJets_mass" : "(50,300,5)",
+  "CombinedSubJets_mass" : "(50,320,5)",
   "JetLepton_ptrel" : "(0,400,10)",
   "JetLepton_deltaR" : "(0,5,0.1)",
   "LeptonMET_mt" : "(0,400,10)",

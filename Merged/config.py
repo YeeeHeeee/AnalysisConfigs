@@ -19,6 +19,7 @@ from Functions.LeptonScaleFactors import SF_ele_custom
 from Functions.Prefiring import Prefiring
 from Functions.BtaggingWeightScaleFactors import BTagWeightCorrection
 from Functions.BtaggingShapeScaleFactors import BTagShapeCorrection
+from Functions.jec_config import nom_jec_variations
 
 # Register custom modules in cloudpickle to propagate them to dask workers
 import cloudpickle
@@ -181,6 +182,13 @@ other_samples = [
     "DY",
 ]
 
+jec_store = [
+    "pt_raw",
+    "mass_raw",
+    "corrFactor",
+    "smearFactor",
+] + [f"corrFactor_{i}" for i in nom_jec_variations]
+
 cfg = Configurator(
     parameters = parameters,
     datasets = {
@@ -192,7 +200,6 @@ cfg = Configurator(
         ],
         "filter" : {
             "samples": ttbar_samples + ttbar_mass_samples + wjet_samples + st_samples + qcd_samples + other_samples + data_samples,
-            #"samples": ttbar_samples,
             "samples_exclude" : [],
             "year": ['2016_PreVFP', '2016_PostVFP', '2017', '2018', '2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix']
         },
@@ -269,17 +276,17 @@ cfg = Configurator(
                 ),
                 ColOut(
                     "FatJet",
-                    ["pt", "eta", "phi", "mass", 'jetId', 'nConstituents', 'btagDDBvLV2', 'btagDDCvBV2', 'btagDDCvLV2', 'btagDeepB', 'msoftdrop', 'tau1', 'tau2', 'tau3', 'tau4', 'lsf3'],
+                    ["pt", "eta", "phi", "mass", 'jetId', 'nConstituents', 'btagDeepB', 'msoftdrop', 'tau1', 'tau2', 'tau3', 'tau4', 'msoftdrop_raw'] + jec_store,
                     flatten=False
                 ),
                 ColOut(
                     "SubJet1",
-                    ['btagDeepB', 'eta', 'mass', 'n2b1', 'n3b1', 'phi', 'pt', 'rawFactor', 'tau1', 'tau2', 'tau3', 'tau4'],
+                    ['btagDeepB', 'eta', 'mass', 'n2b1', 'n3b1', 'phi', 'pt', 'rawFactor', 'tau1', 'tau2', 'tau3', 'tau4'] + jec_store,
                     flatten=False
                 ),
                 ColOut(
                     "SubJet2",
-                    ['btagDeepB', 'eta', 'mass', 'n2b1', 'n3b1', 'phi', 'pt', 'rawFactor', 'tau1', 'tau2', 'tau3', 'tau4'],
+                    ['btagDeepB', 'eta', 'mass', 'n2b1', 'n3b1', 'phi', 'pt', 'rawFactor', 'tau1', 'tau2', 'tau3', 'tau4'] + jec_store,
                     flatten=False
                 ),
                 ColOut(
@@ -303,13 +310,8 @@ cfg = Configurator(
                     flatten=False
                 ),
                 ColOut(
-                    "BJet_HighestPt",
-                    ["pt", "eta", "phi", "mass"],
-                    flatten=False
-                ),
-                ColOut(
-                    "BJet_ClosestToLepton",
-                    ["pt", "eta", "phi", "mass"],
+                    "BJetLep",
+                    ["pt", "eta", "phi", "mass", "btagDeepFlavB"] + jec_store,
                     flatten=False
                 ),
                 ColOut(
@@ -350,6 +352,11 @@ cfg = Configurator(
                 ColOut(
                     "ExtraWeights",
                     ["BTagShapeCorrectionSubjets","WJetsRun2Stitching","WJetsRun3Stitching","TTTo2L2NuRun2Stitching","TTToSemiLeptonicRun2Stitching","TTToHadronicRun2Stitching","TopPTReweighting"],
+                    flatten=False
+                ),
+                ColOut(
+                    "GenWeights",
+                    ["isr2fsr1", "isr1fsr2", "isr0p5fsr1", "isr1fsr0p5", "muF1muR2", "muF1muR0p5", "muF2muR1", "muF0p5muR1"],
                     flatten=False
                 ),
             ],

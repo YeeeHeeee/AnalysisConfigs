@@ -33,7 +33,7 @@ Make sure you are in the `Merged` directory.
 
 ## Run a test
 ```bash
-pocket-coffea run --cfg config.py -o "output/${job_name}_test" --skip-bad=files --test 
+pocket-coffea run --cfg config.py -o "output/${job_name}_test" --skip-bad-files --test 
 ```
 
 ## Run jobs

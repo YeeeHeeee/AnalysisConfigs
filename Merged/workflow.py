@@ -19,7 +19,7 @@ from pocket_coffea.lib.objects import (
 
 from Functions.JetsCom import to_singleton_jet, combine_jets
 from Functions.Leptons import lepton_selection
-from Functions.jec_config import JECversions, JERversions, JECjsonFiles
+from Functions.jec_config import JECversions, JERversions, JECjsonFiles, JECvariations, nom_jec_variations
 from Functions.corrections import jet_correction_correctionlib
 from Functions.BtaggingShapeScaleFactors import BTagShapeCorrection
 from Functions.WJetsRun2StitchingWeights import WJetsRun2Stitching
@@ -167,8 +167,8 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         # Apply JEC and JER corrections
         AK4_name = "AK4PFchs" if self._year in ["2016_PreVFP", "2016_PostVFP", "2017", "2018"] else "AK4PFPuppi"
         if self._isMC:
-            self.events["Jet"], _ = jet_correction_correctionlib(self.events, "Jet", AK4_name, JECversions[self._year]["MC"], JERversions[self._year]["MC"], JECjsonFiles[self._year], self._year, True)
-            self.events["FatJet"], _ = jet_correction_correctionlib(self.events, "FatJet", "AK8PFPuppi", JECversions[self._year]["MC"], JERversions[self._year]["MC"], JECjsonFiles[self._year], self._year, True)
+            self.events["Jet"], _ = jet_correction_correctionlib(self.events, "Jet", AK4_name, JECversions[self._year]["MC"], JERversions[self._year]["MC"], JECjsonFiles[self._year], self._year, True, add_uncertainty=JECvariations[self._year])
+            self.events["FatJet"], _ = jet_correction_correctionlib(self.events, "FatJet", "AK8PFPuppi", JECversions[self._year]["MC"], JERversions[self._year]["MC"], JECjsonFiles[self._year], self._year, True, add_uncertainty=JECvariations[self._year])
         else:
             self.events["Jet"] = jet_correction_correctionlib(self.events, "Jet", AK4_name, JECversions[self._year]["Data"][self._era], None, JECjsonFiles[self._year], self._year, False)
             self.events["FatJet"] = jet_correction_correctionlib(self.events, "FatJet", "AK8PFPuppi", JECversions[self._year]["Data"][self._era], None, JECjsonFiles[self._year], self._year, False)
@@ -215,8 +215,8 @@ class ttBaseProcessor_merge(BaseProcessorABC):
 
         # Apply JEC and JER corrections to subjets
         if self._isMC:
-            self.events["SubJetGood1"], _ = jet_correction_correctionlib(self.events, "SubJetGood1", AK4_name, JECversions[self._year]["MC"], JERversions[self._year]["MC"], JECjsonFiles[self._year], self._year, True, area=0.5)
-            self.events["SubJetGood2"], _ = jet_correction_correctionlib(self.events, "SubJetGood2", AK4_name, JECversions[self._year]["MC"], JERversions[self._year]["MC"], JECjsonFiles[self._year], self._year, True, area=0.5)
+            self.events["SubJetGood1"], _ = jet_correction_correctionlib(self.events, "SubJetGood1", AK4_name, JECversions[self._year]["MC"], JERversions[self._year]["MC"], JECjsonFiles[self._year], self._year, True, area=0.5, add_uncertainty=JECvariations[self._year])
+            self.events["SubJetGood2"], _ = jet_correction_correctionlib(self.events, "SubJetGood2", AK4_name, JECversions[self._year]["MC"], JERversions[self._year]["MC"], JECjsonFiles[self._year], self._year, True, area=0.5, add_uncertainty=JECvariations[self._year])
         else:
             self.events["SubJetGood1"] = jet_correction_correctionlib(self.events, "SubJetGood1", AK4_name, JECversions[self._year]["Data"][self._era], None, JECjsonFiles[self._year], self._year, False, area=0.5)
             self.events["SubJetGood2"] = jet_correction_correctionlib(self.events, "SubJetGood2", AK4_name, JECversions[self._year]["Data"][self._era], None, JECjsonFiles[self._year], self._year, False, area=0.5)
@@ -238,6 +238,7 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         self.events["BJetBad"] = btagging(
             self.events["JetGood"], self.params.btagging.working_point[self._year], wp=self.params.object_preselection.Jet.btag.wp, veto=True)
 
+
         # Remove b jets that overlap with fat jets in deltaR
         self.events["BJetGood"] = ak.where(
             ak.is_none(self.events["FatJet"]),
@@ -252,12 +253,12 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             self.events["JetGood"][(self.events["JetGood"].delta_r(self.events["FatJet"]) > 0.8)],
         )
 
-        # Remove all FatJetGood that overlap with any BJetGoodFirst in deltaR 
-        self.events["BJetGoodFirst"] = ak.firsts(self.events["BJetGood"])
+        # Remove all FatJetGood that overlap with any BJetLep in deltaR 
+        self.events["BJetLep"] = ak.firsts(self.events["BJetGood"])
         self.events["FatJetGood"] = ak.where(
-            ak.is_none(self.events["BJetGoodFirst"]),
+            ak.is_none(self.events["BJetLep"]),
             ak.Array([[]] * len(self.events)),
-            self.events["FatJetGood"][(self.events["FatJetGood"].delta_r(self.events["BJetGoodFirst"]) > 0.8)],
+            self.events["FatJetGood"][(self.events["FatJetGood"].delta_r(self.events["BJetLep"]) > 0.8)],
         )
 
         # Combine two subjet for validation
@@ -342,12 +343,31 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         if not hasattr(self.events, "MatchedTop_AK8"): self.events["MatchedTop_AK8"] = dummy_candidate
         if not hasattr(self.events, "LHE"): self.events["LHE"] = ak.zip({"HT":-999.0*np.ones(len(self.events))})
         if not hasattr(self.events, "GenTT"): self.events["GenTT"] = ak.zip({"count_l":-999.0*np.ones(len(self.events))})
+        for collection in ["BJetLep", "FatJet", "SubJet1", "SubJet2"]:
+            fields = [f"corrFactor_{i}" for i in nom_jec_variations]+["pt_raw","mass_raw","corrFactor","smearFactor"]
+            if collection == "FatJet": fields.append("msoftdrop_raw")
+            for field in fields:
+                if field not in self.events[collection].fields:
+                    self.events[collection] = ak.with_field(self.events[collection], -999.0 * np.ones(len(self.events)), field)
+        if not hasattr(self.events, "PSWeight"): self.events["PSWeight"] = ak.Array(np.ones((len(self.events),4)))
+        self.events["PSWeight"] = ak.fill_none(ak.pad_none(array, 4, clip=True, axis=1), 1)
+        if not hasattr(self.events, "LHEScaleWeight"): self.events["LHEScaleWeight"] = ak.Array(np.ones((len(self.events),8)))
+        self.events["LHEScaleWeight"] = ak.fill_none(ak.pad_none(self.events.LHEScaleWeight, 8, clip=True, axis=1), 1)
 
-        # Highest pT b jet
-        self.events["BJet_HighestPt"] = ak.firsts(self.events["BJetGood"])
-
-        # Closest b jet to the leading lepton
-        self.events["BJet_ClosestToLepton"] = ak.firsts(self.events["BJetGood"][ak.argsort(self.events["BJetGood"].delta_r(self.events["LeptonSave"]), ascending=False)])
+        self.events["GenWeights"] = ak.zip({
+            "isr2fsr1": self.events.PSWeight[:, 0],
+            "isr1fsr2": self.events.PSWeight[:, 1],
+            "isr0p5fsr1": self.events.PSWeight[:, 2],
+            "isr1fsr0p5": self.events.PSWeight[:, 3],
+            "muF0p5muR0p5": self.events.LHEScaleWeight[:, 0],
+            "muF1muR0p5": self.events.LHEScaleWeight[:, 1],
+            "muF2muR0p5": self.events.LHEScaleWeight[:, 2],
+            "muF0p5muR1": self.events.LHEScaleWeight[:, 3],
+            "muF2muR1": self.events.LHEScaleWeight[:, 4],
+            "muF0p5muR2": self.events.LHEScaleWeight[:, 5],
+            "muF1muR2": self.events.LHEScaleWeight[:, 6],
+            "muF2muR2": self.events.LHEScaleWeight[:, 7],
+        })
 
         # Get extra weights
         self._get_extra_weights()

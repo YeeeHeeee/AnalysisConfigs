@@ -66,25 +66,21 @@ else:
 
 groups = {
   "Data": ["DATA_*.parquet"],
-  #"TT": ["TTToSemiLeptonic_*.parquet", "TTToHadronic_*.parquet", "TTTo2L2Nu_*.parquet", "TTMtt*.parquet"],
-  "TT$\\rightarrow$LNu2Q": ["TTToSemiLeptonic_*.parquet","TTMtt*.parquet"],
-  "TT$\\rightarrow$Other": ["TTToHadronic_*.parquet","TTTo2L2Nu_*.parquet","TTMtt*.parquet"],
+  "TT (172.5 GeV)": ["TTToSemiLeptonic_*.parquet", "TTToHadronic_*.parquet", "TTTo2L2Nu_*.parquet", "TTMtt*.parquet"],
+  #"TT$\\rightarrow$LNu2Q": ["TTToSemiLeptonic_*.parquet","TTMtt*.parquet"],
+  #"TT$\\rightarrow$Other": ["TTToHadronic_*.parquet","TTTo2L2Nu_*.parquet","TTMtt*.parquet"],
   #"TTToSemiLeptonic": ["TTToSemiLeptonic171p5_*.parquet"],
   #"TTToHadronic": ["TTToHadronic171p5_*.parquet"],
   #"TTTo2L2Nu": ["TTTo2L2Nu171p5_*.parquet"],
-  "ST": ["ST_*.parquet"],
+  "ST": ["ST_tW*.parquet"],
   "WJ": ["WJetsToLNu_*.parquet","WJetsToLNuHT*.parquet"],
   "Other": ["QCD_Mu*.parquet","QCD_bcToE*.parquet", "DY*.parquet", "WW*.parquet", "WZ*.parquet", "ZZ*.parquet"],
-
-  #"QCD": ["QCD_Mu*.parquet","QCD_bcToE*.parquet"],
-  #"DY" : ["DY*.parquet"],
-  #"VV" : ["WW*.parquet", "WZ*.parquet", "ZZ*.parquet"],
 }
 
 colours = {
-  #"TT": "blue",
-  "TT$\\rightarrow$LNu2Q": "blue",
-  "TT$\\rightarrow$Other": "orange",
+  "TT (172.5 GeV)": "blue",
+  #"TT$\\rightarrow$LNu2Q": "blue",
+  #"TT$\\rightarrow$Other": "orange",
   "WJ": "red",
   #"QCD": "cyan",
   #"DY": "magenta",
@@ -94,9 +90,29 @@ colours = {
 }
 
 group_selection = {
-  "TT$\\rightarrow$Other" : "(GenTT_count_l == 0) | (GenTT_count_l == 2)",
-  "TT$\\rightarrow$LNu2Q" : "GenTT_count_l == 1",
+  #"TT$\\rightarrow$Other" : "(GenTT_count_l == 0) | (GenTT_count_l == 2)",
+  #"TT$\\rightarrow$LNu2Q" : "GenTT_count_l == 1",
 }
+
+
+plot_extra = {
+  "Total (169.5 GeV)": ["TTToSemiLeptonic169p5_*.parquet","TTToHadronic169p5_*.parquet","TTTo2L2Nu169p5_*.parquet"],
+  "Total (175.5 GeV)": ["TTToSemiLeptonic175p5_*.parquet","TTToHadronic175p5_*.parquet","TTTo2L2Nu175p5_*.parquet"],
+}
+
+plot_extra_subtract = {
+  "Total (169.5 GeV)": ["TT (172.5 GeV)"],
+  "Total (175.5 GeV)": ["TT (172.5 GeV)"],
+}
+
+plot_extra_colours = {
+  "Total (169.5 GeV)": "orange",
+  "Total (175.5 GeV)": "green",
+}
+
+total_groups = copy.deepcopy(groups)
+for k, v in plot_extra.items():
+  total_groups[k] = v
 
 if isinstance(wildcard, str):
   wildcard = [wildcard]
@@ -134,7 +150,9 @@ def plot_stacked_histogram_with_ratio(
     top_space=1.2,
     draw_ratio=True,
     colours = {},
-    include_fraction=False
+    include_fraction=False,
+    line_hist_dict={},
+    line_colours={},
   ):
   """
   Plot a stacked histogram with a ratio plot.
@@ -220,6 +238,11 @@ def plot_stacked_histogram_with_ratio(
     summed_stack_hist += v
     step_histvals = np.append(np.insert(summed_stack_hist,0,0.0),0.0)
     ax1.step(step_edges, step_histvals, color='black')
+
+
+  for k, v in line_hist_dict.items():
+    v_step = np.append(np.insert(v,0,0.0),0.0)
+    ax1.step(step_edges, v_step, color=line_colours[k], label=k, linewidth=2.0)
 
   ax1.set_xlim([bin_edges[0],bin_edges[-1]])
   if data_hist is not None:
@@ -337,6 +360,11 @@ def plot_stacked_histogram_with_ratio(
       # Plot the ratio on the bottom pad
       ax2.errorbar(bin_centers, ratio, fmt='o', yerr=ratio_errors_2, label=data_name, color="black")
 
+    for k, v in line_hist_dict.items():
+      v = v/total_stack_hist
+      v_step = np.append(np.insert(v,0,0.0),0.0)
+      ax2.step(step_edges, v_step, color=line_colours[k], label=k, linewidth=2.0)
+
     ax2.axhline(y=1, color='black', linestyle='--')  # Add a horizontal line at ratio=1
     if stack_hist_errors_asym is None:
       ax2.fill_between(bin_edges,1-np.append(ratio_errors_1,ratio_errors_1[-1]),1+np.append(ratio_errors_1,ratio_errors_1[-1]),color="gray",alpha=0.3,step='post')
@@ -359,6 +387,7 @@ def plot_stacked_histogram_with_ratio(
   plt.close()
 
 
+# Get scale factors
 scale_factors = {}
 if args.scale is not None:
   scale_factors = {}
@@ -366,6 +395,8 @@ if args.scale is not None:
     key, value = s.split(":")
     scale_factors[key] = float(value)
 
+
+# Get the histograms
 hists = {}
 hists_squared = {}
 n_events = {}
@@ -381,7 +412,7 @@ for f in files:
   if args.calculate is not None:
     df.loc[:,args.var] = df.eval(args.calculate)
 
-  for k, v in groups.items():
+  for k, v in total_groups.items():
     for fn in v:
       if fnmatch.fnmatch(f.split("/")[-1], fn):
 
@@ -416,9 +447,19 @@ else:
   data_uncert = None
   data_name = None
 
+# Get the collections
+all_hists = copy.deepcopy(hists)
 hists = {k: hists[k] for k in list(groups.keys())[::-1] if k in hists and k != "Data"}
-hists_squared = {k: v for k, v in hists_squared.items() if k in hists and k != "Data"}
+hists_squared = {k: hists_squared[k] for k in list(groups.keys())[::-1] if k in hists and k != "Data"}
+total_hist = np.sum(np.array(list(hists.values())), axis=0)
+extra_hists = {}
+for k in list(plot_extra.keys())[::-1]:
+  extra_hists[k] = total_hist + all_hists[k]
+  if k in plot_extra_subtract.keys():
+    for v in plot_extra_subtract[k]:
+      extra_hists[k] -= all_hists[v]
 
+# Normalise to data if requested
 if args.normalise and data_hist is not None:
   total_data = np.sum(data_hist)
   total_sim = np.sum(np.array(list(hists.values())))
@@ -427,6 +468,8 @@ if args.normalise and data_hist is not None:
       hists[k] = hists[k] * (total_data / total_sim)
       hists_squared[k] = hists_squared[k] * (total_data / total_sim)**2
 
+
+# Scale hists
 order = list(hists.keys())
 for k,v in scale_factors.items():
   if k in hists:
@@ -447,6 +490,8 @@ hists = {k: hists[k] for k in order if k in hists}
 hists_squared = {k: hists_squared[k] for k in order if k in hists_squared}
 uncerts = np.sqrt(np.sum(np.array(list(hists_squared.values())), axis=0))
 
+
+# Make table
 RED = "\033[91m"
 GREEN = "\033[92m"
 BLUE = "\033[94m" 
@@ -474,6 +519,8 @@ if data_hist is not None:
   ])
 print(tabulate(tabulated_data[1:], headers=tabulated_data[0], tablefmt="fancy_grid"))
 
+
+# Make plot
 plot_stacked_histogram_with_ratio(
   data_hist,
   hists,
@@ -490,5 +537,7 @@ plot_stacked_histogram_with_ratio(
   top_space=1.2,
   draw_ratio=True,
   colours=colours,
-  include_fraction=args.include_fraction
+  include_fraction=args.include_fraction,
+  line_hist_dict=extra_hists,
+  line_colours=plot_extra_colours,
 )
