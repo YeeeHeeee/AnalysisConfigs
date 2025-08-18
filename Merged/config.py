@@ -38,6 +38,8 @@ import Functions.JetsCom
 import Functions.Leptons
 import Functions.jec_config
 import Functions.corrections
+import Functions.met_xy_correction
+import Functions.jet_veto_maps
 cloudpickle.register_pickle_by_value(workflow)
 cloudpickle.register_pickle_by_value(cut)
 cloudpickle.register_pickle_by_value(Functions.WJetsRun2StitchingWeights)
@@ -54,6 +56,8 @@ cloudpickle.register_pickle_by_value(Functions.JetsCom)
 cloudpickle.register_pickle_by_value(Functions.Leptons)
 cloudpickle.register_pickle_by_value(Functions.jec_config)
 cloudpickle.register_pickle_by_value(Functions.corrections)
+cloudpickle.register_pickle_by_value(Functions.met_xy_correction)
+cloudpickle.register_pickle_by_value(Functions.jet_veto_maps)
 
 from cut import *
 import os
@@ -67,11 +71,12 @@ defaults.register_configuration_dir("config_dir", localdir+"/params")
 parameters = defaults.merge_parameters_from_files(default_parameters,
                                                   f"{localdir}/../params/object_preselection.yaml",
                                                   f"{localdir}/../params/triggers.yaml",
-                                                  f"{localdir}/../params/plotting.yaml",
                                                   f"{localdir}/../params/btag_corrections.yaml",
                                                   f"{localdir}/../params/lumi.yaml",
                                                   f"{localdir}/../params/pc_jet_calibration.yaml",
                                                   f"{localdir}/../params/btagging.yaml",
+                                                  f"{localdir}/../params/met_corrections.yaml",
+                                                  f"{localdir}/../params/jet_veto_maps.yaml",
                                                   update=True)
 
 
@@ -199,9 +204,12 @@ cfg = Configurator(
             f"{localdir}/../Datasets/DATA_SingleEle.json",
         ],
         "filter" : {
-            "samples": ttbar_samples + ttbar_mass_samples + wjet_samples + st_samples + qcd_samples + other_samples + data_samples,
+            #"samples": ttbar_samples + ttbar_mass_samples + wjet_samples + st_samples + qcd_samples + other_samples + data_samples,
+            #"samples" : data_samples,
+            "samples": ttbar_samples + ttbar_mass_samples + wjet_samples + st_samples + qcd_samples + other_samples,
             "samples_exclude" : [],
             "year": ['2016_PreVFP', '2016_PostVFP', '2017', '2018', '2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix']
+            #"year" : ['2022_preEE']
         },
         "subsamples": {
             'DATA_SingleEle'  : {
@@ -217,7 +225,7 @@ cfg = Configurator(
 
     skim = [
             get_nObj_min(1, 15.0, "Jet"),
-            get_nObj_min(1, 480.0, "FatJet"), # Initial skim, have not set this to 500 as we have corrections to apply afterwards
+            get_nObj_min(1, 400.0, "FatJet"), # Initial skim, have not set this to 500 as we have corrections to apply afterwards
             get_nPVgood(1), eventFlags, goldenJson,
             get_HLTsel(primaryDatasets=["SingleMuon", "SingleEle"]),
             ],
@@ -346,7 +354,7 @@ cfg = Configurator(
                 ),
                 ColOut(
                     "GenTT",
-                    ["count_l"],
+                    ["count_l", "mass"],
                     flatten=False
                 ),
                 ColOut(
@@ -356,7 +364,7 @@ cfg = Configurator(
                 ),
                 ColOut(
                     "GenWeights",
-                    ["isr2fsr1", "isr1fsr2", "isr0p5fsr1", "isr1fsr0p5", "muF1muR2", "muF1muR0p5", "muF2muR1", "muF0p5muR1"],
+                    ["isr2fsr1", "isr1fsr2", "isr0p5fsr1", "isr1fsr0p5", "muF0p5muR0p5", "muF1muR0p5", "muF2muR0p5", "muF0p5muR1", "muF2muR1", "muF0p5muR2", "muF1muR2", "muF2muR2"],
                     flatten=False
                 ),
             ],

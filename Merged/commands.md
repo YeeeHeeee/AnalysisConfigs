@@ -16,7 +16,7 @@ apptainer shell \
   -B /etc/sysconfig/ngbauth-submit \
   -B ${XDG_RUNTIME_DIR} \
   --env KRB5CCNAME="FILE:${XDG_RUNTIME_DIR}/krb5cc" \
-  /cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cms-analysis/general/pocketcoffea:lxplus-el9-stable
+  /cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cms-analysis/general/pocketcoffea:lxplus-el9-576bd3cd
 ```
 
 ```bash
@@ -66,10 +66,39 @@ Convert to parquet and rescale with b tagging shape corrections.
 ```bash
 python3 ../scripts/convert_coffea_to_parquet.py --input="${eos_folder}/${job_name}/*.coffea" --output="${eos_folder}/${job_name}_parquet" --weight="weight*ExtraWeights_BTagShapeCorrectionSubjets" --norm-weight="weight" --norm-files="TTToSemiLeptonic_*,TTToHadronic_*,TTTo2L2Nu_*,TTMtt*,WJetsToLNu_*,WJetsToLNuHT*,ST_*,QCD_*,DY_*,WW*,WZ*,ZZ*"
 ```
+```bash
+python3 ../scripts/convert_coffea_to_parquet.py --input="${eos_folder}/${job_name}/*.coffea" --output="${eos_folder}/${job_name}_parquet"
+```
+
+If you split by year you can combine all into a single parquet folder replaceing the input with this:
+
+```bash
+file_string=""
+for year in "${years[@]}"; do file_string+="${eos_folder}/${job_name}_${year}/*.coffea,"; done
+file_string="${file_string%,}"
+```
+
+## Make BW reweighted samples
+
+```bash
+for yr in "${years[@]}"; do for i in 166 169 170 171 172 173 174 175 178; do python3 ../scripts/make_bw_samples.py --input="${eos_folder}/${job_name}_parquet/TTTo*${yr}.parquet,${eos_folder}/${job_name}_parquet/TTMtt*${yr}.parquet" --output="${eos_folder}/${job_name}_parquet_bw/TT_${i}p5_${yr}.parquet" --yield-input="${eos_folder}/${job_name}_parquet/TTToSemiLeptonic_${yr}.parquet,${eos_folder}/${job_name}_parquet/TTToHadronic_${yr}.parquet,${eos_folder}/${job_name}_parquet/TTTo2L2Nu_${yr}.parquet,${eos_folder}/${job_name}_parquet/TTMtt*_${yr}.parquet" --mass-to=${i}.5; done; done
+```
+
+```bash
+cp ${eos_folder}/${job_name}_parquet_bw/TT_*.parquet ${eos_folder}/${job_name}_parquet/
+```
 
 ## Run plotting
 
 Plots
 ```bash
-python3 ../scripts/plot_merged.py --input="${eos_folder}/${job_name}_parquet" --output="../plots/${job_name}" --extra-args="--include-fraction"
+python3 ../scripts/plot_from_parquet.py --input="${eos_folder}/${job_name}_parquet" --output="../plots/${job_name}" --include-fraction --cfg="../params/plotting_extra_mass.py" --year=all
+```
+
+If you want to apply extra selection on the event you can add '--pre-sel="(JetLepton_deltaR>0.25) & (JetLepton_ptrel>30) & (SubJet2_btagDeepB > 0.2783) & (MET_pt > 50) & ((FatJet_tau3/FatJet_tau2) < 0.7) & ((SubJet1_tau2/SubJet1_tau1) < 0.7)"'
+
+## Creating datacards
+
+```bash
+for yr in "${years[@]}"; do python3 ../scripts/plot_from_parquet.py --input="${eos_folder}/${job_name}_parquet" --output="../plots/${job_name}_${yr}_datacards" --include-fraction --cfg="../params/plotting_extra_mass.py" --year=${yr} --var="CombinedSubJets_mass" --write --syst --plot-syst-variation; done
 ```

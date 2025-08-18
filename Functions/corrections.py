@@ -80,7 +80,6 @@ def jet_correction_correctionlib(
         uncert_corrFactor = ak.unflatten(flat_uncert_corrFactor, nj)
         jets_corrected[f'corrFactor_{uncert}'] = uncert_corrFactor
 
-
     seed = events.event[0]
 
     if verbose:

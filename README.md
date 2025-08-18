@@ -47,13 +47,13 @@ apptainer shell \
   -B /etc/sysconfig/ngbauth-submit \
   -B ${XDG_RUNTIME_DIR} \
   --env KRB5CCNAME="FILE:${XDG_RUNTIME_DIR}/krb5cc" \
-  /cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cms-analysis/general/pocketcoffea:lxplus-el9-stable
+  /cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cms-analysis/general/pocketcoffea:lxplus-el9-576bd3cd
 ```
 
 With this you will also need to export AnalysisConfigs as the PYTHONPATH. 
-   ```bash
-   export PYTHONPATH="$(realpath $(pwd | grep -o '.*/AnalysisConfigs')):$PYTHONPATH"
-   ```
+```bash
+export PYTHONPATH="$(realpath $(pwd | grep -o '.*/AnalysisConfigs')):$PYTHONPATH"
+```
 
 With this setup, you can also use dask to submit your jobs.
 
@@ -161,12 +161,7 @@ python3 scripts/convert_coffea_to_parquet.py --input="output_condor/*.coffea" --
 
 You can also then plot directly from the parquet with this command:
 ```bash
-python3 scripts/plot_from_parquet.py --input="output_condor_parquet" --output="plots" --var="FatJet_mass" --bins='(50,300,5)' --year="all"
-```
-
-There is also a script to produce all necessary plots for the Merged topology:
-```bash
-python3 scripts/plot_merged.py --input="output_condor_parquet" --output="plots"
+python3 scripts/plot_from_parquet.py --input="output_condor_parquet" --output="plots" --var="FatJet_mass" --bins='(50,300,5)' --year="all" --cfg="params/plotting_extra_mass.yaml"
 ```
 
 ## Others

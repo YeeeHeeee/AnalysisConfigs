@@ -7,7 +7,13 @@ from tabulate import tabulate
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--input', "-i", help='The input folder of the parquet files', type=str, default="output_merged_v3/*.parquet")
+parser.add_argument('--scale', help='Scale sum of weights up by', type=str, default=None)
+parser.add_argument('--weight', help='Formula for weight', type=str, default=None)
+parser.add_argument('--sel', help='Formula for weight', type=str, default=None)
 args = parser.parse_args()
+
+if args.scale is not None:
+  scale = float(eval(args.scale))
 
 # Get files
 input_files = args.input.split(",")
@@ -30,9 +36,15 @@ eff_events_dict = {}
 total_sum_wts = 0.0
 for f in files:
   df = pd.read_parquet(f)
+
+  if args.weight is not None:
+    df.loc[:,"weight"] = df.eval(args.weight)
+
+  if args.sel is not None:
+    df = df.query(args.sel)
+
   sum_wts = np.sum(df.loc[:, "weight"])
   sum_wts_squared = np.sum(df.loc[:, "weight"]**2)
-  total_sum_wts += sum_wts
   sum_wts_dict[f] = sum_wts*1.0
   sum_wts_squared_dict[f] = sum_wts_squared*1.0
   n_events_dict[f] = len(df)
@@ -41,6 +53,12 @@ for f in files:
     eff_events_dict[f] = sum_wts**2 / sum_wts_squared
   else:
     eff_events_dict[f] = 0.0
+  if args.scale is not None:
+    sum_wts_dict[f] *= scale
+  total_sum_wts += sum_wts_dict[f]
+
+if args.scale is not None:
+  print(f"Scaling sum of weights by {scale}.")
 
 # Make table
 RED = "\033[91m"

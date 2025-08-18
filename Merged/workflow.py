@@ -28,6 +28,8 @@ from Functions.TTTo2L2NuRun2StitchingWeights import TTTo2L2NuRun2Stitching
 from Functions.TTToSemiLeptonicRun2StitchingWeights import TTToSemiLeptonicRun2Stitching
 from Functions.TTToHadronicRun2StitchingWeights import TTToHadronicRun2Stitching
 from Functions.TopPTReweighting import TopPTReweighting
+from Functions.met_xy_correction import met_xy_correction_run2, met_xy_correction_run3
+from Functions.jet_veto_maps import apply_jet_veto_maps
 
 class ttBaseProcessor_merge(BaseProcessorABC):
     def __init__(self, cfg: Configurator):
@@ -119,14 +121,17 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         super().apply_object_preselection(variation=variation)
         
         # MET
-        #if self._year in ["2016_PreVFP", "2016_PostVFP", "2017", "2018"]:
-        #    met_pt_corr, met_phi_corr = met_xy_correction(self.params, self.events, "MET", self._year, self._era)
-        #    self.events["MET"] = ak.with_field(
-        #        self.events.MET, met_pt_corr, "pt"
-        #    )
-        #    self.events["MET"] = ak.with_field(
-        #        self.events.MET, met_phi_corr, "phi"
-        #    )
+        if self._year in ["2016_PreVFP", "2016_PostVFP", "2017", "2018"]:
+            met_pt_corr, met_phi_corr = met_xy_correction_run2(self.params, self.events, "MET", self._year, self._era, self._isMC)
+        elif self._year in ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix"]:
+            met_pt_corr, met_phi_corr = met_xy_correction_run3(self.params, self.events, "MET", self._year, self._era, self._isMC)
+        self.events["MET"] = ak.with_field(
+            self.events.MET, met_pt_corr, "pt"
+        )
+        self.events["MET"] = ak.with_field(
+            self.events.MET, met_phi_corr, "phi"
+        )
+
 
         # Leptons
         electron_etaSC = self.events.Electron.eta + self.events.Electron.deltaEtaSC
@@ -184,6 +189,9 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             "pt": np.hypot(px, py),
             "phi": np.arctan2(py, px)
         })
+
+        # Apply Jet veto maps
+        self.events["Jet"] = apply_jet_veto_maps(self.params, self.events, "Jet", self._year)
 
         # AK8 Jets
         self.events["FatJetGood"], self.fatjetGoodMask = jet_selection(
@@ -336,13 +344,18 @@ class ttBaseProcessor_merge(BaseProcessorABC):
                 }
                 self.events["LNu"] = ak.firsts(ak.zip(fields, with_name="PtEtaPhiMCandidate"))   
 
+            # Add the gen info for what in the gen top is merged and what is not
+            if self.events.metadata["sample"].startswith("TTToSemiLeptonic") or self.events.metadata["sample"].startswith("TTMtt"):
+                pass
+        
+
         if not hasattr(self.events, "GenTop1"): self.events["GenTop1"] = dummy_candidate
         if not hasattr(self.events, "GenTop2"): self.events["GenTop2"] = dummy_candidate
         if not hasattr(self.events, "LNu"): self.events["LNu"] = dummy_candidate
         if not hasattr(self.events, "GenTop_AK8"): self.events["GenTop_AK8"] = dummy_candidate
         if not hasattr(self.events, "MatchedTop_AK8"): self.events["MatchedTop_AK8"] = dummy_candidate
         if not hasattr(self.events, "LHE"): self.events["LHE"] = ak.zip({"HT":-999.0*np.ones(len(self.events))})
-        if not hasattr(self.events, "GenTT"): self.events["GenTT"] = ak.zip({"count_l":-999.0*np.ones(len(self.events))})
+        if not hasattr(self.events, "GenTT"): self.events["GenTT"] = ak.zip({"count_l":-999.0*np.ones(len(self.events)),"mass":-999.0*np.ones(len(self.events))})
         for collection in ["BJetLep", "FatJet", "SubJet1", "SubJet2"]:
             fields = [f"corrFactor_{i}" for i in nom_jec_variations]+["pt_raw","mass_raw","corrFactor","smearFactor"]
             if collection == "FatJet": fields.append("msoftdrop_raw")
@@ -350,7 +363,7 @@ class ttBaseProcessor_merge(BaseProcessorABC):
                 if field not in self.events[collection].fields:
                     self.events[collection] = ak.with_field(self.events[collection], -999.0 * np.ones(len(self.events)), field)
         if not hasattr(self.events, "PSWeight"): self.events["PSWeight"] = ak.Array(np.ones((len(self.events),4)))
-        self.events["PSWeight"] = ak.fill_none(ak.pad_none(array, 4, clip=True, axis=1), 1)
+        self.events["PSWeight"] = ak.fill_none(ak.pad_none(self.events.PSWeight, 4, clip=True, axis=1), 1)
         if not hasattr(self.events, "LHEScaleWeight"): self.events["LHEScaleWeight"] = ak.Array(np.ones((len(self.events),8)))
         self.events["LHEScaleWeight"] = ak.fill_none(ak.pad_none(self.events.LHEScaleWeight, 8, clip=True, axis=1), 1)
 

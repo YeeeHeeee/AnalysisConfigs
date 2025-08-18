@@ -22,11 +22,11 @@ python3 ../scripts/stitch_samples.py --input="output_run3_w/output_all.coffea" -
 You can also do it by saving the datasets and not just the histograms. This is only set up for run 2 at the moment.
 
 ```bash
-e=run2; pocket-coffea run --cfg config_${e}.py -o output_${e} --executor=condor@ic --scaleout=100 --jobs-dir="jobs_${e}"; done; done
+e=run2; pocket-coffea run --cfg config_${e}.py -o output_${e} --executor=condor@ic --scaleout=100 --jobs-dir="jobs_${e}"
 ```
 
 ```bash
-e=run2; pocket-coffea merge-outputs - -o output_${e}/output_all.coffea -jc "jobs_${e}/job/jobs_config.yaml"; done; done
+e=run2; pocket-coffea merge-outputs -o output_${e}/output_all.coffea -jc "jobs_${e}/job/jobs_config.yaml";
 ```
 
 To get the fractions run this.
