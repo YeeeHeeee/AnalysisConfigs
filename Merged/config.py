@@ -204,9 +204,9 @@ cfg = Configurator(
             f"{localdir}/../Datasets/DATA_SingleEle.json",
         ],
         "filter" : {
-            #"samples": ttbar_samples + ttbar_mass_samples + wjet_samples + st_samples + qcd_samples + other_samples + data_samples,
+            "samples": ttbar_samples + ttbar_mass_samples + wjet_samples + st_samples + qcd_samples + other_samples + data_samples,
             #"samples" : data_samples,
-            "samples": ttbar_samples + ttbar_mass_samples + wjet_samples + st_samples + qcd_samples + other_samples,
+            #"samples": ttbar_samples + ttbar_mass_samples + wjet_samples + st_samples + qcd_samples + other_samples,
             "samples_exclude" : [],
             "year": ['2016_PreVFP', '2016_PostVFP', '2017', '2018', '2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix']
             #"year" : ['2022_preEE']
@@ -225,7 +225,11 @@ cfg = Configurator(
 
     skim = [
             get_nObj_min(1, 15.0, "Jet"),
+<<<<<<< HEAD
             get_nObj_min(1, 400.0, "FatJet"), # Initial skim, have not set this to 500 as we have corrections to apply afterwards
+=======
+            get_nObj_min(1, 480.0, "FatJet"), # Initial skim, have not set this to 500 as we have corrections to apply afterwards
+>>>>>>> 6915bdf (Adding new files tp config and tidied up workflow)
             get_nPVgood(1), eventFlags, goldenJson,
             get_HLTsel(primaryDatasets=["SingleMuon", "SingleEle"]),
             ],
@@ -347,6 +351,7 @@ cfg = Configurator(
                     ["pt", "eta", "phi", "mass"],
                     flatten=False
                 ),
+<<<<<<< HEAD
                 ColOut(
                     "LeptonMET",
                     ["mt"],
@@ -367,6 +372,8 @@ cfg = Configurator(
                     ["isr2fsr1", "isr1fsr2", "isr0p5fsr1", "isr1fsr0p5", "muF0p5muR0p5", "muF1muR0p5", "muF2muR0p5", "muF0p5muR1", "muF2muR1", "muF0p5muR2", "muF1muR2", "muF2muR2"],
                     flatten=False
                 ),
+=======
+>>>>>>> 6915bdf (Adding new files tp config and tidied up workflow)
             ],
             "bycategory": {},
         },

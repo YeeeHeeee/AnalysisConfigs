@@ -240,6 +240,17 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             "ptrel"
         )
 
+        # Get variables between the lepton and the closest jet
+        self.events["ClosestJetToLepton"] = ak.firsts(
+            self.events["JetGood"][ak.argsort(self.events["JetGood"].delta_r(self.events["LeptonSave"]), ascending=True)]
+        )
+        self.events["JetLepton"] = ak.firsts(self._get_pairs(self.events["LeptonSave"][:,None], self.events["ClosestJetToLepton"][:,None]))
+        self.events["JetLepton"] = ak.with_field(
+            self.events["JetLepton"],
+            self._get_ptrel(self.events["LeptonSave"], self.events["ClosestJetToLepton"]),
+            "ptrel"
+        )
+
         # Get b tagged and non-b tagged jets
         self.events["BJetGood"] = btagging(
             self.events["JetGood"], self.params.btagging.working_point[self._year], wp=self.params.object_preselection.Jet.btag.wp)
@@ -348,7 +359,6 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             if self.events.metadata["sample"].startswith("TTToSemiLeptonic") or self.events.metadata["sample"].startswith("TTMtt"):
                 pass
         
-
         if not hasattr(self.events, "GenTop1"): self.events["GenTop1"] = dummy_candidate
         if not hasattr(self.events, "GenTop2"): self.events["GenTop2"] = dummy_candidate
         if not hasattr(self.events, "LNu"): self.events["LNu"] = dummy_candidate
