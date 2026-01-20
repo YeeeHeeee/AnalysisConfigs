@@ -73,7 +73,7 @@ def stitching_func(params, metadata, events, size, shape_variations):
         ~((events.count_l==1) & (events.count_nu==1)),
       ],
       choicelist=[
-        np.ones(len(events)) * 0.042636771369697526,
+        np.ones(len(events)) * 0.042636771369697526 * 0.91582927, # Extra correction
         np.ones(len(events)),
       ],
       default=0.0
@@ -85,7 +85,7 @@ def stitching_func(params, metadata, events, size, shape_variations):
         ~((events.count_l==1) & (events.count_nu==1)),
       ],
       choicelist=[
-        np.ones(len(events)) * 0.018067002915342696,
+        np.ones(len(events)) * 0.018067002915342696 * 0.86897026,
         np.ones(len(events)),
       ],
       default=0.0
@@ -97,7 +97,7 @@ def stitching_func(params, metadata, events, size, shape_variations):
         ~((events.count_l==1) & (events.count_nu==1)),
       ],
       choicelist=[
-        np.ones(len(events)) * 0.048620505496083224,
+        np.ones(len(events)) * 0.048620505496083224 * 0.90020276,
         np.ones(len(events)),
       ],
       default=0.0
@@ -109,7 +109,7 @@ def stitching_func(params, metadata, events, size, shape_variations):
         ~((events.count_l==1) & (events.count_nu==1)),
       ],
       choicelist=[
-        np.ones(len(events)) * 0.01774615739245455,
+        np.ones(len(events)) * 0.01774615739245455 * 0.86369605,
         np.ones(len(events)),
       ],
       default=0.0
@@ -121,7 +121,7 @@ def stitching_func(params, metadata, events, size, shape_variations):
         ~((events.count_l==1) & (events.count_nu==1)),
       ],
       choicelist=[
-        np.ones(len(events)) * 0.0304254756294062,
+        np.ones(len(events)) * 0.0304254756294062 * 0.93405959,
         np.ones(len(events)),
       ],
       default=0.0
@@ -133,7 +133,7 @@ def stitching_func(params, metadata, events, size, shape_variations):
         ~((events.count_l==1) & (events.count_nu==1)),
       ],
       choicelist=[
-        np.ones(len(events)) * 0.012803281812712203,
+        np.ones(len(events)) * 0.012803281812712203 * 0.90125138,
         np.ones(len(events)),
       ],
       default=0.0
@@ -145,7 +145,7 @@ def stitching_func(params, metadata, events, size, shape_variations):
         ~((events.count_l==1) & (events.count_nu==1)),
       ],
       choicelist=[
-        np.ones(len(events)) * 0.021529729442973513,
+        np.ones(len(events)) * 0.021529729442973513 * 0.95464205,
         np.ones(len(events)),
       ],
       default=0.0
@@ -157,7 +157,7 @@ def stitching_func(params, metadata, events, size, shape_variations):
         ~((events.count_l==1) & (events.count_nu==1)),
       ],
       choicelist=[
-        np.ones(len(events)) * 0.01112417721867686,
+        np.ones(len(events)) * 0.01112417721867686 * 0.91315411,
         np.ones(len(events)),
       ],
       default=0.0

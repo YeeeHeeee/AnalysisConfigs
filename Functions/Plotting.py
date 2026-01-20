@@ -26,7 +26,6 @@ def inital_distributions_plot(datasets, bins=50):
     # Extract column names from the first dataset
     first_key = next(iter(datasets))
     df_first = datasets[first_key]
-    print(df_first.columns)
     num_variables = len(df_first.columns)
 
     num_rows = math.ceil(math.sqrt(num_variables))
@@ -513,7 +512,7 @@ def plot_stacked_histogram_with_ratio(
   if draw_ratio:
 
     # Compute the ratio of the histograms
-    zero_indices = np.where(total_stack_hist == 0)
+    zero_indices = np.where(total_stack_hist <= 0)
     for i in zero_indices: total_stack_hist[i] = 1.0
 
     if data_hist is not None:
@@ -654,6 +653,7 @@ def plot_histograms_with_ratio(
   if directory:
     os.makedirs(directory, exist_ok=True)
   plt.savefig(name+".pdf")
+  plt.savefig(name+".png")
   plt.close()    
 
 

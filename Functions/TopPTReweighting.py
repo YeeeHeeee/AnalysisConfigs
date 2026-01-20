@@ -17,6 +17,8 @@ def reweighting_func(params, metadata, events, size, shape_variations):
     is_last = (events["GenPart"].statusFlags & (1 << 13)) != 0  # isLastCopy
     top_quarks = events["GenPart"][is_top & is_last]
     per_event_weight = ak.prod(top_pt_reweight(top_quarks.pt), axis=1)
+    if metadata["sample"].startswith("TT"):
+      per_event_weight = np.sqrt(per_event_weight)
   else:
     per_event_weight = np.ones(len(events))
   return per_event_weight

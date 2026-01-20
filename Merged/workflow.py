@@ -257,12 +257,21 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         self.events["BJetBad"] = btagging(
             self.events["JetGood"], self.params.btagging.working_point[self._year], wp=self.params.object_preselection.Jet.btag.wp, veto=True)
 
-
         # Remove b jets that overlap with fat jets in deltaR
         self.events["BJetGood"] = ak.where(
             ak.is_none(self.events["FatJet"]),
             ak.Array([[]] * len(self.events)),
             self.events["BJetGood"][(self.events["BJetGood"].delta_r(self.events["FatJet"]) > 0.8)],
+        )
+
+        # Remove b jets that overlap with the subjets in deltaR
+        self.events["BJetGood"] = ak.where(
+            ak.is_none(self.events["SubJetGood1"]),
+            ak.Array([[]] * len(self.events)),
+            self.events["BJetGood"][
+                (self.events["BJetGood"].delta_r(ak.firsts(self.events["SubJetGood1"])) > 0.4)
+                & (self.events["BJetGood"].delta_r(ak.firsts(self.events["SubJetGood2"])) > 0.4)
+            ],
         )
 
         # Remove Jets that overlap with the fat jets in deltaR
@@ -279,15 +288,15 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             ak.Array([[]] * len(self.events)),
             self.events["FatJetGood"][(self.events["FatJetGood"].delta_r(self.events["BJetLep"]) > 0.8)],
         )
-
+        
         # Combine two subjet for validation
         self.events["CombinedSubJets"] = combine_jets(
             self.events["SubJetGood1"], self.events["SubJetGood2"]
         )
-
         self.events["SubJet1"] = ak.firsts(self.events["SubJetGood1"])
         self.events["SubJet2"] = ak.firsts(self.events["SubJetGood2"])
     
+
         # Get the transverse mass of the lepton and the MET
         self.events["LeptonMET"] = ak.zip({
             "mt" : np.sqrt(2 * self.events["LeptonSave"].pt * self.events["MET"].pt * (1 - np.cos(self.events["LeptonSave"].delta_phi(self.events["MET"]))))
@@ -359,6 +368,19 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             if self.events.metadata["sample"].startswith("TTToSemiLeptonic") or self.events.metadata["sample"].startswith("TTMtt"):
                 pass
         
+            # Add the GenJet information for jets matched to the subjets
+            self.events["MatchedGenJet_SubJet1"] = ak.firsts(
+                self.events["GenJet"][ak.argsort(self.events["GenJet"].delta_r(self.events["SubJet1"]), ascending=True)]
+            ) 
+            self.events["MatchedGenJet_SubJet2"] = ak.firsts(
+                self.events["GenJet"][ak.argsort(self.events["GenJet"].delta_r(self.events["SubJet2"]), ascending=True)]
+            ) 
+
+            # Add the GenJet information for BJetLep
+            self.events["MatchedGenJet_BJetLep"] = ak.firsts(
+                self.events["GenJet"][ak.argsort(self.events["GenJet"].delta_r(self.events["BJetLep"]), ascending=True)]
+            )
+
         if not hasattr(self.events, "GenTop1"): self.events["GenTop1"] = dummy_candidate
         if not hasattr(self.events, "GenTop2"): self.events["GenTop2"] = dummy_candidate
         if not hasattr(self.events, "LNu"): self.events["LNu"] = dummy_candidate
@@ -366,16 +388,27 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         if not hasattr(self.events, "MatchedTop_AK8"): self.events["MatchedTop_AK8"] = dummy_candidate
         if not hasattr(self.events, "LHE"): self.events["LHE"] = ak.zip({"HT":-999.0*np.ones(len(self.events))})
         if not hasattr(self.events, "GenTT"): self.events["GenTT"] = ak.zip({"count_l":-999.0*np.ones(len(self.events)),"mass":-999.0*np.ones(len(self.events))})
+        if not hasattr(self.events, "MatchedGenJet_SubJet1"): self.events["MatchedGenJet_SubJet1"] = ak.zip({"partonFlavour":-999.0*np.ones(len(self.events))})
+        if not hasattr(self.events, "MatchedGenJet_SubJet2"): self.events["MatchedGenJet_SubJet2"] = ak.zip({"partonFlavour":-999.0*np.ones(len(self.events))})
+        if not hasattr(self.events, "MatchedGenJet_BJetLep"): self.events["MatchedGenJet_BJetLep"] = ak.zip({"partonFlavour":-999.0*np.ones(len(self.events))})
+
         for collection in ["BJetLep", "FatJet", "SubJet1", "SubJet2"]:
-            fields = [f"corrFactor_{i}" for i in nom_jec_variations]+["pt_raw","mass_raw","corrFactor","smearFactor"]
+            fields = [f"corrFactor_{i}" for i in nom_jec_variations]+["pt_raw","mass_raw","corrFactor","smearFactor","smearFactor_up","smearFactor_down"]
             if collection == "FatJet": fields.append("msoftdrop_raw")
             for field in fields:
                 if field not in self.events[collection].fields:
                     self.events[collection] = ak.with_field(self.events[collection], -999.0 * np.ones(len(self.events)), field)
         if not hasattr(self.events, "PSWeight"): self.events["PSWeight"] = ak.Array(np.ones((len(self.events),4)))
         self.events["PSWeight"] = ak.fill_none(ak.pad_none(self.events.PSWeight, 4, clip=True, axis=1), 1)
-        if not hasattr(self.events, "LHEScaleWeight"): self.events["LHEScaleWeight"] = ak.Array(np.ones((len(self.events),8)))
-        self.events["LHEScaleWeight"] = ak.fill_none(ak.pad_none(self.events.LHEScaleWeight, 8, clip=True, axis=1), 1)
+        if not hasattr(self.events, "LHEScaleWeight"): self.events["LHEScaleWeight"] = ak.Array(np.ones((len(self.events),9)))
+        self.events["LHEScaleWeight"] = ak.fill_none(ak.pad_none(self.events.LHEScaleWeight, 9, clip=True, axis=1), 1)
+
+        # Get RMSE of PDF weights
+        if not hasattr(self.events, "LHEPdfWeight"): 
+            self.events["LHEPdfWeight"] = ak.Array(np.ones((len(self.events),100)))
+        pdf_weights = ak.fill_none(self.events.LHEPdfWeight, 100)
+        pdf_mean = ak.mean(pdf_weights, axis=1)
+        pdf_rmse = np.sqrt(ak.mean((pdf_weights - pdf_mean[:, None])**2, axis=1))
 
         self.events["GenWeights"] = ak.zip({
             "isr2fsr1": self.events.PSWeight[:, 0],
@@ -386,11 +419,18 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             "muF1muR0p5": self.events.LHEScaleWeight[:, 1],
             "muF2muR0p5": self.events.LHEScaleWeight[:, 2],
             "muF0p5muR1": self.events.LHEScaleWeight[:, 3],
-            "muF2muR1": self.events.LHEScaleWeight[:, 4],
-            "muF0p5muR2": self.events.LHEScaleWeight[:, 5],
-            "muF1muR2": self.events.LHEScaleWeight[:, 6],
-            "muF2muR2": self.events.LHEScaleWeight[:, 7],
+            "muF1muR1": self.events.LHEScaleWeight[:, 4],
+            "muF2muR1": self.events.LHEScaleWeight[:, 5],
+            "muF0p5muR2": self.events.LHEScaleWeight[:, 6],
+            "muF1muR2": self.events.LHEScaleWeight[:, 7],
+            "muF2muR2": self.events.LHEScaleWeight[:, 8],
+            "pdf_max" : ak.max(self.events.LHEPdfWeight, axis=1),
+            "pdf_min" : ak.min(self.events.LHEPdfWeight, axis=1),
+            "pdf_rmse": pdf_rmse,
         })
+
+
+
 
         # Get extra weights
         self._get_extra_weights()

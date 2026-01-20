@@ -4,10 +4,10 @@ import fnmatch
 import glob
 import matplotlib.pylab as plt
 import os
+import re
 import pandas as pd
 import numpy as np
 import mplhep as hep
-import textwrap
 import yaml
 import uproot
 import boost_histogram as bh
@@ -31,6 +31,7 @@ parser.add_argument('--num-bins', help='The number of bins if bins=auto', type=i
 parser.add_argument('--calculate', help='Calculate the variable', type=str, default=None)
 parser.add_argument('--include-fraction', help='Include the fractions of process in plot', action='store_true', default=False)
 parser.add_argument('--scale', help='Comma separate list of key and the scalings', type=str, default=None)
+parser.add_argument('--scale-to', help='Comma separate list of key to scale and the key to scale to', type=str, default=None)
 parser.add_argument('--xlabel', help='X label for plot. If none will use var', type=str, default=None)
 parser.add_argument('--normalise', help='Normalise the MC to data', action='store_true', default=False)
 parser.add_argument('--weight', help='The weight to apply to the histograms', type=str, default="weight")
@@ -38,14 +39,42 @@ parser.add_argument('--write', help='Write histogram to root file', action='stor
 parser.add_argument('--syst', help='Process systematics', action='store_true', default=False)
 parser.add_argument('--plot-syst-variation', help='Plot the systematic variations', action='store_true', default=False)
 parser.add_argument('--rebin', help='Rebin the histogram', action='store_true', default=False)
-parser.add_argument('--rebin-fraction', help='The bin uncertainty fraction threshold', type=float, default=0.15)
+parser.add_argument('--rebin-fraction', help='The bin uncertainty fraction threshold', type=float, default=0.1)
 parser.add_argument('--rebin-count', help='The bin count threshold', type=float, default=10)
 parser.add_argument('--rebin-from', help='Data or MC', type=str, default="Data")
 parser.add_argument('--rebin-bins', help='Comma separated list to rebin to if loading in histograms', type=str, default=None)
 parser.add_argument('--norm-to-bin-width', help='Normalise to bin width', action='store_true', default=False)
 parser.add_argument('--load-from-root', help='Root file to load histograms from', type=str, default=None)
+parser.add_argument('--specific-histogram', help='Specific histogram to make', type=str, default=None)
+parser.add_argument('--submit', help='Submit all histograms to the batch', action='store_true', default=False)
+parser.add_argument('--hadd', help='Submit all histograms to the batch', action='store_true', default=False)
+parser.add_argument('--points-per-job', help='Number of points per job', type=int, default=20)
+parser.add_argument('--write-after-load', help='Write histogram to root file after loading from root', action='store_true', default=False)
+parser.add_argument('--extra-name', help='Extra name for root output', type=str, default=None)
 
 args = parser.parse_args()
+
+def MakeCommandOptions(args):
+  parsers = []
+  for attr, value in vars(args).items():
+    if value is None or (value is False and isinstance(value,bool)):
+      continue
+    attr_name = attr.replace("_","-")
+    if value is True and isinstance(value,bool):
+      parsers.append(f'--{attr_name}')
+    elif isinstance(value, str):
+      if attr_name in ["input","output","cfg"]:
+        value = os.path.abspath(value)
+      parsers.append(f'--{attr_name}="{value}"')
+    else:
+      parsers.append(f'--{attr_name}={value}')
+  return parsers
+
+parsers = MakeCommandOptions(args)
+if '--submit' in parsers:
+  parsers.remove('--submit')
+command = f"python3 {os.path.abspath(__file__)} {' '.join(parsers)}"
+
 
 class GetHistograms:
 
@@ -70,7 +99,14 @@ class GetHistograms:
     rebin_count=10,
     rebin_from="Data",
     load_from_root=None,
-    rebin_bins=None
+    rebin_bins=None,
+    specific_histogram=None,
+    command=None,
+    submit=False,
+    points_per_job=20,
+    write_after_load=False,
+    output = "./",
+    extra_name=None
     ):
     self.input_folder = input_folder
     self.var = var
@@ -91,6 +127,12 @@ class GetHistograms:
     self.rebin_from = rebin_from
     self.load_from_root = load_from_root
     self.rebin_bins = rebin_bins
+    self.specific_histogram = specific_histogram
+    self.command = command
+    self.submit = submit
+    self.write_after_load = write_after_load
+    self.output = output
+    self.extra_name = extra_name
 
     # Load the config file
     if ".yaml" in cfg:
@@ -116,6 +158,9 @@ class GetHistograms:
       "hists_squared",
       "hists_squared_per_file",
       "hists_squared_per_group",
+      "sum_wt",
+      "sum_wt_per_file",
+      "sum_wt_per_group",
       "n_events",
       "n_events_per_file",
       "n_events_per_group",
@@ -128,6 +173,10 @@ class GetHistograms:
     ]
 
     self.stores = {i: {k:{} for k in store_columns} for i in ["Nom", "Up", "Down"]}
+    self.cmd_store = []
+    self.n_per_job = points_per_job
+    self.submit_ind = 0
+    self.command_ind = 0
 
     if self.load_from_root:
       self.root_file = uproot.open(self.load_from_root)
@@ -164,12 +213,16 @@ class GetHistograms:
   def _get_year_wildcard(self):
     if self.year == "all":
       self.wildcard = "*"
+      self.eras = ["2016_PreVFP", "2016_PostVFP", "2017", "2018", "2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix"]
     elif self.year == "run2":
       self.wildcard = ["*2016_PreVFP*", "*2016_PostVFP*", "*2017*", "*2018*"]
+      self.eras = ["2016_PreVFP", "2016_PostVFP", "2017", "2018"]
     elif self.year == "run3":
       self.wildcard = ["*2022_preEE*", "*2022_postEE*", "*2023_preBPix*", "*2023_postBPix*"]
+      self.eras = ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix"]
     elif self.year in ["2016_PreVFP", "2016_PostVFP", "2017", "2018", "2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix"]:
       self.wildcard = f"*{self.year}*"
+      self.eras = [self.year]
     else:
       raise ValueError(f"Unknown year: {self.year}. Please specify a valid year.")
 
@@ -231,7 +284,10 @@ class GetHistograms:
 
     self.root_files = {}
     for var in self.cfg["variables"].keys():
-      root_name = os.path.join(args.output, f"datacard_{var}.root")
+      if self.extra_name is None:
+        root_name = os.path.join(self.output, f"datacard_{var}.root")
+      else:
+        root_name = os.path.join(self.output, f"datacard_{var}_{self.extra_name}.root")
       if os.path.exists(root_name):
         os.remove(root_name)
       os.makedirs(os.path.dirname(root_name), exist_ok=True)
@@ -243,6 +299,7 @@ class GetHistograms:
           if hist_name not in self.stores[i].keys(): continue
           if var not in self.stores[i][hist_name].keys(): continue
           for file_name, hist in self.stores[i][hist_name][var].items():
+
             h_bh = bh.Histogram(bh.axis.Variable(copy.deepcopy(self.bin_store[var])), storage=bh.storage.Weight())
             h_bh.view().value[:] = copy.deepcopy(hist)
             h_bh.view().variance[:] = copy.deepcopy(self.stores[i][var_name][var][file_name])
@@ -259,6 +316,10 @@ class GetHistograms:
 
             self.root_files[var][write_name] = copy.deepcopy(h_bh)
 
+    # Close files
+    for var in self.root_files.keys():
+      self.root_files[var].close()
+
   def _get_bins(self):
 
     self.bin_store = {}
@@ -270,24 +331,45 @@ class GetHistograms:
       elif "[" in bins:
         bins = np.array([float(i) for i in bins.split("[")[1].split("]")[0].split(',')])
       elif bins == "auto":
-        bins = args.num_bins
+        bins = self.num_bins
       self.bin_store[var] = bins
+
+  def _get_tokens(self, input):
+
+    tokens = re.findall(r"[A-Za-z_]\w*", input)
+    reserved = {"and", "or", "not", "cos", "sin", "sinh", "cosh", "tanh", "abs", "exp", "sqrt", "arctan2", "arcsinh", "arccosh", "arctanh", "log", "log10"}
+    return [t for t in tokens if t not in reserved]
 
   def _get_histograms(self, df, calculate, selection, file_name, group, total_name, save_to="Nom", group_name=None):
 
+    # Calculate the histograms
     if self.load_from_root is None:
-      if len(df) == 0: return
+      if df.empty: return
 
-      # Calculate the columns
       for calc in calculate:
         for col_name, func in calc.items():
-          df.loc[:, col_name] = df.eval(func)
+          if isinstance(func, (int, float)):
+            df[col_name] = float(func)
+          else:
+            tokens = self._get_tokens(func)
+            local_dict = {
+              "cos": np.cos,
+              "sin": np.sin,
+              "sinh": np.sinh,
+              "sqrt": np.sqrt,
+              "arctan2": np.arctan2,
+              "arcsinh": np.arcsinh,
+              "log": np.log,
+            }
+            for k in tokens:
+              local_dict[k] = df[k]
+            df[col_name] = eval(func, {"np": np}, local_dict)
 
       # Apply selection if provided
       for sel in selection:
         df = df.query(sel)
 
-      if len(df) == 0: return
+      if df.empty: return
 
     for var in self.cfg["variables"].keys():
 
@@ -300,17 +382,18 @@ class GetHistograms:
         if var not in store_dict.keys():
           self.stores[save_to][store_name][var] = {}
 
-      # Calculate the histograms
       if self.load_from_root is None:
         hist, bins = np.histogram(df.loc[valid,var], bins=self.bin_store[var], weights=df.loc[valid,"weight"], density=False)
         if isinstance(self.bin_store[var], int):
           self.bin_store[var] = copy.deepcopy(bins)
         hist_squared, _ = np.histogram(df.loc[valid,var], bins=self.bin_store[var], weights=df.loc[valid,"weight"]**2, density=False)
-        n = len(df)
-        n_pos = len(df[df.loc[:,"weight"] >= 0])
-        n_neg = len(df[df.loc[:,"weight"] < 0])
+        w = df["weight"].to_numpy()
+        n = w.size
+        n_pos = (w >= 0).sum()
+        n_neg = (w < 0).sum()
+        sum_wt = w.sum(dtype=float)
       else:
-        root_file_name = file_name.replace("(","").replace(")","").replace("[","").replace("]","").replace(",","_").replace(".","").replace(" ","_")
+        root_file_name = copy.deepcopy(file_name)
         if save_to in ["Up","Down"]:
           root_file_name += save_to
         root_hist = self.root_file.get(root_file_name)
@@ -320,51 +403,59 @@ class GetHistograms:
         n = 0
         n_pos = 0
         n_neg = 0
+        sum_wt = np.sum(hist)
 
       # Scale hists
       if group_name in self.scale_factors.keys():
-        print(f"Scaling {file_name} by {self.scale_factors[group_name]}")
+        #print(f"Scaling {file_name} by {self.scale_factors[group_name]}")
         hist *= self.scale_factors[group_name]
         hist_squared *= self.scale_factors[group_name]**2
 
       # Save to dictionaries
-      if group_name is None or group_name in self.cfg["groups"].keys():
-        if total_name not in self.stores[save_to]["hists"][var]:
-          self.stores[save_to]["hists"][var][total_name] = copy.deepcopy(hist)
-          self.stores[save_to]["hists_squared"][var][total_name] = copy.deepcopy(hist_squared)
-          self.stores[save_to]["n_events"][var][total_name] = copy.deepcopy(n)
-          self.stores[save_to]["n_positive"][var][total_name] = copy.deepcopy(n_pos)
-          self.stores[save_to]["n_negative"][var][total_name] = copy.deepcopy(n_neg)
+      if self.specific_histogram is None:
+        if group_name is None or group_name in self.cfg["groups"].keys():
+          if total_name not in self.stores[save_to]["hists"][var]:
+            self.stores[save_to]["hists"][var][total_name] = copy.deepcopy(hist)
+            self.stores[save_to]["hists_squared"][var][total_name] = copy.deepcopy(hist_squared)
+            self.stores[save_to]["n_events"][var][total_name] = copy.deepcopy(n)
+            self.stores[save_to]["n_positive"][var][total_name] = copy.deepcopy(n_pos)
+            self.stores[save_to]["n_negative"][var][total_name] = copy.deepcopy(n_neg)
+            self.stores[save_to]["sum_wt"][var][total_name] = copy.deepcopy(sum_wt)
+          else:
+            self.stores[save_to]["hists"][var][total_name] += hist
+            self.stores[save_to]["hists_squared"][var][total_name] += hist_squared
+            self.stores[save_to]["n_events"][var][total_name] += n
+            self.stores[save_to]["n_positive"][var][total_name] += n_pos
+            self.stores[save_to]["n_negative"][var][total_name] += n_neg
+            self.stores[save_to]["sum_wt"][var][total_name] += sum_wt
+        if group not in self.stores[save_to]["hists_per_group"][var]:
+          self.stores[save_to]["hists_per_group"][var][group] = copy.deepcopy(hist)
+          self.stores[save_to]["hists_squared_per_group"][var][group] = copy.deepcopy(hist_squared)
+          self.stores[save_to]["n_events_per_group"][var][group] = copy.deepcopy(n)
+          self.stores[save_to]["n_positive_per_group"][var][group] = copy.deepcopy(n_pos)
+          self.stores[save_to]["n_negative_per_group"][var][group] = copy.deepcopy(n_neg)
+          self.stores[save_to]["sum_wt_per_group"][var][group] = copy.deepcopy(sum_wt)
         else:
-          self.stores[save_to]["hists"][var][total_name] += hist
-          self.stores[save_to]["hists_squared"][var][total_name] += hist_squared
-          self.stores[save_to]["n_events"][var][total_name] += n
-          self.stores[save_to]["n_positive"][var][total_name] += n_pos
-          self.stores[save_to]["n_negative"][var][total_name] += n_neg
-      if group not in self.stores[save_to]["hists_per_group"][var]:
-        self.stores[save_to]["hists_per_group"][var][group] = copy.deepcopy(hist)
-        self.stores[save_to]["hists_squared_per_group"][var][group] = copy.deepcopy(hist_squared)
-        self.stores[save_to]["n_events_per_group"][var][group] = copy.deepcopy(n)
-        self.stores[save_to]["n_positive_per_group"][var][group] = copy.deepcopy(n_pos)
-        self.stores[save_to]["n_negative_per_group"][var][group] = copy.deepcopy(n_neg)
-      else:
-        self.stores[save_to]["hists_per_group"][var][group] += hist
-        self.stores[save_to]["hists_squared_per_group"][var][group] += hist_squared
-        self.stores[save_to]["n_events_per_group"][var][group] += n
-        self.stores[save_to]["n_positive_per_group"][var][group] += n_pos
-        self.stores[save_to]["n_negative_per_group"][var][group] += n_neg
+          self.stores[save_to]["hists_per_group"][var][group] += hist
+          self.stores[save_to]["hists_squared_per_group"][var][group] += hist_squared
+          self.stores[save_to]["n_events_per_group"][var][group] += n
+          self.stores[save_to]["n_positive_per_group"][var][group] += n_pos
+          self.stores[save_to]["n_negative_per_group"][var][group] += n_neg
+          self.stores[save_to]["sum_wt_per_group"][var][group] += sum_wt
       if file_name not in self.stores[save_to]["hists_per_file"][var]:
         self.stores[save_to]["hists_per_file"][var][file_name] = copy.deepcopy(hist)
         self.stores[save_to]["hists_squared_per_file"][var][file_name] = copy.deepcopy(hist_squared)
         self.stores[save_to]["n_events_per_file"][var][file_name] = copy.deepcopy(n)
         self.stores[save_to]["n_positive_per_file"][var][file_name] = copy.deepcopy(n_pos)
         self.stores[save_to]["n_negative_per_file"][var][file_name] = copy.deepcopy(n_neg)
+        self.stores[save_to]["sum_wt_per_file"][var][file_name] = copy.deepcopy(sum_wt)
       else:
         self.stores[save_to]["hists_per_file"][var][file_name] += hist
         self.stores[save_to]["hists_squared_per_file"][var][file_name] += hist_squared
         self.stores[save_to]["n_events_per_file"][var][file_name] += n
         self.stores[save_to]["n_positive_per_file"][var][file_name] += n_pos
         self.stores[save_to]["n_negative_per_file"][var][file_name] += n_neg
+        self.stores[save_to]["sum_wt_per_file"][var][file_name] += sum_wt
 
     return df
 
@@ -382,12 +473,14 @@ class GetHistograms:
         self.stores[shift_name]["n_events_per_group"][var][f"{group}_{syst_name}"] = copy.deepcopy(self.stores["Nom"]["n_events_per_file"][var][file_name])
         self.stores[shift_name]["n_positive_per_group"][var][f"{group}_{syst_name}"] = copy.deepcopy(self.stores["Nom"]["n_positive_per_file"][var][file_name])
         self.stores[shift_name]["n_negative_per_group"][var][f"{group}_{syst_name}"] = copy.deepcopy(self.stores["Nom"]["n_negative_per_file"][var][file_name])
+        self.stores[shift_name]["sum_wt_per_group"][var][f"{group}_{syst_name}"] = copy.deepcopy(self.stores["Nom"]["sum_wt_per_file"][var][file_name])
       else:
         self.stores[shift_name]["hists_per_group"][var][f"{group}_{syst_name}"] += self.stores["Nom"]["hists_per_file"][var][file_name]
         self.stores[shift_name]["hists_squared_per_group"][var][f"{group}_{syst_name}"] += self.stores["Nom"]["hists_squared_per_file"][var][file_name]
         self.stores[shift_name]["n_events_per_group"][var][f"{group}_{syst_name}"] += self.stores["Nom"]["n_events_per_file"][var][file_name]
         self.stores[shift_name]["n_positive_per_group"][var][f"{group}_{syst_name}"] += self.stores["Nom"]["n_positive_per_file"][var][file_name]
         self.stores[shift_name]["n_negative_per_group"][var][f"{group}_{syst_name}"] += self.stores["Nom"]["n_negative_per_file"][var][file_name]
+        self.stores[shift_name]["sum_wt_per_group"][var][f"{group}_{syst_name}"] += self.stores["Nom"]["sum_wt_per_file"][var][file_name]
       if group in self.cfg["groups"].keys():
         if syst_name not in self.stores[shift_name]["hists"][var]:
           self.stores[shift_name]["hists"][var][syst_name] = copy.deepcopy(self.stores["Nom"]["hists_per_file"][var][file_name])
@@ -395,12 +488,14 @@ class GetHistograms:
           self.stores[shift_name]["n_events"][var][syst_name] = copy.deepcopy(self.stores["Nom"]["n_events_per_file"][var][file_name])
           self.stores[shift_name]["n_positive"][var][syst_name] = copy.deepcopy(self.stores["Nom"]["n_positive_per_file"][var][file_name])
           self.stores[shift_name]["n_negative"][var][syst_name] = copy.deepcopy(self.stores["Nom"]["n_negative_per_file"][var][file_name])
+          self.stores[shift_name]["sum_wt"][var][syst_name] = copy.deepcopy(self.stores["Nom"]["sum_wt_per_file"][var][file_name])
         else:
           self.stores[shift_name]["hists"][var][syst_name] += self.stores["Nom"]["hists_per_file"][var][file_name]
           self.stores[shift_name]["hists_squared"][var][syst_name] += self.stores["Nom"]["hists_squared_per_file"][var][file_name]
           self.stores[shift_name]["n_events"][var][syst_name] += self.stores["Nom"]["n_events_per_file"][var][file_name]
           self.stores[shift_name]["n_positive"][var][syst_name] += self.stores["Nom"]["n_positive_per_file"][var][file_name]
           self.stores[shift_name]["n_negative"][var][syst_name] += self.stores["Nom"]["n_negative_per_file"][var][file_name]
+          self.stores[shift_name]["sum_wt"][var][syst_name] += self.stores["Nom"]["sum_wt_per_file"][var][file_name]
     
   def _rebin_histograms(self):
 
@@ -419,9 +514,221 @@ class GetHistograms:
             self.stores[shift_name][hist_name][var][group] = copy.deepcopy(hist)
             self.stores[shift_name][var_name][var][group] = uncert**2
 
+  def _scale_to(self):
+
+    for var in self.cfg["variables"].keys():
+
+      # Loop over files
+      for f in self.files:
+
+        # Check if file is in groups
+        k = self._check_file_in_groups(f)
+
+        if k is None: continue
+
+        # Check whether need to use
+        if k not in self.cfg["scale_to"].keys(): continue
+
+        # Get the file names
+        file_name, era_name, file_name_minus_era = self._get_file_names(f)
+
+        total_name = "Total_MC" if "Data" not in k else "Total_Data"
+
+        scale_factor = self.stores["Nom"]["sum_wt_per_group"][var][self.cfg["scale_to"][k]] / self.stores["Nom"]["sum_wt_per_group"][var][k]
+
+        # Do Nom
+        save_to = "Nom"
+        if var not in self.stores[save_to]["hists_per_file"]:
+          continue
+        if file_name not in self.stores[save_to]["hists_per_file"][var]:
+          continue
+
+        nom_shift_hist = self.stores[save_to]["hists_per_file"][var][file_name] * (scale_factor - 1.0)
+        nom_shift_hist_squared = self.stores[save_to]["hists_squared_per_file"][var][file_name] * (scale_factor**2 - 1.0)
+
+        if var in self.stores[save_to]["hists_per_file"]:
+          if file_name in self.stores[save_to]["hists_per_file"][var]:
+            self.stores[save_to]["hists_per_file"][var][file_name] += nom_shift_hist
+            self.stores[save_to]["hists_squared_per_file"][var][file_name] += nom_shift_hist_squared
+
+        # Do Up and Down
+        if "systematics" in self.cfg and "Data" not in k and self.syst:
+          for syst_name, syst_info in self.cfg["systematics"].items():
+            for save_to in ["Down", "Up"]:
+              if era_name not in self.eras: continue
+              file_key = f"{file_name}_{syst_name}"
+
+              if var not in self.stores[save_to]["hists_per_file"]:
+                continue
+              if file_key not in self.stores[save_to]["hists_per_file"][var]:
+                continue
+
+              group_name = f"{k}_{syst_name}"
+
+              shift_hist = self.stores[save_to]["hists_per_file"][var][file_key] * (scale_factor - 1.0)
+              shift_hist_squared = self.stores[save_to]["hists_squared_per_file"][var][file_key] * (scale_factor**2 - 1.0)
+
+              if var in self.stores[save_to]["hists_per_file"]:
+                if file_key in self.stores[save_to]["hists_per_file"][var]:
+                  self.stores[save_to]["hists_per_file"][var][file_key] += shift_hist
+                  self.stores[save_to]["hists_squared_per_file"][var][file_key] += shift_hist_squared
+
+      # Scale groups
+      for k in self.cfg["scale_to"].keys():
+
+        if k not in self.stores["Nom"]["hists_per_group"][var].keys(): continue
+        scale_factor = self.stores["Nom"]["sum_wt_per_group"][var][self.cfg["scale_to"][k]] / self.stores["Nom"]["sum_wt_per_group"][var][k]
+
+        # Total
+        if k in self.cfg["groups"].keys():
+          total_name = "Total_MC" if "Data" not in k else "Total_Data"
+          if total_name in self.stores["Nom"]["hists"][var].keys():
+            self.stores["Nom"]["hists"][var][total_name] += self.stores["Nom"]["hists_per_group"][var][k] * (scale_factor - 1.0)
+            self.stores["Nom"]["hists_squared"][var][total_name] += self.stores["Nom"]["hists_squared_per_group"][var][k] * (scale_factor**2 - 1.0)
+
+        # Nom group
+        self.stores["Nom"]["hists_per_group"][var][k] *= scale_factor
+        self.stores["Nom"]["hists_squared_per_group"][var][k] *= scale_factor**2
+
+        # Up and Down
+        for save_to in ["Up", "Down"]:
+          if "systematics" in self.cfg and "Data" not in k and self.syst:
+            for syst_name, syst_info in self.cfg["systematics"].items():
+              group_name = f"{k}_{syst_name}"
+              if group_name in self.stores[save_to]["hists_per_group"][var].keys():
+
+                # Total
+                if k in self.cfg["groups"].keys():
+                  if syst_name in self.stores[save_to]["hists"][var].keys():
+                    self.stores[save_to]["hists"][var][syst_name] += self.stores[save_to]["hists_per_group"][var][group_name] * (scale_factor - 1.0)
+                    self.stores[save_to]["hists_squared"][var][syst_name] += self.stores[save_to]["hists_squared_per_group"][var][group_name] * (scale_factor**2 - 1.0)
+
+                # Group
+                self.stores[save_to]["hists_per_group"][var][group_name] *= scale_factor
+                self.stores[save_to]["hists_squared_per_group"][var][group_name] *= scale_factor**2
+
+
+  def _get_needed_columns(self, k):
+
+    cols = []
+    calc_cols = []
+    cols += self._get_tokens(self.weight)
+    #if self.sel is not None:
+    #  cols += self._get_tokens(self.sel)
+    if self.pre_sel is not None:
+      cols += self._get_tokens(self.pre_sel)
+    if self.cfg["calculate"] is not None:
+      for k, v in self.cfg["calculate"].items():
+        cols += [v1 for v1 in self._get_tokens(v) if v1 not in calc_cols]
+        if k not in cols:
+          calc_cols += [k]
+    if "systematics" in self.cfg and "Data" not in k and self.syst:
+      for syst_name, syst_info in self.cfg["systematics"].items():
+        calc_cols += [syst_name]
+        for func_key, func in syst_info["functions"].items():
+          cols += [v1 for v1 in self._get_tokens(func) if v1 not in calc_cols]
+          if func_key not in cols:
+            calc_cols += [func_key]
+
+    for var in self.cfg["variables"].keys():
+      if var not in calc_cols:
+        cols += [var]
+    return sorted(list(set(cols)))
+
+
+  def _CreateJob(self, cmd_list, job_name, delete_job=True):
+    dir_name = "/".join(job_name.split("/")[:-1])
+    if not os.path.exists(dir_name):
+      os.makedirs(dir_name)
+    if os.path.exists(job_name) and delete_job: os.system(f'rm {job_name}')
+    for cmd in cmd_list:
+      prep_cmd = cmd.replace('"','\\"')
+      prep_cmd = prep_cmd.replace('$','\\$')
+      os.system(f'echo "{prep_cmd}" >> {job_name}')
+    os.system(f'chmod +x {job_name}' % vars())
+    if delete_job:
+      print("Created job:",job_name)
+    else:
+      print("Adding to:",job_name)
+
+
+  def _submit(self, specific_histogram_name):
+
+    self.cmd_store.append(specific_histogram_name)
+
+    #self.cmd_store.append(f"{self.command} --specific-histogram {specific_histogram_name}")
+    job_name = os.path.abspath(os.path.join(self.output, f"job.sh"))
+
+    if self.command_ind == 0:
+      # make .sh file
+      # file directory
+      pp = os.path.abspath(__file__).split("AnalysisConfigs")[0]+"AnalysisConfigs"
+    
+      commands = [
+        "#!/bin/bash",
+        "export XRD_RUNFORKHANDLER=1",
+        "export MALLOC_TRIM_THRESHOLD_=0",
+        f"export PYTHONPATH=\"{pp}:$PYTHONPATH\"",
+      ]
+      self._CreateJob(commands, job_name, delete_job=True)
+
+    self.command_ind += 1
+
+
+    if len(self.cmd_store) >= self.n_per_job:
+
+      commands = [f"if [ $1 -eq {self.submit_ind} ]; then"]
+      #commands += [f"   {cmd}" for cmd in self.cmd_store]
+      commands += [f"   {self.command} --specific-histogram {','.join(self.cmd_store)} --extra-name={self.submit_ind}"]
+      commands += ["fi"]
+      self._CreateJob(commands, job_name, delete_job=False)
+      self.submit_ind += 1
+      self.cmd_store = []
+
+
+  def _submit_sweep(self):
+
+    job_name = os.path.abspath(os.path.join(self.output, f"job.sh"))
+    if len(self.cmd_store) > 0:
+      commands = [f"if [ $1 -eq {self.submit_ind} ]; then"]
+      #commands += [f"   {cmd}" for cmd in self.cmd_store]
+      commands += [f"   {self.command} --specific-histogram {','.join(self.cmd_store)} --extra-name={self.submit_ind}"]
+      commands += ["fi"]
+      self._CreateJob(commands, job_name, delete_job=False)
+      self.submit_ind += 1
+      self.cmd_store = []
+
+    sub = [
+      f"Executable = {job_name}",
+      f"Error = {job_name.replace('.sh', '_$(ClusterId).$(ProcId).err')}",
+      f"Output = {job_name.replace('.sh', '_$(ClusterId).$(ProcId).out')}",
+      f"Log = {job_name.replace('.sh', '_$(ClusterId).$(ProcId).log')}",
+      "MY.SendCredential = True",
+      "MY.SingularityImage = \"/cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cms-analysis/general/pocketcoffea:lxplus-el9-576bd3cd\"",
+      "+JobFlavour = \"longlunch\"",
+      "RequestCpus = 1",
+      "RequestMemory = 2GB",
+      "arguments = $(ProcId)",
+      "should_transfer_files = YES",
+      "when_to_transfer_output = ON_EXIT",
+      "on_exit_remove = (ExitBySignal == False) && (ExitCode == 0)",
+      "max_retries = 10",
+      "requirements = Machine =!= LastRemoteHost",
+      f"queue {self.submit_ind}",        
+    ]
+    sub_name = job_name.replace('.sh', '.sub')
+    self._CreateJob(sub, sub_name, delete_job=True)
+
+    # submit job
+    print(f'Submitting job: {sub_name}')
+    os.system(f'condor_submit {sub_name}')
+
+
   def Run(self):
 
     # Loop over files
+    previous_file = None
+    previous_year = None
     for f in self.files:
 
       # Check if file is in groups
@@ -431,48 +738,108 @@ class GetHistograms:
       # Get the file names
       file_name, era_name, file_name_minus_era = self._get_file_names(f)
 
+      root_file_name = file_name.replace("(","").replace(")","").replace("[","").replace("]","").replace(",","_").replace(".","").replace(" ","_")
+      if self.specific_histogram is not None:
+        run_file = False
+        for specific_hist in self.specific_histogram:
+          if root_file_name in specific_hist:
+            run_file = True
+        if not run_file:
+          continue
+
       print(f"Processing {file_name} for group {k}")
 
       # Read the parquet file
-      if self.load_from_root is None:
-        df = pd.read_parquet(f)
-        if len(df) == 0: continue
-        # Apply pre-selection if provided
-        if self.pre_sel is not None:
-          df = df.query(self.pre_sel)
-      else:
-        df = None
+      if not self.submit:
+        if self.load_from_root is None:
+
+          needed_columns = self._get_needed_columns(k)
+          loaded_df = pd.read_parquet(f, columns=needed_columns)
+
+          if loaded_df.empty: continue
+          # Apply pre-selection if provided
+          if self.pre_sel is not None:
+            df = loaded_df.query(self.pre_sel)
+          else:
+            df = loaded_df.copy()
+        else:
+          df = None
 
       # Get nominal histograms and return nominal df
-      calculate = [{"weight": self.weight}]
+      if "DATA" not in file_name:
+        calculate = [{"weight": self.weight}]
+      else:
+        calculate = [{"weight": "1.0"}]
       calculate += [self.cfg["calculate"]] if "calculate" in self.cfg else []
       sel = [self.sel] if self.sel is not None else []
       sel += [self.cfg["group_selection"][k]] if k in self.cfg["group_selection"].keys() else []
-      _ = self._get_histograms(copy.deepcopy(df), calculate, sel, file_name, k, "Total_MC" if "Data" not in k else "Total_Data", save_to="Nom", group_name=k)
+      if self.specific_histogram is None or root_file_name in self.specific_histogram:
+
+        if self.submit:
+          self._submit(specific_histogram_name=root_file_name)
+        else:
+          print("Running nominal")
+          _ = self._get_histograms(df.copy() if df is not None else None, calculate, sel, file_name, k, "Total_MC" if "Data" not in k else "Total_Data", save_to="Nom", group_name=k)
 
       # Get systemtics histograms
       if "systematics" in self.cfg and "Data" not in k and self.syst:
         for syst_name, syst_info in self.cfg["systematics"].items():
           for shift_name, syst_val in {"Down":-1.0,"Up":1.0}.items():
+            if era_name not in self.eras: continue
             if file_name_minus_era in syst_info["files"] and era_name in syst_info["years"]:
+
+              root_syst_file_name = f"{root_file_name}_{syst_name}{shift_name}"
+              if self.specific_histogram is not None:
+                run_syst = False
+                for specific_hist in self.specific_histogram:
+                  if root_syst_file_name in specific_hist:
+                    run_syst = True
+                if not run_syst:
+                  continue
+
+              print(f"Running systematic {syst_name}{shift_name}")
               syst_calculate = [{syst_name: syst_val}]
               syst_calculate += [self.cfg["calculate"]] if "calculate" in self.cfg else []
               syst_calculate += [syst_info["functions"]]
-              _ = self._get_histograms(copy.deepcopy(df), syst_calculate, sel, f"{file_name}_{syst_name}", f"{k}_{syst_name}", syst_name, save_to=shift_name, group_name=k)
-            else:
-              self._add_nom_to_syst_groups(shift_name, k, file_name, syst_name)
 
-    # Rebin
-    if self.rebin:
-      self._rebin_histograms()
+              if self.submit:
+                self._submit(specific_histogram_name=root_syst_file_name)
+              else: 
+                _ = self._get_histograms(df.copy() if df is not None else None, syst_calculate, sel, f"{file_name}_{syst_name}", f"{k}_{syst_name}", syst_name, save_to=shift_name, group_name=k)
+
+            else:
+
+              if self.specific_histogram is None and not self.submit:
+                self._add_nom_to_syst_groups(shift_name, k, file_name, syst_name)
+
+    if self.specific_histogram is None and not self.submit:
+      # Do scale to
+      if "scale_to" in self.cfg and self.cfg["scale_to"] is not None:
+        self._scale_to()
+
+      # Rebin
+      if self.rebin:
+        self._rebin_histograms()
 
     # Write root files
-    if self.write and self.load_from_root is None:
-      self._write_root_files()
+    if not self.submit:
+      if (self.write and self.load_from_root is None) or (self.write_after_load and self.load_from_root is not None):
+        self._write_root_files()
+
+    if self.submit:
+      self._submit_sweep()
+
 
 
 if args.var is None and args.rebin:
   raise ValueError("Please specify a variable to rebin. Use --var to specify the variable.")
+
+specific_histogram = None
+if args.specific_histogram is not None:
+  if "," in args.specific_histogram:
+    specific_histogram = args.specific_histogram.split(",")
+  else:
+    specific_histogram = [args.specific_histogram]  
 
 # Make histograms
 gh = GetHistograms(
@@ -495,10 +862,55 @@ gh = GetHistograms(
   rebin_fraction=args.rebin_fraction,
   rebin_from=args.rebin_from,
   load_from_root=args.load_from_root,
-  rebin_bins=args.rebin_bins
+  rebin_bins=args.rebin_bins,
+  specific_histogram=specific_histogram,
+  submit=args.submit,
+  command=command,
+  points_per_job=args.points_per_job,
+  write_after_load=args.write_after_load,
+  output=args.output,
+  extra_name=args.extra_name
 )
+
+# hadd
+if args.hadd:
+
+  out_files = {}
+  for var in gh.cfg["variables"].keys():
+
+    # Find matching ROOT files
+    in_file_paths = sorted(glob.glob(f"{args.output}/datacard_{var}_*.root"))
+    out_file_path = f"{args.output}/datacard_{var}.root"
+    print(f"[INFO] Merging {len(in_file_paths)} files into {out_file_path}")
+
+    # Initiate merged histograms
+    os.makedirs(args.output, exist_ok=True)
+    out_files[var] = uproot.recreate(out_file_path)
+
+    merged_hists = {}
+    # Open first file to initialize histogram structure
+    for path in in_file_paths:
+      with uproot.open(path) as f0:
+        for name, obj in f0.items():
+          vals, edges = obj.to_numpy()
+          variance = obj.variances()
+
+          h_bh = bh.Histogram(bh.axis.Variable(copy.deepcopy(edges)), storage=bh.storage.Weight())
+          h_bh.view().value[:] = copy.deepcopy(vals)
+          h_bh.view().variance[:] = copy.deepcopy(variance)
+          out_files[var][name.split(";")[0]] = copy.deepcopy(h_bh)
+
+    out_files[var].close()
+    print(f"[OK] Wrote merged file: {out_file_path}")
+    exit()
+
 gh.Run()
 
+if args.specific_histogram is not None:
+  exit(0)
+
+if args.submit:
+  exit(0)
 
 # Run plotting
 for var in gh.cfg["variables"].keys():
@@ -516,8 +928,8 @@ for var in gh.cfg["variables"].keys():
     total_data = np.sum(data_hist)
 
   # Get MC histograms
-  hists = {k: gh.stores["Nom"]["hists_per_group"][var][k] for k in list(gh.cfg["groups"].keys())[::-1] if k != "Data"}
-  hists_squared = {k: gh.stores["Nom"]["hists_squared_per_group"][var][k] for k in gh.cfg["groups"].keys() if k != "Data"}
+  hists = {k: copy.deepcopy(gh.stores["Nom"]["hists_per_group"][var][k]) for k in list(gh.cfg["groups"].keys())[::-1] if k != "Data"}
+  hists_squared = {k: copy.deepcopy(gh.stores["Nom"]["hists_squared_per_group"][var][k]) for k in gh.cfg["groups"].keys() if k != "Data"}
   total_mc = np.sum(gh.stores["Nom"]["hists"][var]["Total_MC"])
   extra_hists = {}
   for k in list(gh.cfg["plot_extra"].keys())[::-1]:
@@ -542,18 +954,19 @@ for var in gh.cfg["variables"].keys():
   # Get uncertainties
   if args.syst and len(gh.cfg["systematics"].keys()) > 0:
     stack_hist_errors = None
-    up_variance = gh.stores["Nom"]["hists_squared"][var]["Total_MC"]
-    down_variance = gh.stores["Nom"]["hists_squared"][var]["Total_MC"]
-    nom_hist = gh.stores["Nom"]["hists"][var]["Total_MC"]
+    up_variance = copy.deepcopy(gh.stores["Nom"]["hists_squared"][var]["Total_MC"])
+    down_variance = copy.deepcopy(gh.stores["Nom"]["hists_squared"][var]["Total_MC"])
+    nom_hist = copy.deepcopy(gh.stores["Nom"]["hists"][var]["Total_MC"])
     for syst_name in gh.cfg["systematics"].keys():
       up_shift = np.zeros_like(nom_hist)
       down_shift = np.zeros_like(nom_hist)
       if syst_name in gh.stores["Up"]["hists"][var].keys():
-        up_shift = gh.stores["Up"]["hists"][var][f"{syst_name}"] - nom_hist
+        up_shift = copy.deepcopy(gh.stores["Up"]["hists"][var][f"{syst_name}"]) - nom_hist
       if syst_name in gh.stores["Down"]["hists"][var].keys():
-        down_shift = gh.stores["Down"]["hists"][var][f"{syst_name}"] - nom_hist
+        down_shift = copy.deepcopy(gh.stores["Down"]["hists"][var][f"{syst_name}"]) - nom_hist
       up_hist = np.array([max(max(down_shift[i], up_shift[i]),0.0) for i in range(len(down_variance))])
       down_hist = np.array([min(min(down_shift[i], up_shift[i]),0.0) for i in range(len(down_variance))])
+      print(syst_name, "up hist sum:", np.sum(up_hist), "down hist sum:", np.sum(down_hist))
       up_variance += up_hist**2
       down_variance += down_hist**2
     stack_hist_errors_asym = {
@@ -563,7 +976,6 @@ for var in gh.cfg["variables"].keys():
   else:
     stack_hist_errors = np.sqrt(gh.stores["Nom"]["hists_squared"][var]["Total_MC"])
     stack_hist_errors_asym = None
-
 
   # Make table
   RED = "\033[91m"
@@ -597,7 +1009,7 @@ for var in gh.cfg["variables"].keys():
   lumi_labels = {
     "all" : "$200\ fb^{-1}\ (13,13.6\ TeV)$",
     "run2" : "$138\ fb^{-1}\ (13\ TeV)$",
-    "run3" : "$61.9\ fb^{-1}\ (13.6\ TeV)$",
+    "run3" : "$62.4\ fb^{-1}\ (13.6\ TeV)$",
     "2016_PreVFP" : "$19.6\ fb^{-1}\ (13\ TeV)$",
     "2016_PostVFP" : "$17.0\ fb^{-1}\ (13\ TeV)$",
     "2017" : "$41.5\ fb^{-1}\ (13\ TeV)$",
@@ -652,20 +1064,38 @@ for var in gh.cfg["variables"].keys():
     lumi_label=lumi_labels[args.year]
   )
 
-
+  
   # Plot systematic variations if required
   if args.syst and len(gh.cfg["systematics"].keys()) > 0 and args.plot_syst_variation:
     for syst_name in gh.cfg["systematics"].keys():
-      for group in gh.cfg["groups"].keys():
+
+      era_name = None
+      for i in range(len(syst_name.split("_"))-1, -1, -1):
+        if syst_name.split("_")[i].isdigit():
+          era_name = "_".join(syst_name.split("_")[i:])
+          break
+      if era_name is not None:
+        if era_name not in gh.eras:
+          print(f"Skipping systematic {syst_name} as not relevant for year {args.year}")
+          continue
+
+
+      for group in gh.total_groups.keys():
         if group == "Data": continue
         if group not in gh.stores["Nom"]["hists_per_group"][var].keys(): continue
         if f"{group}_{syst_name}" not in gh.stores["Up"]["hists_per_group"][var].keys(): continue
         if f"{group}_{syst_name}" not in gh.stores["Down"]["hists_per_group"][var].keys(): continue
 
         # Get the up and down histograms
-        up_hist = gh.stores["Up"]["hists_per_group"][var][f"{group}_{syst_name}"]
-        down_hist = gh.stores["Down"]["hists_per_group"][var][f"{group}_{syst_name}"]
-        nom_hist = gh.stores["Nom"]["hists_per_group"][var][group]
+        up_hist = copy.deepcopy(gh.stores["Up"]["hists_per_group"][var][f"{group}_{syst_name}"])
+        down_hist = copy.deepcopy(gh.stores["Down"]["hists_per_group"][var][f"{group}_{syst_name}"])
+        nom_hist = copy.deepcopy(gh.stores["Nom"]["hists_per_group"][var][group])
+
+        if args.norm_to_bin_width:
+          bins_widths = np.array([gh.bin_store[var][ind+1] - gh.bin_store[var][ind] for ind in range(len(gh.bin_store[var])-1)])
+          up_hist = up_hist / bins_widths
+          down_hist = down_hist / bins_widths
+          nom_hist = nom_hist / bins_widths
 
         group_name = group.replace("(","").replace(")","").replace("[","").replace("]","").replace(",","_").replace(".","").replace(" ","_")
 
@@ -680,3 +1110,37 @@ for var in gh.cfg["variables"].keys():
           ratio_range=[0.9,1.1],
           axis_text=f"{group} {syst_name}"
         )
+
+
+# Plot different top mass (just 169.5, 172.5, 175.5) if available, in the same way as systematic variations
+nom_name = "TT (172.5 GeV)"
+up_name = "TT (171.5 GeV)"
+down_name = "TT (173.5 GeV)"
+if nom_name in gh.total_groups.keys() and up_name in gh.total_groups.keys() and down_name in gh.total_groups.keys():
+  for var in gh.cfg["variables"].keys():
+    if nom_name not in gh.stores["Nom"]["hists_per_group"][var].keys(): continue
+    if up_name not in gh.stores["Nom"]["hists_per_group"][var].keys(): continue
+    if down_name not in gh.stores["Nom"]["hists_per_group"][var].keys(): continue
+
+    # Get the up and down histograms
+    nom_hist = copy.deepcopy(gh.stores["Nom"]["hists_per_group"][var][nom_name])
+    up_hist = copy.deepcopy(gh.stores["Nom"]["hists_per_group"][var][up_name])
+    down_hist = copy.deepcopy(gh.stores["Nom"]["hists_per_group"][var][down_name])
+
+    if args.norm_to_bin_width:
+      bins_widths = np.array([gh.bin_store[var][ind+1] - gh.bin_store[var][ind] for ind in range(len(gh.bin_store[var])-1)])
+      up_hist = up_hist / bins_widths
+      down_hist = down_hist / bins_widths
+      nom_hist = nom_hist / bins_widths
+
+    plot_histograms_with_ratio(
+      [nom_hist, up_hist, down_hist],
+      [None, None, None],
+      ["172.5 GeV", "171.5 GeV", "173.5 GeV"],
+      gh.bin_store[var],
+      xlabel=var if var not in gh.cfg["translate"] else gh.cfg["translate"][var],
+      ylabel="Events",
+      name=f"{args.output}/top_mass_variation_{var}_{args.year}",
+      ratio_range=[0.9,1.1],
+      axis_text="Top Mass Variation"
+    )

@@ -33,6 +33,7 @@ def compute_sf(jets, corr):
 
     return ak.prod(ak.unflatten(sf, n_jets), axis=1)
 
+
 def reweighting_func(params, metadata, events, size, shape_variations):
 
     json_file = params["btagjsonFiles"][metadata["year"]]["AK4"]
@@ -53,8 +54,13 @@ def reweighting_func(params, metadata, events, size, shape_variations):
 
 def reweighting_func_subjets(params, metadata, events, size, shape_variations):
 
-    json_file = params["btagjsonFiles"][metadata["year"]]["AK4"]
-    function = params["btagShapeFunc"][metadata["year"]]["AK4"]
+    if metadata["year"] in ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix"]:
+        year = "2018"
+    else:
+        year = metadata["year"]
+
+    json_file = params["btagjsonFiles"][year]["AK4"]
+    function = params["btagShapeFunc"][year]["AK4"]
     BTagfile = correctionlib.CorrectionSet.from_file(json_file)
     corr = BTagfile[function]
 

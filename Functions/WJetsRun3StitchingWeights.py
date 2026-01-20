@@ -39,29 +39,29 @@ def stitching_func(params, metadata, events, size, shape_variations):
       default=0.0
     )
   elif metadata["year"] in ["2022_preEE","2022_postEE","2023_preBPix","2023_postBPix"] and metadata["sample"] == "WJetsToLNuHT40To100MLNu0To120":
-    return np.ones(len(events)) * 0.076800867
+    return np.ones(len(events)) * 0.076800867 * 1.34 # Extra correction
   elif metadata["year"] in ["2022_preEE","2022_postEE","2023_preBPix","2023_postBPix"] and metadata["sample"] == "WJetsToLNuHT100To400MLNu0To120":
-    return np.ones(len(events)) * 0.029355479
+    return np.ones(len(events)) * 0.029355479 * 1.34
   elif metadata["year"] in ["2022_preEE","2022_postEE","2023_preBPix","2023_postBPix"] and metadata["sample"] == "WJetsToLNuHT400To800MLNu0To120":
-    return np.ones(len(events)) * 0.001083047
+    return np.ones(len(events)) * 0.001083047 * 1.34
   elif metadata["year"] in ["2022_preEE","2022_postEE","2023_preBPix","2023_postBPix"] and metadata["sample"] == "WJetsToLNuHT800To1500MLNu0To120":
-    return np.ones(len(events)) * 0.000112475
+    return np.ones(len(events)) * 0.000112475 * 1.34
   elif metadata["year"] in ["2022_preEE","2022_postEE","2023_preBPix","2023_postBPix"] and metadata["sample"] == "WJetsToLNuHT1500To2500MLNu0To120":
-    return np.ones(len(events)) * 8.08269e-06
+    return np.ones(len(events)) * 8.08269e-06 * 1.34
   elif metadata["year"] in ["2022_preEE","2022_postEE","2023_preBPix","2023_postBPix"] and metadata["sample"] == "WJetsToLNuHT2500MLNu0To120":
-    return np.ones(len(events)) * 5.55154e-07
+    return np.ones(len(events)) * 5.55154e-07 * 1.34
   elif metadata["year"] in ["2022_preEE","2022_postEE","2023_preBPix","2023_postBPix"] and metadata["sample"] == "WJetsToLNuHT40To100MLNu120":
-    return np.ones(len(events)) * 0.000371186
+    return np.ones(len(events)) * 0.000371186 * 1.34
   elif metadata["year"] in ["2022_preEE","2022_postEE","2023_preBPix","2023_postBPix"] and metadata["sample"] == "WJetsToLNuHT100To400MLNu120":
-    return np.ones(len(events)) * 0.000183968
+    return np.ones(len(events)) * 0.000183968 * 1.34
   elif metadata["year"] in ["2022_preEE","2022_postEE","2023_preBPix","2023_postBPix"] and metadata["sample"] == "WJetsToLNuHT400To800MLNu120":
-    return np.ones(len(events)) * 9.45839e-06
+    return np.ones(len(events)) * 9.45839e-06 * 1.34
   elif metadata["year"] in ["2022_preEE","2022_postEE","2023_preBPix","2023_postBPix"] and metadata["sample"] == "WJetsToLNuHT800To1500MLNu120":
-    return np.ones(len(events)) * 1.12927e-06
+    return np.ones(len(events)) * 1.12927e-06 * 1.34
   elif metadata["year"] in ["2022_preEE","2022_postEE","2023_preBPix","2023_postBPix"] and metadata["sample"] == "WJetsToLNuHT1500To2500MLNu120":
-    return np.ones(len(events)) * 9.14606e-08
+    return np.ones(len(events)) * 9.14606e-08 * 1.34
   elif metadata["year"] in ["2022_preEE","2022_postEE","2023_preBPix","2023_postBPix"] and metadata["sample"] == "WJetsToLNuHT2500MLNu120":
-    return np.ones(len(events)) * 6.83878e-09
+    return np.ones(len(events)) * 6.83878e-09 * 1.34
   return np.ones(len(events))
 
 wl_func = WeightLambda.wrap_func(

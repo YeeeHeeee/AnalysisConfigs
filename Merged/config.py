@@ -192,6 +192,8 @@ jec_store = [
     "mass_raw",
     "corrFactor",
     "smearFactor",
+    "smearFactor_up",
+    "smearFactor_down",
 ] + [f"corrFactor_{i}" for i in nom_jec_variations]
 
 cfg = Configurator(
@@ -205,11 +207,8 @@ cfg = Configurator(
         ],
         "filter" : {
             "samples": ttbar_samples + ttbar_mass_samples + wjet_samples + st_samples + qcd_samples + other_samples + data_samples,
-            #"samples" : data_samples,
-            #"samples": ttbar_samples + ttbar_mass_samples + wjet_samples + st_samples + qcd_samples + other_samples,
             "samples_exclude" : [],
             "year": ['2016_PreVFP', '2016_PostVFP', '2017', '2018', '2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix']
-            #"year" : ['2022_preEE']
         },
         "subsamples": {
             'DATA_SingleEle'  : {
@@ -225,7 +224,7 @@ cfg = Configurator(
 
     skim = [
             get_nObj_min(1, 15.0, "Jet"),
-            get_nObj_min(1, 400.0, "FatJet"), # Initial skim, have not set this to 500 as we have corrections to apply afterwards
+            get_nObj_min(1, 300.0, "FatJet"), # Initial skim, have not set this to 350 as we have corrections to apply afterwards
             get_nPVgood(1), eventFlags, goldenJson,
             get_HLTsel(primaryDatasets=["SingleMuon", "SingleEle"]),
             ],
@@ -284,7 +283,7 @@ cfg = Configurator(
                 ),
                 ColOut(
                     "FatJet",
-                    ["pt", "eta", "phi", "mass", 'jetId', 'nConstituents', 'btagDeepB', 'msoftdrop', 'tau1', 'tau2', 'tau3', 'tau4', 'msoftdrop_raw'] + jec_store,
+                    ["pt", "eta", "phi", "mass", 'n2b1', 'n3b1', 'jetId', 'nConstituents', 'btagDeepB', 'msoftdrop', 'tau1', 'tau2', 'tau3', 'tau4', 'msoftdrop_raw'] + jec_store,
                     flatten=False
                 ),
                 ColOut(
@@ -358,13 +357,28 @@ cfg = Configurator(
                     flatten=False
                 ),
                 ColOut(
+                    "MatchedGenJet_SubJet1",
+                    ["partonFlavour"],
+                    flatten=False
+                ),
+                ColOut(
+                    "MatchedGenJet_SubJet2",
+                    ["partonFlavour"],
+                    flatten=False
+                ),
+                ColOut(
+                    "MatchedGenJet_BJetLep",
+                    ["partonFlavour"],
+                    flatten=False
+                ),
+                ColOut(
                     "ExtraWeights",
                     ["BTagShapeCorrectionSubjets","WJetsRun2Stitching","WJetsRun3Stitching","TTTo2L2NuRun2Stitching","TTToSemiLeptonicRun2Stitching","TTToHadronicRun2Stitching","TopPTReweighting"],
                     flatten=False
                 ),
                 ColOut(
                     "GenWeights",
-                    ["isr2fsr1", "isr1fsr2", "isr0p5fsr1", "isr1fsr0p5", "muF0p5muR0p5", "muF1muR0p5", "muF2muR0p5", "muF0p5muR1", "muF2muR1", "muF0p5muR2", "muF1muR2", "muF2muR2"],
+                    ["isr2fsr1", "isr1fsr2", "isr0p5fsr1", "isr1fsr0p5", "muF0p5muR0p5", "muF1muR0p5", "muF2muR0p5", "muF0p5muR1", "muF1muR1", "muF2muR1", "muF0p5muR2", "muF1muR2", "muF2muR2", "pdf_max", "pdf_min", "pdf_rmse"],
                     flatten=False
                 ),
             ],

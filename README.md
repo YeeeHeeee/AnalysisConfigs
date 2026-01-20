@@ -1,41 +1,35 @@
 # Configs
 
 Repository containing analysis configurations for [`PocketCoffea`](https://github.com/gputtley/PocketCoffea.git).  
-These configurations are intended for the semileptonic top-antitop (`tt̄`) analysis in the resolved regime using AK4 jets and merged regime using AK8, also combined topology. 
+These configurations are intended for the semileptonic top-antitop (`tt̄`) analysis in the resolved regime using AK4 jets (incomplete) and the merged regime using AK8. 
 
 ---
 
 ## Setup Instructions
 
-### 1. Clone the `PocketCoffea` Repository
+### Clone the `AnalysisConfigs` Repository
+
+This repository is set up to work with a particular version of `PocketCoffea` which can be run using the apptainer lxplus and using the correct commit on cvmfs. Therefore, the setup of `AnalysisConfigs` must be done on lxplus.
+
+The command to clone the `AnalysisConfigs` repository is shown below.
 
 ```bash
-git clone git@github.com:gputtley/PocketCoffea.git
+git clone git@github.com:YeeeHeeee/AnalysisConfigs.git
 ```
 
-### 2. Install Micromamba and Create the Environment
-   ```bash
-   "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
-   micromamba create -n pocket-coffea python=3.11 -c conda-forge
-   micromamba activate pocket-coffea
-   micromamba install XRootD
-   ```
+Now you can move into the repository.
+```bash
+cd AnalysisConfigs
+```
 
-### 3. Install `PocketCoffea` Locally
-   ```bash
-   cd PocketCoffea
-   pip install -e .
-   ```
+### Using the `PocketCoffea` Apptainer
 
-After set up the environment, you can leave the directory of the PocketCoffea
+It is best to set your proxy before opening the container.
+```bash
+voms-proxy-init -voms cms -rfc --valid 168:0
+```
 
-**Note:** detail set up tutorial can be found here [`Installation`](https://pocketcoffea.readthedocs.io/en/stable/installation.html)
-
----
-
-## Run from lxplus apptainer
-
-If using lxplus you can run straight from the aptainer, meaning you do not need to setup a pocket coffea environment.
+To use the apptainer you can run the following command.
 
 ```bash
 apptainer shell \
@@ -50,134 +44,203 @@ apptainer shell \
   /cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cms-analysis/general/pocketcoffea:lxplus-el9-576bd3cd
 ```
 
-With this you will also need to export AnalysisConfigs as the PYTHONPATH. 
+With this you will also need to export `AnalysisConfigs` as the PYTHONPATH. This can be run from any directory of the `AnalysisConfigs` repository.
+
 ```bash
 export PYTHONPATH="$(realpath $(pwd | grep -o '.*/AnalysisConfigs')):$PYTHONPATH"
 ```
 
-With this setup, you can also use dask to submit your jobs.
-
 ---
 
-## Setup the Workflow
+## Preparing the Dataset Definitions
 
-### 1. Clone the `AnalysisConfigs` Repository
+Make sure you proxy is set. Then you can run this for data.
 
-```bash
-git clone git@github.com:YeeeHeeee/AnalysisConfigs.git
-```
-
-### 2. Activate the Environment
-```bash
-micromamba activate pocket-coffea
-```
-
-### 3. Install `AnalysisConfigs` Locally
-   ```bash
-   cd AnalysisConfigs
-   pip install -e .
-   ```
-
----
-
-## Running the Analysis
-The main steps that need to be performed are following:
-
-### 1. Build the json Datasets
-Authorised first:
-```bash
-source /vols/grid/cms/setup.sh
-voms-proxy-init -voms cms -rfc --valid 168:0
-```
-Then run:
 ```bash
 pocket-coffea build-datasets --cfg Datasets/data_definitions.json -rs 'T[123]_(FR|IT|DE|BE|CH|UK)_\w+' -o -ir
 ```
+
+And run this for MC.
+
 ```bash
 pocket-coffea build-datasets --cfg Datasets/mc_definitions.json -rs 'T[123]_(FR|IT|DE|BE|CH|UK)_\w+' -o -ir
 ```
-Check:
+
+To check the dataset definitions you have created you can run this.
+
 ```bash
 ls -lrt Datasets/
 ```
 
-### 2. Process the Datasets
-PocketCoffea provides a flexible command-line interface to configure. The basic usage is:
+
+## Running the Merged Analysis
+
+Make sure you move into the `Merged` directory.
+
 ```bash
-pocket-coffea run --cfg config.py -o output_test --skip-bad-files
+cd Merged
 ```
 
-**Note:** Ensure you've pointed to the desired directory before executing this command.
+### Setup Directory Names
 
-Additional Options:
+In the following commands we use global variables defined the configure the output directories. Here is an example of how to do this.
+
+```bash
+job_name="271125"
+eos_folder="/eos/user/g/guttley/pc_output"
+```
+
+### Doing a Local Test Run of `PocketCoffea`
+
+To perform a test of the config and workflow, you can run the following command.
+
+```bash
+pocket-coffea run --cfg config.py -o "output/${job_name}_test" --skip-bad-files --test 
+```
+
+You also have the following options you can use when runnning `PocketCoffea`:
 * `--test`: Run interactively with a file limit of 1 (useful for quick debugging).
 * `--limit-chunks`: Limit the number of chunks processed (splits of files).
 * `--limit-files`: Limit the total number of files to process.
 * `--chunksize`: Overrides the number of events processed per task, allowing you to control memory usage and performance without editing the config file.
 * `--process-separately`: Process each dataset independently instead of merging everything in one job.
 * `--filter-years`: Comma-separated list to select specific data-taking years to process.
-To run with predefined executor using `--executor` with 100 workers:
+
+When running this step you may want to comment out the processes and years you do not want to run in the `config.py` file.
+
+
+### Running All Eras Simultaneously on the Batch
+
+To run all the datasets on the CERN condor cluster, you can run the following command. The `--scaleout` option is the approximate number of jobs you wish scaleout the processing to. 
+
 ```bash
-pocket-coffea run --cfg config.py  --executor condor@ic  -o output_condor --scaleout=100 --skip-bad-files --jobs-dir="jobs/"
+pocket-coffea run --cfg config.py -o "${eos_folder}/${job_name}" --jobs-dir="jobs/${job_name}" --skip-bad-files --executor=condor@lxplus --scaleout=5000 -ro "../params/lxplus_run_options.yaml"
 ```
 
-**Note:** Rename the `--jobs-dir` if you wanna submit multiple jobs at the same time.
+You can check the jobs with the follow command. Check jobs can use `--resubmit`, `--set-to-fail`, `--skip-bad-files`, and `--sub-replace` options, using `--sub-replace='+JobFlavour: "tomorrow"'` for example if you want to request more time.
 
-
-The Executors available are:
-
-| Site                        | Supported Executors       | Executor String(s)         |
-|----------------------------|---------------------------|-----------------------------|
-| CERN lxplus                | Dask                      | `dask@lxplus`               |
-| CERN SWAN                  | Dask                      | `dask@swan`                 |
-| T3_CH_PSI                  | Dask                      | `dask@T3_CH_PSI`            |
-| DESY NAF                   | Dask                      | `dask@DESY_NAF`             |
-| RWTH Aachen LX-Cluster     | Parsl, Dask               | `parsl@RWTH`, `dask@RWTH`   |
-| RWTH CLAIX                 | Dask                      | `dask@CLAIX`                |
-| Purdue Analysis Facility   | Dask                      | `dask@purdue-af`            |
-| INFN Analysis Facility     | Dask                      | `dask@infn-af`              |
-| Brown brux20 cluster       | Dask                      | `dask@brux`                 |
-| Brown CCV Oscar            | Dask                      | `dask@oscar`                |
-| Maryland rubin cluster     | Dask, Condor              | `dask@rubin`, `condor@rubin`|
-| Imperial College (lx06, lx05, lx04)| Condor                    | `condor@ic`                 |
-
-After submitting, to merge the files:
 ```bash
-pocket-coffea merge-outputs -o output_condor/output_all.coffea -jc jobs-dir/job/jobs_config.yaml output_condor/output_job_*.coffea
+python3 ../scripts/check_jobs.py --jobs-folder="jobs/${job_name}/job"
 ```
 
-If there are problems with the running of your jobs on the batch system, you can check and resubmit the jobs by:
-```bash
-python3 scripts/check_jobs.py --jobs-folder="jobs-dir/job/" --resubmit
-```
-If you have jobs that have failed but are not picked up by the script you can use the `--set-to-fail` option. To request extra time when resubmitting you can use the `--extra-time` option.
 
+### Running All Eras Separately on the Batch
 
-# Converting coffea to parquet files
-If you require a set of parquet files from the outputs (merged or unmerged), you can use the following command:
-```bash
-python3 scripts/convert_coffea_to_parquet.py --input="output_condor/*.coffea" --output="output_condor_parquet"
-```
-
-You can also then plot directly from the parquet with this command:
-```bash
-python3 scripts/plot_from_parquet.py --input="output_condor_parquet" --output="plots" --var="FatJet_mass" --bins='(50,300,5)' --year="all" --cfg="params/plotting_extra_mass.yaml"
-```
-
-## Others
-1. Remove files:
-```bash
-rm -rf ./jobs-dir/job
-```
+It is often useful to run the eras of data-taking separately. This is useful for debugging, and easier resubmission. You can define the years list with this.
 
 ```bash
-rm jobs-dir/job/jobs_config.yaml
+years=("2016_PreVFP" "2016_PostVFP" "2017" "2018" "2022_preEE" "2022_postEE" "2023_preBPix" "2023_postBPix")
 ```
-2. Check the queues (if you are using the condor_ic):
+
+You can then submit each year to a separate folder with the following command.
+
 ```bash
-/vols/cms/tr1123/condor_tools/condor_stat.py
+for yr in "${years[@]}"; do pocket-coffea run --cfg config.py -o "${eos_folder}/${job_name}_${yr}" --jobs-dir="jobs/${job_name}_${yr}" --skip-bad-files --executor=condor@lxplus --scaleout=1000 -ro "../params/lxplus_run_options.yaml" --filter-years="${yr}"; done
 ```
-3. Removes submitting jobs:
+
+Checking jobs can then be done with the same command but with the era extension, an example is shown below.
+
 ```bash
-condor_rm job_id
+python3 ../scripts/check_jobs.py --jobs-folder="jobs/${job_name}_2016_PreVFP/job"
+```
+
+
+### Collecting and Converting the Output Coffea Files to Parquet for Test
+
+`PocketCoffea` creates an output `.coffea` file for every job submitted. Here we used a script to both collect and convert these `.coffea` files into `.parquet` files. This will create a `.parquet` file for every process and era.
+
+To do this for the local test, you can simply run this.
+
+```bash
+python3 scripts/convert_coffea_to_parquet.py --input="output/${job_name}_test/*.coffea" --output="output/${job_name}_test_parquet"
+```
+
+
+### Collecting and Converting the Output Coffea Files to Parquet for All Eras Simultaneously on the Batch
+
+You can use the following command for this.
+
+```bash
+python3 ../scripts/convert_coffea_to_parquet.py --input="${eos_folder}/${job_name}/*.coffea" --output="${eos_folder}/${job_name}_parquet"
+```
+
+The `convert_coffea_to_parquet.py` also offers a functionality to apply an additional weight but renomalise back to the yield without the weight. This is needed for the b tagging shape corrections. This example is run like this.
+
+```bash
+python3 ../scripts/convert_coffea_to_parquet.py --input="${eos_folder}/${job_name}/*.coffea" --output="${eos_folder}/${job_name}_btag_parquet" --weight="weight*ExtraWeights_BTagShapeCorrectionSubjets" --norm-weight="weight" --norm-files="TTToSemiLeptonic_*,TTToHadronic_*,TTTo2L2Nu_*,TTMtt*,WJetsToLNu_*,WJetsToLNuHT*,ST_*,QCD_*,DY_*,WW*,WZ*,ZZ*"
+```
+
+
+### Collecting and Converting the Output Coffea Files to Parquet for All Eras Separately on the Batch
+
+To do this, first define the input string (assuming `years` is already defined).
+
+```bash
+file_string=""
+for year in "${years[@]}"; do file_string+="${eos_folder}/${job_name}_${year}/*.coffea,"; done
+file_string="${file_string%,}"
+```
+
+Then you can run the nominal command with this.
+
+```bash
+python3 ../scripts/convert_coffea_to_parquet.py --input="${file_string}" --output="${eos_folder}/${job_name}_parquet"
+```
+
+And the b taggin shape correction command like this.
+
+```bash
+python3 ../scripts/convert_coffea_to_parquet.py --input="${file_string}" --output="${eos_folder}/${job_name}_btag_parquet" --weight="weight*ExtraWeights_BTagShapeCorrectionSubjets" --norm-weight="weight" --norm-files="TTToSemiLeptonic_*,TTToHadronic_*,TTTo2L2Nu_*,TTMtt*,WJetsToLNu_*,WJetsToLNuHT*,ST_*,QCD_*,DY_*,WW*,WZ*,ZZ*"
+```
+
+
+### Making Optimally Reweighted BW ttbar Files
+
+To make a combined ttbar file using all available samples, you can run the following command.
+
+```bash
+for yr in "${years[@]}"; do python3 ../scripts/make_bw_samples.py --input="${eos_folder}/${job_name}_parquet/TTTo*${yr}.parquet,${eos_folder}/${job_name}_parquet/TTMtt*${yr}.parquet" --output="${eos_folder}/${job_name}_parquet_bw" --file-ext="_${yr}" --yield-input="${eos_folder}/${job_name}_parquet/TTToSemiLeptonic_${yr}.parquet,${eos_folder}/${job_name}_parquet/TTToHadronic_${yr}.parquet,${eos_folder}/${job_name}_parquet/TTTo2L2Nu_${yr}.parquet,${eos_folder}/${job_name}_parquet/TTMtt*_${yr}.parquet" --mass-to="166.5,169.5,170.5,171.0,171.5,172.0,172.5,173.0,173.5,174.0,174.5,175.5,178.5"; done
+```
+
+
+### Run Plotting
+
+To run the plotting we first define a few globale variables.
+
+```bash
+plots_name="061225"
+pre_selection="((JetLepton_deltaR>0.25) & (JetLepton_ptrel>30))"
+post_selection="((CombinedSubJets_pt>400) & (LeptonicTop_mass<CombinedSubJets_mass))"
+years=("run2" "run3")
+```
+
+To run the plotting you can use the `plot_from_parquet` file.
+
+```bash
+for yr in "${years[@]}"; do python3 ../scripts/plot_from_parquet.py --input="${eos_folder}/${job_name}_parquet" --output="../plots/${plots_name}" --include-fraction --cfg="../params/plotting_extra_mass.py" --year=${yr} --pre-sel="${pre_selection}" --sel="${post_selection}"; done
+```
+
+There are some booleans defined in `plotting_extra_mass.py` which can alter what is run. The variables plotted are also defined here.
+
+
+### Creating ROOT Datacards
+
+To create ROOT datacards locally you can run the following command.
+
+```bash
+for yr in "${years[@]}"; do python3 ../scripts/plot_from_parquet.py --input="${eos_folder}/${job_name}_parquet" --output="../plots/${plots_name}_datacards" --include-fraction --cfg="../params/plotting_extra_mass.py" --year=${yr} --pre-sel="${pre_selection}" --sel="${post_selection}" --write --syst --plot-syst-variation --rebin --norm-to-bin-width; done
+```
+
+This may be slow so you may want to run it on the batch. Here we define the command first.
+
+```bash
+cmd='python3 ../scripts/plot_from_parquet.py --input="${eos_folder}/${job_name}_parquet" --output="../plots/${plots_name}_jobs" --include-fraction --cfg="../params/plotting_extra_mass.py" --year=${yr} --var="CombinedSubJets_mass" --write --syst --pre-sel="${pre_selection}" --sel="${post_selection}" --points-per-job=20'
+```
+
+Then you can run these commands to submit, then to hadd (once finished) and then to plot.
+
+```bash
+eval ${cmd} --submit
+eval ${cmd} --hadd
+eval ${cmd} --output="../plots/${plots_name}_jobs" --load-from-root="../plots/${plots_name}_datacards/datacard_CombinedSubJets_mass.root" --rebin --norm-to-bin-width --write-after-load --syst
 ```

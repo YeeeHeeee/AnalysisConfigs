@@ -144,6 +144,8 @@ if args.norm_weight is not None:
 
 
 # Get datasets
+write_inds = {}
+
 for file in files:
 
   print(f"Processing file for dataset: {file}")
@@ -168,9 +170,16 @@ for file in files:
 
         # Make file name
         if variation_name == "baseline":
-          file_name = f"{args.output}/{year_name}.parquet"
+          base_name = f"{args.output}/{year_name}"
         else:
-          file_name = f"{args.output}/{year_name}_{variation_name}.parquet"
+          base_name = f"{args.output}/{year_name}_{variation_name}"
+
+        if base_name not in write_inds:
+          write_inds[base_name] = 0
+        else:
+          write_inds[base_name] += 1
+
+        file_name = f"{base_name}_{write_inds[base_name]}.parquet"
 
         # Check if the file already exists
         if file_name not in files_created:
@@ -209,8 +218,23 @@ for file in files:
         # Write the dataframe to parquet
         table = pa.Table.from_pandas(df, preserve_index=False)
         if os.path.isfile(file_name):
-          combined_table = pa.concat_tables([pq.read_table(file_name), table])
-          pq.write_table(combined_table, file_name, compression='snappy')
+          print("File already exists:", file_name)
+          print("Clear files and try again")
+          print("Exiting")
+          exit()
         else:
           print("Creating file:", file_name)
           pq.write_table(table, file_name, compression='snappy')
+
+
+# Merge files
+for key, value in write_inds.items():
+  
+  print("Combining files for:", key)
+  tables = [pq.read_table(f"{key}_{i}.parquet") for i in range(value + 1)]
+  combined = pa.concat_tables(tables)
+  pq.write_table(combined, f"{key}.parquet", compression='snappy')
+
+  # remove individual files
+  for i in range(value + 1):
+    os.remove(f"{key}_{i}.parquet")

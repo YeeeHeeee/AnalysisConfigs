@@ -109,116 +109,121 @@ def jet_correction_correctionlib(
     # if a jet is not gen-matched, the stochastic smearing is applied.
     if JERversion:
 
-        sf = JECfile[f'{JERversion}_ScaleFactor_{typeJet}']
-        res = JECfile[f'{JERversion}_PtResolution_{typeJet}']
-        j, nj = ak.flatten(jets_corrected), ak.num(jets_corrected)
-        if len(sf.inputs) == 2:
-            scaleFactor_flat = sf.evaluate(j['eta'].to_numpy(), 'nom')
-        elif len(sf.inputs) == 3:
-            scaleFactor_flat = sf.evaluate(
-                j['eta'].to_numpy(), j['pt'].to_numpy(), "nom"
+        for shift in ["nom", "up", "down"]:
+
+            sf = JECfile[f'{JERversion}_ScaleFactor_{typeJet}']
+            res = JECfile[f'{JERversion}_PtResolution_{typeJet}']
+            j, nj = ak.flatten(jets_corrected), ak.num(jets_corrected)
+            if len(sf.inputs) == 2:
+                scaleFactor_flat = sf.evaluate(j['eta'].to_numpy(), shift)
+            elif len(sf.inputs) == 3:
+                scaleFactor_flat = sf.evaluate(
+                    j['eta'].to_numpy(), j['pt'].to_numpy(), shift
+                )
+            ptResolution_flat = res.evaluate(
+                j['eta'].to_numpy(), j['pt'].to_numpy(), j['rho'].to_numpy()
             )
-        ptResolution_flat = res.evaluate(
-            j['eta'].to_numpy(), j['pt'].to_numpy(), j['rho'].to_numpy()
-        )
-        scaleFactor = ak.unflatten(scaleFactor_flat, nj)
-        ptResolution = ak.unflatten(ptResolution_flat, nj)
-        # Match jets with gen-level jets, with DeltaR and DeltaPt requirements
-        dr_min = {'AK4PFchs': 0.2, 'AK4PFPuppi': 0.2, 'AK8PFPuppi': 0.4}[
-            typeJet
-        ]  # Match jets within a cone with half the jet radius
-        pt_min = (
-            3 * ptResolution * jets_corrected['pt']
-        )  # Match jets whose pt does not differ more than 3 sigmas from the gen-level pt
-        genJet = {'AK4PFchs': 'GenJet', 'AK4PFPuppi': 'GenJet', 'AK8PFPuppi': 'GenJetAK8'}[typeJet]
-        genJetIdx = {'AK4PFchs': 'genJetIdx', 'AK4PFPuppi': 'genJetIdx', 'AK8PFPuppi': 'genJetAK8Idx'}[typeJet]
+            scaleFactor = ak.unflatten(scaleFactor_flat, nj)
+            ptResolution = ak.unflatten(ptResolution_flat, nj)
+            # Match jets with gen-level jets, with DeltaR and DeltaPt requirements
+            dr_min = {'AK4PFchs': 0.2, 'AK4PFPuppi': 0.2, 'AK8PFPuppi': 0.4}[
+                typeJet
+            ]  # Match jets within a cone with half the jet radius
+            pt_min = (
+                3 * ptResolution * jets_corrected['pt']
+            )  # Match jets whose pt does not differ more than 3 sigmas from the gen-level pt
+            genJet = {'AK4PFchs': 'GenJet', 'AK4PFPuppi': 'GenJet', 'AK8PFPuppi': 'GenJetAK8'}[typeJet]
+            genJetIdx = {'AK4PFchs': 'genJetIdx', 'AK4PFPuppi': 'genJetIdx', 'AK8PFPuppi': 'genJetAK8Idx'}[typeJet]
 
 
-        genjets = events[genJet]
-        Ngenjet = ak.num(genjets)
-        # They can be matched manually
-        if not hasattr(jets_corrected, genJetIdx):
-            matched_genjets, matched_jets, deltaR_matched = object_matching(genjets, jets_corrected, dr_min, pt_min)
-        # Or the association in NanoAOD it can be used, removing the indices that are not found. That happens because
-        # not all the genJet are saved in the NanoAODs.
-        else:
-            matched_genjets_idx = ak.mask(
-                jets_corrected[genJetIdx],
-                (jets_corrected[genJetIdx] < Ngenjet) & (jets_corrected[genJetIdx] != -1),
+            genjets = events[genJet]
+            Ngenjet = ak.num(genjets)
+            # They can be matched manually
+            if not hasattr(jets_corrected, genJetIdx):
+                matched_genjets, matched_jets, deltaR_matched = object_matching(genjets, jets_corrected, dr_min, pt_min)
+            # Or the association in NanoAOD it can be used, removing the indices that are not found. That happens because
+            # not all the genJet are saved in the NanoAODs.
+            else:
+                matched_genjets_idx = ak.mask(
+                    jets_corrected[genJetIdx],
+                    (jets_corrected[genJetIdx] < Ngenjet) & (jets_corrected[genJetIdx] != -1),
+                )
+                # this array of indices has already the dimension of the Jet collection
+                # in NanoAOD nomatch == -1 --> convert to None with a mask
+                matched_objs_mask = ~ak.is_none(matched_genjets_idx, axis=1)
+                matched_genjets = genjets[matched_genjets_idx]
+                matched_jets = ak.mask(jets_corrected, matched_objs_mask)
+
+            deltaPt = ak.unflatten(
+                np.abs(ak.flatten(matched_jets.pt) - ak.flatten(matched_genjets.pt)),
+                ak.num(matched_genjets),
             )
-            # this array of indices has already the dimension of the Jet collection
-            # in NanoAOD nomatch == -1 --> convert to None with a mask
-            matched_objs_mask = ~ak.is_none(matched_genjets_idx, axis=1)
-            matched_genjets = genjets[matched_genjets_idx]
-            matched_jets = ak.mask(jets_corrected, matched_objs_mask)
+            matched_genjets = ak.mask(matched_genjets, deltaPt < pt_min)
+            matched_jets = ak.mask(matched_jets, deltaPt < pt_min)
 
-        deltaPt = ak.unflatten(
-            np.abs(ak.flatten(matched_jets.pt) - ak.flatten(matched_genjets.pt)),
-            ak.num(matched_genjets),
-        )
-        matched_genjets = ak.mask(matched_genjets, deltaPt < pt_min)
-        matched_jets = ak.mask(matched_jets, deltaPt < pt_min)
-
-        # Compute energy correction factor with the scaling method
-        detSmear = (
-            1
-            + (scaleFactor - 1)
-            * (matched_jets['pt'] - matched_genjets['pt'])
-            / matched_jets['pt']
-        )
-        # Compute energy correction factor with the stochastic method
-        np.random.seed(seed)
-        seed_dict = {}
-        filename = events.metadata['filename']
-        entrystart = events.metadata['entrystart']
-        entrystop = events.metadata['entrystop']
-        seed_dict[f'chunk_{filename}_{entrystart}-{entrystop}'] = seed
-        rand_gaus = np.random.normal(
-            np.zeros_like(ptResolution_flat), ptResolution_flat
-        )
-        jersmear = ak.unflatten(rand_gaus, nj)
-        sqrt_arg_flat = scaleFactor_flat**2 - 1
-        sqrt_arg_flat = ak.where(
-            sqrt_arg_flat > 0, sqrt_arg_flat, ak.zeros_like(sqrt_arg_flat)
-        )
-        sqrt_arg = ak.unflatten(sqrt_arg_flat, nj)
-        stochSmear = 1 + jersmear * np.sqrt(sqrt_arg)
-        isMatched = ~ak.is_none(matched_jets.pt, axis=1)
-        smearFactor = ak.where(isMatched, detSmear, stochSmear)
-
-        jets_smeared = copy.copy(jets_corrected)
-        jets_smeared['smearFactor'] = smearFactor
-        jets_smeared['pt'] = jets_corrected['pt'] * smearFactor
-        jets_smeared['mass'] = jets_corrected['mass'] * smearFactor
-        if hasattr(jets_smeared, 'msoftdrop'):
-            jets_smeared['msoftdrop'] = jets_corrected['msoftdrop'] * smearFactor
-
-        if verbose:
-            print()
-            print(seed, "JER: isMatched", isMatched)
-            print(seed, "JER: matched_jets.pt", matched_jets.pt)
-            print(seed, "JER: smearFactor", smearFactor, end='\n\n')
-
-            print(
-                seed,
-                'JER: corrected pt ratios',
-                jets_corrected.pt / jets_corrected.pt_raw,
+            # Compute energy correction factor with the scaling method
+            detSmear = (
+                1
+                + (scaleFactor - 1)
+                * (matched_jets['pt'] - matched_genjets['pt'])
+                / matched_jets['pt']
             )
-            print(
-                seed,
-                'JER: corrected mass ratios',
-                jets_corrected.mass / jets_corrected.mass_raw,
+            # Compute energy correction factor with the stochastic method
+            np.random.seed(seed)
+            seed_dict = {}
+            filename = events.metadata['filename']
+            entrystart = events.metadata['entrystart']
+            entrystop = events.metadata['entrystop']
+            seed_dict[f'chunk_{filename}_{entrystart}-{entrystop}'] = seed
+            rand_gaus = np.random.normal(
+                np.zeros_like(ptResolution_flat), ptResolution_flat
             )
-
-            print(seed, 'JER: smeared pt ratios', jets_smeared.pt / jets_corrected.pt)
-            print(
-                seed,
-                'JER: smeared mass ratios',
-                jets_smeared.mass / jets_corrected.mass,
+            jersmear = ak.unflatten(rand_gaus, nj)
+            sqrt_arg_flat = scaleFactor_flat**2 - 1
+            sqrt_arg_flat = ak.where(
+                sqrt_arg_flat > 0, sqrt_arg_flat, ak.zeros_like(sqrt_arg_flat)
             )
+            sqrt_arg = ak.unflatten(sqrt_arg_flat, nj)
+            stochSmear = 1 + jersmear * np.sqrt(sqrt_arg)
+            isMatched = ~ak.is_none(matched_jets.pt, axis=1)
+            smearFactor = ak.where(isMatched, detSmear, stochSmear)
 
-            print()
-            print(seed, 'JER: corrected columns:', ak.fields(jets_smeared), end='\n\n')
+            if shift == "nom":
+                jets_smeared = copy.copy(jets_corrected)
+                jets_smeared['smearFactor'] = smearFactor
+                jets_smeared['pt'] = jets_corrected['pt'] * smearFactor
+                jets_smeared['mass'] = jets_corrected['mass'] * smearFactor
+                if hasattr(jets_smeared, 'msoftdrop'):
+                    jets_smeared['msoftdrop'] = jets_corrected['msoftdrop'] * smearFactor
+
+                if verbose:
+                    print()
+                    print(seed, "JER: isMatched", isMatched)
+                    print(seed, "JER: matched_jets.pt", matched_jets.pt)
+                    print(seed, "JER: smearFactor", smearFactor, end='\n\n')
+
+                    print(
+                        seed,
+                        'JER: corrected pt ratios',
+                        jets_corrected.pt / jets_corrected.pt_raw,
+                    )
+                    print(
+                        seed,
+                        'JER: corrected mass ratios',
+                        jets_corrected.mass / jets_corrected.mass_raw,
+                    )
+
+                    print(seed, 'JER: smeared pt ratios', jets_smeared.pt / jets_corrected.pt)
+                    print(
+                        seed,
+                        'JER: smeared mass ratios',
+                        jets_smeared.mass / jets_corrected.mass,
+                    )
+
+                    print()
+                    print(seed, 'JER: corrected columns:', ak.fields(jets_smeared), end='\n\n')
+            else:
+                jets_smeared[f'smearFactor_{shift}'] = smearFactor
 
         return jets_smeared, seed_dict
     else:

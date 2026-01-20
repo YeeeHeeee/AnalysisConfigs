@@ -610,6 +610,282 @@
             }
         ]
     },
+    "TTToSemiLeptonicWidth0p55": {
+        "sample": "TTToSemiLeptonicWidth0p55",
+        "json_output": "Datasets/signals_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p55_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p55_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p55_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p55_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            }
+        ]
+    },
+    "TTToSemiLeptonicWidth0p7": {
+        "sample": "TTToSemiLeptonicWidth0p7",
+        "json_output": "Datasets/signals_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p7_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p7_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p7_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p7_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            }
+        ]
+    },
+    "TTToSemiLeptonicWidth0p85": {
+        "sample": "TTToSemiLeptonicWidth0p85",
+        "json_output": "Datasets/signals_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p85_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p85_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p85_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p85_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            }
+        ]
+    },
+    "TTToSemiLeptonicWidth1p15": {
+        "sample": "TTToSemiLeptonicWidth1p15",
+        "json_output": "Datasets/signals_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p15_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p15_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p15_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p15_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            }
+        ]
+    },
+    "TTToSemiLeptonicWidth1p3": {
+        "sample": "TTToSemiLeptonicWidth1p3",
+        "json_output": "Datasets/signals_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p3_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p3_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p3_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p3_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            }
+        ]
+    },
+    "TTToSemiLeptonicWidth1p45": {
+        "sample": "TTToSemiLeptonicWidth1p45",
+        "json_output": "Datasets/signals_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p45_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p45_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p45_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p45_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            }
+        ]
+    },
     "TTTo2L2Nu": {
         "sample": "TTTo2L2Nu",
         "json_output": "Datasets/signals_MC_ttbar.json",
