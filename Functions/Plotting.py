@@ -5,13 +5,15 @@ from matplotlib.lines import Line2D
 import matplotlib.ticker as ticker
 from matplotlib import gridspec
 import mplhep as hep
-import seaborn as sns
 import pandas as pd
 from matplotlib.colors import Normalize
 import copy
 import math
 import textwrap
+import os
 from pocket_coffea.parameters.lumi import lumi
+
+hep.style.use("CMS")
 
 def inital_distributions_plot(datasets, bins=50):
     """
@@ -24,7 +26,6 @@ def inital_distributions_plot(datasets, bins=50):
     # Extract column names from the first dataset
     first_key = next(iter(datasets))
     df_first = datasets[first_key]
-    print(df_first.columns)
     num_variables = len(df_first.columns)
 
     num_rows = math.ceil(math.sqrt(num_variables))
@@ -309,10 +310,351 @@ def eff_plot(df, var1, var2, bins=10, year="2018"):
     plt.show()
 
 
+def plot_stacked_histogram_with_ratio(
+    data_hist, 
+    stack_hist_dict, 
+    bin_edges, 
+    data_name='Data', 
+    xlabel="",
+    ylabel="Events",
+    name="fig", 
+    data_errors=None, 
+    stack_hist_errors=None, 
+    stack_hist_errors_asym=None,
+    use_stat_err=False,
+    axis_text="",
+    top_space=1.2,
+    draw_ratio=True,
+    colours = {},
+    include_fraction=False,
+    line_hist_dict={},
+    line_colours={},
+    cms_label="Work in progress",
+    lumi_label=None
+  ):
+  """
+  Plot a stacked histogram with a ratio plot.
+
+  Parameters
+  ----------
+  data_hist : array-like
+      Histogram values for the data.
+  stack_hist_dict : dict
+      Dictionary of histogram values for stacked components.
+  bin_edges : array-like
+      Bin edges for the histograms.
+  data_name : str, optional
+      Label for the data histogram (default is 'Data').
+  xlabel : str, optional
+      Label for the x-axis (default is '').
+  ylabel : str, optional
+      Label for the y-axis (default is 'Events').
+  name : str, optional
+      Name of the output plot file without extension (default is 'fig').
+  data_errors : array-like, optional
+      Errors for the data histogram (default is None).
+  stack_hist_errors : array-like, optional
+      Errors for the stacked histograms (default is None).
+  use_stat_err : bool, optional
+      If True, use statistical errors for the data and stacked histograms (default is False).
+  axis_text : str, optional
+      Text to be displayed on the top left corner of the plot (default is '').
+  """
+
+  if draw_ratio:
+    if include_fraction:
+      fig, (ax1, ax1p5, ax2) = plt.subplots(3, 1, sharex=True, gridspec_kw={'height_ratios': [2.5, 1, 1]})
+    else:
+      fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, gridspec_kw={'height_ratios': [3, 1]})
+  else:
+    fig, ax1 = plt.subplots()
+
+  bin_centers = bin_edges[:-1] + np.diff(bin_edges) / 2  # Compute bin centers
+
+  if data_hist is not None:
+    data_hist = data_hist.astype(np.float64)
+  for k, v in stack_hist_dict.items():
+    stack_hist_dict[k] = v.astype(np.float64)
+
+  total_stack_hist = np.sum(list(stack_hist_dict.values()), axis=0)
+
+  if data_hist is not None:
+    if data_errors is None:
+      data_errors = 0*data_hist
+  if stack_hist_errors is None and stack_hist_errors_asym is None:
+    stack_hist_errors = 0*total_stack_hist   
+
+  if use_stat_err:
+    if data_hist is not None:
+      data_errors = np.sqrt(data_hist)
+    stack_hist_errors = np.sqrt(total_stack_hist)
+    stack_hist_errors_asym = None
+
+  # Plot the histograms on the top pad
+  for ind, (k, v) in enumerate(stack_hist_dict.items()):
+    if ind == 0:
+      bottom = None
+    elif bottom is None:
+      bottom = copy.deepcopy(stack_hist_dict[list(stack_hist_dict.keys())[ind-1]])
+    else:
+      bottom += copy.deepcopy(stack_hist_dict[list(stack_hist_dict.keys())[ind-1]])
+    ax1.bar(
+       bin_edges[:-1], 
+       v, 
+       bottom=bottom,
+       width=np.diff(bin_edges), 
+       align='edge', 
+       alpha=1.0, 
+       label=k, 
+       color=colours[k], 
+       edgecolor=None
+      )
+
+  step_edges = np.append(bin_edges,2*bin_edges[-1]-bin_edges[-2])
+  summed_stack_hist = np.zeros(len(total_stack_hist))
+  for k, v in stack_hist_dict.items():
+    summed_stack_hist += v
+    step_histvals = np.append(np.insert(summed_stack_hist,0,0.0),0.0)
+    ax1.step(step_edges, step_histvals, color='black')
 
 
+  for k, v in line_hist_dict.items():
+    v_step = np.append(np.insert(v,0,0.0),0.0)
+    ax1.step(step_edges, v_step, color=line_colours[k], label=k, linewidth=2.0)
 
-    
+  ax1.set_xlim([bin_edges[0],bin_edges[-1]])
+  if data_hist is not None:
+    ax1.set_ylim([0.0,top_space*max(np.maximum(data_hist,total_stack_hist))])
+  else:
+    ax1.set_ylim([0.0,top_space*max(total_stack_hist)])
+
+
+  if stack_hist_errors_asym is None:
+    ax1.fill_between(bin_edges[:],np.append(total_stack_hist,total_stack_hist[-1])-np.append(stack_hist_errors,stack_hist_errors[-1]),np.append(total_stack_hist,total_stack_hist[-1])+np.append(stack_hist_errors,stack_hist_errors[-1]),color="gray",alpha=0.3,step='post',label="Uncertainty")
+  else:
+    ax1.fill_between(bin_edges[:],np.append(total_stack_hist,total_stack_hist[-1])-np.append(stack_hist_errors_asym["down"],stack_hist_errors_asym["down"][-1]),np.append(total_stack_hist,total_stack_hist[-1])+np.append(stack_hist_errors_asym["up"],stack_hist_errors_asym["up"][-1]),color="gray",alpha=0.3,step='post',label="Uncertainty")
+
+
+  if data_hist is not None:
+    # Plot the other histogram as markers with error bars
+    ax1.errorbar(bin_centers, data_hist, yerr=data_errors, fmt='o', label=data_name, color="black")
+
+  # Get the current handles and labels of the legend
+  handles, labels = ax1.get_legend_handles_labels()
+
+  # Reverse the order of handles and labels
+  handles = handles[::-1]
+  labels = labels[::-1]
+
+  legend = ax1.legend(handles, labels, loc='upper right', fontsize=18, bbox_to_anchor=(0.9, 0.88), bbox_transform=plt.gcf().transFigure, frameon=True, framealpha=1, facecolor='white', edgecolor="white")
+
+  # Set legend width and wrap text manually
+  legend.get_frame().set_linewidth(0)  # Remove legend box border
+  legend.get_frame().set_facecolor('none')  # Make legend background transparent
+  legend.get_frame().set_edgecolor('none')  # Make legend edge transparent
+
+  max_label_length = 22  # Adjust the maximum length of each legend label
+  for text in legend.get_texts():
+    text.set_text(textwrap.fill(text.get_text(), max_label_length))
+
+  ax1.set_ylabel(ylabel)
+  hep.cms.text(cms_label,ax=ax1, fontsize=22)
+
+  if lumi_label is not None:
+    ax1.text(1.0, 1.0, lumi_label,
+        verticalalignment='bottom', horizontalalignment='right',
+        transform=ax1.transAxes)
+
+  ax1.text(0.03, 0.96, axis_text, transform=ax1.transAxes, va='top', ha='left')
+
+  if not draw_ratio:
+    ax1.set_xlabel(xlabel)
+
+
+  if draw_ratio and include_fraction:
+    # Create a new axis for the fraction plot
+    ax1p5.set_ylabel('Fraction')
+    ax1p5.set_ylim([0, 1.0])
+
+    # Calculate the fraction of each component in the stack
+    total_stack_hist_for_fraction = np.sum(list(stack_hist_dict.values()), axis=0)
+    fractions = {}
+    for k, v in stack_hist_dict.items():
+      fractions[k] = v / total_stack_hist_for_fraction
+
+    # Plot the histograms on the top pad
+    for ind, (k, v) in enumerate(fractions.items()):
+      if ind == 0:
+        bottom = None
+      elif bottom is None:
+        bottom = copy.deepcopy(fractions[list(fractions.keys())[ind-1]])
+      else:
+        bottom += copy.deepcopy(fractions[list(fractions.keys())[ind-1]])
+      ax1p5.bar(
+        bin_edges[:-1], 
+        v, 
+        bottom=bottom,
+        width=np.diff(bin_edges), 
+        align='edge', 
+        alpha=1.0, 
+        label=k, 
+        color=colours[k], 
+        edgecolor=None
+        )
+
+    summed_fraction_hist = np.zeros(len(total_stack_hist))
+    for k, v in fractions.items():
+      summed_fraction_hist += v
+      step_fraction_histvals = np.append(np.insert(summed_fraction_hist,0,0.0),0.0)
+      ax1p5.step(step_edges, step_fraction_histvals, color='black')
+
+
+  if draw_ratio:
+
+    # Compute the ratio of the histograms
+    zero_indices = np.where(total_stack_hist <= 0)
+    for i in zero_indices: total_stack_hist[i] = 1.0
+
+    if data_hist is not None:
+      ratio = np.divide(data_hist,total_stack_hist)
+      ratio_errors_2 = np.divide(data_errors,total_stack_hist)
+
+    if stack_hist_errors_asym is None:
+      ratio_errors_1 = np.divide(stack_hist_errors,total_stack_hist)
+    else:
+      ratio_errors_1_up = np.divide(stack_hist_errors_asym["up"],total_stack_hist)
+      ratio_errors_1_down = np.divide(stack_hist_errors_asym["down"],total_stack_hist)
+
+    for i in zero_indices:
+      if data_hist is not None:
+        ratio[i] = 0.0
+        ratio_errors_2[i] = 0.0
+      if stack_hist_errors_asym is None:
+        ratio_errors_1[i] = 0.0
+      else:
+        ratio_errors_1_up[i] = 0.0
+        ratio_errors_1_down[i] = 0.0
+
+    if data_hist is not None:
+      # Plot the ratio on the bottom pad
+      ax2.errorbar(bin_centers, ratio, fmt='o', yerr=ratio_errors_2, label=data_name, color="black")
+
+    for k, v in line_hist_dict.items():
+      v = v/total_stack_hist
+      v_step = np.append(np.insert(v,0,0.0),0.0)
+      ax2.step(step_edges, v_step, color=line_colours[k], label=k, linewidth=2.0)
+
+    ax2.axhline(y=1, color='black', linestyle='--')  # Add a horizontal line at ratio=1
+    if stack_hist_errors_asym is None:
+      ax2.fill_between(bin_edges,1-np.append(ratio_errors_1,ratio_errors_1[-1]),1+np.append(ratio_errors_1,ratio_errors_1[-1]),color="gray",alpha=0.3,step='post')
+    else:
+      ax2.fill_between(bin_edges,1-np.append(ratio_errors_1_down,ratio_errors_1_down[-1]),1+np.append(ratio_errors_1_up,ratio_errors_1_up[-1]),color="gray",alpha=0.3,step='post')
+
+    ax2.set_xlabel(xlabel)
+    ax2.set_ylabel('Ratio')
+    ax2.set_ylim([0.5,1.5])
+    ax2.xaxis.get_major_formatter().set_useOffset(False)
+
+  # Adjust spacing between subplots
+  plt.subplots_adjust(hspace=0.1, left=0.15)
+
+  # Show the plot
+  print("Created "+name+".pdf")
+  os.makedirs(os.path.dirname(name+".pdf"), exist_ok=True)
+  plt.savefig(name+".png")
+  plt.savefig(name+".pdf")
+  plt.close()
+
+
+def plot_histograms_with_ratio(
+  hists,
+  hist_uncerts,
+  hist_names,
+  bins,
+  xlabel = "",
+  ylabel="Events",
+  name="histogram_with_ratio",    
+  ratio_range = [0.5,1.5],  
+  colours = ["black","blue", "red", "orange", "purple", "brown", "pink", "gray"],
+  cms_label="Work in progress",
+  axis_text=None
+):
+
+  fig, ax= plt.subplots(2, 1, sharex=True, gridspec_kw={'height_ratios': [3,1]})
+
+  hep.cms.text(cms_label,ax=ax[0])
+
+  denom = np.array([v if v !=0 else 1.0 for v in hists[0]])
+
+  # draw histograms
+  legend = {}
+  for ind in range(len(hists)):
+
+    colour = colours[ind]
+    hist = hists[ind]
+    hist_uncert = hist_uncerts[ind]
+    hist_name = hist_names[ind]
+    colour = colours[ind]
+
+    ax[0].plot(bins[:-1], hist, label=hist_name, color=colour, linestyle="-", drawstyle="steps-mid")
+
+    # add uncertainty
+    if hist_uncert is not None:
+      ax[0].fill_between(
+        bins,
+        np.append(hist,hist[-1])-np.append(hist_uncert,hist_uncert[-1]),
+        np.append(hist,hist[-1])+np.append(hist_uncert,hist_uncert[-1]),
+        color=colour,
+        alpha=0.2,
+        step='mid'
+        )
+
+    # y label
+    ax[0].set_ylabel(ylabel)
+
+    # legend
+    handles, labels = ax[0].get_legend_handles_labels()
+    handles = handles[::-1]
+    labels = labels[::-1]
+    legend = ax[0].legend(handles, labels, loc='upper right', fontsize=18, bbox_to_anchor=(0.9, 0.88), bbox_transform=plt.gcf().transFigure, frameon=True, framealpha=1, facecolor='white', edgecolor="white")
+    legend.get_frame().set_linewidth(0)  # Remove legend box border
+    legend.get_frame().set_facecolor('none')  # Make legend background transparent
+    legend.get_frame().set_edgecolor('none')  # Make legend edge transparent
+    max_label_length = 20  # Adjust the maximum length of each legend label
+    for text in legend.get_texts():
+      text.set_text(textwrap.fill(text.get_text(), max_label_length))
+
+    # draw ratios
+    ax[-1].plot(bins[:-1], hist/denom, color=colour, linestyle="-", drawstyle="steps-mid")
+
+    # add uncertainty ro ratio
+    if hist_uncert is not None:
+      ratio = hist/denom
+      ratio_uncert = hist_uncert/denom
+      ax[-1].fill_between(bins,np.append(ratio,ratio[-1])-np.append(ratio_uncert,ratio_uncert[-1]),np.append(ratio,ratio[-1])+np.append(ratio_uncert,ratio_uncert[-1]),color=colour,alpha=0.2,step='mid')
+
+  # ratio labels
+  ax[-1].axhline(y=1, color=colours[0], linestyle='--')  # Add a horizontal line at ratio=1
+  ax[-1].set_xlabel(xlabel)
+  ax[-1].set_ylabel('Ratio')
+  ax[-1].set_ylim([ratio_range[0],ratio_range[1]])
+  ax[-1].xaxis.get_major_formatter().set_useOffset(False)
+
+  # Draw axis text
+  if axis_text is not None:
+    ax[0].text(0.03, 0.96, axis_text, transform=ax[0].transAxes, va='top', ha='left', fontsize=18)
+
+  # Adjust spacing between subplots
+  plt.subplots_adjust(hspace=0.1, left=0.15)
+
+  # Show the plot
+  print("Created "+name+".pdf")
+  directory = os.path.dirname(name + ".pdf")
+  if directory:
+    os.makedirs(directory, exist_ok=True)
+  plt.savefig(name+".pdf")
+  plt.savefig(name+".png")
+  plt.close()    
 
 
 

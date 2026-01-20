@@ -31,7 +31,9 @@ def lepton_selection(events, lepton_flavour, params, year):
 
     elif lepton_flavour == "Muon":
         # Requirements on isolation and id
-        passes_iso = leptons.pfRelIso04_all < cuts["iso"]
+        passes_iso = True
+        if "iso" in cuts.keys():
+            passes_iso = leptons.pfRelIso04_all < cuts["iso"]
         passes_id = leptons[cuts['id']] == True
 
         good_leptons = passes_eta & passes_pt & passes_iso & passes_id
