@@ -37,13 +37,13 @@ def semileptonic_merge(events, params, year, sample, **kwargs):
 semileptonic_presel_merge = Cut(
     name="semileptonic_merge",
     params={
-        "pt": 500,
+        "pt": 350,
         "eta": 2.4,
         "nfatjet": 1,
         "jetpt": 30,
         "nbjet": 1,
-        "pt_leading_electron": 60,
-        "pt_leading_muon": 60
+        "pt_leading_electron": 30,
+        "pt_leading_muon": 30
     },
     function=semileptonic_merge,
 )

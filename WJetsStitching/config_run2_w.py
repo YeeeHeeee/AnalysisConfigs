@@ -17,14 +17,17 @@ localdir = os.path.dirname(os.path.abspath(__file__))
 from pocket_coffea.parameters import defaults
 default_parameters = defaults.get_default_parameters()
 defaults.register_configuration_dir("config_dir", localdir+"/params")
-parameters = defaults.merge_parameters_from_files(default_parameters, update=True)
+parameters = defaults.merge_parameters_from_files(
+    default_parameters, 
+    f"{localdir}/../params/pc_jet_calibration.yaml",
+    update=True)
 
 cfg = Configurator(
     parameters = parameters,
     datasets = {
         "jsons": [f"{localdir}/../Datasets/backgrounds_MC_ttbar.json"],
         "filter" : {
-            "samples": ["WJetsToLNuHT7OTo100",
+            "samples": ["WJetsToLNuHT70To100",
                         "WJetsToLNuHT100To200",
                         "WJetsToLNuHT200To400",
                         "WJetsToLNuHT400To600",

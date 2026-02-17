@@ -10,7 +10,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -20,7 +20,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -30,7 +30,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -40,7 +40,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -52,7 +52,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             },
             {
@@ -63,7 +63,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             },
             {
@@ -73,7 +73,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             },
             {
@@ -83,7 +83,18 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
+                }
+            },
+            {
+                "das_names":[
+                    "/TTtoLNu2Q_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata":{
+                    "year": "2024",
+                    "isMC":true,
+                    "xsec":336.08 
+                    
                 }
             }
         ]
@@ -99,7 +110,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -109,7 +120,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -119,7 +130,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -129,7 +140,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -140,7 +151,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             },
             {
@@ -150,7 +161,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             },
             {
@@ -160,7 +171,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             },
             {
@@ -170,7 +181,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             }
         ]
@@ -186,7 +197,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -196,7 +207,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -206,7 +217,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -216,7 +227,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -227,7 +238,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             },
             {
@@ -237,7 +248,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             },
             {
@@ -247,7 +258,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             },
             {
@@ -257,7 +268,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             }
         ]
@@ -273,7 +284,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -283,7 +294,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -293,7 +304,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -303,7 +314,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -314,7 +325,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             },
             {
@@ -324,7 +335,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             },
             {
@@ -334,7 +345,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             },
             {
@@ -344,7 +355,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             }
         ]
@@ -360,7 +371,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -370,7 +381,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -380,7 +391,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -390,7 +401,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -401,7 +412,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             },
             {
@@ -411,7 +422,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             },
             {
@@ -421,7 +432,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             },
             {
@@ -431,7 +442,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             }
         ]
@@ -447,7 +458,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -457,7 +468,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -467,7 +478,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -477,7 +488,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -488,7 +499,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             },
             {
@@ -498,7 +509,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             },
             {
@@ -508,7 +519,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             },
             {
@@ -518,7 +529,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             }
         ]
@@ -534,7 +545,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -544,7 +555,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -554,7 +565,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -564,7 +575,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 303.01
                 }
             },
             {
@@ -575,7 +586,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             },
             {
@@ -585,7 +596,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             },
             {
@@ -595,7 +606,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
                 }
             },
             {
@@ -605,7 +616,283 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 336.08
+                }
+            }
+        ]
+    },
+    "TTToSemiLeptonicWidth0p55": {
+        "sample": "TTToSemiLeptonicWidth0p55",
+        "json_output": "Datasets/signals_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p55_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p55_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p55_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p55_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            }
+        ]
+    },
+    "TTToSemiLeptonicWidth0p7": {
+        "sample": "TTToSemiLeptonicWidth0p7",
+        "json_output": "Datasets/signals_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p7_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p7_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p7_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p7_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            }
+        ]
+    },
+    "TTToSemiLeptonicWidth0p85": {
+        "sample": "TTToSemiLeptonicWidth0p85",
+        "json_output": "Datasets/signals_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p85_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p85_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p85_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx0p85_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            }
+        ]
+    },
+    "TTToSemiLeptonicWidth1p15": {
+        "sample": "TTToSemiLeptonicWidth1p15",
+        "json_output": "Datasets/signals_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p15_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p15_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p15_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p15_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            }
+        ]
+    },
+    "TTToSemiLeptonicWidth1p3": {
+        "sample": "TTToSemiLeptonicWidth1p3",
+        "json_output": "Datasets/signals_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p3_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p3_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p3_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p3_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            }
+        ]
+    },
+    "TTToSemiLeptonicWidth1p45": {
+        "sample": "TTToSemiLeptonicWidth1p45",
+        "json_output": "Datasets/signals_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p45_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p45_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p45_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 303.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TTToSemiLeptonic_widthx1p45_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 303.01
                 }
             }
         ]
@@ -621,7 +908,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 89.22
+                    "xsec": 73.51
                 }
             },
             {
@@ -631,7 +918,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 89.22
+                    "xsec": 73.51
                 }
             },
             {
@@ -641,7 +928,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 89.22
+                    "xsec": 73.51
                 }
             },
             {
@@ -651,7 +938,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 89.22
+                    "xsec": 73.51
                 }
             },
             {
@@ -662,7 +949,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 98.82
+                    "xsec": 81.54
                 }
             },
             {
@@ -673,7 +960,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 98.82
+                    "xsec": 81.54
                 }
             },
             {
@@ -683,7 +970,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 98.82
+                    "xsec": 81.54
                 }
             },
             {
@@ -693,7 +980,17 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 98.82
+                    "xsec": 81.54
+                }
+            },
+            {
+                "das_names": [
+                    "/TTto2L2Nu_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v3/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 81.54
                 }
             }
         ]
@@ -709,7 +1006,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -719,7 +1016,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -729,7 +1026,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -739,7 +1036,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -750,7 +1047,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
                 }
             },
             {
@@ -760,7 +1057,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
                 }
             },
             {
@@ -770,7 +1067,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
                 }
             },
             {
@@ -780,7 +1077,17 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
+                }
+            },
+            {
+                "das_names": [
+                    "/TTto2L2Nu_Par-MT-166p5_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 81.54
                 }
             }
         ]
@@ -796,7 +1103,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -806,7 +1113,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -816,7 +1123,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -826,7 +1133,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -837,7 +1144,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
                 }
             },
             {
@@ -847,7 +1154,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
                 }
             },
             {
@@ -857,7 +1164,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
                 }
             },
             {
@@ -867,9 +1174,20 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
+                }
+            },
+            {
+                "das_names": [
+                    "/TTto2L2Nu_Par-MT-169p5_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 81.54
                 }
             }
+
         ]
     },
     "TTTo2L2Nu171p5": {
@@ -883,7 +1201,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -893,7 +1211,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -903,7 +1221,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -913,7 +1231,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -924,7 +1242,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
                 }
             },
             {
@@ -934,7 +1252,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
                 }
             },
             {
@@ -944,7 +1262,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
                 }
             },
             {
@@ -954,7 +1272,17 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
+                }
+            },
+            {
+                "das_names": [
+                    "/TTto2L2Nu_Par-MT-171p5_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 81.54
                 }
             }
         ]
@@ -970,7 +1298,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -980,7 +1308,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -990,7 +1318,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -1000,7 +1328,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -1011,7 +1339,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
                 }
             },
             {
@@ -1021,7 +1349,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
                 }
             },
             {
@@ -1031,7 +1359,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
                 }
             },
             {
@@ -1041,7 +1369,17 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
+                }
+            },
+            {
+                "das_names": [
+                    "/TTto2L2Nu_Par-MT-173p5_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 81.54
                 }
             }
         ]
@@ -1057,7 +1395,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -1067,7 +1405,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -1077,7 +1415,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -1087,7 +1425,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -1098,7 +1436,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
                 }
             },
             {
@@ -1108,7 +1446,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
                 }
             },
             {
@@ -1118,7 +1456,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
                 }
             },
             {
@@ -1128,7 +1466,17 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
+                }
+            },
+            {
+                "das_names": [
+                    "/TTto2L2Nu_Par-MT-175p5_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 81.54
                 }
             }
         ]
@@ -1144,7 +1492,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -1154,7 +1502,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -1164,7 +1512,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -1174,7 +1522,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 73.51
                 }
             },
             {
@@ -1185,7 +1533,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
                 }
             },
             {
@@ -1195,7 +1543,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
                 }
             },
             {
@@ -1205,7 +1553,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
                 }
             },
             {
@@ -1215,7 +1563,17 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 81.54
+                }
+            },
+            {
+                "das_names": [
+                    "/TTto2L2Nu_Par-MT-178p5_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 81.54
                 }
             }
         ]
@@ -1231,7 +1589,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 378.93
+                    "xsec": 312.22
                 }
             },
             {
@@ -1241,7 +1599,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 378.93
+                    "xsec": 312.22
                 }
             },
             {
@@ -1251,7 +1609,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 378.93
+                    "xsec": 312.22
                 }
             },
             {
@@ -1261,7 +1619,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 378.93
+                    "xsec": 312.22
                 }
             },
             {
@@ -1271,7 +1629,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 419.69
+                    "xsec": 346.30
                 }
             },
             {
@@ -1281,7 +1639,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 419.69
+                    "xsec": 346.30
                 }
             },
             {
@@ -1291,7 +1649,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 419.69
+                    "xsec": 346.30
                 }
             },
             {
@@ -1301,7 +1659,17 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 419.69
+                    "xsec": 346.30
+                }
+            },
+            {
+                "das_names":[
+                    "/TTto4Q_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata":{
+                    "year":"2024",
+                    "isMC":true,
+                    "xsec":346.30
                 }
             }
         ]
@@ -1317,7 +1685,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1327,7 +1695,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1337,7 +1705,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1347,7 +1715,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1358,7 +1726,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             },
             {
@@ -1368,7 +1736,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             },
             {
@@ -1378,7 +1746,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             },
             {
@@ -1388,7 +1756,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             }
         ]
@@ -1404,7 +1772,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1414,7 +1782,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1424,7 +1792,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1434,7 +1802,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1445,7 +1813,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             },
             {
@@ -1455,7 +1823,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             },
             {
@@ -1465,7 +1833,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             },
             {
@@ -1475,7 +1843,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             }
         ]
@@ -1491,7 +1859,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1501,7 +1869,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1511,7 +1879,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1521,7 +1889,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1532,7 +1900,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             },
             {
@@ -1542,7 +1910,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             },
             {
@@ -1552,7 +1920,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             },
             {
@@ -1562,7 +1930,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             }
         ]
@@ -1578,7 +1946,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1588,7 +1956,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1598,7 +1966,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1608,7 +1976,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1619,7 +1987,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             },
             {
@@ -1629,7 +1997,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             },
             {
@@ -1639,7 +2007,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             },
             {
@@ -1649,7 +2017,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             }
         ]
@@ -1665,7 +2033,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1675,7 +2043,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1685,7 +2053,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1695,7 +2063,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1706,7 +2074,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             },
             {
@@ -1716,7 +2084,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             },
             {
@@ -1726,7 +2094,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             },
             {
@@ -1736,7 +2104,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             }
         ]
@@ -1752,7 +2120,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1762,7 +2130,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1772,7 +2140,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1782,7 +2150,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 367.75
+                    "xsec": 312.22
                 }
             },
             {
@@ -1793,7 +2161,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             },
             {
@@ -1803,7 +2171,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             },
             {
@@ -1813,7 +2181,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
                 }
             },
             {
@@ -1823,7 +2191,99 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 407.30
+                    "xsec": 346.30
+                }
+            }
+        ]
+    },
+    "TTMtt700To1000": {
+        "sample": "TTMtt700To1000",
+        "json_output": "Datasets/signals_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/TT_Mtt-700to1000_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 833.9
+                }
+            },
+            {
+                "das_names": [
+                    "/TT_Mtt-700to1000_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 833.9
+                }
+            },
+            {
+                "das_names": [
+                    "/TT_Mtt-700to1000_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 833.9
+                }
+            },
+            {
+                "das_names": [
+                    "/TT_Mtt-700to1000_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 833.9
+                }
+            }
+        ]
+    },
+    "TTMtt1000": {
+        "sample": "TTMtt1000",
+        "json_output": "Datasets/signals_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/TT_Mtt-1000toInf_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 833.9
+                }
+            },
+            {
+                "das_names": [
+                    "/TT_Mtt-1000toInf_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 833.9
+                }
+            },
+            {
+                "das_names": [
+                    "/TT_Mtt-1000toInf_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 833.9
+                }
+            },
+            {
+                "das_names": [
+                    "/TT_Mtt-1000toInf_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 833.9
                 }
             }
         ]
@@ -1839,7 +2299,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -1849,7 +2309,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -1859,7 +2319,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -1869,7 +2329,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -1879,7 +2339,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1
                 }
             },
             {
@@ -1890,7 +2350,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1
                 }
             },
             {
@@ -1900,7 +2360,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1
                 }
             },
             {
@@ -1910,13 +2370,26 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1
+                }
+            },
+            {
+                "das_names": [
+                    "/WtoLNu-4Jets_Bin-1J_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM",
+                    "/WtoLNu-3Jets_Bin-1J_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM",
+                    "/WtoLNu-2Jets_Bin-1J_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM",
+                    "/WtoLNu-1Jets_Bin-1J_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 63425.1
                 }
             }
         ]
     },
-    "WJetsToLNuHT7OTo100":{
-        "sample": "WJetsToLNuHT7OTo100",
+    "WJetsToLNuHT70To100":{
+        "sample": "WJetsToLNuHT70To100",
         "json_output": "Datasets/backgrounds_MC_ttbar.json",
         "files": [
             {
@@ -1926,7 +2399,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -1936,7 +2409,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -1946,7 +2419,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -1956,7 +2429,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             }
         ]
@@ -1972,7 +2445,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -1982,7 +2455,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -1992,7 +2465,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2002,7 +2475,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             }
         ]
@@ -2018,7 +2491,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2028,7 +2501,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2038,7 +2511,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2048,7 +2521,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             }
         ]
@@ -2064,7 +2537,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2074,7 +2547,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2084,7 +2557,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2094,7 +2567,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             }
         ]
@@ -2110,7 +2583,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2120,7 +2593,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2130,7 +2603,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2140,7 +2613,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             }
         ]
@@ -2156,7 +2629,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2166,7 +2639,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2176,7 +2649,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2186,7 +2659,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             }
         ]
@@ -2202,7 +2675,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2212,7 +2685,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2222,7 +2695,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
                 }
             },
             {
@@ -2232,7 +2705,58 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 53870.0
+                    "xsec": 61526.7
+                }
+            }
+        ]
+    },
+    "WJetsToLNuHT2500":{
+        "sample": "WJetsToLNuHT2500",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM",
+                    "/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11_ext1-v2/NANOAODSIM",
+                    "/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11_ext2-v3/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 61526.7
+                }
+            },
+            {
+                "das_names": [
+                    "/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2/NANOAODSIM",
+                    "/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17_ext2-v3/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 61526.7
+                }
+            },
+            {
+                "das_names": [
+                    "/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM",
+                    "/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9_ext1-v3/NANOAODSIM",
+                    "/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9_ext2-v3/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 61526.7
+                }
+            },
+            {
+                "das_names": [
+                    "/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 61526.7
                 }
             }
         ]
@@ -2248,7 +2772,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1
                 }
             },
             {
@@ -2258,7 +2782,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2268,7 +2792,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2278,7 +2802,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2294,7 +2818,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2304,7 +2828,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2314,7 +2838,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2324,7 +2848,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2340,7 +2864,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2350,7 +2874,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2360,7 +2884,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2370,7 +2894,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2386,7 +2910,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2396,7 +2920,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2406,7 +2930,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2416,7 +2940,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2432,7 +2956,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2442,7 +2966,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2452,7 +2976,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2462,7 +2986,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2478,7 +3002,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2488,7 +3012,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2498,7 +3022,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2508,7 +3032,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2524,7 +3048,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2534,7 +3058,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2544,7 +3068,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2554,7 +3078,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2570,7 +3094,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2580,7 +3104,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2590,7 +3114,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2600,7 +3124,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2616,7 +3140,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2626,7 +3150,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2636,7 +3160,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2646,7 +3170,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2662,7 +3186,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2672,7 +3196,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2682,7 +3206,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2692,7 +3216,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2708,7 +3232,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2718,7 +3242,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2728,7 +3252,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2738,7 +3262,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2754,7 +3278,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2764,7 +3288,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2774,7 +3298,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             },
             {
@@ -2784,7 +3308,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 55390.0	
+                    "xsec": 63425.1	
                 }
             } 
         ]
@@ -2869,6 +3393,17 @@
                 ],
                 "metadata": {
                     "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 123.8
+                }
+            },
+            {
+                "das_names": [
+                    "/TBbarQto2Q-t-channel-4FS_TuneCP5_13p6TeV_powheg-madspin-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM",
+                    "/TBbarQtoLNu-t-channel-4FS_TuneCP5_13p6TeV_powheg-madspin-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
                     "isMC": true,
                     "xsec": 123.8
                 }
@@ -2958,7 +3493,348 @@
                     "isMC": true,
                     "xsec": 75.47
                 }
+            },
+            {
+                "das_names":[
+                    "/TbarBQto2Q-t-channel-4FS_TuneCP5_13p6TeV_powheg-madspin-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM",
+                    "/TbarBQtoLNu-t-channel-4FS_TuneCP5_13p6TeV_powheg-madspin-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata":{
+                    "year":"2024",
+                    "isMC":true,
+                    "xsec":75.47
+                }
+            }
+        ]
+    },
+    "ST_s_channel":{
+        "sample": "ST_s_channel",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 3.74
+                }
+            },
+            {
+                "das_names": [
+                    "/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 3.74
+                }
+            },
+            {
+                "das_names": [
+                    "/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 3.74
+                }
+            },
+            {
+                "das_names": [
+                    "/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 3.74
+                }
+            }
+        ]
+    },
+    "ST_s_channel_top":{
+        "sample": "ST_s_channel_top",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/TBbartoLplusNuBbar-s-channel-4FS_TuneCP5_13p6TeV_amcatnlo-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 2.278
+                }
+            },
+            {
+                "das_names": [
+                    "/TBbartoLplusNuBbar-s-channel-4FS_TuneCP5_13p6TeV_amcatnlo-pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 2.278
+                }
+            },
+            {
+                "das_names": [
+                    "/TBbartoLplusNuBbar-s-channel-4FS_TuneCP5_13p6TeV_amcatnlo-pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v15-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 2.278
+                }
+            },
+            {
+                "das_names": [
+                    "/TBbartoLplusNuBbar-s-channel-4FS_TuneCP5_13p6TeV_amcatnlo-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 2.278
+                }
+            },
+            {
+                "das_names": [
+                    "/TBbartoLplusNuBbar-s-channel-4FS_TuneCP5_13p6TeV_amcatnlo-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 2.278
+                }
             } 
+        ]
+    },
+    "ST_s_channel_antitop":{
+        "sample": "ST_s_channel_antitop",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/TbarBtoLminusNuB-s-channel-4FS_TuneCP5_13p6TeV_amcatnlo-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 1.43
+                }
+            },
+            {
+                "das_names": [
+                    "/TbarBtoLminusNuB-s-channel-4FS_TuneCP5_13p6TeV_amcatnlo-pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 1.43
+                }
+            },
+            {
+                "das_names": [
+                    "/TbarBtoLminusNuB-s-channel-4FS_TuneCP5_13p6TeV_amcatnlo-pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v15-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 1.43
+                }
+            },
+            {
+                "das_names": [
+                    "/TbarBtoLminusNuB-s-channel-4FS_TuneCP5_13p6TeV_amcatnlo-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 1.43
+                }
+            } 
+        ]
+    },
+    "ST_tW_top":{
+        "sample": "ST_tW_top",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 19.01
+                }
+            },
+            {
+                "das_names": [
+                    "/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 19.01
+                }
+            },
+            {
+                "das_names": [
+                    "/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 19.01
+                }
+            },
+            {
+                "das_names": [
+                    "/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 19.01
+                }
+            },
+            {
+                "das_names": [
+                    "/TWminustoLNu2Q_TuneCP5_13p6TeV_powheg-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 15.8
+                }
+            },
+            {
+                "das_names": [
+                    "/TWminustoLNu2Q_TuneCP5_13p6TeV_powheg-pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 15.8
+                }
+            },
+            {
+                "das_names": [
+                    "/TWminustoLNu2Q_TuneCP5_13p6TeV_powheg-pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 15.8
+                }
+            },
+            {
+                "das_names": [
+                    "/TWminustoLNu2Q_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 15.8
+                }
+            }  
+        ]
+    },
+    "ST_tW_antitop":{
+        "sample": "ST_tW_antitop",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 19.08
+                }
+            },
+            {
+                "das_names": [
+                    "/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 19.08
+                }
+            },
+            {
+                "das_names": [
+                    "/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 19.08
+                }
+            },
+            {
+                "das_names": [
+                    "/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 19.08
+                }
+            },
+            {
+                "das_names": [
+                    "/TbarWplustoLNu2Q_TuneCP5_13p6TeV_powheg-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 15.9
+                }
+            },
+            {
+                "das_names": [
+                    "/TbarWplustoLNu2Q_TuneCP5_13p6TeV_powheg-pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 15.9
+                }
+            },
+            {
+                "das_names": [
+                    "/TbarWplustoLNu2Q_TuneCP5_13p6TeV_powheg-pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v15-v6/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 15.9
+                }
+            },
+            {
+                "das_names": [
+                    "/TbarWplustoLNu2Q_TuneCP5_13p6TeV_powheg-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 15.9
+                }
+            },
+            {
+                "das_names": [
+                    "/TbarWplustoLNu2Q_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 15.9
+                }
+            }  
         ]
     },
     "WW":{
@@ -3044,7 +3920,17 @@
                     "isMC": true,
                     "xsec": 80.23
                 }
-            } 
+            },
+            {
+                "das_names": [
+                    "/WW_TuneCP5_13p6TeV_pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 80.23
+                }
+            }
         ]
     },
     "WZ":{
@@ -3123,10 +4009,10 @@
             },
             {
                 "das_names": [
-                    "/WZ_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                    "/WZ_TuneCP5_13p6TeV_pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
                 ],
                 "metadata": {
-                    "year": "2023_postBPix",
+                    "year": "2024",
                     "isMC": true,
                     "xsec": 29.1
                 }
@@ -3216,6 +4102,16 @@
                     "isMC": true,
                     "xsec": 12.75
                 }
+            },
+            {
+                "das_names": [
+                    "/ZZ_TuneCP5_13p6TeV_pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 12.75
+                }
             } 
         ]
     },
@@ -3230,7 +4126,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 5343.0
+                    "xsec": 6077.22
                 }
             },
             {
@@ -3240,7 +4136,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 5343.0
+                    "xsec": 6077.22
                 }
             },
             {
@@ -3250,7 +4146,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 5343.0
+                    "xsec": 6077.22
                 }
             },
             {
@@ -3260,7 +4156,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 5343.0
+                    "xsec": 6077.22
                 }
             },
             {
@@ -3270,7 +4166,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 5467.0
+                    "xsec": 6282.6
                 }
             },
             {
@@ -3280,7 +4176,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 5467.0
+                    "xsec": 6282.6
                 }
             },
             {
@@ -3290,7 +4186,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 5467.0
+                    "xsec": 6282.6
                 }
             },
             {
@@ -3300,9 +4196,2221 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 5467.0
+                    "xsec": 6282.6
+                }
+            }
+        ]
+    },
+    "QCD_MuEnriched_Pt15To20":{
+        "sample": "QCD_MuEnriched_Pt15To20",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-15To20_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 2797000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-15To20_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 2797000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-15To20_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 2797000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-15To20_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 2797000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-15to20_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 2982000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-15to20_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 2982000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-15to20_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v3/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 2982000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-15to20_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 2982000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Bin-PT-15to20_Fil-MuEnriched_TuneCP5_13p6TeV_pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 2982000.0
+                }
+            }
+        ]
+    },
+    "QCD_MuEnriched_Pt20To30":{
+        "sample": "QCD_MuEnriched_Pt20To30",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-20To30_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 2518000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-20To30_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 2518000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-20To30_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 2518000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-20To30_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 2518000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-20to30_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 2679000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-20to30_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 2679000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-20to30_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 2679000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-20to30_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 2679000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Bin-PT-20to30_Fil-MuEnriched_TuneCP5_13p6TeV_pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 2679000.0
                 }
             } 
+        ]
+    },
+    "QCD_MuEnriched_Pt30To50":{
+        "sample": "QCD_MuEnriched_Pt30To50",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-30To50_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 1361000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-30To50_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 1361000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-30To50_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 1361000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-30To50_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 1361000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-30to50_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 1465000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-30to50_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 1465000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-30to50_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 1465000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-30to50_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 1465000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Bin-PT-30to50_Fil-MuEnriched_TuneCP5_13p6TeV_pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 1465000.0
+                }
+            }
+        ]
+    },
+    "QCD_MuEnriched_Pt50To80":{
+        "sample": "QCD_MuEnriched_Pt50To80",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-50To80_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 377800.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-50To80_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 377800.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-50To80_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 377800.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-50To80_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 377800.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-50to80_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 402900.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-50to80_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 402900.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-50to80_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 402900.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-50to80_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 402900.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Bin-PT-50to80_Fil-MuEnriched_TuneCP5_13p6TeV_pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 402900.0
+                }
+            }
+        ]
+    },
+    "QCD_MuEnriched_Pt80To120":{
+        "sample": "QCD_MuEnriched_Pt80To120",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-80To120_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 88620.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-80To120_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 88620.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-80To120_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 88620.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-80To120_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 88620.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-80to120_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 96200.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-80to120_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 96200.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-80to120_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 96200.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-80to120_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 96200.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Bin-PT-80to120_Fil-MuEnriched_TuneCP5_13p6TeV_pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 96200.0
+                }
+            }
+        ]
+    },
+    "QCD_MuEnriched_Pt120To170":{
+        "sample": "QCD_MuEnriched_Pt120To170",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-120To170_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 21070.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-120To170_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 21070.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-120To170_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 21070.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-120To170_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 21070.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-120to170_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 22980.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-120to170_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 22980.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-120to170_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 22980.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-120to170_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 22980.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Bin-PT-120to170_Fil-MuEnriched_TuneCP5_13p6TeV_pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 22980.0
+                }
+            } 
+        ]
+    },
+    "QCD_MuEnriched_Pt170To300":{
+        "sample": "QCD_MuEnriched_Pt170To300",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-170To300_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 7019.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-170To300_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 7019.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-170To300_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 7019.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-170To300_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 7019.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-170to300_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 7763.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-170to300_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 7763.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-170to300_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 7763.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-170to300_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 7763.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Bin-PT-170to300_Fil-MuEnriched_TuneCP5_13p6TeV_pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 7763.0
+                }
+            } 
+        ]
+    },
+    "QCD_MuEnriched_Pt300To470":{
+        "sample": "QCD_MuEnriched_Pt300To470",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-300To470_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 622.4
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-300To470_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 622.4
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-300To470_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 622.4
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-300To470_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 622.4
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-300to470_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 699.1
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-300to470_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 699.1
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-300to470_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 699.1
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-300to470_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 699.1
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Bin-PT-300to470_Fil-MuEnriched_TuneCP5_13p6TeV_pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 699.1
+                }
+            } 
+        ]
+    },
+    "QCD_MuEnriched_Pt470To600":{
+        "sample": "QCD_MuEnriched_Pt470To600",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-470To600_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 58.86
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-470To600_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 58.86
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-470To600_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 58.86
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-470To600_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 58.86
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-470to600_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 68.24
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-470to600_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 68.24
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-470to600_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 68.24
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-470to600_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 68.24
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Bin-PT-470to600_Fil-MuEnriched_TuneCP5_13p6TeV_pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 68.24
+                }
+            } 
+        ]
+    },
+    "QCD_MuEnriched_Pt600To800":{
+        "sample": "QCD_MuEnriched_Pt600To800",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-600To800_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 18.22
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-600To800_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 18.22
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-600To800_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 18.22
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-600To800_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 18.22
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-600to800_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 21.37
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-600to800_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 21.37
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-600to800_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 21.37
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-600to800_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 21.37
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Bin-PT-600to800_Fil-MuEnriched_TuneCP5_13p6TeV_pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 21.37
+                }
+            }
+        ]
+    },
+    "QCD_MuEnriched_Pt800To1000":{
+        "sample": "QCD_MuEnriched_Pt800To1000",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-800To1000_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 3.25
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-800To1000_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 3.25
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-800To1000_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 3.25
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-800To1000_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 3.25
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-800to1000_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 3.913
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-800to1000_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 3.913
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-800to1000_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 3.913
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-800to1000_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 3.913
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Bin-PT-800to1000_Fil-MuEnriched_TuneCP5_13p6TeV_pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 3.913
+                }
+            }
+        ]
+    },
+    "QCD_MuEnriched_Pt1000":{
+        "sample": "QCD_MuEnriched_Pt1000",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-1000_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 1.085
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-1000_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 1.085
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-1000_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 1.085
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-1000_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 1.085
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-1000_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 1.323
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-1000_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 1.323
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-1000_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 1.323
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-1000_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 1.323
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Bin-PT-1000_Fil-MuEnriched_TuneCP5_13p6TeV_pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 1.323
+                }
+            }
+        ]
+    },
+
+    "QCD_bcToE_Pt15To20":{
+        "sample": "QCD_bcToE_Pt15To20",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt_15to20_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 186200.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt_15to20_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 186200.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt_15to20_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 186200.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt_15to20_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 186200.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-15to20_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 2045000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-15to20_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 2045000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-15to20_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 2045000.0
+                }
+            }
+            
+        ]
+    },
+    "QCD_bcToE_Pt20To30":{
+        "sample": "QCD_bcToE_Pt20To30",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt_20to30_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 303800.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt_20to30_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 303800.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt_20to30_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 303800.0
+                }
+            },            
+            {
+                "das_names": [
+                    "/QCD_Pt_20to30_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 303800.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-20to30_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 2045000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-20to30_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 2045000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-20to30_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 2045000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-20to30_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 2045000.0
+                }
+            }
+        ]
+    },
+    "QCD_bcToE_Pt30To80":{
+        "sample": "QCD_bcToE_Pt30To80",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt_30to80_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 362300.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt_30to80_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 362300.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt_30to80_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 362300.0
+                }
+            },   
+            {
+                "das_names": [
+                    "/QCD_Pt_30to80_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 362300.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-30to80_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 1322000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-30to80_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 1322000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-30to80_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 1322000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-30to80_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 1322000.0
+                }
+            }
+        ]
+    },
+    "QCD_bcToE_Pt80To170":{
+        "sample": "QCD_bcToE_Pt80To170",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt_80to170_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 33700.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt_80to170_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 33700.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt_80to170_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 33700.0
+                }
+            }, 
+            {
+                "das_names": [
+                    "/QCD_Pt_80to170_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 33700.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-80to170_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 73370.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-80to170_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 73370.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-80to170_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 73370.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-80to170_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 73370.0
+                }
+            }
+        ]
+    },
+    "QCD_bcToE_Pt170To250":{
+        "sample": "QCD_bcToE_Pt170To250",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt_170to250_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 2125.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt_170to250_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 2125.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt_170to250_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 2125.0
+                }
+            }, 
+            {
+                "das_names": [
+                    "/QCD_Pt_170to250_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 2125.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-170to250_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 3898.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-170to250_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 3898.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-170to250_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 3898.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-170to250_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 3898.0
+                }
+            }
+        ]
+    },
+    "QCD_bcToE_Pt250":{
+        "sample": "QCD_bcToE_Pt250",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt_250toInf_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 562.5
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt_250toInf_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 562.5
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt_250toInf_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 562.5
+                }
+            }, 
+            {
+                "das_names": [
+                    "/QCD_Pt_250toInf_bcToE_TuneCP5_13TeV_pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 562.5
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-250toInf_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 963.4
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-250_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 963.4
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-250_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 963.4
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-250_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 963.4
+                }
+            }
+        ]
+    },
+    "QCD_EMEnriched_Pt15To20":{
+        "sample": "QCD_EMEnriched_Pt15To20",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-15to20_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 1324000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-15to20_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 1324000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-15to20_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 1324000.0
+                }
+            }, 
+            {
+                "das_names": [
+                    "/QCD_Pt-15to20_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 1324000.0
+                }
+            }
+        ]
+    },
+    "QCD_EMEnriched_Pt20To30":{
+        "sample": "QCD_EMEnriched_Pt20To30",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-20to30_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 4896000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-20to30_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 4896000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-20to30_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 4896000.0
+                }
+            }, 
+            {
+                "das_names": [
+                    "/QCD_Pt-20to30_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 4896000.0
+                }
+            }
+        ]
+    },
+    "QCD_EMEnriched_Pt30To50":{
+        "sample": "QCD_EMEnriched_Pt30To50",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-30to50_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 6447000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-30to50_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 6447000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-30to50_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 6447000.0
+                }
+            }, 
+            {
+                "das_names": [
+                    "/QCD_Pt-30to50_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 6447000.0
+                }
+            }
+        ]
+    },
+    "QCD_EMEnriched_Pt50To80":{
+        "sample": "QCD_EMEnriched_Pt50To80",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-50to80_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 1988000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-50to80_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 1988000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-50to80_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 1988000.0
+                }
+            }, 
+            {
+                "das_names": [
+                    "/QCD_Pt-50to80_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 1988000.0
+                }
+            }
+        ]
+    },
+    "QCD_EMEnriched_Pt80To120":{
+        "sample": "QCD_EMEnriched_Pt80To120",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-80to120_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 367500.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-80to120_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 367500.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-80to120_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 367500.0
+                }
+            }, 
+            {
+                "das_names": [
+                    "/QCD_Pt-80to120_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 367500.0
+                }
+            }
+        ]
+    },
+    "QCD_EMEnriched_Pt120To170":{
+        "sample": "QCD_EMEnriched_Pt120To170",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-120to170_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 66590.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-120to170_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 66590.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-120to170_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 66590.0
+                }
+            }, 
+            {
+                "das_names": [
+                    "/QCD_Pt-120to170_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 66590.0
+                }
+            }
+        ]
+    },
+    "QCD_EMEnriched_Pt170To300":{
+        "sample": "QCD_EMEnriched_Pt170To300",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-170to300_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 16620.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-170to300_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 16620.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-170to300_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 16620.0
+                }
+            }, 
+            {
+                "das_names": [
+                    "/QCD_Pt-170to300_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 16620.0
+                }
+            }
+        ]
+    },
+    "QCD_EMEnriched_Pt300":{
+        "sample": "QCD_EMEnriched_Pt300",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_Pt-300toInf_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 1104.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-300toInf_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 1104.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_Pt-300toInf_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 1104.0
+                }
+            }, 
+            {
+                "das_names": [
+                    "/QCD_Pt-300toInf_EMEnriched_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 1104.0
+                }
+            }
+        ]
+    },
+    "QCD_EMEnriched_Pt30To80":{
+        "sample": "QCD_EMEnriched_Pt30To80",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_PT-30to80_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 1322000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-30to80_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 1322000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-30to80_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 1322000.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-30to80_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 1322000.0
+                }
+            }
+        ]
+    },
+    "QCD_EMEnriched_Pt80To170":{
+        "sample": "QCD_EMEnriched_Pt80To170",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_PT-80to170_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 73370.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-80to170_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 73370.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-80to170_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 73370.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-80to170_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 73370.0
+                }
+            }
+        ]
+    },
+    "QCD_EMEnriched_Pt170To250":{
+        "sample": "QCD_EMEnriched_Pt170To250",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_PT-170to250_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 3898.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-170to250_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 3898.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-170to250_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 3898.0
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-170to250_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 3898.0
+                }
+            }
+        ]
+    },
+    "QCD_EMEnriched_Pt250":{
+        "sample": "QCD_EMEnriched_Pt250",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/QCD_PT-250toInf_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_preEE",
+                    "isMC": true,
+                    "xsec": 959.5
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-250_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2022_postEE",
+                    "isMC": true,
+                    "xsec": 959.5
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-250_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer23NanoAODv12-130X_mcRun3_2023_realistic_v14-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_preBPix",
+                    "isMC": true,
+                    "xsec": 959.5
+                }
+            },
+            {
+                "das_names": [
+                    "/QCD_PT-250_bcToE_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2023_postBPix",
+                    "isMC": true,
+                    "xsec": 959.5
+                }
+            }
         ]
     }
 }

@@ -22,7 +22,7 @@ object_preselection:
       value: 4
       maxpt: 50.0
     btag:
-      wp: M
+      wp: T
 
   FatJet:
     dr_lepton: 0.4
@@ -31,4 +31,4 @@ object_preselection:
     eta: 2.4
     jetId: 2
     btag:
-      wp: M  # Medium working point
+      wp: T  # Medium working point
