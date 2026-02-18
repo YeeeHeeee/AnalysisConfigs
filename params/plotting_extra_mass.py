@@ -1,7 +1,18 @@
+import os
+
+import numpy as np
+
+
+#file_loc = os.getcwd()
+#ac_loc = file_loc.split("/Merged")[0]
+ac_loc = "/afs/cern.ch/work/g/guttley/private/top_reco/AnalysisConfigs"
+
+
 use_bw_files = False
 get_extra_masses = True
 get_extra_extra_masses = False
 use_boosted = True
+split_merged = True
 
 ttbar_files = [
   "TTToSemiLeptonic",
@@ -136,13 +147,31 @@ other_files = [
 
 all_files = top_files + other_files + wjets_files
 
-groups = {
-  'Data': ['DATA_*.parquet'],
-  'TT (172.5 GeV)': [f'{f}_*.parquet' for f in ttbar_files] if not use_bw_files else ['TT_172p5_*.parquet'],
-  'ST': [f'{f}_*.parquet' for f in st_files],
-  'WJ': [f'{f}_*.parquet' for f in wjets_files],
-  #'Other': [f'{f}_*.parquet' for f in other_files],
-}
+extra_columns = []
+if not split_merged:
+  groups = {
+    'Data': ['DATA_*.parquet'],
+    'TT (172.5 GeV)': [f'{f}_*.parquet' for f in ttbar_files] if not use_bw_files else ['TT_172p5_*.parquet'],
+    'ST': [f'{f}_*.parquet' for f in st_files],
+    'WJ': [f'{f}_*.parquet' for f in wjets_files],
+    #'Other': [f'{f}_*.parquet' for f in other_files],
+  }
+  group_selection = {}
+else:
+  groups = {
+    'Data': ['DATA_*.parquet'],
+    'TT Merged (172.5 GeV)': [f'{f}_*.parquet' for f in ttbar_files] if not use_bw_files else ['TT_172p5_*.parquet'],
+    'TT Unmerged (172.5 GeV)': [f'{f}_*.parquet' for f in ttbar_files] if not use_bw_files else ['TT_172p5_*.parquet'],
+    'ST': [f'{f}_*.parquet' for f in st_files],
+    'WJ': [f'{f}_*.parquet' for f in wjets_files],
+    #'Other': [f'{f}_*.parquet' for f in other_files],
+  }
+  group_selection = {
+    'TT Merged (172.5 GeV)': 'MergingInfo_FatJet_TopDecaysMerged > 0.5',
+    'TT Unmerged (172.5 GeV)': 'MergingInfo_FatJet_TopDecaysMerged < 0.5',
+  }
+  extra_columns += ['MergingInfo_FatJet_TopDecaysMerged']
+
 scale_to = {}
 
 if get_extra_masses:
@@ -152,30 +181,48 @@ if get_extra_masses:
   other_groups = {}
   for mass in extra_masses:
     other_groups[f'TT ({mass} GeV)'] = [f'TTToSemiLeptonic{str(mass).replace(".","p")}_*.parquet', f'TTToHadronic{str(mass).replace(".","p")}_*.parquet', f'TTTo2L2Nu{str(mass).replace(".","p")}_*.parquet'] if not use_bw_files else [f'TT_{str(mass).replace(".","p")}_*.parquet']
-    scale_to[f'TT ({mass} GeV)'] = "TT (172.5 GeV)"
+    if not split_merged:
+      scale_to[f'TT ({mass} GeV)'] = "TT (172.5 GeV)"
+    else:
+      scale_to[f'TT ({mass} GeV)'] = ["TT Merged (172.5 GeV)", "TT Unmerged (172.5 GeV)"]
 
 else:
   other_groups = {}
 
-colours = {
-  'TT (172.5 GeV)': 'blue',
-  'WJ': 'red',
-  'ST': 'brown',
-  'VV': 'gray',
-  'Other': 'cyan',
-}
+if not split_merged:
+  colours = {
+    'TT (172.5 GeV)': 'blue',
+    'WJ': 'red',
+    'ST': 'brown',
+    'VV': 'gray',
+    'Other': 'cyan',
+  }
+else:
+  colours = {
+    'TT Merged (172.5 GeV)': 'blue',
+    'TT Unmerged (172.5 GeV)': 'purple',
+    'WJ': 'red',
+    'ST': 'brown',
+    'VV': 'gray',
+    'Other': 'cyan',
+  }
 
-group_selection = {}
 
 if get_extra_masses:
   plot_extra = {
     'Total (169.5 GeV)': ['TT (169.5 GeV)'],
     'Total (175.5 GeV)': ['TT (175.5 GeV)'],
   }
-  plot_extra_subtract = {
-    'Total (169.5 GeV)': ['TT (172.5 GeV)'],
-    'Total (175.5 GeV)': ['TT (172.5 GeV)'],
-  }
+  if not split_merged:
+    plot_extra_subtract = {
+      'Total (169.5 GeV)': ['TT (172.5 GeV)'],
+      'Total (175.5 GeV)': ['TT (172.5 GeV)'],
+    }
+  else:
+    plot_extra_subtract = {
+      'Total (169.5 GeV)': ['TT Merged (172.5 GeV)', 'TT Unmerged (172.5 GeV)'],
+      'Total (175.5 GeV)': ['TT Merged (172.5 GeV)', 'TT Unmerged (172.5 GeV)'],
+    }
   plot_extra_colours = {
     'Total (169.5 GeV)': 'orange',
     'Total (175.5 GeV)': 'green',
@@ -245,32 +292,6 @@ variables = {
   'BJetLep_btagDeepFlavB' : '(0,1,0.02)',
   'LeptonicTop_mass' : '(20,250,5)',
   'LeptonicTop_pt' : '(0,600,20)',
-}
-
-calculate = {
-  'FatJet_tau32' : 'FatJet_tau3 / FatJet_tau2',
-  'FatJet_tau21' : 'FatJet_tau2 / FatJet_tau1',
-  'FatJet_tau31' : 'FatJet_tau3 / FatJet_tau1',
-  'SubJet1_tau32' : 'SubJet1_tau3 / SubJet1_tau2',
-  'SubJet1_tau21' : 'SubJet1_tau2 / SubJet1_tau1',
-  'SubJet1_tau31' : 'SubJet1_tau3 / SubJet1_tau1',
-  'SubJet2_tau32' : 'SubJet2_tau3 / SubJet2_tau2',
-  'SubJet2_tau21' : 'SubJet2_tau2 / SubJet2_tau1',
-  'SubJet2_tau31' : 'SubJet2_tau3 / SubJet2_tau1',
-  'BJetLep_px' : 'BJetLep_pt * cos(BJetLep_phi)',
-  'BJetLep_py' : 'BJetLep_pt * sin(BJetLep_phi)',
-  'BJetLep_pz' : 'BJetLep_pt * sinh(BJetLep_eta)',
-  'BJetLep_E' : 'sqrt(BJetLep_px**2 + BJetLep_py**2 + BJetLep_pz**2 + BJetLep_mass**2)',
-  'Lep_px' : 'LeptonSave_pt * cos(LeptonSave_phi)',
-  'Lep_py' : 'LeptonSave_pt * sin(LeptonSave_phi)',
-  'Lep_pz' : 'LeptonSave_pt * sinh(LeptonSave_eta)',
-  'Lep_E' : 'sqrt(Lep_px**2 + Lep_py**2 + Lep_pz**2 + LeptonSave_mass**2)',
-  'LeptonicTop_px' : 'BJetLep_px + Lep_px',
-  'LeptonicTop_py' : 'BJetLep_py + Lep_py',
-  'LeptonicTop_pz' : 'BJetLep_pz + Lep_pz',
-  'LeptonicTop_E' : 'BJetLep_E + Lep_E',
-  'LeptonicTop_mass' : '( (LeptonicTop_E)**2 - (LeptonicTop_px)**2 - (LeptonicTop_py)**2 - (LeptonicTop_pz)**2 ) ** 0.5',
-  'LeptonicTop_pt' : '( (LeptonicTop_px)**2 + (LeptonicTop_py)**2 ) ** 0.5',
 }
 
 translate = {
@@ -370,78 +391,61 @@ all_years = [
 #  "TimePtEta": {"Correlation" : 0},
 #}
 
-recalculate = {
-  "SubJet1_px": "SubJet1_pt * cos(SubJet1_phi)",
-  "SubJet1_py": "SubJet1_pt * sin(SubJet1_phi)",
-  "SubJet1_pz": "SubJet1_pt * sinh(SubJet1_eta)",
-  "SubJet1_E": "sqrt(SubJet1_px**2 + SubJet1_py**2 + SubJet1_pz**2 + SubJet1_mass**2)",
-  "SubJet2_px": "SubJet2_pt * cos(SubJet2_phi)",
-  "SubJet2_py": "SubJet2_pt * sin(SubJet2_phi)",
-  "SubJet2_pz": "SubJet2_pt * sinh(SubJet2_eta)",
-  "SubJet2_E": "sqrt(SubJet2_px**2 + SubJet2_py**2 + SubJet2_pz**2 + SubJet2_mass**2)",
-  "CombinedSubJets_px": "(SubJet1_px + SubJet2_px)",
-  "CombinedSubJets_py": "(SubJet1_py + SubJet2_py)",
-  "CombinedSubJets_pz": "(SubJet1_pz + SubJet2_pz)",
-  "CombinedSubJets_E": "(SubJet1_E + SubJet2_E)",
-  "CombinedSubJets_eta": "arcsinh(CombinedSubJets_pz / sqrt(CombinedSubJets_px**2 + CombinedSubJets_py**2))",
-  "CombinedSubJets_phi": "arctan2(CombinedSubJets_py, CombinedSubJets_px)",
-  "CombinedSubJets_pt": "( (CombinedSubJets_px)**2 + (CombinedSubJets_py)**2 ) ** 0.5",
-  "CombinedSubJets_mass": "( (CombinedSubJets_E)**2 - (CombinedSubJets_px)**2 - (CombinedSubJets_py)**2 - (CombinedSubJets_pz)**2 ) ** 0.5",
-  #"fsr_slope": "(GenWeights_isr1fsr2 - GenWeights_isr1fsr0p5) / 2.0 * log(2.0)",
-  #"weight" : "weight * (1 + (fsr_slope * log(1/16)))"
-  #"fsr_val" : "0.3",
-  #"fsr_c" : "(4/9) * (GenWeights_isr1fsr2 + GenWeights_isr1fsr0p5 - 2)",
-  #"fsr_b" : "(GenWeights_isr1fsr0p5 - 1 - (3*fsr_c)) / (log(4))",
-  #"fsr_a" : "1 - fsr_c",
-  #"weight" : "weight * (fsr_a + fsr_b*log(1/fsr_val**2) + fsr_c*(1/fsr_val**2))",
-}
-
+calculate = {}
 if not use_boosted:
-  if "weight" in recalculate:
-    recalculate["weight"] = f"({recalculate['weight']})/(ExtraWeights_TTTo2L2NuRun2Stitching*ExtraWeights_TTToSemiLeptonicRun2Stitching*ExtraWeights_TTToHadronicRun2Stitching)"
+  if "weight" in calculate:
+    calculate["weight"] = f"({calculate['weight']})/(ExtraWeights_TTTo2L2NuRun2Stitching*ExtraWeights_TTToSemiLeptonicRun2Stitching*ExtraWeights_TTToHadronicRun2Stitching)"
   else:
-    recalculate.update({
+    calculate.update({
       "weight" : "weight/(ExtraWeights_TTTo2L2NuRun2Stitching*ExtraWeights_TTToSemiLeptonicRun2Stitching*ExtraWeights_TTToHadronicRun2Stitching)"
     })
 
 # Add systematics
 systematics = {}
 
-# Simple JEC correlation
+# Jet energy uncertainties
 jec_uncert = {
   # Simple JEC correlation
-  #"AbsoluteMPFBias": {"Correlation" : 1},
-  #"AbsoluteScale": {"Correlation" : 1},
-  #"AbsoluteStat": {"Correlation" : 0},
-  #"FlavorQCD": {"Correlation" : 1},
-  #"Fragmentation": {"Correlation" : 1},
-  #"PileUpDataMC": {"Correlation" : 1},
-  #"PileUpPtBB": {"Correlation" : 1},
-  #"PileUpPtEC1": {"Correlation" : 1},
-  #"PileUpPtEC2": {"Correlation" : 1},
-  #"PileUpPtHF": {"Correlation" : 1},
-  #"PileUpPtRef": {"Correlation" : 1},
-  #"RelativeFSR": {"Correlation" : 1},
-  #"RelativeJEREC1": {"Correlation" : 0},
-  #"RelativeJEREC2": {"Correlation" : 0},
-  #"RelativeJERHF": {"Correlation" : 1},
-  #"RelativePtBB": {"Correlation" : 1},
-  #"RelativePtEC1": {"Correlation" : 0},
-  #"RelativePtEC2": {"Correlation" : 0},
-  #"RelativePtHF": {"Correlation" : 1},
-  #"RelativeBal": {"Correlation" : 1},
-  #"RelativeSample": {"Correlation" : 0},
-  #"RelativeStatEC": {"Correlation" : 0},
-  #"RelativeStatFSR": {"Correlation" : 0},
-  #"RelativeStatHF": {"Correlation" : 0},
-  #"SinglePionECAL": {"Correlation" : 1},
-  #"SinglePionHCAL": {"Correlation" : 1},
-  #"TimePtEta": {"Correlation" : 0},
-  ## Flavour
-  #"FlavorPureGluon" : {"Correlation" : 1},
-  #"FlavorPureQuark" : {"Correlation" : 1},
-  #"FlavorPureCharm" : {"Correlation" : 1},
-  #"FlavorPureBottom" : {"Correlation" : 1},
+  "AbsoluteMPFBias": {"Correlation" : 1},
+  "AbsoluteScale": {"Correlation" : 1},
+  "AbsoluteStat": {"Correlation" : 0},
+  "FlavorQCD": {"Correlation" : 1},
+  "Fragmentation": {"Correlation" : 1},
+  "PileUpDataMC": {"Correlation" : 1},
+  "PileUpPtBB": {"Correlation" : 1},
+  "PileUpPtEC1": {"Correlation" : 1},
+  "PileUpPtEC2": {"Correlation" : 1},
+  "PileUpPtHF": {"Correlation" : 1},
+  "PileUpPtRef": {"Correlation" : 1},
+  "RelativeFSR": {"Correlation" : 1},
+  "RelativeJEREC1": {"Correlation" : 0},
+  "RelativeJEREC2": {"Correlation" : 0},
+  "RelativeJERHF": {"Correlation" : 1},
+  "RelativePtBB": {"Correlation" : 1},
+  "RelativePtEC1": {"Correlation" : 0},
+  "RelativePtEC2": {"Correlation" : 0},
+  "RelativePtHF": {"Correlation" : 1},
+  "RelativeBal": {"Correlation" : 1},
+  "RelativeSample": {"Correlation" : 0},
+  "RelativeStatEC": {"Correlation" : 0},
+  "RelativeStatFSR": {"Correlation" : 0},
+  "RelativeStatHF": {"Correlation" : 0},
+  "SinglePionECAL": {"Correlation" : 1},
+  "SinglePionHCAL": {"Correlation" : 1},
+  "TimePtEta": {"Correlation" : 0},
+  # Flavour
+  "FlavorPureGluon" : {"Correlation" : 1},
+  "FlavorPureQuark" : {"Correlation" : 1},
+  "FlavorPureCharm" : {"Correlation" : 1},
+  "FlavorPureBottom" : {"Correlation" : 1},
+  # JER
+  "JER_eta_lt_1p93": {"Correlation" : 1},
+  "JER_eta_1p93_to_2p5": {"Correlation" : 1},
+  "JER_eta_2p5_to_3p0_pt_0_to_50": {"Correlation" : 1},
+  "JER_eta_2p5_to_3p0_pt_gt_50": {"Correlation" : 1},
+  "JER_eta_3p0_to_5p0_pt_0_to_50": {"Correlation" : 1},
+  "JER_eta_3p0_to_5p0_pt_gt_50": {"Correlation" : 1}
+
 }
 for name, info in jec_uncert.items():
   if info["Correlation"] == 1:
@@ -457,105 +461,75 @@ for name, info in jec_uncert.items():
     syst_names = [name] + [f"{name}_{yr}" for yr in all_years]
     scalings = 0.5
   for ind in range(len(syst_names)):
-    systematics[syst_names[ind]] = {
-      "functions": {
-        #"FatJet_pt": f"FatJet_pt * (1 + ({scalings}*{syst_names[ind]}*FatJet_corrFactor_{name}/FatJet_corrFactor))",
-        #"FatJet_mass": f"FatJet_mass * (1 + ({scalings}*{syst_names[ind]}*FatJet_corrFactor_{name}/FatJet_corrFactor))",
-        #"FatJet_msoftdrop": f"FatJet_msoftdrop * (1 + ({scalings}*{syst_names[ind]}*FatJet_corrFactor_{name}/FatJet_corrFactor))",
+    if "FlavorPure" not in syst_names[ind]:
+      systematics[syst_names[ind]] = {
+        "function": [f"{ac_loc}/params/plotting_extra_mass.py","btm_jec"],
+        "files": all_files,
+        "years": corr_years[ind],
+      }
+    else:
+      systematics[syst_names[ind]] = {
+        "function": [f"{ac_loc}/params/plotting_extra_mass.py","btm_jec"],
+        "files": all_ttbar_files,
+        "years": corr_years[ind],
+      }      
 
-        #"SubJet1_pt": f"SubJet1_pt * (1 + ({scalings}*{syst_names[ind]}*SubJet1_corrFactor_{name}/SubJet1_corrFactor))",
-        #"SubJet1_mass": f"SubJet1_mass * (1 + ({scalings}*{syst_names[ind]}*SubJet1_corrFactor_{name}/SubJet1_corrFactor))",
-        #"SubJet2_pt": f"SubJet2_pt * (1 + ({scalings}*{syst_names[ind]}*SubJet2_corrFactor_{name}/SubJet2_corrFactor))",
-        #"SubJet2_mass": f"SubJet2_mass * (1 + ({scalings}*{syst_names[ind]}*SubJet2_corrFactor_{name}/SubJet2_corrFactor))",
-
-        f"SubJet1_1sigma_factor_{syst_names[ind]}" : f"(1 + ({scalings}*abs({syst_names[ind]})*SubJet1_corrFactor_{name}))", 
-        f"SubJet2_1sigma_factor_{syst_names[ind]}" : f"(1 + ({scalings}*abs({syst_names[ind]})*SubJet2_corrFactor_{name}))",
-        f"SubJet1_scale_factor_{syst_names[ind]}" : f"((({syst_names[ind]}>=0) * SubJet1_1sigma_factor_{syst_names[ind]}) + (({syst_names[ind]}<0) * (1/SubJet1_1sigma_factor_{syst_names[ind]})))",
-        f"SubJet2_scale_factor_{syst_names[ind]}" : f"((({syst_names[ind]}>=0) * SubJet2_1sigma_factor_{syst_names[ind]}) + (({syst_names[ind]}<0) * (1/SubJet2_1sigma_factor_{syst_names[ind]})))",
-        "SubJet1_pt": f"SubJet1_pt * SubJet1_scale_factor_{syst_names[ind]}",
-        "SubJet1_mass": f"SubJet1_mass * SubJet1_scale_factor_{syst_names[ind]}",
-        "SubJet2_pt": f"SubJet2_pt * SubJet2_scale_factor_{syst_names[ind]}",
-        "SubJet2_mass": f"SubJet2_mass * SubJet2_scale_factor_{syst_names[ind]}",
-
-      },
-      "files": all_files,
-      "years": corr_years[ind],
-    }
-    systematics[syst_names[ind]]["functions"].update(recalculate)
-
-# Add JER
-def jer_shift_function(nui_name, var_name, collection_name, region_cut=None):
-  shift = f"{collection_name}_{var_name}"
-  shift += f" * ( ({nui_name}>=0) *  ( ( ({nui_name} * ({collection_name}_smearFactor_up-{collection_name}_smearFactor)) + {collection_name}_smearFactor)/{collection_name}_smearFactor)"
-  shift += f" + ({nui_name}<0) * ( ( (-{nui_name} * ({collection_name}_smearFactor_down-{collection_name}_smearFactor)) + {collection_name}_smearFactor)/{collection_name}_smearFactor) )"
-  if region_cut is not None:
-    region_cut = region_cut.replace("eta", f"{collection_name}_eta").replace("pt", f"{collection_name}_pt")
-    shift += f" * ( ({region_cut}) + ( 1.0*(~({region_cut})) ) )"
-  return shift
-
-jer_regions = {
-  #"eta_lt_1p93": "eta < 1.93",
-  #"eta_1p93_to_2p5": "(eta >= 1.93) & (eta < 2.5)",
-  #"eta_2p5_to_3p0_pt_0_to_50": "(eta >= 2.5) & (eta < 3.0) & (pt < 50)",
-  #"eta_2p5_to_3p0_pt_gt_50": "(eta >= 2.5) & (eta < 3.0) & (pt >= 50)",
-  #"eta_3p0_to_5p0_pt_0_to_50": "(eta >= 3.0) & (eta < 5.0) & (pt < 50)",
-  #"eta_3p0_to_5p0_pt_gt_50": "(eta >= 3.0) & (eta < 5.0) & (pt >= 50)",
+# Luminosity uncertainties
+lumi_uncerts = {
+  "lumi_13TeV_1516_l" : ["2016_PreVFP", "2016_PostVFP"],
+  "lumi_13TeV_151617_l" : ["2016_PreVFP", "2016_PostVFP", "2017"],
+  "lumi_13TeV_15161718_l" : ["2016_PreVFP", "2016_PostVFP", "2017", "2018"],
+  "lumi_13p6TeV_2223_l" : ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix"],
+  "lumi_13p6TeV_23_l" : ["2023_preBPix", "2023_postBPix"],
 }
-for yr in all_years:
-  for region_name, region_cut in jer_regions.items():
-    syst_name = f"JER_{region_name}_{yr}"
-    systematics[syst_name] = {
-      "functions": {
-        #"FatJet_pt": jer_shift_function(syst_name, 'pt', 'FatJet', region_cut),
-        #"FatJet_mass": jer_shift_function(syst_name, 'mass', 'FatJet', region_cut),
-        #"FatJet_msoftdrop": jer_shift_function(syst_name, 'msoftdrop', 'FatJet', region_cut),
-        "SubJet1_pt": jer_shift_function(syst_name, 'pt', 'SubJet1', region_cut),
-        "SubJet1_mass": jer_shift_function(syst_name, 'mass', 'SubJet1', region_cut),
-        "SubJet2_pt": jer_shift_function(syst_name, 'pt', 'SubJet2', region_cut),
-        "SubJet2_mass": jer_shift_function(syst_name, 'mass', 'SubJet2', region_cut),
-      },
-      "files": all_files,
-      "years": [yr],
-    }
-    systematics[syst_name]["functions"].update(recalculate)
+for name, uncert in lumi_uncerts.items():
+  systematics[name] = {
+    "function" : [f"{ac_loc}/params/plotting_extra_mass.py","lumi_uncertainty"],
+    'files' : all_files,
+    'years' : uncert,
+  }
 
-
-systematics["isr_ttbar"] = {
-  "functions": {
-    "weight": "weight *(((isr_ttbar>=0)*(isr_ttbar*GenWeights_isr2fsr1)) + ((isr_ttbar<0)*(abs(isr_ttbar)*GenWeights_isr0p5fsr1)))"
-  },
-  "files": ttbar_files,
+# Top pt reweighting uncertainty
+systematics["top_pt_uncert"] = {
+  "function": [f"{ac_loc}/params/plotting_extra_mass.py","top_pt_uncertainty"],
+  "files": all_ttbar_files,
   "years": all_years,
 }
-systematics["isr_st"] = {
-  "functions": {
-    "weight": "weight*(((isr_st>=0)*(isr_st*GenWeights_isr2fsr1)) + ((isr_st<0)*(abs(isr_st)*GenWeights_isr0p5fsr1)))"
-  },
+
+# Renormalisation/factorisation uncertainties
+systematics["renormalisation_scale_uncertainty_ttbar"] = {
+  "function": [f"{ac_loc}/params/plotting_extra_mass.py","renormalisation_scale_uncertainty"],
+  "files": all_ttbar_files,
+  "years": all_years,
+}
+systematics["renormalisation_scale_uncertainty_st"] = {
+  "function": [f"{ac_loc}/params/plotting_extra_mass.py","renormalisation_scale_uncertainty"],
   "files": st_files,
   "years": all_years,
 }
-systematics["fsr"] = {
-  "functions": {
-    "weight": "weight*(((fsr>=0)*(fsr*GenWeights_isr1fsr2)) + ((fsr<0)*(abs(fsr)*GenWeights_isr1fsr0p5)))"
-  },
-  "files": top_files,
+systematics["factorisation_scale_uncertainty_ttbar"] = {
+  "function": [f"{ac_loc}/params/plotting_extra_mass.py","factorisation_scale_uncertainty"],
+  "files": all_ttbar_files,
   "years": all_years,
 }
-systematics["factorisation_scale"] = {
-  "functions": {
-    "weight": "weight*(((factorisation_scale>=0)*(factorisation_scale*GenWeights_muF2muR1)) + ((factorisation_scale<0)*(abs(factorisation_scale)*GenWeights_muF0p5muR1)))"
-  },
-  "files": top_files,
-  "years": all_years,
-}
-systematics["renormalisation_scale"] = {
-  "functions": {
-    "weight": "weight*(((renormalisation_scale>=0)*(renormalisation_scale*GenWeights_muF1muR2)) + ((renormalisation_scale<0)*(abs(renormalisation_scale)*GenWeights_muF1muR0p5)))"
-  },
-  "files": top_files,
+systematics["factorisation_scale_uncertainty_st"] = {
+  "function": [f"{ac_loc}/params/plotting_extra_mass.py","factorisation_scale_uncertainty"],
+  "files": st_files,
   "years": all_years,
 }
 
+# ISR/FSR uncertainties
+systematics['isr_ttbar'] = {
+  "function": [f"{ac_loc}/params/plotting_extra_mass.py","isr_uncertainty"],
+  "files": all_ttbar_files,
+  "years": all_years,
+}
+systematics['isr_st'] = {
+  "function": [f"{ac_loc}/params/plotting_extra_mass.py","isr_uncertainty"],
+  "files": st_files,
+  "years": all_years,
+}
+# FSR is hard because we have already shifted
 
 
 #########
@@ -564,8 +538,6 @@ write_translate = {
   "Data": "data_obs",
 }
 
-for k,v in recalculate.items():
-  calculate[k] = v
 
 
 config = {
@@ -577,9 +549,400 @@ config = {
   "plot_extra_subtract": plot_extra_subtract,
   "plot_extra_colours": plot_extra_colours,
   "variables": variables,
-  "calculate": calculate,
   "translate": translate,
   "systematics": systematics,
   "write_translate": write_translate,
   "scale_to": scale_to,
+  "extra_columns": extra_columns,
+  "all_columns": True,
+  "function_to_apply": [f"{ac_loc}/params/plotting_extra_mass.py","df_processing"],
+  "calculate": calculate,
 }
+
+
+
+### Functions ###
+
+
+def CombineObjects(obj1, obj2):
+
+  # Convert everything to arrays if not already
+  pt1, eta1, phi1, m1 = obj1["pt"], obj1["eta"], obj1["phi"], obj1["mass"]
+  pt2, eta2, phi2, m2 = obj2["pt"], obj2["eta"], obj2["phi"], obj2["mass"]
+
+  # Compute 4-momenta
+  px = pt1 * np.cos(phi1) + pt2 * np.cos(phi2)
+  py = pt1 * np.sin(phi1) + pt2 * np.sin(phi2)
+  pz = pt1 * np.sinh(eta1) + pt2 * np.sinh(eta2)
+  e  = np.sqrt(m1**2 + pt1**2 * np.cosh(eta1)**2) + np.sqrt(m2**2 + pt2**2 * np.cosh(eta2)**2)
+
+  # Compute final kinematics
+  pt   = np.sqrt(px**2 + py**2)
+  mass = np.sqrt(np.maximum(e**2 - px**2 - py**2 - pz**2, 0))
+  eta  = 0.5 * np.log((e + pz) / np.maximum(e - pz, 1e-12))
+  phi  = np.arctan2(py, px)
+
+  return {"pt": pt, "eta": eta, "phi": phi, "mass": mass}
+
+
+def AsymLogNormal(nu, kp=1.2, km=0.8, q=0.5):
+
+  nu = np.asarray(nu)
+
+  out = np.empty_like(nu, dtype=float)
+
+  mask_pos = nu >= q
+  mask_neg = nu < -q
+  mask_mid = ~(mask_pos | mask_neg)
+
+  if isinstance(kp, float):
+    kp = np.full_like(nu, kp, dtype=float)
+  if isinstance(km, float):
+    km = np.full_like(nu, km, dtype=float)
+
+  # nu >= q
+  out[mask_pos] = np.exp(nu[mask_pos] * np.log(kp[mask_pos]))
+
+  # nu < -q
+  out[mask_neg] = np.exp(-nu[mask_neg] * np.log(km[mask_neg]))
+
+  # -q <= nu < q
+  nu_m = nu[mask_mid]
+  out[mask_mid] = np.exp(
+      nu_m * (
+          (np.log(km[mask_mid]) + np.log(kp[mask_mid])) *
+          (3 * nu_m**5 / (8 * q**5)
+            - 5 * nu_m**3 / (4 * q**3)
+            + 15 * nu_m / (8 * q))
+          - np.log(km[mask_mid]) + np.log(kp[mask_mid])
+      ) / 2
+  )
+
+  return out
+
+
+def fsr_weight(
+    df,
+    fsr_value=None,
+  ):
+
+  if fsr_value is not None:
+    df["log_fsr"] = np.log(fsr_value)
+  
+  nu = df["log_fsr"]/np.log(2)
+
+  lower_clip = 0.25
+  higher_clip = 4.0
+  df["GenWeights_isr1fsr0p5"] = df["GenWeights_isr1fsr0p5"].clip(lower=lower_clip, upper=higher_clip)
+  df["GenWeights_isr1fsr2"] = df["GenWeights_isr1fsr2"].clip(lower=lower_clip, upper=higher_clip)
+  asymln = np.clip(AsymLogNormal(nu, kp=df["GenWeights_isr1fsr2"], km=df["GenWeights_isr1fsr0p5"]), 0.0, 10.0)
+  df.loc[:, "weight"] *= asymln
+  return df
+
+
+def df_processing(df, metadata={}):
+
+  # Make a copy of the dataframe to avoid modifying the original
+  df = df.copy()
+
+  # Add era name conversion
+  era_name_conversion = {
+    "2016_PreVFP": 0,
+    "2016_PostVFP": 1,
+    "2017": 2,
+    "2018": 3,
+    "2022_preEE": 4,
+    "2022_postEE": 5,
+    "2023_preBPix": 6,
+    "2023_postBPix": 7,
+  }
+  df["era"] = -1
+  for k, v in era_name_conversion.items():
+    if "era_name" in metadata:
+      if metadata["era_name"].startswith(k):
+        df["era"] = v
+        break
+
+  # Calculate tau ratios
+  for i in ['1','2','3']:
+    for j in ['1','2','3']:
+      if i <= j: continue
+      df[f"FatJet_tau{i}{j}"] = df[f"FatJet_tau{i}"] / df[f"FatJet_tau{j}"]
+      df[f"SubJet1_tau{i}{j}"] = df[f"SubJet1_tau{i}"] / df[f"SubJet1_tau{j}"]
+      df[f"SubJet2_tau{i}{j}"] = df[f"SubJet2_tau{i}"] / df[f"SubJet2_tau{j}"]
+
+  # Calculate leptonic top mass and pt
+  vlepb = CombineObjects(
+    {"pt": df["BJetLep_pt"], "eta": df["BJetLep_eta"], "phi": df["BJetLep_phi"], "mass": df["BJetLep_mass"]},
+    {"pt": df["LeptonSave_pt"], "eta": df["LeptonSave_eta"], "phi": df["LeptonSave_phi"], "mass": df["LeptonSave_mass"]}
+  )
+  df = df.assign(
+    LeptonicTop_pt = vlepb["pt"],
+    LeptonicTop_eta = vlepb["eta"],
+    LeptonicTop_phi = vlepb["phi"],
+    LeptonicTop_mass = vlepb["mass"],
+  )
+
+  # Calculate combined subjets
+  combined_subjets = CombineObjects(
+    {"pt": df["SubJet1_pt"], "eta": df["SubJet1_eta"], "phi": df["SubJet1_phi"], "mass": df["SubJet1_mass"]},
+    {"pt": df["SubJet2_pt"], "eta": df["SubJet2_eta"], "phi": df["SubJet2_phi"], "mass": df["SubJet2_mass"]}
+  )
+  df = df.assign(
+    CombinedSubJets_pt = combined_subjets["pt"],
+    CombinedSubJets_eta = combined_subjets["eta"],
+    CombinedSubJets_phi = combined_subjets["phi"],
+    CombinedSubJets_mass = combined_subjets["mass"],
+  )
+
+  # Apply FSR weight if specified
+  if "TT" in metadata.get("group", ""):
+    df = fsr_weight(df, fsr_value=0.37)
+
+  return df
+
+
+def btm_jec(
+    df, 
+    metadata={},
+    years=["2016_PreVFP","2016_PostVFP","2017","2018","2022_preEE","2022_postEE","2023_preBPix","2023_postBPix"], 
+    include_b=True,
+    include_b_syst=True
+  ):
+
+  # JEC and flavour uncertainties
+  jec_uncert = {
+    # jec
+    "AbsoluteMPFBias": {"Correlation" : 1, "Type" : "corrFactor"},
+    "AbsoluteScale": {"Correlation" : 1, "Type" : "corrFactor"},
+    "AbsoluteStat": {"Correlation" : 0, "Type" : "corrFactor"},
+    "FlavorQCD": {"Correlation" : 1, "Type" : "corrFactor"},
+    "Fragmentation": {"Correlation" : 1, "Type" : "corrFactor"},
+    "PileUpDataMC": {"Correlation" : 1, "Type" : "corrFactor"},
+    "PileUpPtBB": {"Correlation" : 1, "Type" : "corrFactor"},
+    "PileUpPtEC1": {"Correlation" : 1, "Type" : "corrFactor"},
+    "PileUpPtEC2": {"Correlation" : 1, "Type" : "corrFactor"},
+    "PileUpPtHF": {"Correlation" : 1, "Type" : "corrFactor"},
+    "PileUpPtRef": {"Correlation" : 1, "Type" : "corrFactor"},
+    "RelativeFSR": {"Correlation" : 1, "Type" : "corrFactor"},
+    "RelativePtBB": {"Correlation" : 1, "Type" : "corrFactor"},
+    "RelativePtEC1": {"Correlation" : 0, "Type" : "corrFactor"},
+    "RelativePtEC2": {"Correlation" : 0, "Type" : "corrFactor"},
+    "RelativePtHF": {"Correlation" : 1, "Type" : "corrFactor"},
+    "RelativeBal": {"Correlation" : 1, "Type" : "corrFactor"},
+    "RelativeSample": {"Correlation" : 0, "Type" : "corrFactor"},
+    "RelativeStatEC": {"Correlation" : 0, "Type" : "corrFactor"},
+    "RelativeStatFSR": {"Correlation" : 0, "Type" : "corrFactor"},
+    "RelativeStatHF": {"Correlation" : 0, "Type" : "corrFactor"},
+    "SinglePionECAL": {"Correlation" : 1, "Type" : "corrFactor"},
+    "SinglePionHCAL": {"Correlation" : 1, "Type" : "corrFactor"},
+    "TimePtEta": {"Correlation" : 0, "Type" : "corrFactor"},
+    # flavour
+    "FlavorPureGluon" : {"Correlation" : 1, "ObjectSelection" : "abs(MatchedGenJet_$OBJECT_partonFlavour)==21", "Type" : "corrFactor"},
+    "FlavorPureQuark" : {"Correlation" : 1, "ObjectSelection" : "abs(MatchedGenJet_$OBJECT_partonFlavour)<=3", "Type" : "corrFactor"},
+    "FlavorPureCharm" : {"Correlation" : 1, "ObjectSelection" : "abs(MatchedGenJet_$OBJECT_partonFlavour)==4", "Type" : "corrFactor"},
+    "FlavorPureBottom" : {"Correlation" : 1, "ObjectSelection" : "abs(MatchedGenJet_$OBJECT_partonFlavour)==5", "Type" : "corrFactor"},
+    # JER
+    "JER_eta_lt_1p93": {"Correlation" : 1, "ObjectSelection": "$OBJECT_eta < 1.93", "Type" : "smearFactor"},
+    "JER_eta_1p93_to_2p5": {"Correlation" : 1, "ObjectSelection": "($OBJECT_eta >= 1.93) & ($OBJECT_eta < 2.5)", "Type" : "smearFactor"},
+    "JER_eta_2p5_to_3p0_pt_0_to_50": {"Correlation" : 1, "ObjectSelection": "($OBJECT_eta >= 2.5) & ($OBJECT_eta < 3.0) & ($OBJECT_pt < 50)", "Type" : "smearFactor"},
+    "JER_eta_2p5_to_3p0_pt_gt_50": {"Correlation" : 1, "ObjectSelection": "($OBJECT_eta >= 2.5) & ($OBJECT_eta < 3.0) & ($OBJECT_pt >= 50)", "Type" : "smearFactor"},
+    "JER_eta_3p0_to_5p0_pt_0_to_50": {"Correlation" : 1, "ObjectSelection": "($OBJECT_eta >= 3.0) & ($OBJECT_eta < 5.0) & ($OBJECT_pt < 50)", "Type" : "smearFactor"},
+    "JER_eta_3p0_to_5p0_pt_gt_50": {"Correlation" : 1, "ObjectSelection": "($OBJECT_eta >= 3.0) & ($OBJECT_eta < 5.0) & ($OBJECT_pt >= 50)", "Type" : "smearFactor"}
+  }
+
+  # Apply JEC to jets
+  added_columns = []
+  for name, info in jec_uncert.items():
+
+    if info["Correlation"] == 1:
+      syst_names = [name]
+      scalings = 1.0
+    elif info["Correlation"] == 0:
+      syst_names = [f"{name}_{yr}" for yr in years]
+      scalings = 1.0
+    elif info["Correlation"] == 0.5:
+      syst_names = [name] + [f"{name}_{yr}" for yr in years]
+      scalings = 0.5
+
+    for ind in range(len(syst_names)):
+
+      if "syst_name" in metadata:
+        if syst_names[ind] != metadata["syst_name"]:
+          continue
+
+      #if syst_names[ind] not in nuisances:
+      #  continue
+
+      if df[syst_names[ind]].eq(0).all():
+        continue
+
+      # Initiate corrFactor syst columns
+      df[f"SubJet1_shiftFactor_{syst_names[ind]}"] = 1.0
+      df[f"SubJet2_shiftFactor_{syst_names[ind]}"] = 1.0
+      added_columns.extend([f"SubJet1_shiftFactor_{syst_names[ind]}", f"SubJet2_shiftFactor_{syst_names[ind]}"])
+      if include_b:
+        df[f"BJetLep_shiftFactor_{syst_names[ind]}"] = 1.0
+        added_columns.append(f"BJetLep_shiftFactor_{syst_names[ind]}")
+
+      # Apply only to selected events if specified
+      selected_indices = np.ones(len(df), dtype=bool)
+      if "Selection" in info:
+        selected_indices &= df.eval(info["Selection"])
+      subjet1_indices = selected_indices.copy()
+      subjet2_indices = selected_indices.copy()
+      if include_b and include_b_syst:
+        bjetlep_indices = selected_indices.copy()
+      if "ObjectSelection" in info:
+        subjet1_indices &= df.eval(info["ObjectSelection"].replace("$OBJECT", "SubJet1"))
+        subjet2_indices &= df.eval(info["ObjectSelection"].replace("$OBJECT", "SubJet2"))
+        if include_b and include_b_syst:
+          bjetlep_indices &= df.eval(info["ObjectSelection"].replace("$OBJECT", "BJetLep"))
+
+      # Get variations
+      if info["Type"] == "corrFactor":
+
+        corrFactor = lambda df, obj, indices, syst_name, name, scalings: 1.0 + (scalings*df.loc[indices,syst_name]*df.loc[indices,f"{obj}_corrFactor_{name}"]/df.loc[indices,f"{obj}_corrFactor"])
+
+        df.loc[subjet1_indices, f"SubJet1_shiftFactor_{syst_names[ind]}"] = corrFactor(df, "SubJet1", subjet1_indices, syst_names[ind], name, scalings)
+        df.loc[subjet2_indices, f"SubJet2_shiftFactor_{syst_names[ind]}"] = corrFactor(df, "SubJet2", subjet2_indices, syst_names[ind], name, scalings)
+        if include_b and include_b_syst:
+          df.loc[bjetlep_indices, f"BJetLep_shiftFactor_{syst_names[ind]}"] = corrFactor(df, "BJetLep", bjetlep_indices, syst_names[ind], name, scalings)
+
+      elif info["Type"] == "smearFactor":
+        
+        smearFactor = lambda df, obj, indices, syst_name, scalings: 1.0 + ((df.loc[indices,syst_name]>=0) * scalings * df.loc[indices,syst_name] * (df.loc[indices, f"{obj}_smearFactor_up"]-df.loc[indices, f"{obj}_smearFactor"]) / df.loc[indices, f"{obj}_smearFactor"]) + ((df.loc[indices,syst_name]<0) * scalings * abs(df.loc[indices,syst_name]) * (df.loc[indices, f"{obj}_smearFactor_down"]-df.loc[indices, f"{obj}_smearFactor"]) / df.loc[indices, f"{obj}_smearFactor"])
+
+        df.loc[subjet1_indices, f"SubJet1_shiftFactor_{syst_names[ind]}"] = smearFactor(df, "SubJet1", subjet1_indices, syst_names[ind], scalings)
+        df.loc[subjet2_indices, f"SubJet2_shiftFactor_{syst_names[ind]}"] = smearFactor(df, "SubJet2", subjet2_indices, syst_names[ind], scalings)
+        if include_b and include_b_syst:
+          df.loc[bjetlep_indices, f"BJetLep_shiftFactor_{syst_names[ind]}"] = smearFactor(df, "BJetLep", bjetlep_indices, syst_names[ind], scalings)
+
+      # Apply variations
+      df["SubJet1_pt"] *= df[f"SubJet1_shiftFactor_{syst_names[ind]}"]
+      df["SubJet2_pt"] *= df[f"SubJet2_shiftFactor_{syst_names[ind]}"]
+      df["SubJet1_mass"] *= df[f"SubJet1_shiftFactor_{syst_names[ind]}"]
+      df["SubJet2_mass"] *= df[f"SubJet2_shiftFactor_{syst_names[ind]}"]
+      if include_b and include_b_syst:
+        df["BJetLep_pt"] *= df[f"BJetLep_shiftFactor_{syst_names[ind]}"]
+        df["BJetLep_mass"] *= df[f"BJetLep_shiftFactor_{syst_names[ind]}"]
+
+
+  # Combine subjets
+  v12 = CombineObjects(
+    {"pt": df["SubJet1_pt"].values, "eta": df["SubJet1_eta"].values, "phi": df["SubJet1_phi"].values, "mass": df["SubJet1_mass"].values},
+    {"pt": df["SubJet2_pt"].values, "eta": df["SubJet2_eta"].values, "phi": df["SubJet2_phi"].values, "mass": df["SubJet2_mass"].values}
+  )
+
+  df["CombinedSubJets_mass"] = v12["mass"]
+  df["CombinedSubJets_pt"] = v12["pt"]
+
+  if include_b:
+    vlepb = CombineObjects(
+      {"pt": df["BJetLep_pt"], "eta": df["BJetLep_eta"], "phi": df["BJetLep_phi"], "mass": df["BJetLep_mass"]},
+      {"pt": df["LeptonSave_pt"], "eta": df["LeptonSave_eta"], "phi": df["LeptonSave_phi"], "mass": df["LeptonSave_mass"]}
+    )
+    df["LeptonicTop_mass"] = vlepb["mass"]
+    df["LeptonicTop_pt"] = vlepb["pt"]
+
+  return df
+
+
+def lumi_uncertainty(
+    df, 
+    metadata={}
+  ):
+  lumi_uncert = {
+    "lumi_13TeV_1516_l" : {"2016_PreVFP" : 1.0118, "2016_PostVFP" : 1.0118},
+    "lumi_13TeV_151617_l" : {"2016_PreVFP" : 1.0004, "2016_PostVFP" : 1.0004, "2017" : 1.0055},
+    "lumi_13TeV_15161718_l" : {"2016_PreVFP" : 1.0035, "2016_PostVFP" : 1.0035, "2017" : 1.0061, "2018" : 1.0084},
+    "lumi_13p6TeV_2223_l" : {"2022_preEE" : 1.0138, "2022_postEE" : 1.0138, "2023_preBPix" : 1.0017, "2023_postBPix" : 1.0017},
+    "lumi_13p6TeV_23_l" : {"2023_preBPix" : 1.0127, "2023_postBPix" : 1.0127},
+  }
+  for name, uncert in lumi_uncert.items():
+
+    if "syst_name" in metadata:
+      if name != metadata["syst_name"]:
+        continue
+
+    for era, factor in uncert.items():
+      if "era_name" in metadata:
+        if metadata["era_name"].startswith(era):
+          df.loc[:, "weight"] *= (1 + (df[name] * (factor - 1) ))
+
+  return df
+
+
+def top_pt_uncertainty(
+    df, 
+    metadata={}
+  ):
+  asymln = AsymLogNormal(df["top_pt_uncert"], kp=df["ExtraWeights_TopPTReweighting"], km=1/df["ExtraWeights_TopPTReweighting"])
+  df["weight"] *= asymln
+  return df
+
+def factorisation_scale_uncertainty(
+    df, 
+    metadata={}
+  ):
+  if metadata.get("group","").startswith("TT"):
+    nui_name = "factorisation_scale_uncertainty_ttbar"
+  else:
+    nui_name = "factorisation_scale_uncertainty_st"
+
+  # Make sure the weights are never 0, if goes negative them symmetrize
+  df.loc[(df["GenWeights_muF2muR1"]<=0), "GenWeights_muF2muR1"] = 1/df["GenWeights_muF0p5muR1"]
+  df.loc[(df["GenWeights_muF0p5muR1"]<=0), "GenWeights_muF0p5muR1"] = 1/df["GenWeights_muF2muR1"]
+
+  # If still negative set to 1
+  df.loc[(df["GenWeights_muF2muR1"]<=0), "GenWeights_muF2muR1"] = 1.0
+  df.loc[(df["GenWeights_muF0p5muR1"]<=0), "GenWeights_muF0p5muR1"] = 1.0
+
+  # Needs to be on the log of the scale
+
+
+  asymln = AsymLogNormal(df[nui_name], kp=df["GenWeights_muF2muR1"], km=df["GenWeights_muF0p5muR1"])
+  df["weight"] *= asymln
+  return df
+
+def renormalisation_scale_uncertainty(
+    df, 
+    metadata={}
+  ):
+  if metadata.get("group","").startswith("TT"):
+    nui_name = "renormalisation_scale_uncertainty_ttbar"
+  else:
+    nui_name = "renormalisation_scale_uncertainty_st"
+
+  # Make sure the weights are never 0, if goes negative them symmetrize
+  df.loc[(df["GenWeights_muF1muR2"]<=0), "GenWeights_muF1muR2"] = 1/df["GenWeights_muF1muR0p5"]
+  df.loc[(df["GenWeights_muF1muR0p5"]<=0), "GenWeights_muF1muR0p5"] = 1/df["GenWeights_muF1muR2"]
+
+  # If still negative set to 1
+  df.loc[(df["GenWeights_muF1muR2"]<=0), "GenWeights_muF1muR2"] = 1.0
+  df.loc[(df["GenWeights_muF1muR0p5"]<=0), "GenWeights_muF1muR0p5"] = 1.0
+
+  asymln = AsymLogNormal(df[nui_name], kp=df["GenWeights_muF1muR2"], km=df["GenWeights_muF1muR0p5"])
+  df["weight"] *= asymln
+  return df
+
+def isr_uncertainty(
+  df,
+  metadata={}
+):
+  if metadata.get("group","").startswith("TT"):
+    nui_name = "isr_ttbar"
+  else:
+    nui_name = "isr_st"
+
+  # Make sure the weights are never 0, if goes negative them symmetrize
+  df.loc[(df["GenWeights_isr2fsr1"]<=0), "GenWeights_isr2fsr1"] = 1/df["GenWeights_isr0p5fsr1"]
+  df.loc[(df["GenWeights_isr0p5fsr1"]<=0), "GenWeights_isr0p5fsr1"] = 1/df["GenWeights_isr2fsr1"]
+
+  # If still negative set to 1
+  df.loc[(df["GenWeights_isr2fsr1"]<=0), "GenWeights_isr2fsr1"] = 1.0
+  df.loc[(df["GenWeights_isr0p5fsr1"]<=0), "GenWeights_isr0p5fsr1"] = 1.0
+
+  asymln = AsymLogNormal(df[nui_name], kp=df["GenWeights_isr2fsr1"], km=df["GenWeights_isr0p5fsr1"])
+  df["weight"] *= asymln
+  return df

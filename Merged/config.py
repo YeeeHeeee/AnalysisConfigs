@@ -206,7 +206,8 @@ cfg = Configurator(
             f"{localdir}/../Datasets/DATA_SingleEle.json",
         ],
         "filter" : {
-            "samples": ttbar_samples + ttbar_mass_samples + wjet_samples + st_samples + qcd_samples + other_samples + data_samples,
+            #"samples": ttbar_samples + ttbar_mass_samples + wjet_samples + st_samples + qcd_samples + other_samples + data_samples,
+            "samples": wjet_samples + st_samples + qcd_samples + other_samples + data_samples,
             "samples_exclude" : [],
             "year": ['2016_PreVFP', '2016_PostVFP', '2017', '2018', '2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix']
         },
@@ -381,6 +382,61 @@ cfg = Configurator(
                     ["isr2fsr1", "isr1fsr2", "isr0p5fsr1", "isr1fsr0p5", "muF0p5muR0p5", "muF1muR0p5", "muF2muR0p5", "muF0p5muR1", "muF1muR1", "muF2muR1", "muF0p5muR2", "muF1muR2", "muF2muR2", "pdf_max", "pdf_min", "pdf_rmse"],
                     flatten=False
                 ),
+                ColOut(
+                    "GenTopHadronic",
+                    ["pt", "eta", "phi", "mass"],
+                    flatten=False
+                ),
+                ColOut(
+                    "GenTopLeptonic",
+                    ["pt", "eta", "phi", "mass"],
+                    flatten=False
+                ),   
+                ColOut(
+                    "GenWHadronic",
+                    ["pt", "eta", "phi", "mass"],
+                    flatten=False
+                ),               
+                ColOut(
+                    "GenWLeptonic",
+                    ["pt", "eta", "phi", "mass"],
+                    flatten=False
+                ),         
+                ColOut(
+                    "GenBQuarkHadronic",
+                    ["pt", "eta", "phi", "mass"],
+                    flatten=False
+                ),    
+                ColOut(
+                    "GenBQuarkLeptonic",
+                    ["pt", "eta", "phi", "mass"],
+                    flatten=False
+                ),    
+                ColOut(
+                    "GenLepton",
+                    ["pt", "eta", "phi", "mass"],
+                    flatten=False
+                ),  
+                ColOut(
+                    "GenLightQuark1",
+                    ["pt", "eta", "phi", "mass"],
+                    flatten=False
+                ),  
+                ColOut(
+                    "GenLightQuark2",
+                    ["pt", "eta", "phi", "mass"],
+                    flatten=False
+                ),  
+                ColOut(
+                    "deltaR_Jet_Gen",
+                    ["FatJet_GenTopHadronic","FatJet_GenWHadronic","FatJet_GenBQuarkHadronic","FatJet_GenLightQuark1","FatJet_GenLightQuark2","SubJet1_GenLightQuark1","SubJet1_GenLightQuark2","SubJet1_GenBQuarkHadronic","SubJet2_GenLightQuark1","SubJet2_GenLightQuark2","SubJet2_GenBQuarkHadronic"],
+                    flatten=False
+                ),
+                ColOut(
+                    "MergingInfo",
+                    ["FatJet_TopDecaysMerged","FatJet_WDecaysMerged","SubJet1_WDecaysMerged","SubJet2_WDecaysMerged","SubJet1_BMerged","SubJet2_BMerged"],
+                    flatten=False
+                )
             ],
             "bycategory": {},
         },

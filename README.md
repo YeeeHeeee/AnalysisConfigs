@@ -86,7 +86,7 @@ cd Merged
 In the following commands we use global variables defined the configure the output directories. Here is an example of how to do this.
 
 ```bash
-job_name="271125"
+job_name="260126_v2"
 eos_folder="/eos/user/g/guttley/pc_output"
 ```
 
@@ -152,7 +152,7 @@ python3 ../scripts/check_jobs.py --jobs-folder="jobs/${job_name}_2016_PreVFP/job
 To do this for the local test, you can simply run this.
 
 ```bash
-python3 scripts/convert_coffea_to_parquet.py --input="output/${job_name}_test/*.coffea" --output="output/${job_name}_test_parquet"
+python3 ../scripts/convert_coffea_to_parquet.py --input="output/${job_name}_test/*.coffea" --output="output/${job_name}_test_parquet"
 ```
 
 
@@ -176,6 +176,7 @@ python3 ../scripts/convert_coffea_to_parquet.py --input="${eos_folder}/${job_nam
 To do this, first define the input string (assuming `years` is already defined).
 
 ```bash
+years=("2016_PreVFP" "2016_PostVFP" "2017" "2018" "2022_preEE" "2022_postEE" "2023_preBPix" "2023_postBPix")
 file_string=""
 for year in "${years[@]}"; do file_string+="${eos_folder}/${job_name}_${year}/*.coffea,"; done
 file_string="${file_string%,}"
@@ -208,16 +209,16 @@ for yr in "${years[@]}"; do python3 ../scripts/make_bw_samples.py --input="${eos
 To run the plotting we first define a few globale variables.
 
 ```bash
-plots_name="061225"
+plots_name="310126"
 pre_selection="((JetLepton_deltaR>0.25) & (JetLepton_ptrel>30))"
-post_selection="((CombinedSubJets_pt>400) & (LeptonicTop_mass<CombinedSubJets_mass))"
+post_selection="((CombinedSubJets_pt>400) & (LeptonicTop_mass<CombinedSubJets_mass) & (MET_pt>50))"
 years=("run2" "run3")
 ```
 
 To run the plotting you can use the `plot_from_parquet` file.
 
 ```bash
-for yr in "${years[@]}"; do python3 ../scripts/plot_from_parquet.py --input="${eos_folder}/${job_name}_parquet" --output="../plots/${plots_name}" --include-fraction --cfg="../params/plotting_extra_mass.py" --year=${yr} --pre-sel="${pre_selection}" --sel="${post_selection}"; done
+for yr in "${years[@]}"; do python3 ../scripts/plot_from_parquet.py --input="${eos_folder}/${job_name}_parquet" --output="../plots/${plots_name}" --include-fraction --cfg="../params/plotting_extra_mass.py" --year=${yr} --pre-sel="${pre_selection}" --sel="${post_selection}" --norm-groups-to-data="TT Merged (172.5 GeV),TT Unmerged (172.5 GeV)"; done
 ```
 
 There are some booleans defined in `plotting_extra_mass.py` which can alter what is run. The variables plotted are also defined here.
@@ -234,6 +235,7 @@ for yr in "${years[@]}"; do python3 ../scripts/plot_from_parquet.py --input="${e
 This may be slow so you may want to run it on the batch. Here we define the command first.
 
 ```bash
+yr=run2
 cmd='python3 ../scripts/plot_from_parquet.py --input="${eos_folder}/${job_name}_parquet" --output="../plots/${plots_name}_jobs" --include-fraction --cfg="../params/plotting_extra_mass.py" --year=${yr} --var="CombinedSubJets_mass" --write --syst --pre-sel="${pre_selection}" --sel="${post_selection}" --points-per-job=20'
 ```
 
@@ -242,5 +244,5 @@ Then you can run these commands to submit, then to hadd (once finished) and then
 ```bash
 eval ${cmd} --submit
 eval ${cmd} --hadd
-eval ${cmd} --output="../plots/${plots_name}_jobs" --load-from-root="../plots/${plots_name}_datacards/datacard_CombinedSubJets_mass.root" --rebin --norm-to-bin-width --write-after-load --syst
+eval ${cmd} --output="../plots/${plots_name}_datacards" --load-from-root="../plots/${plots_name}_jobs/datacard_CombinedSubJets_mass.root" --rebin --norm-to-bin-width --write-after-load --syst
 ```

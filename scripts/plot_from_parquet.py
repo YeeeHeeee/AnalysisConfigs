@@ -13,6 +13,8 @@ import uproot
 import boost_histogram as bh
 from tabulate import tabulate
 import importlib.util
+import sys
+from pathlib import Path
 from Functions.Plotting import plot_stacked_histogram_with_ratio, plot_histograms_with_ratio
 from Functions.rebinning import find_rebinning, rebin_histogram
 hep.style.use("CMS")
@@ -43,6 +45,7 @@ parser.add_argument('--rebin-fraction', help='The bin uncertainty fraction thres
 parser.add_argument('--rebin-count', help='The bin count threshold', type=float, default=10)
 parser.add_argument('--rebin-from', help='Data or MC', type=str, default="Data")
 parser.add_argument('--rebin-bins', help='Comma separated list to rebin to if loading in histograms', type=str, default=None)
+parser.add_argument('--norm-groups-to-data', help='Comma separated list of groups to normalise to data', type=str, default=None)
 parser.add_argument('--norm-to-bin-width', help='Normalise to bin width', action='store_true', default=False)
 parser.add_argument('--load-from-root', help='Root file to load histograms from', type=str, default=None)
 parser.add_argument('--specific-histogram', help='Specific histogram to make', type=str, default=None)
@@ -51,6 +54,7 @@ parser.add_argument('--hadd', help='Submit all histograms to the batch', action=
 parser.add_argument('--points-per-job', help='Number of points per job', type=int, default=20)
 parser.add_argument('--write-after-load', help='Write histogram to root file after loading from root', action='store_true', default=False)
 parser.add_argument('--extra-name', help='Extra name for root output', type=str, default=None)
+
 
 args = parser.parse_args()
 
@@ -106,7 +110,8 @@ class GetHistograms:
     points_per_job=20,
     write_after_load=False,
     output = "./",
-    extra_name=None
+    extra_name=None,
+    norm_groups_to_data=None,
     ):
     self.input_folder = input_folder
     self.var = var
@@ -133,6 +138,7 @@ class GetHistograms:
     self.write_after_load = write_after_load
     self.output = output
     self.extra_name = extra_name
+    self.norm_groups_to_data = norm_groups_to_data.split(",") if norm_groups_to_data is not None else []
 
     # Load the config file
     if ".yaml" in cfg:
@@ -177,6 +183,7 @@ class GetHistograms:
     self.n_per_job = points_per_job
     self.submit_ind = 0
     self.command_ind = 0
+    self.files_groups_ran = {}
 
     if self.load_from_root:
       self.root_file = uproot.open(self.load_from_root)
@@ -243,6 +250,20 @@ class GetHistograms:
     self.files = sorted(list(set(self.files)))
     if len(self.files) == 0:
       raise FileNotFoundError(f"No parquet files found in {self.input_folder}")
+    
+    # If file in group twice, duplicate it
+    new_files = []
+    for group_files in self.total_groups.values():
+      for gf in group_files:
+        for file in self.files:
+          file_name = file.split("/")[-1]
+          if "*" not in gf:
+            if file_name in gf:
+              new_files.append(file)
+          elif fnmatch.fnmatch(file_name, gf):
+            new_files.append(file)
+      
+    self.files = copy.deepcopy(new_files)
 
   def _get_scale_factors(self):
     self.scale_factors = {}
@@ -257,8 +278,16 @@ class GetHistograms:
     for k, v in self.total_groups.items():
       for fn in v:
         if fnmatch.fnmatch(f.split("/")[-1], fn):
+
+          if k not in self.files_groups_ran.keys():
+            self.files_groups_ran[k] = []
+
+          if f in self.files_groups_ran[k]: continue
+
           match_found = True
           group = k
+
+          self.files_groups_ran[k].append(f)
           break
       if match_found:
         break
@@ -340,7 +369,7 @@ class GetHistograms:
     reserved = {"and", "or", "not", "cos", "sin", "sinh", "cosh", "tanh", "abs", "exp", "sqrt", "arctan2", "arcsinh", "arccosh", "arctanh", "log", "log10"}
     return [t for t in tokens if t not in reserved]
 
-  def _get_histograms(self, df, calculate, selection, file_name, group, total_name, save_to="Nom", group_name=None):
+  def _get_histograms(self, df, calculate, selection, file_name, group, total_name, save_to="Nom", group_name=None, function_to_apply=None, metadata_for_function={}):
 
     # Calculate the histograms
     if self.load_from_root is None:
@@ -364,6 +393,10 @@ class GetHistograms:
             for k in tokens:
               local_dict[k] = df[k]
             df[col_name] = eval(func, {"np": np}, local_dict)
+
+      # Apply function to apply
+      if function_to_apply is not None:
+        df = function_to_apply(df, metadata={"file_name": file_name, "group": group, **metadata_for_function})
 
       # Apply selection if provided
       for sel in selection:
@@ -514,11 +547,103 @@ class GetHistograms:
             self.stores[shift_name][hist_name][var][group] = copy.deepcopy(hist)
             self.stores[shift_name][var_name][var][group] = uncert**2
 
+  def _norm_groups_to_data(self):
+
+    for var in self.cfg["variables"].keys():
+
+      data_integral = self.stores["Nom"]["sum_wt"][var]["Total_Data"]
+      mc_integral = self.stores["Nom"]["sum_wt"][var]["Total_MC"]
+
+      group_integral = 0.0
+      for group in self.norm_groups_to_data:
+        group_integral += self.stores["Nom"]["sum_wt_per_group"][var][group]
+
+      #group_integral = np.sum(total_group_hist)
+      norm_factor = (data_integral - mc_integral + group_integral) / group_integral 
+      post_scale_factors = {}
+      for group in self.norm_groups_to_data:
+        post_scale_factors[group] = norm_factor
+
+      # Loop over files
+      self.files_groups_ran = {}
+      for f in self.files:
+
+        # Check if file is in groups
+        k = self._check_file_in_groups(f)
+
+        if k is None: continue
+        if k not in self.norm_groups_to_data: continue
+
+        # Get the file names
+        file_name, era_name, file_name_minus_era = self._get_file_names(f)
+        total_name = "Total_MC" if "Data" not in k else "Total_Data"
+
+        scale_factor = post_scale_factors[k]
+
+        # Do Nom
+        save_to = "Nom"
+        if var not in self.stores[save_to]["hists_per_file"]: continue
+        if file_name not in self.stores[save_to]["hists_per_file"][var]: continue
+
+        # Do totals by subtractin old and adding new
+        self.stores[save_to]["hists"][var][total_name] += (self.stores[save_to]["hists_per_file"][var][file_name] * (scale_factor - 1.0))
+        self.stores[save_to]["hists_squared"][var][total_name] += self.stores[save_to]["hists_squared_per_file"][var][file_name] * (scale_factor**2 - 1.0)
+        self.stores[save_to]["sum_wt"][var][total_name] += self.stores[save_to]["sum_wt_per_file"][var][file_name] * (scale_factor - 1.0)
+
+        # Do total systematics
+        if "systematics" in self.cfg and "Data" not in k and self.syst:
+          for syst_name, syst_info in self.cfg["systematics"].items():
+            for shift in ["Down", "Up"]:
+              if var not in self.stores[shift]["hists_per_file"]: continue
+              file_key = f"{file_name}_{syst_name}"
+              if file_key not in self.stores[shift]["hists_per_file"][var]: continue
+
+              self.stores[shift]["hists"][var][syst_name] += self.stores[shift]["hists_per_file"][var][file_key] * (scale_factor - 1.0)
+              self.stores[shift]["hists_squared"][var][syst_name] += self.stores[shift]["hists_squared_per_file"][var][file_key] * (scale_factor**2 - 1.0)
+              self.stores[shift]["sum_wt"][var][syst_name] += self.stores[shift]["sum_wt_per_file"][var][file_key] * (scale_factor - 1.0)
+
+        # Scale groups
+        self.stores["Nom"]["hists_per_group"][var][k] += self.stores[save_to]["hists_per_file"][var][file_name] * (scale_factor - 1.0)
+        self.stores["Nom"]["hists_squared_per_group"][var][k] += self.stores[save_to]["hists_squared_per_file"][var][file_name] * (scale_factor**2 - 1.0)
+        self.stores["Nom"]["sum_wt_per_group"][var][k] += self.stores[save_to]["sum_wt_per_file"][var][file_name] * (scale_factor - 1.0)
+
+        # Do systematics groups
+        if "systematics" in self.cfg and "Data" not in k and self.syst:
+          for syst_name, syst_info in self.cfg["systematics"].items():
+            for shift in ["Down", "Up"]:
+              if var not in self.stores[shift]["hists_per_file"]: continue
+              file_key = f"{file_name}_{syst_name}"
+              if file_key not in self.stores[shift]["hists_per_file"][var]: continue
+              self.stores[shift]["hists_per_group"][var][f"{k}_{syst_name}"] += self.stores[shift]["hists_per_file"][var][file_key] * (scale_factor - 1.0)
+              self.stores[shift]["hists_squared_per_group"][var][f"{k}_{syst_name}"] += self.stores[shift]["hists_squared_per_file"][var][file_key] * (scale_factor**2 - 1.0)
+              self.stores[shift]["sum_wt_per_group"][var][f"{k}_{syst_name}"] += self.stores[shift]["sum_wt_per_file"][var][file_key] * (scale_factor - 1.0)
+
+        # Do Nom
+        self.stores[save_to]["hists_per_file"][var][file_name] = self.stores[save_to]["hists_per_file"][var][file_name] * scale_factor
+        self.stores[save_to]["hists_squared_per_file"][var][file_name] = self.stores[save_to]["hists_squared_per_file"][var][file_name] * (scale_factor**2)
+        self.stores[save_to]["sum_wt_per_file"][var][file_name] = self.stores[save_to]["sum_wt_per_file"][var][file_name] * scale_factor
+
+        # Do Up and Down
+        if "systematics" in self.cfg and "Data" not in k and self.syst:
+          for syst_name, syst_info in self.cfg["systematics"].items():
+            for save_to in ["Down", "Up"]:
+              if era_name not in self.eras: continue
+              file_key = f"{file_name}_{syst_name}"
+              if var not in self.stores[save_to]["hists_per_file"]: continue
+              if file_key not in self.stores[save_to]["hists_per_file"][var]: continue
+              self.stores[save_to]["hists_per_file"][var][file_key] = self.stores[save_to]["hists_per_file"][var][file_key] * scale_factor
+              self.stores[save_to]["hists_squared_per_file"][var][file_key] = self.stores[save_to]["hists_squared_per_file"][var][file_key] * (scale_factor**2)
+              self.stores[save_to]["sum_wt_per_file"][var][file_key] = self.stores[save_to]["sum_wt_per_file"][var][file_key] * scale_factor
+
+      print(self.stores["Nom"]["sum_wt_per_group"][var])
+      print(self.stores["Nom"]["sum_wt"][var])
+
   def _scale_to(self):
 
     for var in self.cfg["variables"].keys():
 
       # Loop over files
+      self.files_groups_ran = {}
       for f in self.files:
 
         # Check if file is in groups
@@ -534,7 +659,17 @@ class GetHistograms:
 
         total_name = "Total_MC" if "Data" not in k else "Total_Data"
 
-        scale_factor = self.stores["Nom"]["sum_wt_per_group"][var][self.cfg["scale_to"][k]] / self.stores["Nom"]["sum_wt_per_group"][var][k]
+        # Get scale factor
+        if isinstance(self.cfg["scale_to"][k], str):
+          scale_to_files = [self.cfg["scale_to"][k]]
+        else:
+          scale_to_files = self.cfg["scale_to"][k]
+
+        numerator = 0.0
+        for scale_to_file in scale_to_files:
+          if scale_to_file in self.stores["Nom"]["sum_wt_per_group"][var].keys():
+            numerator += self.stores["Nom"]["sum_wt_per_group"][var][scale_to_file]
+        scale_factor = numerator / self.stores["Nom"]["sum_wt_per_group"][var][k]
 
         # Do Nom
         save_to = "Nom"
@@ -577,7 +712,18 @@ class GetHistograms:
       for k in self.cfg["scale_to"].keys():
 
         if k not in self.stores["Nom"]["hists_per_group"][var].keys(): continue
-        scale_factor = self.stores["Nom"]["sum_wt_per_group"][var][self.cfg["scale_to"][k]] / self.stores["Nom"]["sum_wt_per_group"][var][k]
+        
+        if isinstance(self.cfg["scale_to"][k], str):
+          scale_to_files = [self.cfg["scale_to"][k]]
+        else:
+          scale_to_files = self.cfg["scale_to"][k]
+
+        numerator = 0.0
+        for scale_to_file in scale_to_files:
+          if scale_to_file in self.stores["Nom"]["sum_wt_per_group"][var].keys():
+            numerator += self.stores["Nom"]["sum_wt_per_group"][var][scale_to_file]
+
+        scale_factor = numerator / self.stores["Nom"]["sum_wt_per_group"][var][k]
 
         # Total
         if k in self.cfg["groups"].keys():
@@ -617,6 +763,9 @@ class GetHistograms:
     #  cols += self._get_tokens(self.sel)
     if self.pre_sel is not None:
       cols += self._get_tokens(self.pre_sel)
+    if "extra_columns" in self.cfg:
+      for col in self.cfg["extra_columns"]:
+        cols += [col]
     if self.cfg["calculate"] is not None:
       for k, v in self.cfg["calculate"].items():
         cols += [v1 for v1 in self._get_tokens(v) if v1 not in calc_cols]
@@ -625,7 +774,7 @@ class GetHistograms:
     if "systematics" in self.cfg and "Data" not in k and self.syst:
       for syst_name, syst_info in self.cfg["systematics"].items():
         calc_cols += [syst_name]
-        for func_key, func in syst_info["functions"].items():
+        for func_key, func in syst_info["string_functions"].items():
           cols += [v1 for v1 in self._get_tokens(func) if v1 not in calc_cols]
           if func_key not in cols:
             calc_cols += [func_key]
@@ -702,7 +851,7 @@ class GetHistograms:
       f"Executable = {job_name}",
       f"Error = {job_name.replace('.sh', '_$(ClusterId).$(ProcId).err')}",
       f"Output = {job_name.replace('.sh', '_$(ClusterId).$(ProcId).out')}",
-      f"Log = {job_name.replace('.sh', '_$(ClusterId).$(ProcId).log')}",
+      f"Log = {job_name.replace('.sh', '_$(ClusterId).log')}",
       "MY.SendCredential = True",
       "MY.SingularityImage = \"/cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cms-analysis/general/pocketcoffea:lxplus-el9-576bd3cd\"",
       "+JobFlavour = \"longlunch\"",
@@ -726,9 +875,26 @@ class GetHistograms:
 
   def Run(self):
 
+    # Load function to apply
+    if "function_to_apply" in self.cfg and self.cfg["function_to_apply"] is not None and not self.submit:
+      path = self.cfg["function_to_apply"][0]   # full .py file path
+      func_name = self.cfg["function_to_apply"][1]
+      module_name = Path(path).stem  # plotting_extra_mass
+      spec = importlib.util.spec_from_file_location(module_name, path)
+      module = importlib.util.module_from_spec(spec)
+      sys.modules[module_name] = module
+      spec.loader.exec_module(module)
+      func = getattr(module, func_name)
+    else:
+      func = None
+
+
     # Loop over files
     previous_file = None
     previous_year = None
+    file_names_run = []
+    file_names_ext_nums = {}
+    self.files_groups_ran = {}
     for f in self.files:
 
       # Check if file is in groups
@@ -747,13 +913,18 @@ class GetHistograms:
         if not run_file:
           continue
 
+      # Check if we should just load all columns
+      if "all_columns" in self.cfg and self.cfg["all_columns"]:
+        needed_columns = None
+      else:
+        needed_columns = self._get_needed_columns(k)
+
       print(f"Processing {file_name} for group {k}")
 
       # Read the parquet file
       if not self.submit:
         if self.load_from_root is None:
 
-          needed_columns = self._get_needed_columns(k)
           loaded_df = pd.read_parquet(f, columns=needed_columns)
 
           if loaded_df.empty: continue
@@ -762,8 +933,24 @@ class GetHistograms:
             df = loaded_df.query(self.pre_sel)
           else:
             df = loaded_df.copy()
+
+          # Apply function
+          if func is not None:
+            df = func(df, metadata={"file_name": file_name, "group": k, "era": era_name, "cfg": self.cfg})
+
         else:
           df = None
+
+      # Check if file_name has already been run (for multiple eras in same file)
+      if file_name in file_names_run:
+        if file_name not in file_names_ext_nums.keys():
+          file_names_ext_nums[file_name] = 0
+        file_names_ext_nums[file_name] += 1
+        file_name_ext = f"{file_name}_ext_{file_names_ext_nums[file_name]}"
+      else:
+        file_name_ext = file_name
+      file_names_run.append(file_name)
+
 
       # Get nominal histograms and return nominal df
       if "DATA" not in file_name:
@@ -779,7 +966,7 @@ class GetHistograms:
           self._submit(specific_histogram_name=root_file_name)
         else:
           print("Running nominal")
-          _ = self._get_histograms(df.copy() if df is not None else None, calculate, sel, file_name, k, "Total_MC" if "Data" not in k else "Total_Data", save_to="Nom", group_name=k)
+          _ = self._get_histograms(df.copy() if df is not None else None, calculate, sel, file_name_ext, k, "Total_MC" if "Data" not in k else "Total_Data", save_to="Nom", group_name=k)
 
       # Get systemtics histograms
       if "systematics" in self.cfg and "Data" not in k and self.syst:
@@ -800,19 +987,35 @@ class GetHistograms:
               print(f"Running systematic {syst_name}{shift_name}")
               syst_calculate = [{syst_name: syst_val}]
               syst_calculate += [self.cfg["calculate"]] if "calculate" in self.cfg else []
-              syst_calculate += [syst_info["functions"]]
-
+              function_to_apply = None
+              if "string_functions" in syst_info:
+                syst_calculate += [syst_info["string_functions"]]
+              elif "function" in syst_info:
+                path = syst_info["function"][0]   # full .py file path
+                func_name = syst_info["function"][1]
+                module_name = Path(path).stem  # plotting_extra_mass
+                spec = importlib.util.spec_from_file_location(module_name, path)
+                module = importlib.util.module_from_spec(spec)
+                sys.modules[module_name] = module
+                spec.loader.exec_module(module)
+                function_to_apply = getattr(module, func_name)
               if self.submit:
                 self._submit(specific_histogram_name=root_syst_file_name)
               else: 
-                _ = self._get_histograms(df.copy() if df is not None else None, syst_calculate, sel, f"{file_name}_{syst_name}", f"{k}_{syst_name}", syst_name, save_to=shift_name, group_name=k)
+                _ = self._get_histograms(df.copy() if df is not None else None, syst_calculate, sel, f"{file_name_ext}_{syst_name}", f"{k}_{syst_name}", syst_name, save_to=shift_name, group_name=k, function_to_apply=function_to_apply, metadata_for_function={"syst_name": syst_name, "shift_name": shift_name, "syst_val": syst_val, "era_name": era_name})
 
             else:
 
               if self.specific_histogram is None and not self.submit:
-                self._add_nom_to_syst_groups(shift_name, k, file_name, syst_name)
+                self._add_nom_to_syst_groups(shift_name, k, file_name_ext, syst_name)
+
 
     if self.specific_histogram is None and not self.submit:
+
+      # Normalise groups to data
+      if self.norm_groups_to_data is not None:
+        self._norm_groups_to_data()
+
       # Do scale to
       if "scale_to" in self.cfg and self.cfg["scale_to"] is not None:
         self._scale_to()
@@ -869,7 +1072,8 @@ gh = GetHistograms(
   points_per_job=args.points_per_job,
   write_after_load=args.write_after_load,
   output=args.output,
-  extra_name=args.extra_name
+  extra_name=args.extra_name,
+  norm_groups_to_data=args.norm_groups_to_data,
 )
 
 # hadd
@@ -902,7 +1106,7 @@ if args.hadd:
 
     out_files[var].close()
     print(f"[OK] Wrote merged file: {out_file_path}")
-    exit()
+  exit(0)
 
 gh.Run()
 
@@ -958,6 +1162,13 @@ for var in gh.cfg["variables"].keys():
     down_variance = copy.deepcopy(gh.stores["Nom"]["hists_squared"][var]["Total_MC"])
     nom_hist = copy.deepcopy(gh.stores["Nom"]["hists"][var]["Total_MC"])
     for syst_name in gh.cfg["systematics"].keys():
+
+      for syst_era in gh.cfg["systematics"][syst_name]["years"]:
+        if syst_era in gh.eras:
+          break
+      else:
+        continue
+
       up_shift = np.zeros_like(nom_hist)
       down_shift = np.zeros_like(nom_hist)
       if syst_name in gh.stores["Up"]["hists"][var].keys():
@@ -966,6 +1177,7 @@ for var in gh.cfg["variables"].keys():
         down_shift = copy.deepcopy(gh.stores["Down"]["hists"][var][f"{syst_name}"]) - nom_hist
       up_hist = np.array([max(max(down_shift[i], up_shift[i]),0.0) for i in range(len(down_variance))])
       down_hist = np.array([min(min(down_shift[i], up_shift[i]),0.0) for i in range(len(down_variance))])
+
       print(syst_name, "up hist sum:", np.sum(up_hist), "down hist sum:", np.sum(down_hist))
       up_variance += up_hist**2
       down_variance += down_hist**2
@@ -1061,7 +1273,8 @@ for var in gh.cfg["variables"].keys():
     line_hist_dict=extra_hists,
     line_colours=gh.cfg["plot_extra_colours"],
     cms_label=args.cms_label,
-    lumi_label=lumi_labels[args.year]
+    lumi_label=lumi_labels[args.year],
+    uncertainty_label="Stat. Uncertainty" if not args.syst else "Stat. + Syst. Uncertainty"
   )
 
   
@@ -1069,16 +1282,12 @@ for var in gh.cfg["variables"].keys():
   if args.syst and len(gh.cfg["systematics"].keys()) > 0 and args.plot_syst_variation:
     for syst_name in gh.cfg["systematics"].keys():
 
-      era_name = None
-      for i in range(len(syst_name.split("_"))-1, -1, -1):
-        if syst_name.split("_")[i].isdigit():
-          era_name = "_".join(syst_name.split("_")[i:])
+      # Check if the era of the systematic is relevant
+      for syst_era in gh.cfg["systematics"][syst_name]["years"]:
+        if syst_era in gh.eras:
           break
-      if era_name is not None:
-        if era_name not in gh.eras:
-          print(f"Skipping systematic {syst_name} as not relevant for year {args.year}")
-          continue
-
+      else:
+        continue
 
       for group in gh.total_groups.keys():
         if group == "Data": continue
