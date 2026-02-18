@@ -22,7 +22,7 @@ def sf_ele_id_func(params, metadata, events, size, shape_variations):
     # Get the scale factor for electron ID based on the year
     if metadata["year"] in ["2016_PreVFP", "2016_PostVFP", "2017", "2018"]:
         params["object_preselection"]["Electron"]["id"] = params["object_preselection"]["Electron"]["id1"]
-    elif metadata["year"] in ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix"]:
+    elif metadata["year"] in ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix", "2024"]:
         params["object_preselection"]["Electron"]["id"] = params["object_preselection"]["Electron"]["id2"]
     
     # Apply the scale factor to the electrons in the events
@@ -46,7 +46,7 @@ def sf_ele_trigger_func(params, metadata, events, size, shape_variations):
     if metadata["year"] in ["2016_PreVFP", "2016_PostVFP", "2017", "2018"]:
       #sf = sf_ele_trigger_run2(params, events, metadata["year"])
       sf = np.ones(len(events)) # Needs to be fixed, as the run2 scale factors are not available in the new format
-    elif metadata["year"] in ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix"]:
+    elif metadata["year"] in ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix", "2024"]:
       sf = sf_ele_trigger_run3(params, events, metadata["year"])
     else:
       sf = np.ones(len(events))

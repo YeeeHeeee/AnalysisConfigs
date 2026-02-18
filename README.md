@@ -35,6 +35,7 @@ To use the apptainer you can run the following command.
 apptainer shell \
   -B /afs \
   -B /cvmfs/cms.cern.ch \
+  -B /cvmfs/cms-griddata.cern.ch \
   -B /tmp \
   -B /eos/cms/ \
   -B /eos/user/$(whoami | cut -c1)/$(whoami) \

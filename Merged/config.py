@@ -77,6 +77,9 @@ parameters = defaults.merge_parameters_from_files(default_parameters,
                                                   f"{localdir}/../params/btagging.yaml",
                                                   f"{localdir}/../params/met_corrections.yaml",
                                                   f"{localdir}/../params/jet_veto_maps.yaml",
+                                                  f"{localdir}/../params/event_flags.yaml",
+                                                  f"{localdir}/../params/lepton_scale_factors.yaml",
+                                                  f"{localdir}/../params/pileup.yaml",
                                                   update=True)
 
 
@@ -91,10 +94,10 @@ data_samples = [
 ]
 ttbar_samples = [
     "TTToSemiLeptonic",
-    "TTTo2L2Nu",
-    "TTToHadronic",
-    "TTMtt700To1000",
-    "TTMtt1000",
+    #"TTTo2L2Nu",
+    #"TTToHadronic",
+    #"TTMtt700To1000",
+    #"TTMtt1000",
 ]
 ttbar_mass_samples = [
     "TTToSemiLeptonic166p5",
@@ -207,9 +210,10 @@ cfg = Configurator(
         ],
         "filter" : {
             #"samples": ttbar_samples + ttbar_mass_samples + wjet_samples + st_samples + qcd_samples + other_samples + data_samples,
-            "samples": wjet_samples + st_samples + qcd_samples + other_samples + data_samples,
+            #"samples": wjet_samples + st_samples + qcd_samples + other_samples + data_samples,
+            "samples": ttbar_samples,
             "samples_exclude" : [],
-            "year": ['2016_PreVFP', '2016_PostVFP', '2017', '2018', '2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix']
+            "year": ['2016_PreVFP', '2016_PostVFP', '2017', '2018', '2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix', '2024']
         },
         "subsamples": {
             'DATA_SingleEle'  : {

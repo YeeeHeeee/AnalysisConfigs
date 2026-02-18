@@ -8,6 +8,7 @@ default_jets_calibration:
     2022_postEE: False
     2023_preBPix: False
     2023_postBPix: False
+    "2024": False
 
   rescale_MET:
     2016_PreVFP: False
@@ -18,6 +19,7 @@ default_jets_calibration:
     2022_postEE: False
     2023_preBPix: False
     2023_postBPix: False
+    "2024": False
 
 jets_calibration:
   apply_jec_nominal:
@@ -29,6 +31,8 @@ jets_calibration:
     2022_postEE: False
     2023_preBPix: False
     2023_postBPix: False
+    "2024": False
+
 
   rescale_MET:
     2016_PreVFP: False
@@ -39,3 +43,4 @@ jets_calibration:
     2022_postEE: False
     2023_preBPix: False
     2023_postBPix: False
+    "2024": False

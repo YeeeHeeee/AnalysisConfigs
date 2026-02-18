@@ -209,17 +209,22 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         # Avoid code duplicate
         super().apply_object_preselection(variation=variation)
         
+        # If NanoAODv15 define MET as the PFMET
+        if self._year == "2024":
+            self.events["MET"] = self.events.PFMET
+
         # MET
         if self._year in ["2016_PreVFP", "2016_PostVFP", "2017", "2018"]:
             met_pt_corr, met_phi_corr = met_xy_correction_run2(self.params, self.events, "MET", self._year, self._era, self._isMC)
         elif self._year in ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix"]:
             met_pt_corr, met_phi_corr = met_xy_correction_run3(self.params, self.events, "MET", self._year, self._era, self._isMC)
-        self.events["MET"] = ak.with_field(
-            self.events.MET, met_pt_corr, "pt"
-        )
-        self.events["MET"] = ak.with_field(
-            self.events.MET, met_phi_corr, "phi"
-        )
+        if self._year != "2024":
+            self.events["MET"] = ak.with_field(
+                self.events.MET, met_pt_corr, "pt"
+            )
+            self.events["MET"] = ak.with_field(
+                self.events.MET, met_phi_corr, "phi"
+            )
 
 
         # Leptons
@@ -262,10 +267,13 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         AK4_name = "AK4PFchs" if self._year in ["2016_PreVFP", "2016_PostVFP", "2017", "2018"] else "AK4PFPuppi"
         if self._isMC:
             self.events["Jet"], _ = jet_correction_correctionlib(self.events, "Jet", AK4_name, JECversions[self._year]["MC"], JERversions[self._year]["MC"], JECjsonFiles[self._year], self._year, True, add_uncertainty=JECvariations[self._year])
-            self.events["FatJet"], _ = jet_correction_correctionlib(self.events, "FatJet", "AK8PFPuppi", JECversions[self._year]["MC"], JERversions[self._year]["MC"], JECjsonFiles[self._year], self._year, True, add_uncertainty=JECvariations[self._year])
+            if self._year != "2024":
+                self.events["FatJet"], _ = jet_correction_correctionlib(self.events, "FatJet", "AK8PFPuppi", JECversions[self._year]["MC"], JERversions[self._year]["MC"], JECjsonFiles[self._year], self._year, True, add_uncertainty=JECvariations[self._year])
         else:
             self.events["Jet"] = jet_correction_correctionlib(self.events, "Jet", AK4_name, JECversions[self._year]["Data"][self._era], None, JECjsonFiles[self._year], self._year, False)
-            self.events["FatJet"] = jet_correction_correctionlib(self.events, "FatJet", "AK8PFPuppi", JECversions[self._year]["Data"][self._era], None, JECjsonFiles[self._year], self._year, False)
+            if self._year != "2024":
+                self.events["FatJet"] = jet_correction_correctionlib(self.events, "FatJet", "AK8PFPuppi", JECversions[self._year]["Data"][self._era], None, JECjsonFiles[self._year], self._year, False)
+
 
         # Recalculate MET after JEC/JER
         px = (self.events["MET"].pt * np.cos(self.events["MET"].phi)) - ak.sum((self.events["Jet"].pt * np.cos(self.events["Jet"].phi)) - (self.events["JetUncorrected"].pt * np.cos(self.events["JetUncorrected"].phi)), axis=1)
@@ -282,11 +290,19 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         # Apply Jet veto maps
         self.events["Jet"] = apply_jet_veto_maps(self.params, self.events, "Jet", self._year)
 
+        # Patch missing jetID for 2024 NanoAODv15
+        if self._year == "2024":
+            self.events["Jet"] = ak.with_field(
+                self.events["Jet"], 2*np.ones(len(self.events["Jet"]), dtype=bool), "jetId"
+            )
+            self.events["FatJet"] = ak.with_field(
+                self.events["FatJet"], 2*np.ones(len(self.events["FatJet"]), dtype=bool), "jetId"
+            )
+
         # AK8 Jets
         self.events["FatJetGood"], self.fatjetGoodMask = jet_selection(
             self.events, "FatJet", self.params,
             year=self._year,
-            #leptons_collection="LeptonGood" # used for cleaning jets by removing those that overlap with leptons in an events.
         )
 
         # Select fat jet as furthest away from the lepton
@@ -344,6 +360,15 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             self.events["JetGood"], self.params.btagging.working_point[self._year], wp=self.params.object_preselection.Jet.btag.wp)
         self.events["BJetBad"] = btagging(
             self.events["JetGood"], self.params.btagging.working_point[self._year], wp=self.params.object_preselection.Jet.btag.wp, veto=True)
+
+        # Make a consistent b tagging name
+        if self._year == "2024":
+            self.events["FatJet"] = ak.with_field(
+                self.events["FatJet"], -1*np.ones(len(self.events["FatJet"]), dtype=float), "btagDeepB") # No b tagging for AK8 in 2024 NanoAODv15, so set to -1
+            self.events["SubJetGood1"] = ak.with_field(
+                self.events["SubJetGood1"], self.events["SubJetGood1"].btagDeepFlavB, "btagDeepB")
+            self.events["SubJetGood2"] = ak.with_field(
+                self.events["SubJetGood2"], self.events["SubJetGood2"].btagDeepFlavB, "btagDeepB")
 
         # Remove b jets that overlap with fat jets in deltaR
         self.events["BJetGood"] = ak.where(

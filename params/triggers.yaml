@@ -54,3 +54,9 @@ HLT_triggers:
       - Ele30_WPTight_Gsf
     SingleMuon:  
       - IsoMu24
+
+  "2024":
+    SingleEle:
+      - Ele30_WPTight_Gsf
+    SingleMuon:  
+      - IsoMu24

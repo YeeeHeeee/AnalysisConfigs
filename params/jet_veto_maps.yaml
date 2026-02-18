@@ -7,6 +7,7 @@ JetVetojsonFiles:
   '2022_postEE': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/JME/2022_Summer22EE/jetvetomaps.json.gz'
   '2023_preBPix': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/JME/2023_Summer23/jetvetomaps.json.gz'
   '2023_postBPix': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/JME/2023_Summer23BPix/jetvetomaps.json.gz'
+  '2024': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/JME/2024_Summer24/jetvetomaps.json.gz'
 JetVetoFunc:
   '2016_PreVFP': 'Summer19UL16_V1'
   '2016_PostVFP': 'Summer19UL16_V1'
@@ -16,3 +17,4 @@ JetVetoFunc:
   '2022_postEE': 'Summer22EE_23Sep2023_RunEFG_V1'
   '2023_preBPix': 'Summer23Prompt23_RunC_V1'
   '2023_postBPix': 'Summer23BPixPrompt23_RunD_V1'
+  '2024': 'Summer24Prompt24_RunBCDEFGHI_V1'
