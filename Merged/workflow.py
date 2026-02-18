@@ -1,3 +1,4 @@
+import gc
 import awkward as ak
 import numpy as np
 
@@ -76,6 +77,94 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         out = ak.zip(fields, with_name="PtEtaPhiMCandidate")
         
         return out
+    
+
+    def _get_first_copy(self, particle, max_iter=20):
+
+        # Early exit if empty
+        if len(ak.flatten(particle)) == 0:
+            return particle
+            
+        first_copy_flag = 1 << 12
+        result = particle
+        
+        for _ in range(max_iter):
+
+            # Check which particles need updating
+            needs_update = (result.statusFlags & first_copy_flag) == 0
+            
+            # Exit if nothing needs updating
+            if not ak.any(needs_update):
+                break
+                
+            result = ak.where(
+                needs_update,
+                self.events["GenPart"][result.genPartIdxMother],
+                result
+            )
+
+            gc.collect()
+
+        return result
+
+
+    def _get_gen_semi_leptonic_ttbar(self):
+
+        # Add index to GenPart
+        self.events["GenPart"] = ak.with_field(self.events["GenPart"], ak.local_index(self.events["GenPart"], axis=1), "index")
+
+        # Get last copy of tops - gen level
+        self.events["GenTop"] = self.events["GenPart"][((np.abs(self.events["GenPart"].pdgId) == 6) & ((self.events["GenPart"].statusFlags & (1 << 13)) > 0))]
+
+        # Get final state particles of semi leptonic ttbar decays - gen level
+        gen_light_quarks_last_copy = self.events["GenPart"][((np.abs(self.events["GenPart"].pdgId) < 6) & ((self.events["GenPart"].statusFlags & (1 << 13)) > 0))]
+        gen_leptons_last_copy = self.events["GenPart"][((np.abs(self.events["GenPart"].pdgId) == 11) | (np.abs(self.events["GenPart"].pdgId) == 13)) & ((self.events["GenPart"].statusFlags & (1 << 13)) > 0)] 
+        gen_b_quarks_last_copy = self.events["GenPart"][((np.abs(self.events["GenPart"].pdgId) == 5) & ((self.events["GenPart"].statusFlags & (1 << 13)) > 0))]
+
+        # Get last copy of W bosons - gen level
+        gen_W_had_last_copy = self.events["GenPart"][self._get_first_copy(gen_light_quarks_last_copy).genPartIdxMother]
+        gen_W_lep_last_copy = self.events["GenPart"][self._get_first_copy(gen_leptons_last_copy).genPartIdxMother]
+
+        # Update the indices - gen level
+        gen_light_quarks_last_copy = gen_light_quarks_last_copy[(np.abs(gen_W_had_last_copy.pdgId) == 24)]
+        gen_W_had_last_copy = gen_W_had_last_copy[(np.abs(gen_W_had_last_copy.pdgId) == 24)]
+        gen_leptons_last_copy = gen_leptons_last_copy[(np.abs(gen_W_lep_last_copy.pdgId) == 24)]
+        gen_W_lep_last_copy = gen_W_lep_last_copy[(np.abs(gen_W_lep_last_copy.pdgId) == 24)]
+
+        # Get last copy of top quarks - gen level
+        gen_top_had_last_copy = self.events["GenPart"][self._get_first_copy(gen_W_had_last_copy).genPartIdxMother]
+        gen_top_lep_last_copy = self.events["GenPart"][self._get_first_copy(gen_W_lep_last_copy).genPartIdxMother]
+        gen_top_b_last_copy = self.events["GenPart"][self._get_first_copy(gen_b_quarks_last_copy).genPartIdxMother]
+
+        # Update the indices - gen level
+        gen_light_quarks_last_copy = gen_light_quarks_last_copy[(np.abs(gen_top_had_last_copy.pdgId) == 6)]
+        gen_W_had_last_copy = gen_W_had_last_copy[(np.abs(gen_top_had_last_copy.pdgId) == 6)]
+        gen_top_had_last_copy = gen_top_had_last_copy[(np.abs(gen_top_had_last_copy.pdgId) == 6)]
+        gen_leptons_last_copy = gen_leptons_last_copy[(np.abs(gen_top_lep_last_copy.pdgId) == 6)]
+        gen_W_lep_last_copy = gen_W_lep_last_copy[(np.abs(gen_top_lep_last_copy.pdgId) == 6)]
+        gen_top_lep_last_copy = gen_top_lep_last_copy[(np.abs(gen_top_lep_last_copy.pdgId) == 6)]
+        gen_b_quarks_last_copy = gen_b_quarks_last_copy[(np.abs(gen_top_b_last_copy.pdgId) == 6)]
+        gen_top_b_last_copy = gen_top_b_last_copy[(np.abs(gen_top_b_last_copy.pdgId) == 6)]
+
+        # Make GenTopHadronic and GenTopLeptonic
+        self.events["GenTopHadronic"] = ak.firsts(gen_top_had_last_copy)
+        self.events["GenTopLeptonic"] = ak.firsts(gen_top_lep_last_copy)
+
+        # Make GenWHadronic and GenWLeptonic
+        self.events["GenWHadronic"] = ak.firsts(gen_W_had_last_copy)
+        self.events["GenWLeptonic"] = ak.firsts(gen_W_lep_last_copy)
+
+        # Make GenBQuarkHadronic and GenBQuarkLeptonic
+        self.events["GenBQuarkHadronic"] = ak.firsts(gen_b_quarks_last_copy[gen_top_b_last_copy.index == self.events["GenTopHadronic"].index])
+        self.events["GenBQuarkLeptonic"] = ak.firsts(gen_b_quarks_last_copy[gen_top_b_last_copy.index == self.events["GenTopLeptonic"].index])
+
+        # Make GenLepton
+        self.events["GenLepton"] = ak.firsts(gen_leptons_last_copy)
+
+        # Make GenLightQuark
+        self.events["GenLightQuark"] = ak.pad_none(gen_light_quarks_last_copy, 2, axis=1)[:, :2]
+        self.events["GenLightQuark1"] = self.events["GenLightQuark"][:, 0]
+        self.events["GenLightQuark2"] = self.events["GenLightQuark"][:, 1]
 
 
     def _get_extra_weights(self):
@@ -214,7 +303,6 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         self.events["JetGood"], self.jetGoodMask = jet_selection(
             self.events, "Jet", self.params, 
             year=self._year, 
-            #leptons_collection="LeptonGood"
         )
 
         # Get subjets from the fat jets
@@ -302,6 +390,7 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             "mt" : np.sqrt(2 * self.events["LeptonSave"].pt * self.events["MET"].pt * (1 - np.cos(self.events["LeptonSave"].delta_phi(self.events["MET"]))))
         })
 
+        
 
     def define_common_variables_after_presel(self, variation):
 
@@ -327,7 +416,9 @@ class ttBaseProcessor_merge(BaseProcessorABC):
                 self.events["GenTop_AK8"] = ak.firsts(self.events["GenJetAK8"])
                 self.events["MatchedTop_AK81"], self.events["MatchedGenTop_AK8"], deltaR_padnon = object_matching(fatjet, GenTop_AK8, dr_min = 0.8)  
                 self.events["MatchedTop_AK8"] = ak.firsts(self.events["MatchedTop_AK81"])
+                self._get_gen_semi_leptonic_ttbar()
 
+            
             # Get the GenTop pairs - first copy
             if self.events.metadata["sample"].startswith("TT"):
                 GenTopFirstCopy = self.events["GenPart"][((np.abs(self.events["GenPart"].pdgId) == 6) & ((self.events["GenPart"].statusFlags & (1 << 12)) > 0))]
@@ -381,6 +472,54 @@ class ttBaseProcessor_merge(BaseProcessorABC):
                 self.events["GenJet"][ak.argsort(self.events["GenJet"].delta_r(self.events["BJetLep"]), ascending=True)]
             )
 
+            if self.events.metadata["sample"].startswith("TT"):
+                self.events["deltaR_Jet_Gen"] = ak.zip({
+                    "FatJet_GenTopHadronic": self.events["FatJet"].delta_r(self.events["GenTopHadronic"]),
+                    "FatJet_GenWHadronic": self.events["FatJet"].delta_r(self.events["GenWHadronic"]),
+                    "FatJet_GenBQuarkHadronic": self.events["FatJet"].delta_r(self.events["GenBQuarkHadronic"]),
+                    "FatJet_GenLightQuark1": self.events["FatJet"].delta_r(self.events["GenLightQuark1"]),
+                    "FatJet_GenLightQuark2": self.events["FatJet"].delta_r(self.events["GenLightQuark2"]),
+                    "SubJet1_GenLightQuark1": self.events["SubJet1"].delta_r(self.events["GenLightQuark1"]),
+                    "SubJet1_GenLightQuark2": self.events["SubJet1"].delta_r(self.events["GenLightQuark2"]),
+                    "SubJet1_GenBQuarkHadronic": self.events["SubJet1"].delta_r(self.events["GenBQuarkHadronic"]),
+                    "SubJet2_GenLightQuark1": self.events["SubJet2"].delta_r(self.events["GenLightQuark1"]),
+                    "SubJet2_GenLightQuark2": self.events["SubJet2"].delta_r(self.events["GenLightQuark2"]),
+                    "SubJet2_GenBQuarkHadronic": self.events["SubJet2"].delta_r(self.events["GenBQuarkHadronic"]),
+                })
+                self.events["MergingInfo"] = ak.zip({
+                    "FatJet_TopDecaysMerged": ak.where(
+                        ((self.events["deltaR_Jet_Gen"].FatJet_GenBQuarkHadronic < 0.8) & (self.events["deltaR_Jet_Gen"].FatJet_GenLightQuark1 < 0.8) & (self.events["deltaR_Jet_Gen"].FatJet_GenLightQuark2 < 0.8)),
+                        1,
+                        0
+                    ),
+                    "FatJet_WDecaysMerged": ak.where(
+                        ((self.events["deltaR_Jet_Gen"].FatJet_GenLightQuark1 < 0.8) & (self.events["deltaR_Jet_Gen"].FatJet_GenLightQuark2 < 0.8)),
+                        1,
+                        0
+                    ),
+                    "SubJet1_WDecaysMerged": ak.where(
+                        ((self.events["deltaR_Jet_Gen"].SubJet1_GenLightQuark1 < 0.4) & (self.events["deltaR_Jet_Gen"].SubJet1_GenLightQuark2 < 0.4)),
+                        1,
+                        0
+                    ),
+                    "SubJet2_WDecaysMerged": ak.where(
+                        ((self.events["deltaR_Jet_Gen"].SubJet2_GenLightQuark1 < 0.4) & (self.events["deltaR_Jet_Gen"].SubJet2_GenLightQuark2 < 0.4)),
+                        1,
+                        0
+                    ),
+                    "SubJet1_BMerged": ak.where(
+                        (self.events["deltaR_Jet_Gen"].SubJet1_GenBQuarkHadronic < 0.4),
+                        1,
+                        0
+                    ),
+                    "SubJet2_BMerged": ak.where(
+                        (self.events["deltaR_Jet_Gen"].SubJet2_GenBQuarkHadronic < 0.4),
+                        1,
+                        0
+                    ),
+                })
+
+
         if not hasattr(self.events, "GenTop1"): self.events["GenTop1"] = dummy_candidate
         if not hasattr(self.events, "GenTop2"): self.events["GenTop2"] = dummy_candidate
         if not hasattr(self.events, "LNu"): self.events["LNu"] = dummy_candidate
@@ -391,6 +530,38 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         if not hasattr(self.events, "MatchedGenJet_SubJet1"): self.events["MatchedGenJet_SubJet1"] = ak.zip({"partonFlavour":-999.0*np.ones(len(self.events))})
         if not hasattr(self.events, "MatchedGenJet_SubJet2"): self.events["MatchedGenJet_SubJet2"] = ak.zip({"partonFlavour":-999.0*np.ones(len(self.events))})
         if not hasattr(self.events, "MatchedGenJet_BJetLep"): self.events["MatchedGenJet_BJetLep"] = ak.zip({"partonFlavour":-999.0*np.ones(len(self.events))})
+        if not hasattr(self.events, "GenTopHadronic"): self.events["GenTopHadronic"] = dummy_candidate
+        if not hasattr(self.events, "GenTopLeptonic"): self.events["GenTopLeptonic"] = dummy_candidate
+        if not hasattr(self.events, "GenWHadronic"): self.events["GenWHadronic"] = dummy_candidate
+        if not hasattr(self.events, "GenWLeptonic"): self.events["GenWLeptonic"] = dummy_candidate
+        if not hasattr(self.events, "GenBQuarkHadronic"): self.events["GenBQuarkHadronic"] = dummy_candidate
+        if not hasattr(self.events, "GenBQuarkLeptonic"): self.events["GenBQuarkLeptonic"] = dummy_candidate
+        if not hasattr(self.events, "GenLepton"): self.events["GenLepton"] = dummy_candidate
+        if not hasattr(self.events, "GenLightQuark1"): self.events["GenLightQuark1"] = dummy_candidate
+        if not hasattr(self.events, "GenLightQuark2"): self.events["GenLightQuark2"] = dummy_candidate
+        if not hasattr(self.events, "deltaR_Jet_Gen"): 
+            self.events["deltaR_Jet_Gen"] = ak.zip({
+                "FatJet_GenTopHadronic": -999.0 * np.ones(len(self.events)),
+                "FatJet_GenWHadronic": -999.0 * np.ones(len(self.events)),
+                "FatJet_GenBQuarkHadronic": -999.0 * np.ones(len(self.events)),
+                "FatJet_GenLightQuark1": -999.0 * np.ones(len(self.events)),
+                "FatJet_GenLightQuark2": -999.0 * np.ones(len(self.events)),
+                "SubJet1_GenLightQuark1": -999.0 * np.ones(len(self.events)),
+                "SubJet1_GenLightQuark2": -999.0 * np.ones(len(self.events)),
+                "SubJet1_GenBQuarkHadronic": -999.0 * np.ones(len(self.events)),
+                "SubJet2_GenLightQuark1": -999.0 * np.ones(len(self.events)),
+                "SubJet2_GenLightQuark2": -999.0 * np.ones(len(self.events)),
+                "SubJet2_GenBQuarkHadronic": -999.0 * np.ones(len(self.events)),
+            })
+        if not hasattr(self.events, "MergingInfo"): 
+            self.events["MergingInfo"] = ak.zip({
+                "FatJet_TopDecaysMerged": -999.0 * np.ones(len(self.events)),
+                "FatJet_WDecaysMerged": -999.0 * np.ones(len(self.events)),
+                "SubJet1_WDecaysMerged": -999.0 * np.ones(len(self.events)),
+                "SubJet2_WDecaysMerged": -999.0 * np.ones(len(self.events)),
+                "SubJet1_BMerged": -999.0 * np.ones(len(self.events)),
+                "SubJet2_BMerged": -999.0 * np.ones(len(self.events)),
+            })
 
         for collection in ["BJetLep", "FatJet", "SubJet1", "SubJet2"]:
             fields = [f"corrFactor_{i}" for i in nom_jec_variations]+["pt_raw","mass_raw","corrFactor","smearFactor","smearFactor_up","smearFactor_down"]
@@ -428,9 +599,6 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             "pdf_min" : ak.min(self.events.LHEPdfWeight, axis=1),
             "pdf_rmse": pdf_rmse,
         })
-
-
-
 
         # Get extra weights
         self._get_extra_weights()

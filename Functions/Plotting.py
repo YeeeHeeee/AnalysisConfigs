@@ -330,7 +330,8 @@ def plot_stacked_histogram_with_ratio(
     line_hist_dict={},
     line_colours={},
     cms_label="Work in progress",
-    lumi_label=None
+    lumi_label=None,
+    uncertainty_label="Uncertainty"
   ):
   """
   Plot a stacked histogram with a ratio plot.
@@ -430,9 +431,9 @@ def plot_stacked_histogram_with_ratio(
 
 
   if stack_hist_errors_asym is None:
-    ax1.fill_between(bin_edges[:],np.append(total_stack_hist,total_stack_hist[-1])-np.append(stack_hist_errors,stack_hist_errors[-1]),np.append(total_stack_hist,total_stack_hist[-1])+np.append(stack_hist_errors,stack_hist_errors[-1]),color="gray",alpha=0.3,step='post',label="Uncertainty")
+    ax1.fill_between(bin_edges[:],np.append(total_stack_hist,total_stack_hist[-1])-np.append(stack_hist_errors,stack_hist_errors[-1]),np.append(total_stack_hist,total_stack_hist[-1])+np.append(stack_hist_errors,stack_hist_errors[-1]),color="gray",alpha=0.3,step='post',label=uncertainty_label)
   else:
-    ax1.fill_between(bin_edges[:],np.append(total_stack_hist,total_stack_hist[-1])-np.append(stack_hist_errors_asym["down"],stack_hist_errors_asym["down"][-1]),np.append(total_stack_hist,total_stack_hist[-1])+np.append(stack_hist_errors_asym["up"],stack_hist_errors_asym["up"][-1]),color="gray",alpha=0.3,step='post',label="Uncertainty")
+    ax1.fill_between(bin_edges[:],np.append(total_stack_hist,total_stack_hist[-1])-np.append(stack_hist_errors_asym["down"],stack_hist_errors_asym["down"][-1]),np.append(total_stack_hist,total_stack_hist[-1])+np.append(stack_hist_errors_asym["up"],stack_hist_errors_asym["up"][-1]),color="gray",alpha=0.3,step='post',label=uncertainty_label)
 
 
   if data_hist is not None:
@@ -446,14 +447,14 @@ def plot_stacked_histogram_with_ratio(
   handles = handles[::-1]
   labels = labels[::-1]
 
-  legend = ax1.legend(handles, labels, loc='upper right', fontsize=18, bbox_to_anchor=(0.9, 0.88), bbox_transform=plt.gcf().transFigure, frameon=True, framealpha=1, facecolor='white', edgecolor="white")
+  legend = ax1.legend(handles, labels, loc='upper right', fontsize=14, bbox_to_anchor=(0.9, 0.88), bbox_transform=plt.gcf().transFigure, frameon=True, framealpha=1, facecolor='white', edgecolor="white")
 
   # Set legend width and wrap text manually
   legend.get_frame().set_linewidth(0)  # Remove legend box border
   legend.get_frame().set_facecolor('none')  # Make legend background transparent
   legend.get_frame().set_edgecolor('none')  # Make legend edge transparent
 
-  max_label_length = 22  # Adjust the maximum length of each legend label
+  max_label_length = 25  # Adjust the maximum length of each legend label
   for text in legend.get_texts():
     text.set_text(textwrap.fill(text.get_text(), max_label_length))
 
@@ -575,12 +576,14 @@ def plot_histograms_with_ratio(
   ylabel="Events",
   name="histogram_with_ratio",    
   ratio_range = [0.5,1.5],  
-  colours = ["black","blue", "red", "orange", "purple", "brown", "pink", "gray"],
+  colours = ["black", "blue", "red", "orange", "purple", "green", "pink", "gray"],
   cms_label="Work in progress",
-  axis_text=None
+  axis_text=None,
+  pad_ratio=[3,1],
+  legend_fontsize=18,
 ):
 
-  fig, ax= plt.subplots(2, 1, sharex=True, gridspec_kw={'height_ratios': [3,1]})
+  fig, ax= plt.subplots(2, 1, sharex=True, gridspec_kw={'height_ratios': pad_ratio})
 
   hep.cms.text(cms_label,ax=ax[0])
 
@@ -596,7 +599,7 @@ def plot_histograms_with_ratio(
     hist_name = hist_names[ind]
     colour = colours[ind]
 
-    ax[0].plot(bins[:-1], hist, label=hist_name, color=colour, linestyle="-", drawstyle="steps-mid")
+    ax[0].plot(bins, np.append(hist, hist[-1]), label=hist_name, color=colour, linestyle="-", drawstyle="steps-mid")
 
     # add uncertainty
     if hist_uncert is not None:
@@ -616,7 +619,7 @@ def plot_histograms_with_ratio(
     handles, labels = ax[0].get_legend_handles_labels()
     handles = handles[::-1]
     labels = labels[::-1]
-    legend = ax[0].legend(handles, labels, loc='upper right', fontsize=18, bbox_to_anchor=(0.9, 0.88), bbox_transform=plt.gcf().transFigure, frameon=True, framealpha=1, facecolor='white', edgecolor="white")
+    legend = ax[0].legend(handles, labels, loc='upper right', fontsize=legend_fontsize, bbox_to_anchor=(0.9, 0.88), bbox_transform=plt.gcf().transFigure, frameon=True, framealpha=1, facecolor='white', edgecolor="white")
     legend.get_frame().set_linewidth(0)  # Remove legend box border
     legend.get_frame().set_facecolor('none')  # Make legend background transparent
     legend.get_frame().set_edgecolor('none')  # Make legend edge transparent
@@ -625,7 +628,7 @@ def plot_histograms_with_ratio(
       text.set_text(textwrap.fill(text.get_text(), max_label_length))
 
     # draw ratios
-    ax[-1].plot(bins[:-1], hist/denom, color=colour, linestyle="-", drawstyle="steps-mid")
+    ax[-1].plot(bins, np.append(hist, hist[-1])/np.append(denom, denom[-1]), color=colour, linestyle="-", drawstyle="steps-mid")
 
     # add uncertainty ro ratio
     if hist_uncert is not None:
