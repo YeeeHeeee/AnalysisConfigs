@@ -224,10 +224,13 @@ class GetHistograms:
     elif self.year == "run2":
       self.wildcard = ["*2016_PreVFP*", "*2016_PostVFP*", "*2017*", "*2018*"]
       self.eras = ["2016_PreVFP", "2016_PostVFP", "2017", "2018"]
-    elif self.year == "run3":
+    elif self.year == "2223":
       self.wildcard = ["*2022_preEE*", "*2022_postEE*", "*2023_preBPix*", "*2023_postBPix*"]
       self.eras = ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix"]
-    elif self.year in ["2016_PreVFP", "2016_PostVFP", "2017", "2018", "2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix"]:
+    elif self.year == "run3":
+      self.wildcard = ["*2022_preEE*", "*2022_postEE*", "*2023_preBPix*", "*2023_postBPix*", "*2024*"]
+      self.eras = ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix", "2024"]
+    elif self.year in ["2016_PreVFP", "2016_PostVFP", "2017", "2018", "2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix", "2024"]:
       self.wildcard = f"*{self.year}*"
       self.eras = [self.year]
     else:
@@ -635,8 +638,6 @@ class GetHistograms:
               self.stores[save_to]["hists_squared_per_file"][var][file_key] = self.stores[save_to]["hists_squared_per_file"][var][file_key] * (scale_factor**2)
               self.stores[save_to]["sum_wt_per_file"][var][file_key] = self.stores[save_to]["sum_wt_per_file"][var][file_key] * scale_factor
 
-      print(self.stores["Nom"]["sum_wt_per_group"][var])
-      print(self.stores["Nom"]["sum_wt"][var])
 
   def _scale_to(self):
 
@@ -1219,17 +1220,19 @@ for var in gh.cfg["variables"].keys():
   print(tabulate(tabulated_data[1:], headers=tabulated_data[0], tablefmt="fancy_grid"))
 
   lumi_labels = {
-    "all" : "$200\ fb^{-1}\ (13,13.6\ TeV)$",
+    "all" : "$309\ fb^{-1}\ (13,13.6\ TeV)$",
     "run2" : "$138\ fb^{-1}\ (13\ TeV)$",
-    "run3" : "$62.4\ fb^{-1}\ (13.6\ TeV)$",
+    "run3" : "$171\ fb^{-1}\ (13.6\ TeV)$",
     "2016_PreVFP" : "$19.6\ fb^{-1}\ (13\ TeV)$",
     "2016_PostVFP" : "$17.0\ fb^{-1}\ (13\ TeV)$",
     "2017" : "$41.5\ fb^{-1}\ (13\ TeV)$",
     "2018" : "$59.8\ fb^{-1}\ (13\ TeV)$",
     "2022_preEE" : "$7.98\ fb^{-1}\ (13.6\ TeV)$",
     "2022_postEE" : "$26.7\ fb^{-1}\ (13.6\ TeV)$",
-    "2023_preBPix" : "$17.8\ fb^{-1}\ (13.6\ TeV)$",
-    "2023_postBPix" : "$9.45\ fb^{-1}\ (13.6\ TeV)$"
+    "2023_preBPix" : "$18.1\ fb^{-1}\ (13.6\ TeV)$",
+    "2023_postBPix" : "$9.69\ fb^{-1}\ (13.6\ TeV)$",
+    "2223" : "$62.4\ fb^{-1}\ (13.6\ TeV)$",
+    "2024" : "$109.0\ fb^{-1}\ (13.6\ TeV)$",
   }
 
 

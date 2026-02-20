@@ -16,7 +16,10 @@ def reweighting_func(params, metadata, events, size, shape_variations):
 
   flat_hflav = np.array(bj["hadronFlavour"])
 
-  apply_mask = (flat_hflav == 4) | (flat_hflav == 5)
+  if metadata["year"] == "2024":
+    apply_mask = (flat_hflav == 5)
+  else:
+    apply_mask = (flat_hflav == 4) | (flat_hflav == 5)
 
   flatweightcorr = np.ones(len(flat_hflav))
 

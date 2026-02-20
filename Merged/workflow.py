@@ -366,9 +366,9 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             self.events["FatJet"] = ak.with_field(
                 self.events["FatJet"], -1*np.ones(len(self.events["FatJet"]), dtype=float), "btagDeepB") # No b tagging for AK8 in 2024 NanoAODv15, so set to -1
             self.events["SubJetGood1"] = ak.with_field(
-                self.events["SubJetGood1"], self.events["SubJetGood1"].btagDeepFlavB, "btagDeepB")
+                self.events["SubJetGood1"], self.events["SubJetGood1"].btagUParTAK4B, "btagDeepB")
             self.events["SubJetGood2"] = ak.with_field(
-                self.events["SubJetGood2"], self.events["SubJetGood2"].btagDeepFlavB, "btagDeepB")
+                self.events["SubJetGood2"], self.events["SubJetGood2"].btagUParTAK4B, "btagDeepB")
 
         # Remove b jets that overlap with fat jets in deltaR
         self.events["BJetGood"] = ak.where(
