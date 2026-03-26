@@ -4,18 +4,10 @@ import numpy as np
 
 from pocket_coffea.workflows.base import BaseProcessorABC
 from pocket_coffea.utils.configurator import Configurator
-from pocket_coffea.lib.hist_manager import Axis
-from pocket_coffea.lib.deltaR_matching import metric_eta, metric_phi
 from pocket_coffea.lib.deltaR_matching import object_matching
-from pocket_coffea.lib.gen_objects import getGenJets, getGenLeptons
-
 from pocket_coffea.lib.objects import (
-    jet_correction,
     jet_selection,
     btagging,
-    get_dilepton,
-    get_dijet,
-    met_xy_correction,
 )
 
 from Functions.JetsCom import to_singleton_jet, combine_jets
@@ -23,12 +15,6 @@ from Functions.Leptons import lepton_selection
 from Functions.jec_config import JECversions, JERversions, JECjsonFiles, JECvariations, nom_jec_variations
 from Functions.corrections import jet_correction_correctionlib
 from Functions.BtaggingShapeScaleFactors import BTagShapeCorrection
-from Functions.WJetsRun2StitchingWeights import WJetsRun2Stitching
-from Functions.WJetsRun3StitchingWeights import WJetsRun3Stitching
-from Functions.TTTo2L2NuRun2StitchingWeights import TTTo2L2NuRun2Stitching
-from Functions.TTToSemiLeptonicRun2StitchingWeights import TTToSemiLeptonicRun2Stitching
-from Functions.TTToHadronicRun2StitchingWeights import TTToHadronicRun2Stitching
-from Functions.TopPTReweighting import TopPTReweighting
 from Functions.met_xy_correction import met_xy_correction_run2, met_xy_correction_run3
 from Functions.jet_veto_maps import apply_jet_veto_maps
 
@@ -169,25 +155,75 @@ class ttBaseProcessor_merge(BaseProcessorABC):
 
     def _get_extra_weights(self):
 
-        weights_inputs = BTagShapeCorrection + WJetsRun2Stitching + WJetsRun3Stitching + TTTo2L2NuRun2Stitching + TTToSemiLeptonicRun2Stitching + TTToHadronicRun2Stitching + TopPTReweighting
-        weight_names = [
-            "BTagShapeCorrectionSubjets",
-            "WJetsRun2Stitching", "WJetsRun3Stitching",
-            "TTTo2L2NuRun2Stitching", "TTToSemiLeptonicRun2Stitching", "TTToHadronicRun2Stitching",
-            "TopPTReweighting",
-        ]
-
-        self.events["ExtraWeights"] = ak.zip({k:np.ones(len(self.events)) for k in weight_names})
+        weights_inputs = self.weights_manager._weightsObj
+        all_inputs = []
+        weights_inputs["BTagShapeCorrectionSubjets"] = BTagShapeCorrection[[i.name for i in BTagShapeCorrection].index("BTagShapeCorrectionSubjets")]
+        all_inputs += ["BTagShapeCorrectionSubjets"]
+        weight_names = {
+            "BTagShapeCorrectionSubjets" : ["nominal"],
+            "WJetsRun2Stitching" : ["nominal"], 
+            "WJetsRun3Stitching" : ["nominal"],
+            "TTTo2L2NuRun2Stitching" : ["nominal"], 
+            "TTToSemiLeptonicRun2Stitching" : ["nominal"], 
+            "TTToHadronicRun2Stitching" : ["nominal"],
+            "TopPTReweighting" : ["nominal"],
+            "sf_ele_id_custom" : ["nominal", "up", "down"],
+            "sf_ele_reco_custom" : ["nominal", "up", "down"],
+            "sf_ele_trigger_custom" : ["nominal", "up", "down"],
+            "sf_mu_id_custom" : ["nominal", "up", "down"],
+            "sf_mu_iso_custom" : ["nominal", "up", "down"],
+            "sf_mu_trigger_custom" : ["nominal", "up", "down"],
+            "prefiring" : ["nominal", "up", "down"],
+            "pileup" : ["nominal", "up", "down"]
+        }
+        initial_dict = {}
+        for k in weight_names:
+            for var in weight_names[k]:
+                if var == "nominal":
+                    initial_dict[f"{k}"] = np.ones(len(self.events))
+                else:
+                    initial_dict[f"{k}_{var}"] = np.ones(len(self.events))
+        self.events["ExtraWeights"] = ak.zip(initial_dict)
         if self._isMC:
-            weight_input_names = [i.name for i in weights_inputs]
-            for weight_name in weight_names:
-                if weight_name in weight_input_names:
-                    weight_index = weight_input_names.index(weight_name)
-                    weight_func = weights_inputs[weight_index]
-                    per_event_weight = weight_func._function(self.params, self.events.metadata, self.events, len(self.events), "nominal")
-                    self.events["ExtraWeights"] = ak.with_field(
-                        self.events["ExtraWeights"], per_event_weight, weight_name
-                    ) 
+            for weight_name, variations in weight_names.items():
+                if weight_name in weights_inputs.keys():
+                    weight_func = weights_inputs[weight_name]
+                    if weight_name in all_inputs:
+                        per_event_weight = weight_func._function(self.params, self.events.metadata, self.events, len(self.events), "nominal")
+                    else:
+                        per_event_weight = weight_func.compute(self.events, len(self.events), "nominal")
+                    if weight_func.has_variations:
+                        if weight_name in all_inputs:
+                            nominal_weight = per_event_weight[0]
+                            up_weight = per_event_weight[1]
+                            down_weight = per_event_weight[2]
+                        else:
+                            nominal_weight = per_event_weight.nominal
+                            up_weight = per_event_weight.up
+                            down_weight = per_event_weight.down
+                        for variation in variations:
+                            if variation == "nominal":
+                                self.events["ExtraWeights"] = ak.with_field(
+                                    self.events["ExtraWeights"], nominal_weight, weight_name
+                                ) 
+                            elif variation == "up":
+                                self.events["ExtraWeights"] = ak.with_field(
+                                    self.events["ExtraWeights"], up_weight, weight_name+"_up"
+                                )
+                            elif variation == "down":
+                                self.events["ExtraWeights"] = ak.with_field(
+                                    self.events["ExtraWeights"], down_weight, weight_name+"_down"
+                                )                                     
+                    else:
+                        if weight_name in all_inputs:
+                            nominal_weight = per_event_weight
+                        else:
+                            nominal_weight = per_event_weight.nominal
+                        self.events["ExtraWeights"] = ak.with_field(
+                            self.events["ExtraWeights"], nominal_weight, weight_name
+                        ) 
+                else:
+                    print(f"Warning: Weight {weight_name} not found in inputs. Skipping.")  
 
 
     def _remove_object_4_vector(self, collection, obj, dr=0.4):
@@ -209,17 +245,22 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         # Avoid code duplicate
         super().apply_object_preselection(variation=variation)
         
+        # If NanoAODv15 define MET as the PFMET
+        if self._year == "2024":
+            self.events["MET"] = self.events.PuppiMET
+
         # MET
         if self._year in ["2016_PreVFP", "2016_PostVFP", "2017", "2018"]:
             met_pt_corr, met_phi_corr = met_xy_correction_run2(self.params, self.events, "MET", self._year, self._era, self._isMC)
         elif self._year in ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix"]:
             met_pt_corr, met_phi_corr = met_xy_correction_run3(self.params, self.events, "MET", self._year, self._era, self._isMC)
-        self.events["MET"] = ak.with_field(
-            self.events.MET, met_pt_corr, "pt"
-        )
-        self.events["MET"] = ak.with_field(
-            self.events.MET, met_phi_corr, "phi"
-        )
+        if self._year != "2024":
+            self.events["MET"] = ak.with_field(
+                self.events.MET, met_pt_corr, "pt"
+            )
+            self.events["MET"] = ak.with_field(
+                self.events.MET, met_phi_corr, "phi"
+            )
 
 
         # Leptons
@@ -262,10 +303,13 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         AK4_name = "AK4PFchs" if self._year in ["2016_PreVFP", "2016_PostVFP", "2017", "2018"] else "AK4PFPuppi"
         if self._isMC:
             self.events["Jet"], _ = jet_correction_correctionlib(self.events, "Jet", AK4_name, JECversions[self._year]["MC"], JERversions[self._year]["MC"], JECjsonFiles[self._year], self._year, True, add_uncertainty=JECvariations[self._year])
-            self.events["FatJet"], _ = jet_correction_correctionlib(self.events, "FatJet", "AK8PFPuppi", JECversions[self._year]["MC"], JERversions[self._year]["MC"], JECjsonFiles[self._year], self._year, True, add_uncertainty=JECvariations[self._year])
+            if self._year != "2024":
+                self.events["FatJet"], _ = jet_correction_correctionlib(self.events, "FatJet", "AK8PFPuppi", JECversions[self._year]["MC"], JERversions[self._year]["MC"], JECjsonFiles[self._year], self._year, True, add_uncertainty=JECvariations[self._year])
         else:
             self.events["Jet"] = jet_correction_correctionlib(self.events, "Jet", AK4_name, JECversions[self._year]["Data"][self._era], None, JECjsonFiles[self._year], self._year, False)
-            self.events["FatJet"] = jet_correction_correctionlib(self.events, "FatJet", "AK8PFPuppi", JECversions[self._year]["Data"][self._era], None, JECjsonFiles[self._year], self._year, False)
+            if self._year != "2024":
+                self.events["FatJet"] = jet_correction_correctionlib(self.events, "FatJet", "AK8PFPuppi", JECversions[self._year]["Data"][self._era], None, JECjsonFiles[self._year], self._year, False)
+
 
         # Recalculate MET after JEC/JER
         px = (self.events["MET"].pt * np.cos(self.events["MET"].phi)) - ak.sum((self.events["Jet"].pt * np.cos(self.events["Jet"].phi)) - (self.events["JetUncorrected"].pt * np.cos(self.events["JetUncorrected"].phi)), axis=1)
@@ -282,11 +326,19 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         # Apply Jet veto maps
         self.events["Jet"] = apply_jet_veto_maps(self.params, self.events, "Jet", self._year)
 
+        # Patch missing jetID for 2024 NanoAODv15
+        if self._year == "2024":
+            self.events["Jet"] = ak.with_field(
+                self.events["Jet"], 2*np.ones(len(self.events["Jet"]), dtype=bool), "jetId"
+            )
+            self.events["FatJet"] = ak.with_field(
+                self.events["FatJet"], 2*np.ones(len(self.events["FatJet"]), dtype=bool), "jetId"
+            )
+
         # AK8 Jets
         self.events["FatJetGood"], self.fatjetGoodMask = jet_selection(
             self.events, "FatJet", self.params,
             year=self._year,
-            #leptons_collection="LeptonGood" # used for cleaning jets by removing those that overlap with leptons in an events.
         )
 
         # Select fat jet as furthest away from the lepton
@@ -345,6 +397,15 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         self.events["BJetBad"] = btagging(
             self.events["JetGood"], self.params.btagging.working_point[self._year], wp=self.params.object_preselection.Jet.btag.wp, veto=True)
 
+        # Make a consistent b tagging name
+        if self._year == "2024":
+            self.events["FatJet"] = ak.with_field(
+                self.events["FatJet"], -1*np.ones(len(self.events["FatJet"]), dtype=float), "btagDeepB") # No b tagging for AK8 in 2024 NanoAODv15, so set to -1
+            self.events["SubJetGood1"] = ak.with_field(
+                self.events["SubJetGood1"], self.events["SubJetGood1"].btagUParTAK4B, "btagDeepB")
+            self.events["SubJetGood2"] = ak.with_field(
+                self.events["SubJetGood2"], self.events["SubJetGood2"].btagUParTAK4B, "btagDeepB")
+
         # Remove b jets that overlap with fat jets in deltaR
         self.events["BJetGood"] = ak.where(
             ak.is_none(self.events["FatJet"]),
@@ -390,7 +451,6 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             "mt" : np.sqrt(2 * self.events["LeptonSave"].pt * self.events["MET"].pt * (1 - np.cos(self.events["LeptonSave"].delta_phi(self.events["MET"]))))
         })
 
-        
 
     def define_common_variables_after_presel(self, variation):
 
@@ -399,6 +459,34 @@ class ttBaseProcessor_merge(BaseProcessorABC):
 
         dummy_candidate = ak.zip({"pt":-999.0*np.ones(len(self.events)), "eta":-999.0*np.ones(len(self.events)), "phi":-999.0*np.ones(len(self.events)), "mass":-999.0*np.ones(len(self.events))}, with_name="PtEtaPhiMCandidate")
         if self._isMC:
+
+            # Need to recalculate MET after JEC/JER for the variations and get factors
+            for uncert in JECvariations[self._year]:
+                corr_factor = 1 + (self.events["Jet"][f"corrFactor_{uncert}"] / self.events["Jet"]["corrFactor"])
+                px_var = (self.events["MET"].pt * np.cos(self.events["MET"].phi)) - ak.sum((self.events["Jet"].pt * corr_factor * np.cos(self.events["Jet"].phi)) - (self.events["Jet"].pt * np.cos(self.events["Jet"].phi)), axis=1)
+                py_var = (self.events["MET"].pt * np.sin(self.events["MET"].phi)) - ak.sum((self.events["Jet"].pt * corr_factor * np.sin(self.events["Jet"].phi)) - (self.events["Jet"].pt * np.sin(self.events["Jet"].phi)), axis=1)
+                met_factor = np.hypot(px_var, py_var) / self.events["MET"].pt
+                self.events["MET"] = ak.with_field(
+                    self.events["MET"], met_factor, f"corrFactor_{uncert}"
+                )
+
+            # Recorrect the MET for JER variations
+            smear_factor = 1 + ((self.events["Jet"]["smearFactor_up"] - self.events["Jet"]["smearFactor"]) / self.events["Jet"]["smearFactor"])
+            px_var = (self.events["MET"].pt * np.cos(self.events["MET"].phi)) - ak.sum((self.events["Jet"].pt * smear_factor * np.cos(self.events["Jet"].phi)) - (self.events["Jet"].pt * np.cos(self.events["Jet"].phi)), axis=1)
+            py_var = (self.events["MET"].pt * np.sin(self.events["MET"].phi)) - ak.sum((self.events["Jet"].pt * smear_factor * np.sin(self.events["Jet"].phi)) - (self.events["Jet"].pt * np.sin(self.events["Jet"].phi)), axis=1)
+            met_factor = np.hypot(px_var, py_var) / self.events["MET"].pt
+            self.events["MET"] = ak.with_field(
+                self.events["MET"], met_factor, f"smearFactor_up"
+            )
+            smear_factor = 1 + ((self.events["Jet"]["smearFactor_down"] - self.events["Jet"]["smearFactor"]) / self.events["Jet"]["smearFactor"])
+            px_var = (self.events["MET"].pt * np.cos(self.events["MET"].phi)) - ak.sum((self.events["Jet"].pt * smear_factor * np.cos(self.events["Jet"].phi)) - (self.events["Jet"].pt * np.cos(self.events["Jet"].phi)), axis=1)
+            py_var = (self.events["MET"].pt * np.sin(self.events["MET"].phi)) - ak.sum((self.events["Jet"].pt * smear_factor * np.sin(self.events["Jet"].phi)) - (self.events["Jet"].pt * np.sin(self.events["Jet"].phi)), axis=1)
+            met_factor = np.hypot(px_var, py_var) / self.events["MET"].pt
+            self.events["MET"] = ak.with_field(
+                self.events["MET"], met_factor, f"smearFactor_down"
+            )
+
+
             # Get the gen top
             self.events["GenTop"] = self.events["GenPart"][((np.abs(self.events["GenPart"].pdgId) == 6) & ((self.events["GenPart"].statusFlags & (1 << 13)) > 0))]
             self.events["GenTop1"] = ak.pad_none(self.events["GenTop"], 2, axis=1)[:, 0]
@@ -563,12 +651,15 @@ class ttBaseProcessor_merge(BaseProcessorABC):
                 "SubJet2_BMerged": -999.0 * np.ones(len(self.events)),
             })
 
-        for collection in ["BJetLep", "FatJet", "SubJet1", "SubJet2"]:
+        for collection in ["BJetLep", "FatJet", "SubJet1", "SubJet2", "ClosestJetToLepton", "MET"]:
             fields = [f"corrFactor_{i}" for i in nom_jec_variations]+["pt_raw","mass_raw","corrFactor","smearFactor","smearFactor_up","smearFactor_down"]
+            if collection != "MET":
+                fields += ["pt_raw","mass_raw","corrFactor","smearFactor"]
             if collection == "FatJet": fields.append("msoftdrop_raw")
             for field in fields:
                 if field not in self.events[collection].fields:
                     self.events[collection] = ak.with_field(self.events[collection], -999.0 * np.ones(len(self.events)), field)
+                    
         if not hasattr(self.events, "PSWeight"): self.events["PSWeight"] = ak.Array(np.ones((len(self.events),4)))
         self.events["PSWeight"] = ak.fill_none(ak.pad_none(self.events.PSWeight, 4, clip=True, axis=1), 1)
         if not hasattr(self.events, "LHEScaleWeight"): self.events["LHEScaleWeight"] = ak.Array(np.ones((len(self.events),9)))

@@ -15,7 +15,7 @@ from Functions.TTTo2L2NuRun2StitchingWeights import TTTo2L2NuRun2Stitching
 from Functions.TTToSemiLeptonicRun2StitchingWeights import TTToSemiLeptonicRun2Stitching
 from Functions.TTToHadronicRun2StitchingWeights import TTToHadronicRun2Stitching
 from Functions.TopPTReweighting import TopPTReweighting
-from Functions.LeptonScaleFactors import SF_ele_custom
+from Functions.LeptonScaleFactors import SF_ele_custom, SF_mu_custom
 from Functions.Prefiring import Prefiring
 from Functions.BtaggingWeightScaleFactors import BTagWeightCorrection
 from Functions.BtaggingShapeScaleFactors import BTagShapeCorrection
@@ -77,24 +77,28 @@ parameters = defaults.merge_parameters_from_files(default_parameters,
                                                   f"{localdir}/../params/btagging.yaml",
                                                   f"{localdir}/../params/met_corrections.yaml",
                                                   f"{localdir}/../params/jet_veto_maps.yaml",
+                                                  f"{localdir}/../params/event_flags.yaml",
+                                                  f"{localdir}/../params/lepton_scale_factors.yaml",
+                                                  f"{localdir}/../params/pileup.yaml",
+                                                  f"{localdir}/../params/electron_trigger_run2.yaml",
                                                   update=True)
 
 
-common_weights = common_weights + WJetsRun2Stitching + WJetsRun3Stitching + TopPTReweighting + SF_ele_custom + Prefiring
+common_weights = common_weights + WJetsRun2Stitching + WJetsRun3Stitching + TopPTReweighting + SF_ele_custom + SF_mu_custom + Prefiring
 common_weights = common_weights + TTTo2L2NuRun2Stitching + TTToSemiLeptonicRun2Stitching + TTToHadronicRun2Stitching
 common_weights = common_weights + BTagWeightCorrection + BTagShapeCorrection
 
 
 data_samples = [
     "DATA_SingleMuon",
-    "DATA_SingleEle"
+    #"DATA_SingleEle"
 ]
 ttbar_samples = [
     "TTToSemiLeptonic",
-    "TTTo2L2Nu",
-    "TTToHadronic",
-    "TTMtt700To1000",
-    "TTMtt1000",
+    #"TTTo2L2Nu",
+    #"TTToHadronic",
+    #"TTMtt700To1000",
+    #"TTMtt1000",
 ]
 ttbar_mass_samples = [
     "TTToSemiLeptonic166p5",
@@ -116,8 +120,17 @@ ttbar_mass_samples = [
     "TTToHadronic175p5",
     "TTToHadronic178p5",
 ]
+ttbar_modelling_samples = [
+    "TTToSemiLeptonic_CR1",
+    "TTToSemiLeptonic_CR2",
+    "TTToSemiLeptonic_hdamp_Up",
+    "TTToSemiLeptonic_hdamp_Down",
+    "TTToSemiLeptonic_ue_Up",
+    "TTToSemiLeptonic_ue_Down",
+    "TTToSemiLeptonic_ERDOn"
+]
 wjet_samples = [
-    "WJetsToLNu",
+    #"WJetsToLNu",
     "WJetsToLNuHT70To100",
     "WJetsToLNuHT100To200",
     "WJetsToLNuHT200To400",
@@ -138,6 +151,18 @@ wjet_samples = [
     "WJetsToLNuHT800To1500MLNu120",
     "WJetsToLNuHT1500To2500MLNu120",
     "WJetsToLNuHT2500MLNu120",
+    #"WJetsToLNuMLNu120To200", # 2024 samples not used
+    #"WJetsToLNuMLNu200To400",
+    #"WJetsToLNuMLNu400To800",
+    #"WJetsToLNuMLNu800To1500",
+    #"WJetsToLNuMLNu1500To2500",
+    #"WJetsToLNuMLNu2500To4000",
+    #"WJetsToLNuMLNu4000To6000",
+    #"WJetsToLNuMLNu6000",
+    "WJetsToLNu1J",
+    "WJetsToLNu2J",
+    "WJetsToLNu3J",
+    "WJetsToLNu4J",
 ]
 st_samples = [
     "ST_t_channel_top",
@@ -206,10 +231,12 @@ cfg = Configurator(
             f"{localdir}/../Datasets/DATA_SingleEle.json",
         ],
         "filter" : {
-            #"samples": ttbar_samples + ttbar_mass_samples + wjet_samples + st_samples + qcd_samples + other_samples + data_samples,
-            "samples": wjet_samples + st_samples + qcd_samples + other_samples + data_samples,
+            #"samples": ttbar_samples + data_samples,
+            "samples": ttbar_samples + ttbar_mass_samples + ttbar_modelling_samples + wjet_samples + st_samples + qcd_samples + other_samples + data_samples,
             "samples_exclude" : [],
-            "year": ['2016_PreVFP', '2016_PostVFP', '2017', '2018', '2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix']
+            "year": ['2016_PreVFP', '2016_PostVFP', '2017', '2018', '2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix', '2024']
+            #"year" : ['2016_PreVFP', '2016_PostVFP', '2017', '2018']
+            #"year" : ["2022_preEE"]
         },
         "subsamples": {
             'DATA_SingleEle'  : {
@@ -242,10 +269,8 @@ cfg = Configurator(
         "common": {
             "inclusive": ["genWeight","lumi","XS",
                           "pileup", "prefiring",
-                          "sf_mu_id", "sf_mu_iso", 
-                          #"sf_mu_trigger",
-                          "sf_ele_id_custom", "sf_ele_reco", 
-                          #"sf_ele_trigger_custom",
+                          "sf_mu_id_custom", "sf_mu_iso_custom","sf_mu_trigger_custom",
+                          "sf_ele_id_custom", "sf_ele_reco_custom","sf_ele_trigger_custom",
                           "WJetsRun2Stitching", "WJetsRun3Stitching",
                           "TTTo2L2NuRun2Stitching", "TTToSemiLeptonicRun2Stitching", "TTToHadronicRun2Stitching",
                           "TopPTReweighting",
@@ -274,7 +299,7 @@ cfg = Configurator(
             "inclusive": [
                 ColOut(
                     "MET",
-                    ["pt", "phi"],
+                    ["pt", "phi"] + [f"corrFactor_{i}" for i in nom_jec_variations] + ["smearFactor_up", "smearFactor_down"],
                     flatten=False
                 ),
                 ColOut(
@@ -344,7 +369,7 @@ cfg = Configurator(
                 ),
                 ColOut(
                     "ClosestJetToLepton",
-                    ["pt", "eta", "phi", "mass"],
+                    ["pt", "eta", "phi", "mass"] + jec_store,
                     flatten=False
                 ),
                 ColOut(
@@ -374,7 +399,7 @@ cfg = Configurator(
                 ),
                 ColOut(
                     "ExtraWeights",
-                    ["BTagShapeCorrectionSubjets","WJetsRun2Stitching","WJetsRun3Stitching","TTTo2L2NuRun2Stitching","TTToSemiLeptonicRun2Stitching","TTToHadronicRun2Stitching","TopPTReweighting"],
+                    ["BTagShapeCorrectionSubjets","WJetsRun2Stitching","WJetsRun3Stitching","TTTo2L2NuRun2Stitching","TTToSemiLeptonicRun2Stitching","TTToHadronicRun2Stitching","TopPTReweighting"] + [f"{wt}{var}" for wt in ["sf_ele_id_custom", "sf_ele_reco_custom", "sf_ele_trigger_custom", "sf_mu_id_custom", "sf_mu_iso_custom", "sf_mu_trigger_custom", "prefiring", "pileup"] for var in ["", "_up", "_down"]],
                     flatten=False
                 ),
                 ColOut(

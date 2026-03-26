@@ -66,6 +66,18 @@ JECversions = {
             'D': 'Summer23BPixPrompt23_V3_DATA',
         },
     },
+    '2024': {
+        'MC': 'Summer24Prompt24_V1_MC',
+        'Data': {
+            'C': 'Summer24Prompt24_V1_DATA',
+            'D': 'Summer24Prompt24_V1_DATA',
+            'E': 'Summer24Prompt24_V1_DATA',
+            'F': 'Summer24Prompt24_V1_DATA',
+            "G": 'Summer24Prompt24_V1_DATA',
+            'H': 'Summer24Prompt24_V1_DATA',
+            "I": 'Summer24Prompt24_V1_DATA',
+        }
+    },
 }
 
 JERversions = {
@@ -98,6 +110,10 @@ JERversions = {
         'Data': 'Summer23Prompt23_RunCv1234_JRV1_DATA',
     },
     '2023_postBPix': {
+        'MC': 'Summer23BPixPrompt23_RunD_JRV1_MC',
+        'Data': 'Summer23BPixPrompt23_RunD_JRV1_DATA',
+    },
+    '2024': {
         'MC': 'Summer23BPixPrompt23_RunD_JRV1_MC',
         'Data': 'Summer23BPixPrompt23_RunD_JRV1_DATA',
     },
@@ -135,7 +151,11 @@ JECjsonFiles = {
     '2023_postBPix': {
         'AK4': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/JME/2023_Summer23BPix/jet_jerc.json.gz',
         'AK8': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/JME/2023_Summer23BPix/fatJet_jerc.json.gz',
-    }
+    },
+    '2024': {
+        'AK4': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/JME/2024_Summer24/jet_jerc.json.gz',
+        'AK8': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/JME/2024_Summer24/fatJet_jerc.json.gz',
+    },
 }
 
 nom_jec_variations = [
@@ -186,4 +206,5 @@ JECvariations = {
     "2022_postEE": nom_jec_variations,
     "2023_preBPix": nom_jec_variations,
     "2023_postBPix": nom_jec_variations,
+    "2024": nom_jec_variations,
 }

@@ -49,7 +49,10 @@ def jet_correction_correctionlib(
     jets['pt_raw'] = (1 - jets['rawFactor']) * jets['pt']
     jets['mass_raw'] = (1 - jets['rawFactor']) * jets['mass']
     if "msoftdrop" in jets.fields:
-        jets['msoftdrop_raw'] = (1 - jets['rawFactor']) * jets['msoftdrop']
+        if year in ['2016_PreVFP', '2016_PostVFP', '2017', '2018']:
+            jets['msoftdrop_raw'] = (1 - jets['rawFactor']) * jets['msoftdrop']
+        else:
+            jets['msoftdrop_raw'] = 1.0 * jets['msoftdrop']
     if "fixedGridRhoFastjetAll" in events.fields:
         jets['rho'] = ak.broadcast_arrays(events.fixedGridRhoFastjetAll, jets.pt)[0]
     else:

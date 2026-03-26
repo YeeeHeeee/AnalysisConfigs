@@ -46,6 +46,8 @@ def met_xy_correction_run3(params, events, METcol,  year, era, isMC):
                 inputs.append("2023")
             elif year == "2023_postBPix":
                 inputs.append("2023BPix")
+            elif year == "2024":
+                inputs.append("2024")
         elif var.name == "dtmc":
             inputs.append("MC" if isMC else "DATA")
         elif var.name == "variation":

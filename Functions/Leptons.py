@@ -19,7 +19,7 @@ def lepton_selection(events, lepton_flavour, params, year):
             passes_iso = leptons.pfRelIso03_all < cuts["iso"]
         
         Run2 = ['2018','2016_PreVFP', '2016_PostVFP', '2017']
-        Run3 = ['2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix']
+        Run3 = ['2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix','2024']
         if year in Run2:
             # Run 2 electron ID
             passes_id = leptons[cuts['id1']] == True

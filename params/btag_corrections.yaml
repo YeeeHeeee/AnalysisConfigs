@@ -15,6 +15,8 @@ btagjsonFiles:
         'AK4': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/BTV/2023_Summer23/btagging.json.gz'
     '2023_postBPix':
         'AK4': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/BTV/2023_Summer23BPix/btagging.json.gz'
+    '2024':
+        'AK4': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/BTV/2024_Summer24/btagging_preliminary.json.gz'
 btagFunc:
     '2016_PreVFP':
         'AK4': 'deepJet_comb'
@@ -32,6 +34,8 @@ btagFunc:
         'AK4': 'deepJet_comb'
     '2023_postBPix':
         'AK4': 'deepJet_comb'
+    '2024':
+        'AK4': 'UParTAK4_kinfit'
 btagShapeFunc:
     '2016_PreVFP':
         'AK4': 'deepCSV_shape'

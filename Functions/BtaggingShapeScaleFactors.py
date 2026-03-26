@@ -54,7 +54,7 @@ def reweighting_func(params, metadata, events, size, shape_variations):
 
 def reweighting_func_subjets(params, metadata, events, size, shape_variations):
 
-    if metadata["year"] in ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix"]:
+    if metadata["year"] in ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix", "2024"]:
         year = "2018"
     else:
         year = metadata["year"]

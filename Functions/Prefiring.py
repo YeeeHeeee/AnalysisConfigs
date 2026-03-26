@@ -17,10 +17,12 @@ def prefiring_func(params, metadata, events, size, shape_variations):
     """
     # Get the scale factor for L1 prefiring based on the year
     if metadata["year"] in ["2016_PreVFP", "2016_PostVFP", "2017"]:
-      sf = sf_L1prefiring(events)
+      #sf = sf_L1prefiring(events)
+      L1PreFiringWeight = events.L1PreFiringWeight
+      sf, up, down = L1PreFiringWeight['Nom'], L1PreFiringWeight['Up'], L1PreFiringWeight['Dn']
     else:
-      sf = np.ones(len(events))  # No prefiring correction for these years
-    return sf
+      sf, up, down = np.ones(len(events)), np.ones(len(events)), np.ones(len(events))  # No prefiring correction for these years
+    return sf, up, down
 
 prefiring = WeightLambda.wrap_func(
     name="prefiring",
