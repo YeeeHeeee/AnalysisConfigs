@@ -2,6 +2,7 @@ import argparse
 import copy
 import fnmatch
 import glob
+import gc
 import matplotlib.pylab as plt
 import os
 import re
@@ -934,10 +935,24 @@ class GetHistograms:
             df = loaded_df.query(self.pre_sel)
           else:
             df = loaded_df.copy()
+          del loaded_df
+          gc.collect()
 
           # Apply function
           if func is not None:
-            df = func(df, metadata={"file_name": file_name, "group": k, "era": era_name, "cfg": self.cfg})
+            length_df = len(df)
+            events_at_once = 10**5
+            if length_df < events_at_once:
+              df = func(df, metadata={"file_name": file_name, "group": k, "era": era_name, "cfg": self.cfg})
+            else:
+              df_list = []
+              for i in range(0, length_df, events_at_once):
+                df_chunk = df.iloc[i:i+events_at_once].copy()
+                df_chunk = func(df_chunk, metadata={"file_name": file_name, "group": k, "era": era_name, "cfg": self.cfg})
+                df_list.append(df_chunk)
+              del df
+              gc.collect()
+              df = pd.concat(df_list)
 
         else:
           df = None
@@ -951,7 +966,6 @@ class GetHistograms:
       else:
         file_name_ext = file_name
       file_names_run.append(file_name)
-
 
       # Get nominal histograms and return nominal df
       if "DATA" not in file_name:

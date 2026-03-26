@@ -130,7 +130,7 @@ python3 ../scripts/check_jobs.py --jobs-folder="jobs/${job_name}/job"
 It is often useful to run the eras of data-taking separately. This is useful for debugging, and easier resubmission. You can define the years list with this.
 
 ```bash
-years=("2016_PreVFP" "2016_PostVFP" "2017" "2018" "2022_preEE" "2022_postEE" "2023_preBPix" "2023_postBPix")
+years=("2016_PreVFP" "2016_PostVFP" "2017" "2018" "2022_preEE" "2022_postEE" "2023_preBPix" "2023_postBPix" "2024")
 ```
 
 You can then submit each year to a separate folder with the following command.
@@ -177,7 +177,7 @@ python3 ../scripts/convert_coffea_to_parquet.py --input="${eos_folder}/${job_nam
 To do this, first define the input string (assuming `years` is already defined).
 
 ```bash
-years=("2016_PreVFP" "2016_PostVFP" "2017" "2018" "2022_preEE" "2022_postEE" "2023_preBPix" "2023_postBPix")
+years=("2016_PreVFP" "2016_PostVFP" "2017" "2018" "2022_preEE" "2022_postEE" "2023_preBPix" "2023_postBPix" "2024")
 file_string=""
 for year in "${years[@]}"; do file_string+="${eos_folder}/${job_name}_${year}/*.coffea,"; done
 file_string="${file_string%,}"
@@ -189,7 +189,7 @@ Then you can run the nominal command with this.
 python3 ../scripts/convert_coffea_to_parquet.py --input="${file_string}" --output="${eos_folder}/${job_name}_parquet"
 ```
 
-And the b taggin shape correction command like this.
+And the b tagging shape correction command like this.
 
 ```bash
 python3 ../scripts/convert_coffea_to_parquet.py --input="${file_string}" --output="${eos_folder}/${job_name}_btag_parquet" --weight="weight*ExtraWeights_BTagShapeCorrectionSubjets" --norm-weight="weight" --norm-files="TTToSemiLeptonic_*,TTToHadronic_*,TTTo2L2Nu_*,TTMtt*,WJetsToLNu_*,WJetsToLNuHT*,ST_*,QCD_*,DY_*,WW*,WZ*,ZZ*"
@@ -212,7 +212,7 @@ To run the plotting we first define a few globale variables.
 ```bash
 plots_name="310126"
 pre_selection="((JetLepton_deltaR>0.25) & (JetLepton_ptrel>30))"
-post_selection="((CombinedSubJets_pt>400) & (LeptonicTop_mass<CombinedSubJets_mass) & (MET_pt>50))"
+post_selection="((CombinedSubJets_pt>400) & (LeptonicTop_mass<CombinedSubJets_mass) & (MET_pt>50) & (BJetLep_pt>30))"
 years=("run2" "run3")
 ```
 

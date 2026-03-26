@@ -2372,18 +2372,197 @@
                     "isMC": true,
                     "xsec": 63425.1
                 }
-            },
+            }
+        ]
+    },
+    "WJetsToLNuMLNu120To200":{
+        "sample": "WJetsToLNuMLNu120To200",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
             {
                 "das_names": [
-                    "/WtoLNu-4Jets_Bin-1J_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM",
-                    "/WtoLNu-3Jets_Bin-1J_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM",
-                    "/WtoLNu-2Jets_Bin-1J_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM",
-                    "/WtoLNu-1Jets_Bin-1J_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                    "/WtoLNu-4Jets_Bin-MLNu-120to200_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v3/NANOAODSIM"
                 ],
                 "metadata": {
                     "year": "2024",
                     "isMC": true,
-                    "xsec": 63425.1
+                    "xsec": 167.4
+                }
+            }
+        ]
+    },
+    "WJetsToLNuMLNu200To400":{
+        "sample": "WJetsToLNuMLNu200To400",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/WtoLNu-4Jets_Bin-MLNu-200to400_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v3/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 20.34
+                }
+            }
+        ]
+    },
+    "WJetsToLNuMLNu400To800":{
+        "sample": "WJetsToLNuMLNu400To800",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/WtoLNu-4Jets_Bin-MLNu-400to800_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v3/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 1.6
+                }
+            }
+        ]
+    },
+    "WJetsToLNuMLNu800To1500":{
+        "sample": "WJetsToLNuMLNu800To1500",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/WtoLNu-4Jets_Bin-MLNu-800to1500_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v3/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 0.1091
+                }
+            }
+        ]
+    },
+    "WJetsToLNuMLNu1500To2500":{
+        "sample": "WJetsToLNuMLNu1500To2500",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/WtoLNu-4Jets_Bin-MLNu-1500to2500_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v3/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 0.006317
+                }
+            }
+        ]
+    },
+    "WJetsToLNuMLNu2500To4000":{
+        "sample": "WJetsToLNuMLNu2500To4000",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/WtoLNu-4Jets_Bin-MLNu-4000to6000_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v4/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 0.0003449
+                }
+            }
+        ]
+    },
+    "WJetsToLNuMLNu4000To6000":{
+        "sample": "WJetsToLNuMLNu4000To6000",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/WtoLNu-4Jets_Bin-MLNu-4000to6000_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v4/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 0.00001072
+                }
+            }
+        ]
+    },
+    "WJetsToLNuMLNu6000":{
+        "sample": "WJetsToLNuMLNu6000",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/WtoLNu-4Jets_Bin-MLNu-6000_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v4/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 4.178e-7
+                }
+            }
+        ]
+    },
+    "WJetsToLNu1J":{
+        "sample": "WJetsToLNu1J",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/WtoLNu-4Jets_Bin-1J_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 9141
+                }
+            }
+        ]
+    },
+    "WJetsToLNu2J":{
+        "sample": "WJetsToLNu2J",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/WtoLNu-4Jets_Bin-2J_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 2931
+                }
+            }
+        ]
+    },
+    "WJetsToLNu3J":{
+        "sample": "WJetsToLNu3J",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/WtoLNu-4Jets_Bin-3J_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 864.6
+                }
+            }
+        ]
+    },
+    "WJetsToLNu4J":{
+        "sample": "WJetsToLNu4J",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/WtoLNu-4Jets_Bin-4J_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 417.8
                 }
             }
         ]
@@ -3741,7 +3920,7 @@
             },
             {
                 "das_names": [
-                    "/TbarWplustoLNu2Q_TuneCP5_13p6TeV_powheg-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v2/NANOAODSIM"
+                    "/TWminustoLNu2Q_TuneCP5_13p6TeV_powheg-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v2-v3/NANOAODSIM"
                 ],
                 "metadata": {
                     "year": "2023_postBPix",

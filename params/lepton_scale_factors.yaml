@@ -138,20 +138,25 @@ lepton_scale_factors:
         name: ???
         file: ???
       2022_preEE:
-        name: ???
-        file: ???
+        name: Electron-HLT-SF
+        file: /cvmfs/cms-griddata.cern.ch/cat/metadata/EGM/Run3-22CDSep23-Summer22-NanoAODv12/latest/electronHlt.json.gz
+        path: HLT_SF_Ele30_MVAiso80ID
       2022_postEE:
-        name: ???
-        file: ???
+        name: Electron-HLT-SF
+        file: /cvmfs/cms-griddata.cern.ch/cat/metadata/EGM/Run3-22EFGSep23-Summer22EE-NanoAODv12/latest/electronHlt.json.gz
+        path: HLT_SF_Ele30_MVAiso80ID
       2023_preBPix:
-        name: ???
-        file: ???
+        name: Electron-HLT-SF
+        file: /cvmfs/cms-griddata.cern.ch/cat/metadata/EGM/Run3-23CSep23-Summer23-NanoAODv12/latest/electronHlt.json.gz
+        path: HLT_SF_Ele30_MVAiso80ID
       2023_postBPix:
-        name: ???
-        file: ???
-      '2024':
-        name: ???
-        file: ???
+        name: Electron-HLT-SF
+        file: /cvmfs/cms-griddata.cern.ch/cat/metadata/EGM/Run3-23DSep23-Summer23BPix-NanoAODv12/latest/electronHlt.json.gz
+        path: HLT_SF_Ele30_MVAiso80ID
+      "2024Reco":
+        name: Electron-HLT-SF
+        file: /cvmfs/cms-griddata.cern.ch/cat/metadata/EGM/Run3-24CDEReprocessingFGHIPrompt-Summer24-NanoAODv15/latest/electron.json.gz 
+        path : HLT_SF_Ele30_MVAiso80ID
 
   ##################################################################################################  
   muon_sf:
@@ -182,20 +187,22 @@ lepton_scale_factors:
       '2022_preEE':
           id: NUM_TightID_DEN_TrackerMuons
           iso: NUM_LoosePFIso_DEN_TightID
-          # trigger: NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight
+          trigger: NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight
 
       '2022_postEE':
           id: NUM_TightID_DEN_TrackerMuons
           iso: NUM_LoosePFIso_DEN_TightID
-          # trigger: NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight
+          trigger: NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight
 
       '2023_preBPix':
           id: NUM_TightID_DEN_TrackerMuons
           iso: NUM_LoosePFIso_DEN_TightID
-          
+          trigger: NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight
+
       '2023_postBPix':
           id: NUM_TightID_DEN_TrackerMuons
           iso: NUM_LoosePFIso_DEN_TightID
+          trigger: NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight
 
       '2024':
           id: NUM_TightID_DEN_TrackerMuons
@@ -220,4 +227,4 @@ lepton_scale_factors:
       '2023_postBPix':
           file: /cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/MUO/2023_Summer23BPix/muon_Z.json.gz
       '2024':
-          file: /cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/MUO/2024_Summer24/muon_Z.json.gz
+          file: /cvmfs/cms-griddata.cern.ch/cat/metadata/MUO/Run3-24CDEReprocessingFGHIPrompt-Summer24-NanoAODv15/2025-11-27/muon_Z.json.gz

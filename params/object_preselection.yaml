@@ -14,7 +14,7 @@ object_preselection:
 
   Jet:
     dr_lepton: 0.4
-    pt: 30
+    pt: 20 # Lowering to 20 to account for corrections in jet energy scale and resolution
     eta: 2.4
     jetId: 2
     puId:

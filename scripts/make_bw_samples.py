@@ -6,6 +6,7 @@ import numpy as np
 import pyarrow as pa
 import pyarrow.parquet as pq
 import os
+import gc
 from Functions.Plotting import plot_histograms_with_ratio
 
 
@@ -98,46 +99,6 @@ def ApplyBWReweight(df, mf=172.5, mi=172.5, gen_mass="GenTop1_mass", gen_mass_ot
   return df
 
 
-#def BW(s, l=1.32, m=172.5):
-#  """
-#  Calculate the Breit-Wigner distribution.
-#  Args:
-#      s (float): The mass squared.
-#      l (float): The width of the top quark.
-#      m (float): The mass of the top quark.
-#  Returns:
-#      float: The Breit-Wigner distribution.
-#  """
-#  # Calculate the Breit-Wigner distribution
-#  k = 1
-#  return k/((s-(m**2))**2 + (m*l)**2)
-#
-#def TopQuarkWidth(m):
-#  """
-#  Calculate the width of the top quark.
-#  Args:
-#      m (float): The mass of the top quark.
-#  Returns:
-#      float: The width of the top quark.
-#  """
-#  # Calculate the width of the top quark
-#  return (0.0270*m) - 3.3455
-#
-#def ApplyBWReweight(df, mf=172.5, lf=1.32, mi=172.5, li=1.32, gen_mass="GenTop1_mass", gen_mass_other="GenTop2_mass"):
-#  """
-#  Apply the BW reweighting to the dataframe.
-#  Args:
-#      df (pd.DataFrame): The input dataframe.
-#      m (float): The mass of the top quark.
-#      l (float): The width of the top quark. 
-#  """
-#  # Apply the BW reweighting
-#  df.loc[:,"weight"] *= BW(df.loc[:,gen_mass]**2,l=TopQuarkWidth(mf), m=mf)/BW(df.loc[:,gen_mass]**2,l=TopQuarkWidth(mi), m=mi) 
-#  if gen_mass_other is not None:
-#    df.loc[:,"weight"] *= BW(df.loc[:,gen_mass_other]**2,l=TopQuarkWidth(mf), m=mf)/BW(df.loc[:,gen_mass_other]**2,l=TopQuarkWidth(mi), m=mi) 
-#  return df
-
-
 # Get the yield
 total_yield = 0.0
 for f in yield_files:
@@ -146,7 +107,6 @@ for f in yield_files:
   total_yield += np.sum(df.loc[:, "weight"])
 
 print("Total yield:", total_yield)
-
 sum_wts = {mt:{mf:0.0 for mf in mass_files.keys()} for mt in mass_to}
 sum_wts_squared = {mt:{mf:0.0 for mf in mass_files.keys()} for mt in mass_to}
 for mass_from, mf in mass_files.items():
@@ -156,6 +116,10 @@ for mass_from, mf in mass_files.items():
       tmp_df = ApplyBWReweight(df.copy(), mf=mt, mi=mass_from)
       sum_wts[mt][mass_from] += np.sum(tmp_df["weight"])
       sum_wts_squared[mt][mass_from] += np.sum(tmp_df["weight"]**2)
+      del tmp_df
+    del df
+
+gc.collect()
 
 print("Sum of weights:", sum_wts)
 print("Sum of weights squared:", sum_wts_squared)
@@ -183,6 +147,8 @@ for mt in mass_to:
 print("Fractions:", rescaled_sum_opt_wts)
 
 # Make the samples
+print(mass_to)
+print(mass_files)
 for mt in mass_to:
   for mf, mfiles in mass_files.items():
     for f in mfiles:
@@ -220,15 +186,9 @@ for mf, mfiles in mass_files.items():
       print("Creating file:", fn)
       pq.write_table(table, fn, compression='snappy')
 
-      ## Write the dataframe to parquet
-      #table = pa.Table.from_pandas(tmp_df, preserve_index=False)
-      #fn = file_name.replace("MASSTO", str(mt).replace(".", "p"))
-      #if os.path.isfile(fn):
-      #  combined_table = pa.concat_tables([pq.read_table(fn), table])
-      #  pq.write_table(combined_table, fn, compression='snappy')
-      #else:
-      #  print("Creating file:", fn)
-      #  pq.write_table(table, fn, compression='snappy') 
+      del tmp_df
+    del df
+  gc.collect()
 
 
 # Collect
@@ -245,6 +205,8 @@ for mt in mass_to:
   for f in files_made[mt]:
     print("Removing file:", f)
     os.remove(f)
+
+  gc.collect()
 
 """
 
