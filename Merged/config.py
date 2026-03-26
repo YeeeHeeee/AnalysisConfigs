@@ -120,6 +120,15 @@ ttbar_mass_samples = [
     "TTToHadronic175p5",
     "TTToHadronic178p5",
 ]
+ttbar_modelling_samples = [
+    "TTToSemiLeptonic_CR1",
+    "TTToSemiLeptonic_CR2",
+    "TTToSemiLeptonic_hdamp_Up",
+    "TTToSemiLeptonic_hdamp_Down",
+    "TTToSemiLeptonic_ue_Up",
+    "TTToSemiLeptonic_ue_Down",
+    "TTToSemiLeptonic_ERDOn"
+]
 wjet_samples = [
     #"WJetsToLNu",
     "WJetsToLNuHT70To100",
@@ -223,7 +232,7 @@ cfg = Configurator(
         ],
         "filter" : {
             #"samples": ttbar_samples + data_samples,
-            "samples": ttbar_samples + ttbar_mass_samples + wjet_samples + st_samples + qcd_samples + other_samples + data_samples,
+            "samples": ttbar_samples + ttbar_mass_samples + ttbar_modelling_samples + wjet_samples + st_samples + qcd_samples + other_samples + data_samples,
             "samples_exclude" : [],
             "year": ['2016_PreVFP', '2016_PostVFP', '2017', '2018', '2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix', '2024']
             #"year" : ['2016_PreVFP', '2016_PostVFP', '2017', '2018']
