@@ -3,7 +3,67 @@ import numpy as np
 import awkward as ak
 import correctionlib
 
-from pocket_coffea.lib.scale_factors import get_ele_sf
+#from pocket_coffea.lib.scale_factors import get_ele_sf
+
+def get_ele_sf(
+        params, year, pt, eta, phi, counts=None, key='', pt_region=None, variations=["nominal"]
+):
+    '''
+    This function computes the per-electron reco or id SF.
+    If 'reco', the appropriate corrections are chosen by using the argument `pt_region`.
+    '''
+    electronSF = params["lepton_scale_factors"]["electron_sf"]
+    # translate the `year` key into the corresponding key in the correction file provided by the EGM-POG
+    year_pog = electronSF["era_mapping"][year]
+
+    if key in ['reco', 'id']:
+        electron_correctionset = correctionlib.CorrectionSet.from_file(
+            electronSF.JSONfiles[year]["file"]
+        )
+        map_name = electronSF.JSONfiles[year]["name"]
+
+        if key == 'reco':
+            sfname = electronSF.JSONfiles[year]["reco"][pt_region]
+        elif key == 'id':
+            sfname = electronSF["id"][params.object_preselection["Electron"]["id"]]
+        
+        if year in ["2023_preBPix", "2023_postBPix"]:
+            # Starting from 2023 SFs require the phi:
+            if key == 'reco' and pt_region == 'pt_lt_20':
+                # It also appears that for RecoBelow20 SFs the eta must be positive (absolute value).
+                eta_np = np.abs(eta.to_numpy())
+            else:
+                eta_np = eta.to_numpy()
+                
+            sf = electron_correctionset[map_name].evaluate(
+                year_pog, "sf", sfname, eta_np, pt.to_numpy(),  phi.to_numpy()
+            )
+            sfup = electron_correctionset[map_name].evaluate(
+                year_pog, "sfup", sfname, eta_np, pt.to_numpy(), phi.to_numpy()
+            )
+            sfdown = electron_correctionset[map_name].evaluate(
+                year_pog, "sfdown", sfname, eta_np, pt.to_numpy(), phi.to_numpy()
+            )
+        else:
+            # All other eras do not need phi:    
+            sf = electron_correctionset[map_name].evaluate(
+                year_pog, "sf", sfname, eta.to_numpy(), pt.to_numpy()
+            )
+            sfup = electron_correctionset[map_name].evaluate(
+                year_pog, "sfup", sfname, eta.to_numpy(), pt.to_numpy()
+            )
+            sfdown = electron_correctionset[map_name].evaluate(
+                year_pog, "sfdown", sfname, eta.to_numpy(), pt.to_numpy()
+            )
+        # The unflattened arrays are returned in order to have one row per event.
+        return (
+            ak.unflatten(sf, counts),
+            ak.unflatten(sfup, counts),
+            ak.unflatten(sfdown, counts),
+        )
+    else:
+        raise Exception(f"Invalid key `{key}` for get_ele_sf. Available keys are 'reco', 'id'.")
+
 
 def sf_ele_id(params, events, year):
     '''

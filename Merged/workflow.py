@@ -15,6 +15,7 @@ from Functions.Leptons import lepton_selection
 from Functions.jec_config import JECversions, JERversions, JECjsonFiles, JECvariations, nom_jec_variations
 from Functions.corrections import jet_correction_correctionlib
 from Functions.BtaggingShapeScaleFactors import BTagShapeCorrection
+from Functions.BtaggingWeightScaleFactors import BTagWeightCorrection
 from Functions.met_xy_correction import met_xy_correction_run2, met_xy_correction_run3
 from Functions.jet_veto_maps import apply_jet_veto_maps
 
@@ -155,12 +156,7 @@ class ttBaseProcessor_merge(BaseProcessorABC):
 
     def _get_extra_weights(self):
 
-        weights_inputs = self.weights_manager._weightsObj
-        all_inputs = []
-        weights_inputs["BTagShapeCorrectionSubjets"] = BTagShapeCorrection[[i.name for i in BTagShapeCorrection].index("BTagShapeCorrectionSubjets")]
-        all_inputs += ["BTagShapeCorrectionSubjets"]
         weight_names = {
-            "BTagShapeCorrectionSubjets" : ["nominal"],
             "WJetsRun2Stitching" : ["nominal"], 
             "WJetsRun3Stitching" : ["nominal"],
             "TTTo2L2NuRun2Stitching" : ["nominal"], 
@@ -176,6 +172,23 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             "prefiring" : ["nominal", "up", "down"],
             "pileup" : ["nominal", "up", "down"]
         }
+
+        all_inputs = []
+
+        weights_inputs = self.weights_manager._weightsObj
+
+        btag_shape_correction_names = ["BTagShapeCorrectionSubjets","BTagShapeCorrectionSubjets_down_hf","BTagShapeCorrectionSubjets_up_hf","BTagShapeCorrectionSubjets_down_lf","BTagShapeCorrectionSubjets_up_lf","BTagShapeCorrectionSubjets_down_hfstats1","BTagShapeCorrectionSubjets_up_hfstats1","BTagShapeCorrectionSubjets_down_hfstats2","BTagShapeCorrectionSubjets_up_hfstats2","BTagShapeCorrectionSubjets_down_lfstats1","BTagShapeCorrectionSubjets_up_lfstats1","BTagShapeCorrectionSubjets_down_lfstats2","BTagShapeCorrectionSubjets_up_lfstats2","BTagShapeCorrectionSubjets_down_cferr1","BTagShapeCorrectionSubjets_up_cferr1","BTagShapeCorrectionSubjets_down_cferr2","BTagShapeCorrectionSubjets_up_cferr2"]
+        for name in btag_shape_correction_names:
+            weights_inputs[name] = BTagShapeCorrection[[i.name for i in BTagShapeCorrection].index(name)]
+            all_inputs.append(name)
+            weight_names[name] = ["nominal"]
+
+        btag_weight_correction_names = ["BTagWeightCorrection_up", "BTagWeightCorrection_down", "BTagWeightCorrection_up_correlated", "BTagWeightCorrection_down_correlated"]
+        for name in btag_weight_correction_names:
+            weights_inputs[name] = BTagWeightCorrection[[i.name for i in BTagWeightCorrection].index(name)]
+            all_inputs.append(name)
+            weight_names[name] = ["nominal"]
+
         initial_dict = {}
         for k in weight_names:
             for var in weight_names[k]:
@@ -183,7 +196,7 @@ class ttBaseProcessor_merge(BaseProcessorABC):
                     initial_dict[f"{k}"] = np.ones(len(self.events))
                 else:
                     initial_dict[f"{k}_{var}"] = np.ones(len(self.events))
-        self.events["ExtraWeights"] = ak.zip(initial_dict)
+        self.events["Extra"] = ak.zip(initial_dict)
         if self._isMC:
             for weight_name, variations in weight_names.items():
                 if weight_name in weights_inputs.keys():
@@ -203,24 +216,24 @@ class ttBaseProcessor_merge(BaseProcessorABC):
                             down_weight = per_event_weight.down
                         for variation in variations:
                             if variation == "nominal":
-                                self.events["ExtraWeights"] = ak.with_field(
-                                    self.events["ExtraWeights"], nominal_weight, weight_name
+                                self.events["Extra"] = ak.with_field(
+                                    self.events["Extra"], nominal_weight, weight_name
                                 ) 
                             elif variation == "up":
-                                self.events["ExtraWeights"] = ak.with_field(
-                                    self.events["ExtraWeights"], up_weight, weight_name+"_up"
+                                self.events["Extra"] = ak.with_field(
+                                    self.events["Extra"], up_weight, weight_name+"_up"
                                 )
                             elif variation == "down":
-                                self.events["ExtraWeights"] = ak.with_field(
-                                    self.events["ExtraWeights"], down_weight, weight_name+"_down"
+                                self.events["Extra"] = ak.with_field(
+                                    self.events["Extra"], down_weight, weight_name+"_down"
                                 )                                     
                     else:
                         if weight_name in all_inputs:
                             nominal_weight = per_event_weight
                         else:
                             nominal_weight = per_event_weight.nominal
-                        self.events["ExtraWeights"] = ak.with_field(
-                            self.events["ExtraWeights"], nominal_weight, weight_name
+                        self.events["Extra"] = ak.with_field(
+                            self.events["Extra"], nominal_weight, weight_name
                         ) 
                 else:
                     print(f"Warning: Weight {weight_name} not found in inputs. Skipping.")  
