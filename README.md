@@ -42,7 +42,7 @@ apptainer shell \
   -B /etc/sysconfig/ngbauth-submit \
   -B ${XDG_RUNTIME_DIR} \
   --env KRB5CCNAME="FILE:${XDG_RUNTIME_DIR}/krb5cc" \
-  /cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cms-analysis/general/pocketcoffea:lxplus-el9-576bd3cd
+  /cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cms-analysis/general/pocketcoffea:lxplus-el9-latest
 ```
 
 With this you will also need to export `AnalysisConfigs` as the PYTHONPATH. This can be run from any directory of the `AnalysisConfigs` repository.
@@ -87,7 +87,7 @@ cd Merged
 In the following commands we use global variables defined the configure the output directories. Here is an example of how to do this.
 
 ```bash
-job_name="260126_v2"
+job_name="310326"
 eos_folder="/eos/user/g/guttley/pc_output"
 ```
 
