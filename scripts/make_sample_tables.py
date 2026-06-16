@@ -9,7 +9,7 @@ with open(file_name, "r") as f:
 
 run_years = {
   "Run 2": ["2016_PreVFP", "2016_PostVFP", "2017", "2018"],
-  "Run 3": ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix"]
+  "Run 3": ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix", "2024"]
 }
 
 for run, years in run_years.items():

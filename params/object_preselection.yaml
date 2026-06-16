@@ -13,7 +13,6 @@ object_preselection:
     id2: mvaIso_WP80
 
   Jet:
-    dr_lepton: 0.4
     pt: 20 # Lowering to 20 to account for corrections in jet energy scale and resolution
     eta: 2.4
     jetId: 2
@@ -25,10 +24,9 @@ object_preselection:
       wp: T
 
   FatJet:
-    dr_lepton: 0.4
     msd: 50 # soft drop mass
     pt: 30
     eta: 2.4
     jetId: 2
     btag:
-      wp: T  # Medium working point
+      wp: T

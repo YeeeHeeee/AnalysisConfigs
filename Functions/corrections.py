@@ -6,7 +6,7 @@ import correctionlib
 
 from pocket_coffea.lib.deltaR_matching import object_matching
 
-def get_function_inputs(corr, j):
+def get_function_inputs(corr, j, add_string={}):
 
     inputs = []
     for var in corr.inputs:
@@ -22,6 +22,8 @@ def get_function_inputs(corr, j):
             inputs.append(np.array(j['phi']))
         elif var.name == 'run':
             inputs.append(np.array(j['run']))
+        elif var.name in add_string.keys():
+            inputs.append(add_string[var.name])
         else:
             raise ValueError(f"Unknown input variable: {var.name}")
 
@@ -30,7 +32,7 @@ def get_function_inputs(corr, j):
 
 
 def jet_correction_correctionlib(
-    events, Jet, typeJet, JECversion, JERversion, JECjsonFile, year, MC,verbose=False, area=None, add_uncertainty=[]
+    events, Jet, typeJet, JECversion, JERversion, JECjsonFile, year, MC, verbose=False, area=None, add_uncertainty=[], input_raw=False
 ):
     '''
     This function implements the Jet Energy corrections and Jet energy smearning
@@ -46,8 +48,9 @@ def jet_correction_correctionlib(
 
     # until correctionlib handles jagged data natively we have to flatten and unflatten
     jets = events[Jet]
-    jets['pt_raw'] = (1 - jets['rawFactor']) * jets['pt']
-    jets['mass_raw'] = (1 - jets['rawFactor']) * jets['mass']
+    if not input_raw:
+        jets['pt_raw'] = (1 - jets['rawFactor']) * jets['pt']
+        jets['mass_raw'] = (1 - jets['rawFactor']) * jets['mass']
     if "msoftdrop" in jets.fields:
         if year in ['2016_PreVFP', '2016_PostVFP', '2017', '2018']:
             jets['msoftdrop_raw'] = (1 - jets['rawFactor']) * jets['msoftdrop']
@@ -116,16 +119,42 @@ def jet_correction_correctionlib(
 
             sf = JECfile[f'{JERversion}_ScaleFactor_{typeJet}']
             res = JECfile[f'{JERversion}_PtResolution_{typeJet}']
+
+            # check if systematic in sf inputs
+            systematic_in_sf = False
+            for var in sf.inputs:
+                if var.name == 'systematic':
+                    systematic_in_sf = True
+                    break
+
+            if not systematic_in_sf and shift != "nom":
+                sf = JECfile[f'{JERversion}_SFUncertainty_{typeJet}']
+
             j, nj = ak.flatten(jets_corrected), ak.num(jets_corrected)
-            if len(sf.inputs) == 2:
-                scaleFactor_flat = sf.evaluate(j['eta'].to_numpy(), shift)
-            elif len(sf.inputs) == 3:
-                scaleFactor_flat = sf.evaluate(
-                    j['eta'].to_numpy(), j['pt'].to_numpy(), shift
-                )
-            ptResolution_flat = res.evaluate(
-                j['eta'].to_numpy(), j['pt'].to_numpy(), j['rho'].to_numpy()
-            )
+
+            sf_function_inputs = get_function_inputs(sf, j, add_string={'systematic': shift})
+            res_function_inputs = get_function_inputs(res, j)
+ 
+            #if len(sf.inputs) == 2:
+            #    scaleFactor_flat = sf.evaluate(j['eta'].to_numpy(), shift)
+            #elif len(sf.inputs) == 3:
+            #    scaleFactor_flat = sf.evaluate(
+            #        j['eta'].to_numpy(), j['pt'].to_numpy(), shift
+            #    )
+            scaleFactor_flat = sf.evaluate(*sf_function_inputs)
+            #ptResolution_flat = res.evaluate(
+            #    j['eta'].to_numpy(), j['pt'].to_numpy(), j['rho'].to_numpy()
+            #)
+            ptResolution_flat = res.evaluate(*res_function_inputs)
+
+            if not systematic_in_sf:
+                if shift == "nom":
+                    nom_scaleFactor_flat = copy.deepcopy(scaleFactor_flat)
+                elif shift == "down":
+                    scaleFactor_flat = nom_scaleFactor_flat * (1 - scaleFactor_flat)
+                elif shift == "up":
+                    scaleFactor_flat = nom_scaleFactor_flat * (1 + scaleFactor_flat)
+
             scaleFactor = ak.unflatten(scaleFactor_flat, nj)
             ptResolution = ak.unflatten(ptResolution_flat, nj)
             # Match jets with gen-level jets, with DeltaR and DeltaPt requirements

@@ -15,6 +15,7 @@ import boost_histogram as bh
 from tabulate import tabulate
 import importlib.util
 import sys
+import pyarrow.parquet as pq
 from pathlib import Path
 from Functions.Plotting import plot_stacked_histogram_with_ratio, plot_histograms_with_ratio
 from Functions.rebinning import find_rebinning, rebin_histogram
@@ -139,7 +140,7 @@ class GetHistograms:
     self.write_after_load = write_after_load
     self.output = output
     self.extra_name = extra_name
-    self.norm_groups_to_data = norm_groups_to_data.split(",") if norm_groups_to_data is not None else []
+    self.norm_groups_to_data = norm_groups_to_data.split(",") if norm_groups_to_data is not None else None
 
     # Load the config file
     if ".yaml" in cfg:
@@ -150,6 +151,12 @@ class GetHistograms:
       module = importlib.util.module_from_spec(spec)
       spec.loader.exec_module(module)
       self.cfg = module.config
+
+    # if 2024 set plot_extra to an empty dict
+    #if "2024" in self.year:
+    #  self.cfg["plot_extra"] = {}
+    #  self.cfg["plot_extra_colours"] = {}
+    #  self.cfg["plot_extra_subtraction"] = {}
 
     self._set_missing_cfg_args()
     self._get_year_wildcard()
@@ -185,6 +192,7 @@ class GetHistograms:
     self.submit_ind = 0
     self.command_ind = 0
     self.files_groups_ran = {}
+    self.yield_from_sum = False
 
     if self.load_from_root:
       self.root_file = uproot.open(self.load_from_root)
@@ -555,18 +563,28 @@ class GetHistograms:
 
     for var in self.cfg["variables"].keys():
 
-      data_integral = self.stores["Nom"]["sum_wt"][var]["Total_Data"]
-      mc_integral = self.stores["Nom"]["sum_wt"][var]["Total_MC"]
+      if self.yield_from_sum:
+        data_integral = self.stores["Nom"]["sum_wt"][var]["Total_Data"]
+        mc_integral = self.stores["Nom"]["sum_wt"][var]["Total_MC"]
+      else:
+        data_integral = np.sum(self.stores["Nom"]["hists"][var]["Total_Data"])
+        mc_integral = np.sum(self.stores["Nom"]["hists"][var]["Total_MC"])
 
       group_integral = 0.0
       for group in self.norm_groups_to_data:
-        group_integral += self.stores["Nom"]["sum_wt_per_group"][var][group]
+        if self.yield_from_sum:
+          group_integral += self.stores["Nom"]["sum_wt_per_group"][var][group]
+        else:
+          group_integral += np.sum(self.stores["Nom"]["hists_per_group"][var][group])
 
       #group_integral = np.sum(total_group_hist)
       norm_factor = (data_integral - mc_integral + group_integral) / group_integral 
       post_scale_factors = {}
       for group in self.norm_groups_to_data:
         post_scale_factors[group] = norm_factor
+
+      #print(post_scale_factors)
+      #exit()
 
       # Loop over files
       self.files_groups_ran = {}
@@ -578,6 +596,9 @@ class GetHistograms:
         if k is None: continue
         if k not in self.norm_groups_to_data: continue
 
+        #if f in self.files_groups_ran[k]: continue
+        #self.files_groups_ran[k].append(f)
+
         # Get the file names
         file_name, era_name, file_name_minus_era = self._get_file_names(f)
         total_name = "Total_MC" if "Data" not in k else "Total_Data"
@@ -587,7 +608,20 @@ class GetHistograms:
         # Do Nom
         save_to = "Nom"
         if var not in self.stores[save_to]["hists_per_file"]: continue
-        if file_name not in self.stores[save_to]["hists_per_file"][var]: continue
+        #if file_name not in self.stores[save_to]["hists_per_file"][var]: continue
+        # Need to check if the file_name is in the store or any of the files startwith the filename with _ext 
+        if file_name not in self.stores[save_to]["hists_per_file"][var].keys():
+          found_file = False
+          for fn in self.stores[save_to]["hists_per_file"][var].keys():
+            if fn.startswith(f"{file_name}_ext"):
+              file_name = fn
+              found_file = True
+              break
+          if not found_file:
+            continue
+
+
+        print(f"Scaling {file_name} by {scale_factor} to normalise {k} to data")
 
         # Do totals by subtractin old and adding new
         self.stores[save_to]["hists"][var][total_name] += (self.stores[save_to]["hists_per_file"][var][file_name] * (scale_factor - 1.0))
@@ -659,6 +693,8 @@ class GetHistograms:
         # Get the file names
         file_name, era_name, file_name_minus_era = self._get_file_names(f)
 
+        print(f"Scaling {file_name} by {self.cfg['scale_to'][k]}")
+
         total_name = "Total_MC" if "Data" not in k else "Total_Data"
 
         # Get scale factor
@@ -669,9 +705,16 @@ class GetHistograms:
 
         numerator = 0.0
         for scale_to_file in scale_to_files:
-          if scale_to_file in self.stores["Nom"]["sum_wt_per_group"][var].keys():
-            numerator += self.stores["Nom"]["sum_wt_per_group"][var][scale_to_file]
-        scale_factor = numerator / self.stores["Nom"]["sum_wt_per_group"][var][k]
+          if self.yield_from_sum:
+            if scale_to_file in self.stores["Nom"]["sum_wt_per_group"][var].keys():
+              numerator += self.stores["Nom"]["sum_wt_per_group"][var][scale_to_file]
+          else:
+            if scale_to_file in self.stores["Nom"]["hists_per_group"][var].keys():
+              numerator += np.sum(self.stores["Nom"]["hists_per_group"][var][scale_to_file])
+        if self.yield_from_sum:
+          scale_factor = numerator / self.stores["Nom"]["sum_wt_per_group"][var][k]
+        else:
+          scale_factor = numerator / np.sum(self.stores["Nom"]["hists_per_group"][var][k])
 
         # Do Nom
         save_to = "Nom"
@@ -722,10 +765,17 @@ class GetHistograms:
 
         numerator = 0.0
         for scale_to_file in scale_to_files:
-          if scale_to_file in self.stores["Nom"]["sum_wt_per_group"][var].keys():
-            numerator += self.stores["Nom"]["sum_wt_per_group"][var][scale_to_file]
+          if self.yield_from_sum:
+            if scale_to_file in self.stores["Nom"]["sum_wt_per_group"][var].keys():
+              numerator += self.stores["Nom"]["sum_wt_per_group"][var][scale_to_file]
+          else:
+            if scale_to_file in self.stores["Nom"]["hists_per_group"][var].keys():
+              numerator += np.sum(self.stores["Nom"]["hists_per_group"][var][scale_to_file])
 
-        scale_factor = numerator / self.stores["Nom"]["sum_wt_per_group"][var][k]
+        if self.yield_from_sum:
+          scale_factor = numerator / self.stores["Nom"]["sum_wt_per_group"][var][k]
+        else:
+          scale_factor = numerator / np.sum(self.stores["Nom"]["hists_per_group"][var][k])
 
         # Total
         if k in self.cfg["groups"].keys():
@@ -927,7 +977,11 @@ class GetHistograms:
       if not self.submit:
         if self.load_from_root is None:
 
-          loaded_df = pd.read_parquet(f, columns=needed_columns)
+          schema = pq.ParquetFile(f).schema
+          available_columns = schema.names
+          cols_to_load = [col for col in needed_columns if col in available_columns]
+
+          loaded_df = pd.read_parquet(f, columns=cols_to_load)
 
           if loaded_df.empty: continue
           # Apply pre-selection if provided
@@ -980,8 +1034,10 @@ class GetHistograms:
         if self.submit:
           self._submit(specific_histogram_name=root_file_name)
         else:
-          print("Running nominal")
-          _ = self._get_histograms(df.copy() if df is not None else None, calculate, sel, file_name_ext, k, "Total_MC" if "Data" not in k else "Total_Data", save_to="Nom", group_name=k)
+          #_ = self._get_histograms(df.copy() if df is not None else None, calculate, sel, file_name_ext, k, "Total_MC" if "Data" not in k else "Total_Data", save_to="Nom", group_name=k)
+          events_at_once = 10**8
+          for i in range(0, len(df) if df is not None else 0, events_at_once):
+             _ = self._get_histograms(df.iloc[i:i+events_at_once].copy() if df is not None else None, calculate, sel, file_name_ext, k, "Total_MC" if "Data" not in k else "Total_Data", save_to="Nom", group_name=k)
 
       # Get systemtics histograms
       if "systematics" in self.cfg and "Data" not in k and self.syst:
@@ -1023,7 +1079,6 @@ class GetHistograms:
 
               if self.specific_histogram is None and not self.submit:
                 self._add_nom_to_syst_groups(shift_name, k, file_name_ext, syst_name)
-
 
     if self.specific_histogram is None and not self.submit:
 

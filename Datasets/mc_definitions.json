@@ -10,7 +10,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -20,7 +20,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -30,7 +30,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -40,7 +40,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -52,7 +52,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -63,7 +63,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -73,7 +73,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -83,7 +83,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -93,7 +93,7 @@
                 "metadata":{
                     "year": "2024",
                     "isMC":true,
-                    "xsec":336.08 
+                    "xsec": 405.69 
                     
                 }
             }
@@ -110,7 +110,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -120,7 +120,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -130,7 +130,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -140,7 +140,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -151,7 +151,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -161,7 +161,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -171,7 +171,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -181,7 +181,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             }
         ]
@@ -197,7 +197,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -207,7 +207,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -217,7 +217,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -227,7 +227,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -238,7 +238,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -248,7 +248,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -258,7 +258,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -268,7 +268,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             }
         ]
@@ -284,7 +284,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -294,7 +294,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -304,7 +304,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -314,7 +314,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -325,7 +325,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -335,7 +335,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -345,7 +345,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -355,7 +355,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             }
         ]
@@ -371,7 +371,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -381,7 +381,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -391,7 +391,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -401,7 +401,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -412,7 +412,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -422,7 +422,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -432,7 +432,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -442,7 +442,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             }
         ]
@@ -458,7 +458,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -468,7 +468,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -478,7 +478,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -488,7 +488,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -499,7 +499,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -509,7 +509,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -519,7 +519,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -529,7 +529,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             }
         ]
@@ -545,7 +545,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -555,7 +555,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -565,7 +565,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -575,7 +575,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -586,7 +586,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -596,7 +596,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -606,7 +606,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -616,7 +616,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             }
         ]
@@ -632,7 +632,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -642,7 +642,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -652,7 +652,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -662,7 +662,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -673,7 +673,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -683,7 +683,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -693,7 +693,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -703,7 +703,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             }
         ]
@@ -719,7 +719,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -729,7 +729,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -739,7 +739,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -749,7 +749,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -760,7 +760,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -770,7 +770,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -780,7 +780,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -790,7 +790,17 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
+                }
+            },
+            {
+                "das_names": [
+                    "/TTtoLNu2Q_Par-MT-166p5_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v3/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 405.69
                 }
             }
         ]
@@ -806,7 +816,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -816,7 +826,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -826,7 +836,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -836,7 +846,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -847,7 +857,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -857,7 +867,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -867,7 +877,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -877,7 +887,17 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
+                }
+            },
+            {
+                "das_names": [
+                    "/TTtoLNu2Q_Par-MT-169p5_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 405.69
                 }
             }
         ]
@@ -893,7 +913,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -903,7 +923,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -913,7 +933,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -923,7 +943,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -934,7 +954,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -944,7 +964,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -954,7 +974,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -964,7 +984,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             }
         ]
@@ -980,7 +1000,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -990,7 +1010,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1000,7 +1020,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1010,7 +1030,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1021,7 +1041,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -1031,7 +1051,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -1041,7 +1061,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -1051,7 +1071,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             }
         ]
@@ -1067,7 +1087,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1077,7 +1097,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1087,7 +1107,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1097,7 +1117,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1108,7 +1128,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -1118,7 +1138,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -1128,7 +1148,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -1138,7 +1158,17 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
+                }
+            },
+            {
+                "das_names": [
+                    "/TTtoLNu2Q_Par-MT-175p5_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 405.69
                 }
             }
         ]
@@ -1154,7 +1184,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1164,7 +1194,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1174,7 +1204,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1184,7 +1214,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1195,7 +1225,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -1205,7 +1235,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -1215,7 +1245,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
                 }
             },
             {
@@ -1225,7 +1255,17 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 336.08
+                    "xsec": 405.69
+                }
+            },
+            {
+                "das_names": [
+                    "/TTtoLNu2Q_Par-MT-178p5_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 405.69
                 }
             }
         ]
@@ -1241,7 +1281,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1251,7 +1291,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1261,7 +1301,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1271,7 +1311,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             }
         ]
@@ -1287,7 +1327,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1297,7 +1337,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1307,7 +1347,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1317,7 +1357,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             }
         ]
@@ -1333,7 +1373,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1343,7 +1383,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1353,7 +1393,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1363,7 +1403,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             }
         ]
@@ -1379,7 +1419,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1389,7 +1429,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1399,7 +1439,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1409,7 +1449,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             }
         ]
@@ -1425,7 +1465,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1435,7 +1475,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1445,7 +1485,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1455,7 +1495,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             }
         ]
@@ -1471,7 +1511,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1481,7 +1521,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1491,7 +1531,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             },
             {
@@ -1501,7 +1541,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 303.01
+                    "xsec": 366.29
                 }
             }
         ]
@@ -1517,7 +1557,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -1527,7 +1567,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -1537,7 +1577,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -1547,7 +1587,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -1558,7 +1598,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -1569,7 +1609,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -1579,7 +1619,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -1589,7 +1629,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -1599,7 +1639,7 @@
                 "metadata": {
                     "year": "2024",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             }
         ]
@@ -1615,7 +1655,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -1625,7 +1665,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -1635,7 +1675,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -1645,7 +1685,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -1656,7 +1696,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -1666,7 +1706,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -1676,7 +1716,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -1686,7 +1726,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -1696,7 +1736,7 @@
                 "metadata": {
                     "year": "2024",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             }
         ]
@@ -1712,7 +1752,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -1722,7 +1762,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -1732,7 +1772,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -1742,7 +1782,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -1753,7 +1793,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -1763,7 +1803,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -1773,7 +1813,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -1783,7 +1823,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -1793,7 +1833,7 @@
                 "metadata": {
                     "year": "2024",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             }
 
@@ -1810,7 +1850,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -1820,7 +1860,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -1830,7 +1870,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -1840,7 +1880,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -1851,7 +1891,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -1861,7 +1901,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -1871,7 +1911,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -1881,7 +1921,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -1891,7 +1931,7 @@
                 "metadata": {
                     "year": "2024",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             }
         ]
@@ -1907,7 +1947,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -1917,7 +1957,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -1927,7 +1967,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -1937,7 +1977,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -1948,7 +1988,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -1958,7 +1998,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -1968,7 +2008,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -1978,7 +2018,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -1988,7 +2028,7 @@
                 "metadata": {
                     "year": "2024",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             }
         ]
@@ -2004,7 +2044,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -2014,7 +2054,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -2024,7 +2064,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -2034,7 +2074,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -2045,7 +2085,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -2055,7 +2095,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -2065,7 +2105,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -2075,7 +2115,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -2085,7 +2125,7 @@
                 "metadata": {
                     "year": "2024",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             }
         ]
@@ -2101,7 +2141,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -2111,7 +2151,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -2121,7 +2161,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -2131,7 +2171,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 73.51
+                    "xsec": 88.51
                 }
             },
             {
@@ -2142,7 +2182,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -2152,7 +2192,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -2162,7 +2202,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -2172,7 +2212,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             },
             {
@@ -2182,7 +2222,7 @@
                 "metadata": {
                     "year": "2024",
                     "isMC": true,
-                    "xsec": 81.54
+                    "xsec": 98.04
                 }
             }
         ]
@@ -2198,7 +2238,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2208,7 +2248,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2218,7 +2258,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2228,7 +2268,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2238,7 +2278,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2248,7 +2288,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2258,7 +2298,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2268,7 +2308,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2278,7 +2318,7 @@
                 "metadata":{
                     "year":"2024",
                     "isMC":true,
-                    "xsec":346.30
+                    "xsec":419.69
                 }
             }
         ]
@@ -2294,7 +2334,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2304,7 +2344,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2314,7 +2354,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2324,7 +2364,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2335,7 +2375,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2345,7 +2385,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2355,7 +2395,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2365,7 +2405,17 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
+                }
+            },
+            {
+                "das_names": [
+                    "/TTto4Q_Par-MT-166p5_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 419.69
                 }
             }
         ]
@@ -2381,7 +2431,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2391,7 +2441,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2401,7 +2451,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2411,7 +2461,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2422,7 +2472,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2432,7 +2482,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2442,7 +2492,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2452,7 +2502,17 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
+                }
+            },
+            {
+                "das_names": [
+                    "/TTto4Q_Par-MT-169p5_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 419.69
                 }
             }
         ]
@@ -2468,7 +2528,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2478,7 +2538,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2488,7 +2548,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2498,7 +2558,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2509,7 +2569,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2519,7 +2579,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2529,7 +2589,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2539,7 +2599,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             }
         ]
@@ -2555,7 +2615,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2565,7 +2625,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2575,7 +2635,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2585,7 +2645,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2596,7 +2656,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2606,7 +2666,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2616,7 +2676,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2626,7 +2686,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             }
         ]
@@ -2642,7 +2702,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2652,7 +2712,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2662,7 +2722,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2672,7 +2732,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2683,7 +2743,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2693,7 +2753,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2703,7 +2763,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2713,7 +2773,17 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
+                }
+            },
+            {
+                "das_names": [
+                    "/TTto4Q_Par-MT-175p5_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 419.69
                 }
             }
         ]
@@ -2729,7 +2799,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2739,7 +2809,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2749,7 +2819,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2759,7 +2829,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 312.22
+                    "xsec": 378.93
                 }
             },
             {
@@ -2770,7 +2840,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2780,7 +2850,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2790,7 +2860,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
                 }
             },
             {
@@ -2800,7 +2870,17 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 346.30
+                    "xsec": 419.69
+                }
+            },
+            {
+                "das_names": [
+                    "/TTto4Q_Par-MT-178p5_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 419.69
                 }
             }
         ]
@@ -4112,7 +4192,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 115.3
+                    "xsec": 134.2
                 }
             },
             {
@@ -4122,7 +4202,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 115.3
+                    "xsec": 134.2
                 }
             },
             {
@@ -4132,7 +4212,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 115.3
+                    "xsec": 134.2
                 }
             },
             {
@@ -4142,7 +4222,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 115.3
+                    "xsec": 134.2
                 }
             },
             {
@@ -4152,7 +4232,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 123.8
+                    "xsec": 145.0
                 }
             },
             {
@@ -4162,7 +4242,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 123.8
+                    "xsec": 145.0
                 }
             },
             {
@@ -4172,7 +4252,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 123.8
+                    "xsec": 145.0
                 }
             },
             {
@@ -4182,18 +4262,39 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 123.8
+                    "xsec": 145.0
                 }
-            },
+            }
+        ]
+    },
+    "ST_t_channel_top_hadronic":{
+        "sample": "ST_t_channel_top_hadronic",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
             {
                 "das_names": [
-                    "/TBbarQto2Q-t-channel-4FS_TuneCP5_13p6TeV_powheg-madspin-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM",
+                    "/TBbarQto2Q-t-channel-4FS_TuneCP5_13p6TeV_powheg-madspin-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 97.74
+                }
+            } 
+        ]
+    },
+    "ST_t_channel_top_leptonic":{
+        "sample": "ST_t_channel_top_leptonic",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
                     "/TBbarQtoLNu-t-channel-4FS_TuneCP5_13p6TeV_powheg-madspin-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
                 ],
                 "metadata": {
                     "year": "2024",
                     "isMC": true,
-                    "xsec": 123.8
+                    "xsec": 47.24
                 }
             } 
         ]
@@ -4209,7 +4310,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 69.09
+                    "xsec": 80.0
                 }
             },
             {
@@ -4219,7 +4320,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 69.09
+                    "xsec": 80.0
                 }
             },
             {
@@ -4229,7 +4330,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 69.09
+                    "xsec": 80.0
                 }
             },
             {
@@ -4239,7 +4340,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 69.09
+                    "xsec": 80.0
                 }
             },
             {
@@ -4249,7 +4350,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 75.47
+                    "xsec": 87.2
                 }
             },
             {
@@ -4259,7 +4360,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 75.47
+                    "xsec": 87.2
                 }
             },
             {
@@ -4269,7 +4370,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 75.47
+                    "xsec": 87.2
                 }
             },
             {
@@ -4279,24 +4380,45 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 75.47
-                }
-            },
-            {
-                "das_names":[
-                    "/TbarBQto2Q-t-channel-4FS_TuneCP5_13p6TeV_powheg-madspin-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM",
-                    "/TbarBQtoLNu-t-channel-4FS_TuneCP5_13p6TeV_powheg-madspin-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
-                ],
-                "metadata":{
-                    "year":"2024",
-                    "isMC":true,
-                    "xsec":75.47
+                    "xsec": 87.2
                 }
             }
         ]
     },
-    "ST_s_channel":{
-        "sample": "ST_s_channel",
+    "ST_t_channel_antitop_hadronic":{
+        "sample": "ST_t_channel_antitop_hadronic",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names":[
+                    "/TbarBQto2Q-t-channel-4FS_TuneCP5_13p6TeV_powheg-madspin-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata":{
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 58.78
+                }
+            }
+        ]
+    },
+    "ST_t_channel_antitop_leptonic":{
+        "sample": "ST_t_channel_antitop_leptonic",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names":[
+                    "/TbarBQtoLNu-t-channel-4FS_TuneCP5_13p6TeV_powheg-madspin-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM"
+                ],
+                "metadata":{
+                    "year": "2024",
+                    "isMC": true,
+                    "xsec": 28.41
+                }
+            }
+        ]
+    },
+    "ST_s_channel_leptonic":{
+        "sample": "ST_s_channel_leptonic",
         "json_output": "Datasets/backgrounds_MC_ttbar.json",
         "files": [
             {
@@ -4306,7 +4428,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 3.74
+                    "xsec": 3.61
                 }
             },
             {
@@ -4316,7 +4438,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 3.74
+                    "xsec": 3.61
                 }
             },
             {
@@ -4326,7 +4448,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 3.74
+                    "xsec": 3.61
                 }
             },
             {
@@ -4336,13 +4458,59 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 3.74
+                    "xsec": 3.61
                 }
             }
         ]
     },
-    "ST_s_channel_top":{
-        "sample": "ST_s_channel_top",
+    "ST_s_channel_hadronic":{
+        "sample": "ST_s_channel_hadronic",
+        "json_output": "Datasets/backgrounds_MC_ttbar.json",
+        "files": [
+            {
+                "das_names": [
+                    "/ST_s-channel_4f_hadronicDecays_TuneCP5_13TeV-amcatnlo-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PreVFP",
+                    "isMC": true,
+                    "xsec": 7.46
+                }
+            },
+            {
+                "das_names": [
+                    "/ST_s-channel_4f_hadronicDecays_TuneCP5_13TeV-amcatnlo-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2016_PostVFP",
+                    "isMC": true,
+                    "xsec": 7.46
+                }
+            },
+            {
+                "das_names": [
+                    "/ST_s-channel_4f_hadronicDecays_TuneCP5_13TeV-amcatnlo-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2017",
+                    "isMC": true,
+                    "xsec": 7.46
+                }
+            },
+            {
+                "das_names": [
+                    "/ST_s-channel_4f_hadronicDecays_TuneCP5_13TeV-amcatnlo-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM"
+                ],
+                "metadata": {
+                    "year": "2018",
+                    "isMC": true,
+                    "xsec": 7.46
+                }
+            }
+        ]
+    },
+    "ST_s_channel_top_leptonic":{
+        "sample": "ST_s_channel_top_leptonic",
         "json_output": "Datasets/backgrounds_MC_ttbar.json",
         "files": [
             {
@@ -4352,7 +4520,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 2.278
+                    "xsec": 2.36
                 }
             },
             {
@@ -4362,7 +4530,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 2.278
+                    "xsec": 2.36
                 }
             },
             {
@@ -4372,7 +4540,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 2.278
+                    "xsec": 2.36
                 }
             },
             {
@@ -4382,7 +4550,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 2.278
+                    "xsec": 2.36
                 }
             },
             {
@@ -4392,13 +4560,13 @@
                 "metadata": {
                     "year": "2024",
                     "isMC": true,
-                    "xsec": 2.278
+                    "xsec": 2.36
                 }
             } 
         ]
     },
-    "ST_s_channel_antitop":{
-        "sample": "ST_s_channel_antitop",
+    "ST_s_channel_antitop_leptonic":{
+        "sample": "ST_s_channel_antitop_leptonic",
         "json_output": "Datasets/backgrounds_MC_ttbar.json",
         "files": [
             {
@@ -4408,7 +4576,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 1.43
+                    "xsec": 1.48
                 }
             },
             {
@@ -4418,7 +4586,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 1.43
+                    "xsec": 1.48
                 }
             },
             {
@@ -4428,7 +4596,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 1.43
+                    "xsec": 1.48
                 }
             },
             {
@@ -4438,7 +4606,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 1.43
+                    "xsec": 1.48
                 }
             },
             {
@@ -4448,7 +4616,7 @@
                 "metadata": {
                     "year": "2024",
                     "isMC": true,
-                    "xsec": 1.43
+                    "xsec": 1.48
                 }
             } 
         ]
@@ -4464,7 +4632,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 19.01
+                    "xsec": 21.62
                 }
             },
             {
@@ -4474,7 +4642,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 19.01
+                    "xsec": 21.62
                 }
             },
             {
@@ -4484,7 +4652,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 19.01
+                    "xsec": 21.62
                 }
             },
             {
@@ -4494,7 +4662,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 19.01
+                    "xsec": 21.62
                 }
             },
             {
@@ -4504,7 +4672,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 15.8
+                    "xsec": 19.30
                 }
             },
             {
@@ -4514,7 +4682,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 15.8
+                    "xsec": 19.30
                 }
             },
             {
@@ -4524,7 +4692,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 15.8
+                    "xsec": 19.30
                 }
             },
             {
@@ -4534,7 +4702,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 15.8
+                    "xsec": 19.30
                 }
             },
             {
@@ -4544,7 +4712,7 @@
                 "metadata": {
                     "year": "2024",
                     "isMC": true,
-                    "xsec": 15.8
+                    "xsec": 19.30
                 }
             }  
         ]
@@ -4560,7 +4728,7 @@
                 "metadata": {
                     "year": "2016_PreVFP",
                     "isMC": true,
-                    "xsec": 19.08
+                    "xsec": 21.62
                 }
             },
             {
@@ -4570,7 +4738,7 @@
                 "metadata": {
                     "year": "2016_PostVFP",
                     "isMC": true,
-                    "xsec": 19.08
+                    "xsec": 21.62
                 }
             },
             {
@@ -4580,7 +4748,7 @@
                 "metadata": {
                     "year": "2017",
                     "isMC": true,
-                    "xsec": 19.08
+                    "xsec": 21.62
                 }
             },
             {
@@ -4590,7 +4758,7 @@
                 "metadata": {
                     "year": "2018",
                     "isMC": true,
-                    "xsec": 19.08
+                    "xsec": 21.62
                 }
             },
             {
@@ -4600,7 +4768,7 @@
                 "metadata": {
                     "year": "2022_preEE",
                     "isMC": true,
-                    "xsec": 15.9
+                    "xsec": 19.30
                 }
             },
             {
@@ -4610,7 +4778,7 @@
                 "metadata": {
                     "year": "2022_postEE",
                     "isMC": true,
-                    "xsec": 15.9
+                    "xsec": 19.30
                 }
             },
             {
@@ -4620,7 +4788,7 @@
                 "metadata": {
                     "year": "2023_preBPix",
                     "isMC": true,
-                    "xsec": 15.9
+                    "xsec": 19.30
                 }
             },
             {
@@ -4630,7 +4798,7 @@
                 "metadata": {
                     "year": "2023_postBPix",
                     "isMC": true,
-                    "xsec": 15.9
+                    "xsec": 19.30
                 }
             },
             {
@@ -4640,7 +4808,7 @@
                 "metadata": {
                     "year": "2024",
                     "isMC": true,
-                    "xsec": 15.9
+                    "xsec": 19.30
                 }
             }  
         ]

@@ -1,6 +1,4 @@
-import awkward as ak
 import numpy as np
-import correctionlib
 
 def lepton_selection(events, lepton_flavour, params, year):
 

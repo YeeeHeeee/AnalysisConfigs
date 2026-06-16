@@ -106,6 +106,18 @@ wjets_files = [
   "WJetsToLNuHT800To1500MLNu120",
   "WJetsToLNuHT1500To2500MLNu120",
   "WJetsToLNuHT2500MLNu120",  
+  #"WJetsToLNuMLNu120To200",
+  #"WJetsToLNuMLNu200To400",
+  #"WJetsToLNuMLNu400To800",
+  #"WJetsToLNuMLNu800To1500",
+  #"WJetsToLNuMLNu1500To2500",
+  #"WJetsToLNuMLNu2500To4000",
+  #"WJetsToLNuMLNu4000To6000",
+  #"WJetsToLNuMLNu6000",
+  "WJetsToLNu1J",
+  "WJetsToLNu2J",
+  "WJetsToLNu3J",
+  "WJetsToLNu4J",
 ]
 
 other_files = [
@@ -147,11 +159,11 @@ other_files = [
 
 all_files = top_files + other_files + wjets_files
 
-extra_columns = []
+extra_columns = ["LeptonSave_eta", "LeptonSave_phi", "LeptonSave_mass", "GenWeights_isr1fsr0p5", "GenWeights_isr1fsr2"]
 if not split_merged:
   groups = {
     'Data': ['DATA_*.parquet'],
-    'TT (172.5 GeV)': [f'{f}_*.parquet' for f in ttbar_files] if not use_bw_files else ['TT_172p5_*.parquet'],
+    'TT (172.5 GeV)': [f'{f}_20*.parquet' for f in ttbar_files] if not use_bw_files else ['TT_172p5_*_chunk_*.parquet'],
     'ST': [f'{f}_*.parquet' for f in st_files],
     'WJ': [f'{f}_*.parquet' for f in wjets_files],
     #'Other': [f'{f}_*.parquet' for f in other_files],
@@ -160,8 +172,8 @@ if not split_merged:
 else:
   groups = {
     'Data': ['DATA_*.parquet'],
-    'TT Merged (172.5 GeV)': [f'{f}_*.parquet' for f in ttbar_files] if not use_bw_files else ['TT_172p5_*.parquet'],
-    'TT Unmerged (172.5 GeV)': [f'{f}_*.parquet' for f in ttbar_files] if not use_bw_files else ['TT_172p5_*.parquet'],
+    'TT Merged (172.5 GeV)': [f'{f}_20*.parquet' for f in ttbar_files] if not use_bw_files else ['TT_172p5_*_chunk_*.parquet'],
+    'TT Unmerged (172.5 GeV)': [f'{f}_20*.parquet' for f in ttbar_files] if not use_bw_files else ['TT_172p5_*_chunk_*.parquet'],
     'ST': [f'{f}_*.parquet' for f in st_files],
     'WJ': [f'{f}_*.parquet' for f in wjets_files],
     #'Other': [f'{f}_*.parquet' for f in other_files],
@@ -180,7 +192,7 @@ if get_extra_masses:
     extra_masses += ttbar_bw_extra_split_masses
   other_groups = {}
   for mass in extra_masses:
-    other_groups[f'TT ({mass} GeV)'] = [f'TTToSemiLeptonic{str(mass).replace(".","p")}_*.parquet', f'TTToHadronic{str(mass).replace(".","p")}_*.parquet', f'TTTo2L2Nu{str(mass).replace(".","p")}_*.parquet'] if not use_bw_files else [f'TT_{str(mass).replace(".","p")}_*.parquet']
+    other_groups[f'TT ({mass} GeV)'] = [f'TTToSemiLeptonic{str(mass).replace(".","p")}_*.parquet', f'TTToHadronic{str(mass).replace(".","p")}_*.parquet', f'TTTo2L2Nu{str(mass).replace(".","p")}_*.parquet'] if not use_bw_files else [f'TT_{str(mass).replace(".","p")}_*chunk_*.parquet']
     if not split_merged:
       scale_to[f'TT ({mass} GeV)'] = "TT (172.5 GeV)"
     else:
@@ -248,7 +260,9 @@ variables = {
   'FatJet_tau31' : '(0,1,0.02)',
   'LeptonSave_leptonType' : '[-0.5,0.5,1.5]',
   'LeptonSave_pt' : '(20,400,10)',
+  'LeptonSave_RelIso' : '(0,0.5,0.01)',
   'MET_pt' : '(0,400,10)',
+  "nu_E" : '(0,400,10)',
   'MET_phi' : '(-3.2,3.2,0.1)',
   'SubJet1_mass' : '(0,200,5)',
   'SubJet1_pt' : '(200,700,10)',
@@ -282,8 +296,16 @@ variables = {
   'CombinedSubJets_pt' : '(400,800,10)',
   'CombinedSubJets_eta' : '(-2.5,2.5,0.1)',
   'CombinedSubJets_phi' : '(-3.2,3.2,0.2)',
+  'CombinedSubJets_mass_W_rescaled' : '(50,320,5)',
+  'CombinedSubJets_pt_W_rescaled' : '(400,800,10)',
+  'CombinedSubJets_eta_W_rescaled' : '(-2.5,2.5,0.1)',
+  'CombinedSubJets_phi_W_rescaled' : '(-3.2,3.2,0.2)',
   'JetLepton_ptrel' : '(0,400,10)',
   'JetLepton_deltaR' : '(0,5,0.1)',
+  'ClosestJetWithLeptonRemoved_ptrel' : '(0,400,10)',
+  'ClosestJetWithLeptonRemoved_deltaR' : '(0,5,0.1)',
+  'ClosestJetWithoutLeptonRemoved_ptrel' : '(0,400,10)',
+  'ClosestJetWithoutLeptonRemoved_deltaR' : '(0,5,0.1)',
   'LeptonMET_mt' : '(0,400,10)',
   'BJetLep_pt' : '(0,500,10)',
   'BJetLep_eta' : '(-2.5,2.5,0.1)',
@@ -292,6 +314,14 @@ variables = {
   'BJetLep_btagDeepFlavB' : '(0,1,0.02)',
   'LeptonicTop_mass' : '(20,250,5)',
   'LeptonicTop_pt' : '(0,600,20)',
+  'LeptonicTopPlusMET_mass' : '(20,400,5)',
+  'LeptonicTopPlusMET_pt' : '(0,600,20)',
+  'LeptonicTop_Wconstraint_mass' : '(100,300,5)',
+  'LeptonicTop_Wconstraint_pt' : '(0,600,20)',
+  'ClosestJetToLepton_mass' : '(0,200,5)',
+  'ClosestJetToLepton_pt' : '(0,200,10)',
+  'ClosestJetToLepton_eta' : '(-2.5,2.5,0.1)',
+  'ClosestJetToLepton_phi' : '(-3.2,3.2,0.1)',
 }
 
 translate = {
@@ -340,6 +370,10 @@ translate = {
   'CombinedSubJets_pt' : '$p_{T}^{AK8, S1+S2}$ (GeV)',
   'CombinedSubJets_eta' : '$\\eta^{AK8, S1+S2}$',
   'CombinedSubJets_phi' : '$\\phi^{AK8, S1+S2}$',
+  'CombinedSubJets_mass_W_rescaled' : '$m_{rec}^{AK8, S1+S2, W-rescaled}$ (GeV)',
+  'CombinedSubJets_pt_W_rescaled' : '$p_{T}^{AK8, S1+S2, W-rescaled}$ (GeV)',
+  'CombinedSubJets_eta_W_rescaled' : '$\\eta^{AK8, S1+S2, W-rescaled}$',
+  'CombinedSubJets_phi_W_rescaled' : '$\\phi^{AK8, S1+S2, W-rescaled}$',
   'BJetLep_pt' : '$p_{T}^{lep b jet}$ (GeV)',
   'BJetLep_eta' : '$\\eta^{lep b jet}$',
   'BJetLep_phi' : '$\\phi^{lep b jet}$',
@@ -347,6 +381,8 @@ translate = {
   'BJetLep_btagDeepFlavB' : 'b tagging score (lep b jet)',
   'JetLepton_ptrel' : '$p_{T}^{rel}$(lep, Next AK4 jet) (GeV)',
   'JetLepton_deltaR' : '$\\Delta R$(lep, Next AK4 jet)',
+  'ClosestJetWithLeptonRemoved_ptrel' : '$p_{T}^{rel}$(lep, Next AK4 jet) (GeV)',
+  'ClosestJetWithLeptonRemoved_deltaR' : '$\\Delta R$(lep, Next AK4 jet)',
   'LeptonMET_mt' : '$m_{T}^{lep, MET}$ (GeV)',
 }
 
@@ -361,6 +397,8 @@ all_years = [
   "2023_preBPix",
   "2023_postBPix",
 ]
+
+extra_columns += list(variables.keys())
 
 
 # Ideal
@@ -394,10 +432,10 @@ all_years = [
 calculate = {}
 if not use_boosted:
   if "weight" in calculate:
-    calculate["weight"] = f"({calculate['weight']})/(ExtraWeights_TTTo2L2NuRun2Stitching*ExtraWeights_TTToSemiLeptonicRun2Stitching*ExtraWeights_TTToHadronicRun2Stitching)"
+    calculate["weight"] = f"({calculate['weight']})/(Extra_TTTo2L2NuRun2Stitching*Extra_TTToSemiLeptonicRun2Stitching*Extra_TTToHadronicRun2Stitching)"
   else:
     calculate.update({
-      "weight" : "weight/(ExtraWeights_TTTo2L2NuRun2Stitching*ExtraWeights_TTToSemiLeptonicRun2Stitching*ExtraWeights_TTToHadronicRun2Stitching)"
+      "weight" : "weight/(Extra_TTTo2L2NuRun2Stitching*Extra_TTToSemiLeptonicRun2Stitching*Extra_TTToHadronicRun2Stitching)"
     })
 
 # Add systematics
@@ -554,7 +592,7 @@ config = {
   "write_translate": write_translate,
   "scale_to": scale_to,
   "extra_columns": extra_columns,
-  "all_columns": True,
+  "all_columns": False,
   "function_to_apply": [f"{ac_loc}/params/plotting_extra_mass.py","df_processing"],
   "calculate": calculate,
 }
@@ -694,6 +732,62 @@ def df_processing(df, metadata={}):
     CombinedSubJets_phi = combined_subjets["phi"],
     CombinedSubJets_mass = combined_subjets["mass"],
   )
+
+  # Add W rescaled top mass
+  w_rescale = 80.379 / df["SubJet1_mass"]
+  w_rescaled_subjets = CombineObjects(
+    {"pt": df["SubJet1_pt"] * w_rescale, "eta": df["SubJet1_eta"], "phi": df["SubJet1_phi"], "mass": df["SubJet1_mass"] * w_rescale},
+    {"pt": df["SubJet2_pt"], "eta": df["SubJet2_eta"], "phi": df["SubJet2_phi"], "mass": df["SubJet2_mass"]}
+  )
+  df.loc[:, "CombinedSubJets_mass_W_rescaled"] = w_rescaled_subjets["mass"]
+  df.loc[:, "CombinedSubJets_pt_W_rescaled"] = w_rescaled_subjets["pt"]
+  df.loc[:, "CombinedSubJets_eta_W_rescaled"] = w_rescaled_subjets["eta"]
+  df.loc[:, "CombinedSubJets_phi_W_rescaled"] = w_rescaled_subjets["phi"]
+
+
+  leptonic_top_plus_met = CombineObjects(
+    {"pt": df["LeptonicTop_pt"], "eta": df["LeptonicTop_eta"], "phi": df["LeptonicTop_phi"], "mass": df["LeptonicTop_mass"]},
+    {"pt": df["MET_pt"], "eta": 0, "phi": df["MET_phi"], "mass": 0}
+  )
+  df.loc[:, "LeptonicTopPlusMET_mass"] = leptonic_top_plus_met["mass"]
+  df.loc[:, "LeptonicTopPlusMET_pt"] = leptonic_top_plus_met["pt"]
+
+  # Add W constraint leptonic top mass
+  MW = 80.379  # GeV
+  lep_pt   = df["LeptonSave_pt"]
+  lep_eta  = df["LeptonSave_eta"]
+  lep_phi  = df["LeptonSave_phi"]
+  lep_mass = df["LeptonSave_mass"]
+  lep_px = lep_pt * np.cos(lep_phi)
+  lep_py = lep_pt * np.sin(lep_phi)
+  lep_pz = lep_pt * np.sinh(lep_eta)
+  lep_E  = np.sqrt(lep_px**2 + lep_py**2 + lep_pz**2 + lep_mass**2)
+  nu_px = df["MET_pt"] * np.cos(df["MET_phi"])
+  nu_py = df["MET_pt"] * np.sin(df["MET_phi"])
+  K = (
+      (MW**2 - lep_mass**2) / 2
+      + lep_px * nu_px
+      + lep_py * nu_py
+  )
+  a = lep_E**2 - lep_pz**2
+  disc = K**2 - a * (nu_px**2 + nu_py**2)
+  sqrt_disc = np.sqrt(np.maximum(disc, 0))
+  nu_pz_plus = (K * lep_pz + lep_E * sqrt_disc) / a
+  nu_pz_minus = (K * lep_pz - lep_E * sqrt_disc) / a
+  nu_pz = np.where(np.abs(nu_pz_plus) < np.abs(nu_pz_minus), nu_pz_plus, nu_pz_minus)
+  nu_E = np.sqrt(nu_px**2 + nu_py**2 + nu_pz**2)
+  b_px = df["BJetLep_pt"] * np.cos(df["BJetLep_phi"])
+  b_py = df["BJetLep_pt"] * np.sin(df["BJetLep_phi"])
+  b_pz = df["BJetLep_pt"] * np.sinh(df["BJetLep_eta"])
+  b_E  = np.sqrt(b_px**2 + b_py**2 + b_pz**2 + df["BJetLep_mass"]**2)
+  leptonic_top_Wconstraint_px = lep_px + nu_px + b_px
+  leptonic_top_Wconstraint_py = lep_py + nu_py + b_py
+  leptonic_top_Wconstraint_pz = lep_pz + nu_pz + b_pz
+  leptonic_top_Wconstraint_E  = lep_E + nu_E + b_E
+  df.loc[:, "LeptonicTop_Wconstraint_mass"] = np.sqrt(np.maximum(leptonic_top_Wconstraint_E**2 - leptonic_top_Wconstraint_px**2 - leptonic_top_Wconstraint_py**2 - leptonic_top_Wconstraint_pz**2, 0))
+  df.loc[:, "LeptonicTop_Wconstraint_pt"] = np.sqrt(leptonic_top_Wconstraint_px**2 + leptonic_top_Wconstraint_py**2)
+
+  df.loc[:, "nu_E"] = nu_E
 
   # Apply FSR weight if specified
   if "TT" in metadata.get("group", ""):
@@ -877,7 +971,7 @@ def top_pt_uncertainty(
     df, 
     metadata={}
   ):
-  asymln = AsymLogNormal(df["top_pt_uncert"], kp=df["ExtraWeights_TopPTReweighting"], km=1/df["ExtraWeights_TopPTReweighting"])
+  asymln = AsymLogNormal(df["top_pt_uncert"], kp=df["Extra_TopPTReweighting"], km=1/df["Extra_TopPTReweighting"])
   df["weight"] *= asymln
   return df
 
@@ -897,9 +991,6 @@ def factorisation_scale_uncertainty(
   # If still negative set to 1
   df.loc[(df["GenWeights_muF2muR1"]<=0), "GenWeights_muF2muR1"] = 1.0
   df.loc[(df["GenWeights_muF0p5muR1"]<=0), "GenWeights_muF0p5muR1"] = 1.0
-
-  # Needs to be on the log of the scale
-
 
   asymln = AsymLogNormal(df[nui_name], kp=df["GenWeights_muF2muR1"], km=df["GenWeights_muF0p5muR1"])
   df["weight"] *= asymln

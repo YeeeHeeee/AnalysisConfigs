@@ -42,7 +42,7 @@ apptainer shell \
   -B /etc/sysconfig/ngbauth-submit \
   -B ${XDG_RUNTIME_DIR} \
   --env KRB5CCNAME="FILE:${XDG_RUNTIME_DIR}/krb5cc" \
-  /cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cms-analysis/general/pocketcoffea:lxplus-el9-latest
+  /cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cms-analysis/general/pocketcoffea:lxplus-el9-stable
 ```
 
 With this you will also need to export `AnalysisConfigs` as the PYTHONPATH. This can be run from any directory of the `AnalysisConfigs` repository.
@@ -87,7 +87,7 @@ cd Merged
 In the following commands we use global variables defined the configure the output directories. Here is an example of how to do this.
 
 ```bash
-job_name="310326"
+job_name="060526"
 eos_folder="/eos/user/g/guttley/pc_output"
 ```
 
@@ -168,7 +168,7 @@ python3 ../scripts/convert_coffea_to_parquet.py --input="${eos_folder}/${job_nam
 The `convert_coffea_to_parquet.py` also offers a functionality to apply an additional weight but renomalise back to the yield without the weight. This is needed for the b tagging shape corrections. This example is run like this.
 
 ```bash
-python3 ../scripts/convert_coffea_to_parquet.py --input="${eos_folder}/${job_name}/*.coffea" --output="${eos_folder}/${job_name}_btag_parquet" --weight="weight*ExtraWeights_BTagShapeCorrectionSubjets" --norm-weight="weight" --norm-files="TTToSemiLeptonic_*,TTToHadronic_*,TTTo2L2Nu_*,TTMtt*,WJetsToLNu_*,WJetsToLNuHT*,ST_*,QCD_*,DY_*,WW*,WZ*,ZZ*"
+python3 ../scripts/convert_coffea_to_parquet.py --input="${eos_folder}/${job_name}/*.coffea" --output="${eos_folder}/${job_name}_btag_parquet" --weight="weight*Extra_BTagShapeCorrectionSubjets" --norm-weight="weight" --norm-files="TTToSemiLeptonic_20*,TTToHadronic_20*,TTTo2L2Nu_20*,TTMtt*,WJetsToLNu_*,WJetsToLNuHT*,ST_*,QCD_*,DY_*,WW*,WZ*,ZZ*"
 ```
 
 
@@ -192,7 +192,7 @@ python3 ../scripts/convert_coffea_to_parquet.py --input="${file_string}" --outpu
 And the b tagging shape correction command like this.
 
 ```bash
-python3 ../scripts/convert_coffea_to_parquet.py --input="${file_string}" --output="${eos_folder}/${job_name}_btag_parquet" --weight="weight*ExtraWeights_BTagShapeCorrectionSubjets" --norm-weight="weight" --norm-files="TTToSemiLeptonic_*,TTToHadronic_*,TTTo2L2Nu_*,TTMtt*,WJetsToLNu_*,WJetsToLNuHT*,ST_*,QCD_*,DY_*,WW*,WZ*,ZZ*"
+python3 ../scripts/convert_coffea_to_parquet.py --input="${file_string}" --output="${eos_folder}/${job_name}_btag_parquet" --weight="weight*Extra_BTagShapeCorrectionSubjets" --norm-weight="weight" --norm-files="TTToSemiLeptonic_20*,TTToHadronic_20*,TTTo2L2Nu_20*,TTMtt*,WJetsToLNu_*,WJetsToLNuHT*,ST_*,QCD_*,DY_*,WW*,WZ*,ZZ*"
 ```
 
 
@@ -210,17 +210,26 @@ for yr in "${years[@]}"; do python3 ../scripts/make_bw_samples.py --input="${eos
 To run the plotting we first define a few globale variables.
 
 ```bash
-plots_name="310126"
-pre_selection="((JetLepton_deltaR>0.25) & (JetLepton_ptrel>30))"
+plots_name="090426"
+#pre_selection="((JetLepton_deltaR>0.25) & (JetLepton_ptrel>30))"
+#pre_selection="((JetLepton_deltaR>0.25) | (JetLepton_ptrel>30))"
+pre_selection="((ClosestJetWithLeptonRemoved_deltaR>0.25) | (ClosestJetWithLeptonRemoved_ptrel>30))"
 post_selection="((CombinedSubJets_pt>400) & (LeptonicTop_mass<CombinedSubJets_mass) & (MET_pt>50) & (BJetLep_pt>30))"
-years=("run2" "run3")
+years=("run2" "2223" "2024")
 ```
 
 To run the plotting you can use the `plot_from_parquet` file.
 
 ```bash
-for yr in "${years[@]}"; do python3 ../scripts/plot_from_parquet.py --input="${eos_folder}/${job_name}_parquet" --output="../plots/${plots_name}" --include-fraction --cfg="../params/plotting_extra_mass.py" --year=${yr} --pre-sel="${pre_selection}" --sel="${post_selection}" --norm-groups-to-data="TT Merged (172.5 GeV),TT Unmerged (172.5 GeV)"; done
+for yr in "${years[@]}"; do python3 ../scripts/plot_from_parquet.py --input="${eos_folder}/${job_name}_parquet" --output="../plots/${plots_name}" --include-fraction --cfg="../params/plotting_extra_mass.py" --year=${yr} --pre-sel="${pre_selection}" --sel="${post_selection}"; done
 ```
+
+Or with the normalisation correction.
+
+```bash
+for yr in "${years[@]}"; do python3 ../scripts/plot_from_parquet.py --input="${eos_folder}/${job_name}_parquet" --output="../plots/${plots_name}" --include-fraction --cfg="../params/plotting_extra_mass.py" --year=${yr} --pre-sel="${pre_selection}" --sel="${post_selection}" --scale="TT Merged (172.5 GeV):0.83,TT Unmerged (172.5 GeV):0.83"; done
+```
+
 
 There are some booleans defined in `plotting_extra_mass.py` which can alter what is run. The variables plotted are also defined here.
 

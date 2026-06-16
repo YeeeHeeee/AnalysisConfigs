@@ -167,9 +167,17 @@ wjet_samples = [
 st_samples = [
     "ST_t_channel_top",
     "ST_t_channel_antitop",
+    "ST_t_channel_top_hadronic",
+    "ST_t_channel_antitop_hadronic",
+    "ST_t_channel_top_leptonic",
+    "ST_t_channel_antitop_leptonic",
     "ST_s_channel",
+    "ST_s_channel_hadronic",
+    "ST_s_channel_leptonic",
     "ST_s_channel_top",
     "ST_s_channel_antitop",
+    "ST_s_channel_top_leptonic",
+    "ST_s_channel_antitop_leptonic",
     "ST_tW_antitop",
     "ST_tW_top",
 ]
@@ -223,6 +231,7 @@ jec_store = [
 
 cfg = Configurator(
     parameters = parameters,
+    calibrators=[],
     datasets = {
         "jsons": [
             f"{localdir}/../Datasets/signals_MC_ttbar.json",
@@ -235,7 +244,7 @@ cfg = Configurator(
             #"samples" : ttbar_samples + data_samples,
             "samples_exclude" : [],
             "year": ['2016_PreVFP', '2016_PostVFP', '2017', '2018', '2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix', '2024']
-            #"year": ["2016_PreVFP"]
+            #"year": ["2018"]
         },
         "subsamples": {
             'DATA_SingleEle'  : {
@@ -302,6 +311,11 @@ cfg = Configurator(
                     flatten=False
                 ),
                 ColOut(
+                    "METUncorrected",
+                    ["pt", "phi"],
+                    flatten=False
+                ),
+                ColOut(
                     "GenTop_AK8",
                     ["pt", "eta", "phi", "mass"],
                     flatten=False
@@ -343,7 +357,7 @@ cfg = Configurator(
                 ),
                 ColOut(
                     "BJetLep",
-                    ["pt", "eta", "phi", "mass", "btagDeepFlavB"] + jec_store,
+                    ["pt", "eta", "phi", "mass", "btagDeepFlavB", "btagScore"] + jec_store,
                     flatten=False
                 ),
                 ColOut(
@@ -364,6 +378,16 @@ cfg = Configurator(
                 ColOut(
                     "JetLepton",
                     ["pt", "eta", "phi", "mass", "deltaR", "deltaPhi", "deltaEta","ptrel"],
+                    flatten=False
+                ),
+                ColOut(
+                    "ClosestJetWithLeptonRemoved",
+                    ["deltaR", "ptrel", "pt", "eta", "phi", "mass"],
+                    flatten=False
+                ),
+                ColOut(
+                    "ClosestJetWithoutLeptonRemoved",
+                    ["deltaR", "ptrel", "pt", "eta", "phi", "mass"],
                     flatten=False
                 ),
                 ColOut(
@@ -398,7 +422,7 @@ cfg = Configurator(
                 ),
                 ColOut(
                     "Extra",
-                    ["BTagShapeCorrectionSubjets","BTagShapeCorrectionSubjets_down_hf","BTagShapeCorrectionSubjets_up_hf","BTagShapeCorrectionSubjets_down_lf","BTagShapeCorrectionSubjets_up_lf","BTagShapeCorrectionSubjets_down_hfstats1","BTagShapeCorrectionSubjets_up_hfstats1","BTagShapeCorrectionSubjets_down_hfstats2","BTagShapeCorrectionSubjets_up_hfstats2","BTagShapeCorrectionSubjets_down_lfstats1","BTagShapeCorrectionSubjets_up_lfstats1","BTagShapeCorrectionSubjets_down_lfstats2","BTagShapeCorrectionSubjets_up_lfstats2","BTagShapeCorrectionSubjets_down_cferr1","BTagShapeCorrectionSubjets_up_cferr1","BTagShapeCorrectionSubjets_down_cferr2","BTagShapeCorrectionSubjets_up_cferr2","BTagWeightCorrection_up","BTagWeightCorrection_down","BTagWeightCorrection_up_correlated","BTagWeightCorrection_down_correlated","WJetsRun2Stitching","WJetsRun3Stitching","TTTo2L2NuRun2Stitching","TTToSemiLeptonicRun2Stitching","TTToHadronicRun2Stitching","TopPTReweighting"] + [f"{wt}{var}" for wt in ["sf_ele_id_custom", "sf_ele_reco_custom", "sf_ele_trigger_custom", "sf_mu_id_custom", "sf_mu_iso_custom", "sf_mu_trigger_custom", "prefiring", "pileup"] for var in ["", "_up", "_down"]],
+                    ["BTagShapeCorrectionSubjets","BTagShapeCorrectionSubjets_down_hf","BTagShapeCorrectionSubjets_up_hf","BTagShapeCorrectionSubjets_down_lf","BTagShapeCorrectionSubjets_up_lf","BTagShapeCorrectionSubjets_down_hfstats1","BTagShapeCorrectionSubjets_up_hfstats1","BTagShapeCorrectionSubjets_down_hfstats2","BTagShapeCorrectionSubjets_up_hfstats2","BTagShapeCorrectionSubjets_down_lfstats1","BTagShapeCorrectionSubjets_up_lfstats1","BTagShapeCorrectionSubjets_down_lfstats2","BTagShapeCorrectionSubjets_up_lfstats2","BTagShapeCorrectionSubjets_down_cferr1","BTagShapeCorrectionSubjets_up_cferr1","BTagShapeCorrectionSubjets_down_cferr2","BTagShapeCorrectionSubjets_up_cferr2","BTagWeightCorrection", "BTagWeightCorrection_up","BTagWeightCorrection_down","BTagWeightCorrection_up_correlated","BTagWeightCorrection_down_correlated","WJetsRun2Stitching","WJetsRun3Stitching","TTTo2L2NuRun2Stitching","TTToSemiLeptonicRun2Stitching","TTToHadronicRun2Stitching","TopPTReweighting"] + [f"{wt}{var}" for wt in ["sf_ele_id_custom", "sf_ele_reco_custom", "sf_ele_trigger_custom", "sf_mu_id_custom", "sf_mu_iso_custom", "sf_mu_trigger_custom", "prefiring", "pileup"] for var in ["", "_up", "_down"]],
                     flatten=False
                 ),
                 ColOut(

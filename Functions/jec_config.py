@@ -67,15 +67,15 @@ JECversions = {
         },
     },
     '2024': {
-        'MC': 'Summer24Prompt24_V1_MC',
+        'MC': 'Summer24Prompt24_V3_MC',
         'Data': {
-            'C': 'Summer24Prompt24_V1_DATA',
-            'D': 'Summer24Prompt24_V1_DATA',
-            'E': 'Summer24Prompt24_V1_DATA',
-            'F': 'Summer24Prompt24_V1_DATA',
-            "G": 'Summer24Prompt24_V1_DATA',
-            'H': 'Summer24Prompt24_V1_DATA',
-            "I": 'Summer24Prompt24_V1_DATA',
+            'C': 'Summer24Prompt24_V3_DATA',
+            'D': 'Summer24Prompt24_V3_DATA',
+            'E': 'Summer24Prompt24_V3_DATA',
+            'F': 'Summer24Prompt24_V3_DATA',
+            "G": 'Summer24Prompt24_V3_DATA',
+            'H': 'Summer24Prompt24_V3_DATA',
+            "I": 'Summer24Prompt24_V3_DATA',
         }
     },
 }
@@ -114,8 +114,8 @@ JERversions = {
         'Data': 'Summer23BPixPrompt23_RunD_JRV1_DATA',
     },
     '2024': {
-        'MC': 'Summer23BPixPrompt23_RunD_JRV1_MC',
-        'Data': 'Summer23BPixPrompt23_RunD_JRV1_DATA',
+        'MC': 'Summer24Prompt24_JRV1_MC',
+        'Data': 'Summer24Prompt24_JRV1_DATA',
     },
 }
 
@@ -153,8 +153,8 @@ JECjsonFiles = {
         'AK8': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/JME/2023_Summer23BPix/fatJet_jerc.json.gz',
     },
     '2024': {
-        'AK4': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/JME/2024_Summer24/jet_jerc.json.gz',
-        'AK8': '/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/JME/2024_Summer24/fatJet_jerc.json.gz',
+        'AK4': '/cvmfs/cms-griddata.cern.ch/cat/metadata/JME/Run3-24CDEReprocessingFGHIPrompt-Summer24-NanoAODv15/latest/jet_jerc.json.gz',
+        'AK8': '/cvmfs/cms-griddata.cern.ch/cat/metadata/JME/Run3-24CDEReprocessingFGHIPrompt-Summer24-NanoAODv15/latest/fatJet_jerc.json.gz',
     },
 }
 

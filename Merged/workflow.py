@@ -1,3 +1,4 @@
+import copy
 import gc
 import awkward as ak
 import numpy as np
@@ -170,7 +171,8 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             "sf_mu_iso_custom" : ["nominal", "up", "down"],
             "sf_mu_trigger_custom" : ["nominal", "up", "down"],
             "prefiring" : ["nominal", "up", "down"],
-            "pileup" : ["nominal", "up", "down"]
+            "pileup" : ["nominal", "up", "down"],
+            "BTagWeightCorrection" : ["nominal"],
         }
 
         all_inputs = []
@@ -242,7 +244,10 @@ class ttBaseProcessor_merge(BaseProcessorABC):
     def _remove_object_4_vector(self, collection, obj, dr=0.4):
 
         deltaR = collection.delta_r(obj)
-        close_mask = deltaR < dr
+        if dr is None:
+            close_mask = ak.zeros_like(deltaR, dtype=bool)
+        else:
+            close_mask = deltaR < dr
         zero_obj = 0 * obj
         obj_to_subtract = ak.where(close_mask, obj, zero_obj)
         cleaned_vectors = collection - obj_to_subtract
@@ -258,11 +263,14 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         # Avoid code duplicate
         super().apply_object_preselection(variation=variation)
         
-        # If NanoAODv15 define MET as the PFMET
-        if self._year == "2024":
-            self.events["MET"] = self.events.PuppiMET
+        ## Use the puppi MET
+        self.events["MET"] = self.events.PuppiMET
 
         # MET
+        self.events["METUncorrected"] = ak.zip({
+            "pt": self.events["MET"].pt,
+            "phi": self.events["MET"].phi
+        })
         if self._year in ["2016_PreVFP", "2016_PostVFP", "2017", "2018"]:
             met_pt_corr, met_phi_corr = met_xy_correction_run2(self.params, self.events, "MET", self._year, self._era, self._isMC)
         elif self._year in ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix"]:
@@ -275,9 +283,14 @@ class ttBaseProcessor_merge(BaseProcessorABC):
                 self.events.MET, met_phi_corr, "phi"
             )
 
-
         # Leptons
         electron_etaSC = self.events.Electron.eta + self.events.Electron.deltaEtaSC
+        self.events["Muon"] = ak.with_field(
+            self.events.Muon, ak.local_index(self.events.Muon, axis=1), "index"
+        )
+        self.events["Electron"] = ak.with_field(
+            self.events.Electron, ak.local_index(self.events.Electron, axis=1), "index"
+        )
         self.events["Electron"] = ak.with_field(
             self.events.Electron, electron_etaSC, "etaSC"
         )
@@ -309,8 +322,8 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         self.events["LeptonSave"] = ak.firsts(self.events["LeptonGood"])
 
         # JEC and JER corrections
-        self.events["JetUncorrected"] = self.events.Jet
-        self.events["FatJetUncorrected"] = self.events.FatJet
+        self.events["JetUncorrected"] = ak.copy(self.events.Jet)
+        self.events["FatJetUncorrected"] = ak.copy(self.events.FatJet)
 
         # Apply JEC and JER corrections
         AK4_name = "AK4PFchs" if self._year in ["2016_PreVFP", "2016_PostVFP", "2017", "2018"] else "AK4PFPuppi"
@@ -325,12 +338,8 @@ class ttBaseProcessor_merge(BaseProcessorABC):
 
 
         # Recalculate MET after JEC/JER
-        px = (self.events["MET"].pt * np.cos(self.events["MET"].phi)) - ak.sum((self.events["Jet"].pt * np.cos(self.events["Jet"].phi)) - (self.events["JetUncorrected"].pt * np.cos(self.events["JetUncorrected"].phi)), axis=1)
-        py = (self.events["MET"].pt * np.sin(self.events["MET"].phi)) - ak.sum((self.events["Jet"].pt * np.sin(self.events["Jet"].phi)) - (self.events["JetUncorrected"].pt * np.sin(self.events["JetUncorrected"].phi)), axis=1)
-        self.events["METUncorrected"] = ak.zip({
-            "pt": self.events["MET"].pt,
-            "phi": self.events["MET"].phi
-        })
+        px = (self.events["MET"].pt * np.cos(self.events["MET"].phi)) - ak.sum(((self.events["Jet"].pt * np.cos(self.events["Jet"].phi)) - (self.events["JetUncorrected"].pt * np.cos(self.events["JetUncorrected"].phi))), axis=1)
+        py = (self.events["MET"].pt * np.sin(self.events["MET"].phi)) - ak.sum(((self.events["Jet"].pt * np.sin(self.events["Jet"].phi)) - (self.events["JetUncorrected"].pt * np.sin(self.events["JetUncorrected"].phi))), axis=1)
         self.events["MET"] = ak.zip({
             "pt": np.hypot(px, py),
             "phi": np.arctan2(py, px)
@@ -359,15 +368,18 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             self.events["FatJetGood"][ak.argsort(self.events["FatJetGood"].delta_r(self.events["LeptonSave"]), ascending=False)]
         ) 
 
-        # Remove lepton 4 vectors from overlapping AK4 jets
-        self.events["Jet"] = self._remove_object_4_vector(
-            self.events["Jet"], self.events["LeptonSave"], dr=0.4
-        )
+        # Add unselected jet
+        self.events["JetUnselected"] = ak.copy(self.events["Jet"])
 
         # AK4 Jets
         self.events["JetGood"], self.jetGoodMask = jet_selection(
             self.events, "Jet", self.params, 
             year=self._year, 
+        )
+
+        # Remove lepton 4 vectors from overlapping AK4 jets
+        self.events["JetDRSubtracted"] = self._remove_object_4_vector(
+            self.events["JetGood"], self.events["LeptonSave"], dr=0.4
         )
 
         # Get subjets from the fat jets
@@ -384,7 +396,7 @@ class ttBaseProcessor_merge(BaseProcessorABC):
 
         # Get variables between the lepton and the closest jet
         self.events["ClosestJetToLepton"] = ak.firsts(
-            self.events["JetGood"][ak.argsort(self.events["JetGood"].delta_r(self.events["LeptonSave"]), ascending=True)]
+            self.events["JetDRSubtracted"][ak.argsort(self.events["JetDRSubtracted"].delta_r(self.events["LeptonSave"]), ascending=True)]
         )
         self.events["JetLepton"] = ak.firsts(self._get_pairs(self.events["LeptonSave"][:,None], self.events["ClosestJetToLepton"][:,None]))
         self.events["JetLepton"] = ak.with_field(
@@ -393,16 +405,87 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             "ptrel"
         )
 
-        # Get variables between the lepton and the closest jet
-        self.events["ClosestJetToLepton"] = ak.firsts(
-            self.events["JetGood"][ak.argsort(self.events["JetGood"].delta_r(self.events["LeptonSave"]), ascending=True)]
+        # Corrected version of this
+        jets_before = ak.copy(self.events["Jet"])
+        jets = ak.copy(self.events["JetUncorrected"])
+        jets['pt_raw'] = (1 - jets['rawFactor']) * jets['pt']
+        jets['mass_raw'] = (1 - jets['rawFactor']) * jets['mass']
+        lep = self.events["LeptonSave"]
+        is_mu = (lep.leptonType == 1)
+        is_el = (lep.leptonType == 0)
+        jet_object_mask = (
+            (is_mu & ((jets.muonIdx1 == lep.index) | (jets.muonIdx2 == lep.index))) |
+            (is_el & ((jets.electronIdx1 == lep.index) | (jets.electronIdx2 == lep.index)))
         )
-        self.events["JetLepton"] = ak.firsts(self._get_pairs(self.events["LeptonSave"][:,None], self.events["ClosestJetToLepton"][:,None]))
-        self.events["JetLepton"] = ak.with_field(
-            self.events["JetLepton"],
-            self._get_ptrel(self.events["LeptonSave"], self.events["ClosestJetToLepton"]),
-            "ptrel"
+        jets_4vec = ak.zip(
+            {
+                "pt": jets.pt_raw,
+                "eta": jets.eta,
+                "phi": jets.phi,
+                "mass": jets.mass_raw,
+            },
+            with_name="PtEtaPhiMCandidate",
         )
+        lep_4vec = ak.zip(
+            {
+                "pt": lep.pt,
+                "eta": lep.eta,
+                "phi": lep.phi,
+                "mass": lep.mass,
+            },
+            with_name="PtEtaPhiMCandidate",
+        )
+        sub_all = jets_4vec.subtract(lep_4vec)
+        new_pt   = ak.where(jet_object_mask, sub_all.pt,   jets.pt)
+        new_eta  = ak.where(jet_object_mask, sub_all.eta,  jets.eta)
+        new_phi  = ak.where(jet_object_mask, sub_all.phi,  jets.phi)
+        new_mass = ak.where(jet_object_mask, sub_all.mass, jets.mass)
+        jets = ak.with_field(jets, new_pt, "pt_raw")
+        jets = ak.with_field(jets, new_eta, "eta")
+        jets = ak.with_field(jets, new_phi, "phi")
+        jets = ak.with_field(jets, new_mass, "mass_raw")
+
+        self.events["JetSubtracted"] = jets
+        if self._isMC:
+            self.events["JetSubtracted"], _ = jet_correction_correctionlib(self.events, "JetSubtracted", AK4_name, JECversions[self._year]["MC"], JERversions[self._year]["MC"], JECjsonFiles[self._year], self._year, True, input_raw=True)
+        else:
+            self.events["JetSubtracted"] = jet_correction_correctionlib(self.events, "JetSubtracted", AK4_name, JECversions[self._year]["Data"][self._era], None, JECjsonFiles[self._year], self._year, False, input_raw=True)
+        self.events["Jet"] = ak.copy(self.events["JetSubtracted"])
+        params = copy.deepcopy(self.params)
+        params["object_preselection"]["Jet"]["pt"] = 15
+        params["object_preselection"]["Jet"]["eta"] = 3.0
+        jets_sub_4vec, _ = jet_selection(
+            self.events, "Jet", params, 
+            year=self._year, 
+        )
+
+        self.events["JetNotSubtracted"] = ak.copy(self.events["JetUncorrected"])
+        if self._isMC:
+            self.events["JetNotSubtracted"], _ = jet_correction_correctionlib(self.events, "JetNotSubtracted", AK4_name, JECversions[self._year]["MC"], JERversions[self._year]["MC"], JECjsonFiles[self._year], self._year, True, input_raw=False)
+        else:
+            self.events["JetNotSubtracted"] = jet_correction_correctionlib(self.events, "JetNotSubtracted", AK4_name, JECversions[self._year]["Data"][self._era], None, JECjsonFiles[self._year], self._year, False, input_raw=False)
+        self.events["Jet"] = ak.copy(self.events["JetNotSubtracted"])
+        params = copy.deepcopy(self.params)
+        params["object_preselection"]["Jet"]["pt"] = 15
+        params["object_preselection"]["Jet"]["eta"] = 3.0
+        jets_4vec, _ = jet_selection(
+            self.events, "Jet", params, 
+            year=self._year, 
+        )        
+
+        deltaR_nom = jets_4vec.delta_r(lep_4vec)
+        deltaR_sub = jets_sub_4vec.delta_r(lep_4vec)
+        ptrel_nom = self._get_ptrel(lep_4vec, jets_4vec)
+        ptrel_sub = self._get_ptrel(lep_4vec, jets_sub_4vec)
+        jets_sub_4vec = ak.with_field(jets_sub_4vec, deltaR_sub, "deltaR")
+        jets_sub_4vec = ak.with_field(jets_sub_4vec, ptrel_sub, "ptrel")
+        jets_4vec = ak.with_field(jets_4vec, deltaR_nom, "deltaR")
+        jets_4vec = ak.with_field(jets_4vec, ptrel_nom, "ptrel")
+        closest_sub = ak.firsts(jets_sub_4vec[ak.argsort(deltaR_sub, axis=1, ascending=True)])
+        closest_nom = ak.firsts(jets_4vec[ak.argsort(deltaR_nom, axis=1, ascending=True)])
+        self.events["ClosestJetWithLeptonRemoved"] = closest_sub
+        self.events["ClosestJetWithoutLeptonRemoved"] = closest_nom
+        self.events["Jet"] = ak.copy(jets_before)
 
         # Get b tagged and non-b tagged jets
         self.events["BJetGood"] = btagging(
@@ -450,6 +533,17 @@ class ttBaseProcessor_merge(BaseProcessorABC):
             ak.Array([[]] * len(self.events)),
             self.events["FatJetGood"][(self.events["FatJetGood"].delta_r(self.events["BJetLep"]) > 0.8)],
         )
+
+        # Add b tagging score to BJetLep
+        if self._year == "2024":
+            self.events["BJetLep"] = ak.with_field(
+                self.events["BJetLep"], self.events["BJetLep"].btagUParTAK4B, "btagScore"
+            )
+        else:
+            self.events["BJetLep"] = ak.with_field(
+                self.events["BJetLep"], self.events["BJetLep"].btagDeepFlavB, "btagScore"
+            )
+
         
         # Combine two subjet for validation
         self.events["CombinedSubJets"] = combine_jets(
@@ -482,7 +576,6 @@ class ttBaseProcessor_merge(BaseProcessorABC):
                 self.events["MET"] = ak.with_field(
                     self.events["MET"], met_factor, f"corrFactor_{uncert}"
                 )
-
             # Recorrect the MET for JER variations
             smear_factor = 1 + ((self.events["Jet"]["smearFactor_up"] - self.events["Jet"]["smearFactor"]) / self.events["Jet"]["smearFactor"])
             px_var = (self.events["MET"].pt * np.cos(self.events["MET"].phi)) - ak.sum((self.events["Jet"].pt * smear_factor * np.cos(self.events["Jet"].phi)) - (self.events["Jet"].pt * np.cos(self.events["Jet"].phi)), axis=1)

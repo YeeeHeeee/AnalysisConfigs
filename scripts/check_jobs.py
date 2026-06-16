@@ -79,6 +79,10 @@ def check_jobs_logs(jobs_folder):
     done_jobs = [ a.split("/")[-1][:-5] for a in glob.glob(f"{jobs_folder}/job_*.done")]
     # Failed jobs
     failed_jobs = [ a.split("/")[-1][:-7] for a in glob.glob(f"{jobs_folder}/job_*.failed")]
+
+    idle_jobs = [i for i in idle_jobs if i not in done_jobs and i not in failed_jobs and i not in running_jobs]
+    running_jobs = [i for i in running_jobs if i not in done_jobs and i not in failed_jobs]
+
     return idle_jobs, running_jobs, done_jobs, failed_jobs
 
 
