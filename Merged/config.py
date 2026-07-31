@@ -1,3 +1,5 @@
+import json
+
 from pocket_coffea.utils.configurator import Configurator
 from pocket_coffea.lib.cut_definition import Cut
 from pocket_coffea.lib.cut_functions import get_nObj_min, get_HLTsel, get_nPVgood, goldenJson, eventFlags
@@ -62,6 +64,27 @@ cloudpickle.register_pickle_by_value(Functions.jet_veto_maps)
 from cut import *
 import os
 localdir = os.path.dirname(os.path.abspath(__file__))
+
+# Define jsons
+jsons = [
+            f"{localdir}/../Datasets/signals_MC_ttbar.json",
+            f"{localdir}/../Datasets/backgrounds_MC_ttbar.json",
+            f"{localdir}/../Datasets/DATA_SingleMuon.json",
+            f"{localdir}/../Datasets/DATA_SingleEle.json",
+        ]
+# Open jsons and edit by adding the files into the metadata
+updated_jsons = []
+for json_file in jsons:
+    with open(json_file, 'r') as f:
+        data = json.load(f)
+    for sample in data.keys():
+        data[sample]["metadata"]["files"] = data[sample]["files"]
+    updated_json_name = json_file.replace(".json", "_tmp.json")
+    if os.path.exists(updated_json_name):
+        os.remove(updated_json_name)
+    with open(updated_json_name, 'w') as f:
+        json.dump(data, f, indent=4)
+    updated_jsons.append(updated_json_name)
 
 # Loading default parameters
 from pocket_coffea.parameters import defaults
@@ -233,15 +256,10 @@ cfg = Configurator(
     parameters = parameters,
     calibrators=[],
     datasets = {
-        "jsons": [
-            f"{localdir}/../Datasets/signals_MC_ttbar.json",
-            f"{localdir}/../Datasets/backgrounds_MC_ttbar.json",
-            f"{localdir}/../Datasets/DATA_SingleMuon.json",
-            f"{localdir}/../Datasets/DATA_SingleEle.json",
-        ],
+        "jsons": updated_jsons,
         "filter" : {
             "samples": ttbar_samples + ttbar_mass_samples + ttbar_modelling_samples + wjet_samples + st_samples + qcd_samples + other_samples + data_samples,
-            #"samples" : ttbar_samples + data_samples,
+            #"samples" : data_samples,
             "samples_exclude" : [],
             "year": ['2016_PreVFP', '2016_PostVFP', '2017', '2018', '2022_preEE', '2022_postEE', '2023_preBPix', '2023_postBPix', '2024']
             #"year": ["2018"]
@@ -305,6 +323,11 @@ cfg = Configurator(
     columns = {
         "common": {
             "inclusive": [
+                ColOut(
+                    "EventInfo",
+                    ["run", "luminosityBlock", "event", "file_index"],
+                    flatten=False
+                ),
                 ColOut(
                     "MET",
                     ["pt", "phi"] + [f"corrFactor_{i}" for i in nom_jec_variations] + ["smearFactor_up", "smearFactor_down"],
@@ -483,6 +506,11 @@ cfg = Configurator(
                 ColOut(
                     "MergingInfo",
                     ["FatJet_TopDecaysMerged","FatJet_WDecaysMerged","SubJet1_WDecaysMerged","SubJet2_WDecaysMerged","SubJet1_BMerged","SubJet2_BMerged"],
+                    flatten=False
+                ),
+                ColOut(
+                    "bfrag_weight",
+                    ["nominal", "up", "down", "xb_hadronic", "xb_leptonic", "pt_hadronic", "pt_leptonic"],
                     flatten=False
                 )
             ],

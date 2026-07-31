@@ -67,15 +67,15 @@ JECversions = {
         },
     },
     '2024': {
-        'MC': 'Summer24Prompt24_V3_MC',
+        'MC': 'Summer24Prompt24_V5_MC',
         'Data': {
-            'C': 'Summer24Prompt24_V3_DATA',
-            'D': 'Summer24Prompt24_V3_DATA',
-            'E': 'Summer24Prompt24_V3_DATA',
-            'F': 'Summer24Prompt24_V3_DATA',
-            "G": 'Summer24Prompt24_V3_DATA',
-            'H': 'Summer24Prompt24_V3_DATA',
-            "I": 'Summer24Prompt24_V3_DATA',
+            'C': 'Summer24Prompt24_V5_DATA',
+            'D': 'Summer24Prompt24_V5_DATA',
+            'E': 'Summer24Prompt24_V5_DATA',
+            'F': 'Summer24Prompt24_V5_DATA',
+            "G": 'Summer24Prompt24_V5_DATA',
+            'H': 'Summer24Prompt24_V5_DATA',
+            "I": 'Summer24Prompt24_V5_DATA',
         }
     },
 }
@@ -114,8 +114,8 @@ JERversions = {
         'Data': 'Summer23BPixPrompt23_RunD_JRV1_DATA',
     },
     '2024': {
-        'MC': 'Summer24Prompt24_JRV1_MC',
-        'Data': 'Summer24Prompt24_JRV1_DATA',
+        'MC': 'Summer24Prompt24_JRV2_MC',
+        'Data': 'Summer24Prompt24_JRV2_DATA',
     },
 }
 

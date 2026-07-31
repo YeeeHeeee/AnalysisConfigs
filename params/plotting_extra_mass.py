@@ -789,9 +789,9 @@ def df_processing(df, metadata={}):
 
   df.loc[:, "nu_E"] = nu_E
 
-  # Apply FSR weight if specified
-  if "TT" in metadata.get("group", ""):
-    df = fsr_weight(df, fsr_value=0.37)
+  ## Apply FSR weight if specified
+  #if "TT" in metadata.get("group", ""):
+  #  df = fsr_weight(df, fsr_value=0.37)
 
   return df
 

@@ -351,7 +351,7 @@ def sf_ele_trigger_func(params, metadata, events, size, shape_variations):
     elif metadata["year"] in ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix"]: # 2024 not available yet
         sf = sf_ele_trigger(params, events, metadata["year"])
     else:
-      sf = (np.ones(len(events)), np.ones(len(events)), np.ones(len(events)))
+      sf = sf_ele_trigger(params, events, "2023_postBPix")
 
     return sf
 

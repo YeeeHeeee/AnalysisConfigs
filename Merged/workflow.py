@@ -1,5 +1,8 @@
 import copy
 import gc
+import json
+import os
+import uproot
 import awkward as ak
 import numpy as np
 
@@ -23,6 +26,8 @@ from Functions.jet_veto_maps import apply_jet_veto_maps
 class ttBaseProcessor_merge(BaseProcessorABC):
     def __init__(self, cfg: Configurator):
         super().__init__(cfg)
+        bfrag_weights_file = "/eos/user/g/guttley/bfrag/bfragweights_vs_pt.root"
+        self.bfrag_weights_file = uproot.open(bfrag_weights_file)
 
     def _get_ptrel(self, p1, p2):
         p1_px = p1.pt * np.cos(p1.phi)
@@ -95,6 +100,33 @@ class ttBaseProcessor_merge(BaseProcessorABC):
 
         return result
 
+
+    def _get_top_parent(self, particle, max_iter=20):
+
+        # Early exit if empty
+        if len(ak.flatten(particle)) == 0:
+            return particle
+            
+        result = particle
+        
+        for _ in range(max_iter):
+
+            # Check which particles need updating
+            needs_update = (result.pdgId != 6) & (result.pdgId != -6) & (result.genPartIdxMother >= 0)
+            
+            # Exit if nothing needs updating
+            if not ak.any(needs_update):
+                break
+                
+            result = ak.where(
+                needs_update,
+                self.events["GenPart"][result.genPartIdxMother],
+                result
+            )
+
+            gc.collect()
+
+        return result
 
     def _get_gen_semi_leptonic_ttbar(self):
 
@@ -257,6 +289,27 @@ class ttBaseProcessor_merge(BaseProcessorABC):
         collection["mass"] = cleaned_vectors.mass
 
         return collection
+
+
+    def _get_value_from_bfrag_histogram(self, hist_name, xb, pt):
+
+        hist = self.bfrag_weights_file[hist_name]
+        values, x_edges, y_edges = hist.to_numpy()
+        x_np = ak.to_numpy(xb)
+        y_np = ak.to_numpy(pt)
+        x_bin = np.searchsorted(x_edges, x_np, side="right") - 1
+        y_bin = np.searchsorted(y_edges, y_np, side="right") - 1
+        valid = (
+            np.isfinite(x_np)
+            & np.isfinite(y_np)
+            & (x_bin >= 0)
+            & (x_bin < values.shape[0])
+            & (y_bin >= 0)
+            & (y_bin < values.shape[1])
+        )                
+        out = np.full(len(x_np), 1.0, dtype=float)
+        out[valid] = values[x_bin[valid], y_bin[valid]]
+        return out
 
 
     def apply_object_preselection(self, variation):
@@ -561,6 +614,22 @@ class ttBaseProcessor_merge(BaseProcessorABC):
 
     def define_common_variables_after_presel(self, variation):
 
+        # Get the index of the file in the list of files
+        fname = self.events.metadata["filename"]
+        dataset = self.events.metadata["dataset"]
+        file_index = -1
+        if "files" in self.events.metadata.keys():
+            if fname in self.events.metadata["files"]:
+                file_index = self.events.metadata["files"].index(fname)
+
+        # Add event info (event, luminosityBlok run)
+        self.events["EventInfo"] = ak.zip({
+            "event": self.events.event,
+            "luminosityBlock": self.events.luminosityBlock,
+            "run": self.events.run,
+            "file_index" : file_index,
+        })
+
         # Change data type
         fatjet = to_singleton_jet(self.events["FatJet"])
 
@@ -713,7 +782,85 @@ class ttBaseProcessor_merge(BaseProcessorABC):
                     ),
                 })
 
+            # Add B fragmentation code
+            if self.events.metadata["sample"].startswith("TT"):
+                b_hadron_mask = ((np.abs(self.events["GenPart"].pdgId) == 511) | (np.abs(self.events["GenPart"].pdgId) == 521) | (np.abs(self.events["GenPart"].pdgId) == 531) | (np.abs(self.events["GenPart"].pdgId) == 5122))
+                first_copy_mask = ((self.events["GenPart"].statusFlags & (1 << 12)) > 0)
+                b_hadrons = self.events["GenPart"][b_hadron_mask & first_copy_mask]
+                top_parents = self._get_top_parent(b_hadrons)
+                top_parent_mask = (top_parents.pdgId == 6)
+                anti_top_parent_mask = (top_parents.pdgId == -6)
+                b_hadrons_top = b_hadrons[top_parent_mask]
+                b_hadrons_anti_top = b_hadrons[anti_top_parent_mask]
+                self.events["GenBHadronHadronic"] = ak.firsts(b_hadrons_top)
+                self.events["GenBHadronLeptonic"] = ak.firsts(b_hadrons_anti_top)
+                # Need to match the b hadrons to the gen jets
+                genjet_match_mask = (self.events["GenJet"].delta_r(self.events["GenBHadronHadronic"]) < 0.4)
+                self.events["MatchedGenJet_BHadronHadronic"] = ak.firsts(self.events["GenJet"][genjet_match_mask])
+                genjet_match_mask = (self.events["GenJet"].delta_r(self.events["GenBHadronLeptonic"]) < 0.4)
+                self.events["MatchedGenJet_BHadronLeptonic"] = ak.firsts(self.events["GenJet"][genjet_match_mask])
+                # Add all neutrino 4 vectors to the match gen jets if within the radius
+                neutrino_mask = ((np.abs(self.events["GenPart"].pdgId) == 12) | ((np.abs(self.events["GenPart"].pdgId) == 14)) | ((np.abs(self.events["GenPart"].pdgId) == 16)))
+                neutrinos = self.events["GenPart"][neutrino_mask]
+                neutrino_match_mask = (self.events["MatchedGenJet_BHadronHadronic"].delta_r(neutrinos) < 0.4)
+                neutrinos_hadronic = neutrinos[neutrino_match_mask]
+                neutrinos_hadronic_p4 = ak.zip(
+                    {
+                        "pt": neutrinos_hadronic.pt,
+                        "eta": neutrinos_hadronic.eta,
+                        "phi": neutrinos_hadronic.phi,
+                        "mass": ak.zeros_like(neutrinos_hadronic.pt),
+                    },
+                    with_name="Momentum4D",
+                )
+                total_neutrinos_hadronic = ak.sum(neutrinos_hadronic_p4, axis=-1)
+                neutrino_match_mask = (self.events["MatchedGenJet_BHadronLeptonic"].delta_r(neutrinos) < 0.4)
+                neutrinos_leptonic = neutrinos[neutrino_match_mask]
+                neutrinos_leptonic_p4 = ak.zip(
+                    {
+                        "pt": neutrinos_leptonic.pt,
+                        "eta": neutrinos_leptonic.eta,
+                        "phi": neutrinos_leptonic.phi,
+                        "mass": ak.zeros_like(neutrinos_leptonic.pt),
+                    },
+                    with_name="Momentum4D",
+                )
+                total_neutrinos_leptonic = ak.sum(neutrinos_leptonic_p4, axis=-1)
+                total_px = total_neutrinos_hadronic.pt * np.cos(total_neutrinos_hadronic.phi) + self.events["MatchedGenJet_BHadronHadronic"].pt * np.cos(self.events["MatchedGenJet_BHadronHadronic"].phi)
+                total_py = total_neutrinos_hadronic.pt * np.sin(total_neutrinos_hadronic.phi) + self.events["MatchedGenJet_BHadronHadronic"].pt * np.sin(self.events["MatchedGenJet_BHadronHadronic"].phi)
+                total_pt_hadronic = np.sqrt(total_px**2 + total_py**2)
+                total_px = total_neutrinos_leptonic.pt * np.cos(total_neutrinos_leptonic.phi) + self.events["MatchedGenJet_BHadronLeptonic"].pt * np.cos(self.events["MatchedGenJet_BHadronLeptonic"].phi)
+                total_py = total_neutrinos_leptonic.pt * np.sin(total_neutrinos_leptonic.phi) + self.events["MatchedGenJet_BHadronLeptonic"].pt * np.sin(self.events["MatchedGenJet_BHadronLeptonic"].phi)
+                total_pt_leptonic = np.sqrt(total_px**2 + total_py**2)
 
+                # define x_b
+                xb_hadronic = ak.where(
+                    ak.is_none(self.events["MatchedGenJet_BHadronHadronic"]),
+                    -999.0,
+                    self.events["GenBHadronHadronic"].pt / total_pt_hadronic
+                )
+                xb_leptonic = ak.where(
+                    ak.is_none(self.events["MatchedGenJet_BHadronLeptonic"]),
+                    -999.0,
+                    self.events["GenBHadronLeptonic"].pt / total_pt_leptonic
+                )
+
+                # Get the hisogram fragCP5BL from the root file self.bfrag_weights_file
+                bfrag_weight = self._get_value_from_bfrag_histogram("fragCP5BL_smooth", xb_hadronic, total_pt_hadronic) * self._get_value_from_bfrag_histogram("fragCP5BL_smooth", xb_leptonic, total_pt_leptonic)
+                bfrag_weight_down = self._get_value_from_bfrag_histogram("fragCP5BLdown_smooth", xb_hadronic, total_pt_hadronic) * self._get_value_from_bfrag_histogram("fragCP5BLdown_smooth", xb_leptonic, total_pt_leptonic)
+                bfrag_weight_up = self._get_value_from_bfrag_histogram("fragCP5BLup_smooth", xb_hadronic, total_pt_hadronic) * self._get_value_from_bfrag_histogram("fragCP5BLup_smooth", xb_leptonic, total_pt_leptonic)
+                self.events["bfrag_weight"] = ak.zip({
+                    "nominal": bfrag_weight,
+                    "up": bfrag_weight_up,
+                    "down": bfrag_weight_down,
+                    "xb_hadronic": xb_hadronic,
+                    "xb_leptonic": xb_leptonic,
+                    "pt_hadronic": total_pt_hadronic,
+                    "pt_leptonic": total_pt_leptonic,
+                })
+
+
+        if not hasattr(self.events, "bfrag_weight"): self.events["bfrag_weight"] = ak.zip({"nominal":np.ones(len(self.events)),"up":np.ones(len(self.events)),"down":np.ones(len(self.events)), "xb_hadronic":-999.0*np.ones(len(self.events)),"xb_leptonic":-999.0*np.ones(len(self.events)),"pt_hadronic":-999.0*np.ones(len(self.events)),"pt_leptonic":-999.0*np.ones(len(self.events))})
         if not hasattr(self.events, "GenTop1"): self.events["GenTop1"] = dummy_candidate
         if not hasattr(self.events, "GenTop2"): self.events["GenTop2"] = dummy_candidate
         if not hasattr(self.events, "LNu"): self.events["LNu"] = dummy_candidate
